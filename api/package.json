@@ -2,10 +2,10 @@
   "name": "api_unbardo",
   "version": "0.0.0",
   "description": "Lado del servidor de la aplicacion para la empresa UnBardo design",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "start": "tsnd --respawn index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon",
+    "start:prod": "tsc && nodemon ../dist/api/src/index.js"
   },
   "keywords": [],
   "author": "",

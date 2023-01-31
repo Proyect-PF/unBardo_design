@@ -1,12 +1,37 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "description": "",
+  "name": "api_unbardo",
+  "version": "0.0.0",
+  "description": "Lado del servidor de la aplicacion para la empresa UnBardo design",
   "main": "index.js",
   "scripts": {
+    "start": "tsnd --respawn index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.16",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.11.18",
+    "@types/pg": "^8.6.6",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.6.0",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "pg": "^8.9.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.28.0",
+    "sequelize-typescript": "^2.1.5"
+  }
 }

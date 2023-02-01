@@ -1,11 +1,14 @@
-import React from 'react';
-import './App.css';
-import Footer from './layouts/Footer/Footer';
+import React from "react";
+import "./App.css";
+import Index from "./layouts/";
+import Footer from "./layouts/Footer/Footer";
 
 function App() {
   return (
-    <div className='App'>
-      <Footer />
+    <div className="App">
+
+        <Navbar />
+        <Footer />
     </div>
   );
 }

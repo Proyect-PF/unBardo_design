@@ -2,8 +2,10 @@ import React from 'react';
 import Footer from './layouts/Footer/Footer';
 
 function App() {
-  return (<div><Footer/></div>
-    
+  return (
+  <div>
+    <Footer/>
+  </div>
   );
 }
 

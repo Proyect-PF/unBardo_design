@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "nodemon",
+    "dev": "tsnd --respawn index.ts",
     "start:prod": "tsc && nodemon ../dist/api/src/index.js"
   },
   "keywords": [],

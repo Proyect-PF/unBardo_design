@@ -1,14 +1,15 @@
+
 require("dotenv").config()
 
-const config = {
-  username: "postgres",
-  password: "123456789",
-  database: "unbardo_design",
-  host: "localhost",
+module.exports = {
+  username: process.env.DB_USER || "postgres",
+  password: process.env.DB_PASSWORD || "123456789",
+  database: process.env.DB_NAME || "unbardo_design",
+  host: process.env.DB_HOST || "localhost",
   dialect: "postgres",
   define: {
-    timestamps: false
+    timestamps: true
+    
   }
 }
 
-module.exports = config

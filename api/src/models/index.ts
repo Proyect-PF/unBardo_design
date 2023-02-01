@@ -1,30 +1,36 @@
 'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
-const config = require('../../config/config.js');
-const db = {};
+import config from "../../config/config";
 
-let sequelize;
+
+
+const db:any = {};
+
+let sequelize:any;
 
 sequelize = new Sequelize(config.database, config.username, config.password, config);
 
 
 fs
   .readdirSync(__dirname)
-  .filter(file => {
+  .filter((file:string) => {
     return (
       file.indexOf('.') !== 0 &&
       file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
+      file.slice(-3) === '.ts' &&
+      file.indexOf('.test.ts') === -1
     );
   })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+  //TODO:
+  .forEach((file:any, i:number) => {
+    console.log(file, i)
+    //TODO: require(path.join(__dirname, file)) => devuelve un objeto con la propiedad default y es un array de funciones de todos los modelos en la carpeta models    
+
+    const model = require(path.join(__dirname, file)).default(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
@@ -37,4 +43,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db

@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+
 export default (sequelize:any, DataTypes:any) => {
   class Product extends Model {
     /**

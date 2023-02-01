@@ -2,7 +2,8 @@
 const {
   Model
 } = require('sequelize');
-module.exports = (sequelize:any, DataTypes:any) => {
+
+export default (sequelize:any, DataTypes:any) => {
   class Product extends Model {
     /**
      * Helper method for defining associations.
@@ -14,10 +15,18 @@ module.exports = (sequelize:any, DataTypes:any) => {
     }
   }
   Product.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    price: DataTypes.NUMBER
+    firstName: {
+      type: DataTypes.STRING,
+    },
+    lastName: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+    },
+    price: {
+      type: DataTypes.STRING,
+    },
   }, {
     sequelize,
     modelName: 'Product',

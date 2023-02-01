@@ -10,9 +10,9 @@ interface OrdersAttributes {
   status: string;
 }
 
-module.exports = (sequelize: any, DataTypes: any) => {
-  class Orders extends Model<OrdersAttributes> 
-    implements OrdersAttributes{
+export default (sequelize: any, DataTypes: any) => {
+  class Orders extends Model 
+    implements Model<OrdersAttributes>{
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -25,7 +25,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     static associate(models: any) {
       // define association here
       Orders.belongsToMany(models.Product, {
-        through: 'ProjectAssignments'
+        through: 'Orders_Products'
       })
     }
   };
@@ -37,7 +37,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
       autoIncrement: true
     },
     total_amount: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     status: {
@@ -46,7 +46,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     }
   }, {
     sequelize,
-    modelName: 'Project',
+    modelName: 'Orders',
   });
   return Orders;
 };

@@ -1,6 +1,5 @@
-import express from "express";
-const app = express();
-const port = process.env.PORT || 3010;
+import app from "./src/app";
+const port = process.env.PORT || 3011;
 import db from "./src/models";
 
 // Syncing all the models at once.

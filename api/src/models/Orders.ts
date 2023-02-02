@@ -27,6 +27,8 @@ export default (sequelize: any, DataTypes: any) => {
       Orders.belongsToMany(models.Product, {
         through: 'Orders_Products'
       })
+      models.Orders.belongsTo(models.Payment, { foreignKey: 'orderId' });
+      models.Orders.hasMany(models.OrderDetail, { foreignKey: 'orderId' });
     }
   };
   Orders.init({

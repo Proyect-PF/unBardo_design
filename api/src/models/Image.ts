@@ -16,7 +16,7 @@ export default (sequelize: any, DataTypes: any) => {
     }
     Image.init({
         userId: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
         },
         productId: {

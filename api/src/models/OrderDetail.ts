@@ -3,18 +3,14 @@ const { Model } = require('sequelize');
 
 export default (sequelize: any, DataTypes:any) => {
     class OrderDetail extends Model {
-//         static associate(models) {
+ static associate(models:any) {
 // // define association here
-//         }
+//TODO Un detalle de pedido pertenece a un solo pedido (Order Detail belongs to Order)
+         models.OrderDetail.belongsTo(models.Orders)  
+         }
     }
 
     OrderDetail.init({
-        orderId: {
-            type: DataTypes.INTEGER,
-        },
-        productId: {
-            type: DataTypes.INTEGER,
-        },
         quantity: {
             type: DataTypes.INTEGER,
         },

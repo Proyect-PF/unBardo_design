@@ -1,36 +1,38 @@
 'use strict';
 
-import {
-  Model
-} from 'sequelize';
+import { DataType } from "sequelize-typescript";
 
-interface OrdersAttributes {
-  id: number;
-  total_amount: number;
-  status: string;
-}
+const { Model } = require('sequelize');
+
+// interface OrdersAttributes {
+//   id: number;
+//   total_amount: number;
+//   status: string;
+// }
 
 export default (sequelize: any, DataTypes: any) => {
-  class Orders extends Model 
-    implements Model<OrdersAttributes>{
+  class Orders extends Model {
+
+    static associate(models: any) {
+      // define association here
+      //TODO Un pedido pertenece a un solo usuario (Order belongs to User) 
+      // Un pedido tiene muchos detalles de pedido (Order has many Order Details) 
+      // Un pedido tiene un solo pago (Order has one Payment)
+      models.Orders.hasMany(models.Payment, { foreignKey: 'orderId' });
+      models.Orders.hasMany(models.OrderDetail, { foreignKey: 'orderId' });
+      models.Orders.belongsTo(models.Users)
+      }
+  }
+    //implements Model<OrdersAttributes>{
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    id!: number;
-    total_amount!: number;
-    status!: string;
-
-    static associate(models: any) {
-      // define association here
-      Orders.belongsToMany(models.Product, {
-        through: 'Orders_Products'
-      })
-      models.Orders.belongsTo(models.Payment, { foreignKey: 'orderId' });
-      models.Orders.hasMany(models.OrderDetail, { foreignKey: 'orderId' });
-    }
-  };
+    // id!: number;
+    // total_amount!: number;
+    // status!: string;   
+  
   Orders.init({
     id: {
       type: DataTypes.INTEGER,

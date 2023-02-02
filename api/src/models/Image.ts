@@ -1,7 +1,8 @@
 'use strict';
-const {
-    Model
-} = require('sequelize');
+
+import Product from "./Product";
+
+const { Model } = require('sequelize');
 
 export default (sequelize: any, DataTypes: any) => {
     class Image extends Model {
@@ -12,27 +13,17 @@ export default (sequelize: any, DataTypes: any) => {
          */
         static associate(models: any) {
             // define association here
+            //TODO Una imagen pertenece a un solo producto (Image belongs to Product)
+            models.Image.belongsTo(models.Product)
+            
         }
     }
     Image.init({
-        userId: {
+        imgUrl: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        productId: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        text: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        createdAt: {
-            type: DataTypes.DATE,
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-        },
+       
     }, {
         sequelize,
         modelName: 'Image',

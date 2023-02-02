@@ -1,5 +1,5 @@
 import app from "./src/app";
-const port = process.env.PORT || 3300;
+const port = process.env.PORT || 3500;
 import db from "./src/models";
 
 // Syncing all the models at once.

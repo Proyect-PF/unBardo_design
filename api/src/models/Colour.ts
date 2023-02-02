@@ -17,7 +17,7 @@ export default (sequelize:any, DataTypes:any) => {
         
         static associate(models:any) {
         // define association here
-        models.Colour.hasMany(models.ProductColour, { foreignKey: 'colourId' });
+        // models.Colour.hasMany(models.ProductColour, { foreignKey: 'colourId' });
         }
     }
     Colour.init({

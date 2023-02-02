@@ -6,7 +6,7 @@ import express,{Response, Request, NextFunction} from "express";
 import router from "./routes";
 //TODO Libreria para tipar los errores 
 import { HttpError } from "http-errors";
-
+import helmet from "helmet"
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser"
 import morgan from "morgan";
@@ -18,11 +18,17 @@ const app = express()
 let {name} = app
 name = "UNBARDO_DESIGN_API"
 
+
+
+
 //TODO parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
+
 //TODO parse application/json
 app.use(bodyParser.json())
 
+//TODO helmet es un meddleware para proponer seguridad a los datos que entren por el header
+app.use(helmet())
 
 //TODO https://github.com/msemenistyi/connect-image-optimus
 

@@ -2,24 +2,24 @@
 
 import { Model } from "sequelize";
 
-enum CredentialWaist{
-  S = "S",
-  M = "M",
-  L = "L",
-  XL = "XL",
-  XXL = "XXL"
-}
+// enum CredentialWaist{
+//   S = "S",
+//   M = "M",
+//   L = "L",
+//   XL = "XL",
+//   XXL = "XXL"
+// }
 
-enum CredentialShow{
-  True = "True",
-  False = "False"
-}
+// enum CredentialShow{
+//   True = "True",
+//   False = "False"
+// }
 
 interface PorductAttributes {
   id: number;
   name: string;
   description: Text;
-  waist: string;
+  size: string;
   price: number;
   promotional_price: number;
   video: string;
@@ -44,7 +44,7 @@ export default (sequelize:any, DataTypes:any) => {
     id!: number;
     name!: string;
     description!: Text;
-    waist!: string;
+    size!: string;
     price!: number;
     promotional_price!: number;
     video!: string;
@@ -59,12 +59,11 @@ export default (sequelize:any, DataTypes:any) => {
 
     static associate(models:any) {
       // define association here
-      // Product.belongsToMany(models.Category, {
-        // through: 'Products_Categories'
-        // })
-        // Product.belongsToMany(models.Color, {
-        //   through: 'Products_Colors'
-        // })
+      // models.Product.hasMany(models.OrderDetail, { foreignKey: 'productId' });
+      // models.Product.hasMany(models.Image, { foreignKey: 'productId' });
+      // models.Product.hasMany(models.ProductRating, { foreignKey: 'productId' });
+      // models.Product.hasMany(models.ProductCategory, { foreignKey: 'productId' });
+      // models.Product.hasMany(models.ProductColour, { foreignKey: 'productId' });
     }
   }
   Product.init({
@@ -82,12 +81,12 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    waist: {
-      type: DataTypes.INTEGER,
+    size: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     show_in_shop: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     price: {

@@ -7,51 +7,32 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col space-y-4 items-center justify-start py-4 bg-white">  
-      <div className="w-full h-0.5 bg-gray-200" />
-      
-      <div className="flex flex-col space-y-5 items-left justify-start w-5/6">
-        <div className="flex flex-col space-y-2.5 items-center justify-start">
-          <p className="text-lg font-semibold leading-relaxed uppercase">
-            Contacto
-          </p>
-          <div className="flex flex-col space-y-2.5 items-left justify-start">
-            <p className="text-xs leading-none uppercase">
-              av. falsa 123, Palermo, C.a.b.a.
-            </p>
-            <p className="text-xs leading-none uppercase">unbardo@gmail.com</p>
-            <p className="text-xs leading-none uppercase">
-              tel: +54 11 123 1234
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col space-y-2.5 items-center justify-start w-full">
-          <p className="text-lg font-semibold leading-relaxed uppercase">
-            Newsletter
-          </p>
-          <p className="flex justify-center w-full h-1/3 text-xs leading-none">
-            Recibí todas las novedades y beneficios exclusivos de la fraternidad
-            <br />
-          </p>
-          <div className="inline-flex space-x-0.5 items-left justify-start">
-            <div className="flex items-center justify-start w-40 h-full bg-gray-200">
-              <p className="text-xs leading-none text-black text-opacity-50 capitalize">
-                {" "}
-                Email
-              </p>
-            </div>
-            <div className="inline-flex flex-col items-center justify-center flex-1 h-full py-1 border border-gray-900">
-              <p className="text-xs font-semibold leading-none text-center text-gray-900">
-                SUBSCRIBIRME
-              </p>
-            </div>
-          </div>
+    <div className="flex flex-col items-start border-t-2 mt-14">
+      <div className="flex flex-col gap-4 m-5 uppercase">
+        <p className="text-lg font-bold">Contacto</p>
+        <div className="flex flex-col gap-2 text-sm font-semibold">
+          <p>AV. Falsa 123, Palermo, C.a.b.a.</p>
+          <p>unbardo@gmail.com</p>
+          <p>tel: +54 11 123 1234</p>
         </div>
       </div>
-      <div className="w-full h-0.5 bg-gray-200" />
-      <p className="flex items-center w-32 h-10 text-base font-light leading-normal">
-        © 2023 UNBARDO
-      </p>
+      <div className="flex flex-col gap-4 m-5 uppercase">
+        <p className="text-lg font-bold">Newsletter</p>
+        <p className="text-sm font-semibold">
+          Recibí todas las novedades y beneficios exclusivos de la fraternidad
+        </p>
+        <div className="flex gap-8">
+          <input
+            type="text"
+            placeholder="Email..."
+            className="pl-4 text-sm text-opacity-50 bg-gray-200 w-80"
+          />
+          <button className="px-4 py-1 text-sm font-semibold text-center border-2 border-black">
+            SUBSCRIBIRME
+          </button>
+        </div>
+      </div>
+      <p className="w-full py-4 text-center border-t-2">© 2023 UNBARDO</p>
     </div>
   );
 };

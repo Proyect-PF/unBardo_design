@@ -1,7 +1,10 @@
-import imageF from "../../../assets/images/remeras/unbardo-07F.png";
-import imageB from "../../../assets/images/remeras/unbardo-07B.png";
+interface Props {
+  imageF: string;
+  imageB: string;
+  name: string;
+}
 
-const Product = () => {
+const Product = ({ imageB, imageF, name }: Props) => {
   return (
     <div className="flex-col w-56 gap-4 m-auto my-4 text-center">
       <img
@@ -14,9 +17,7 @@ const Product = () => {
         alt="black tshirt"
         src={imageF}
       />
-      <p className="mt-2 font-mono text-xs font-semibold">
-        REMERA OVERSIZE UNBARDO BLACK
-      </p>
+      <p className="mt-2 font-mono text-xs font-semibold">{name}</p>
     </div>
   );
 };

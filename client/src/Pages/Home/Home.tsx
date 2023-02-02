@@ -3,6 +3,18 @@ import ig1 from "../../assets/images/ig1.jpg";
 import ig2 from "../../assets/images/ig2.jpg";
 // import ig3 from "../../assets/images/ig3.jpg";
 import Product from "../../components/Cards/Product/Product";
+import imageB from "../../assets/images/remeras/unbardo-07B.png";
+import imageF from "../../assets/images/remeras/unbardo-07F.png";
+import { Link } from "react-router-dom";
+
+const productsAmmount = [
+  { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
+  { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
+  { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
+  { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
+  { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
+  { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
+];
 
 const Home = () => {
   return (
@@ -12,12 +24,12 @@ const Home = () => {
         WELCOME TO THE JUNGLE
       </p>
       <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {productsAmmount &&
+          productsAmmount.map((e) => (
+            <Link to={`/product/${e.name}`}>
+              <Product imageB={e.imageB} imageF={e.imageF} name={e.name} />
+            </Link>
+          ))}
       </div>
 
       <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 font-mono border-t-2 mb-7">

@@ -1,19 +1,6 @@
-'use strict';
+//'use strict';
 
 import { Model } from "sequelize";
-
-// enum CredentialWaist{
-//   S = "S",
-//   M = "M",
-//   L = "L",
-//   XL = "XL",
-//   XXL = "XXL"
-// }
-
-// enum CredentialShow{
-//   True = "True",
-//   False = "False"
-// }
 
 interface PorductAttributes {
   id: number;
@@ -35,7 +22,8 @@ interface PorductAttributes {
 //TODO: show_in_shop se utiliza para el borrado lógico, toma valores true y false
 //TODO: stock es la cantidad disponible del producto, si el valor es cero debe mostrar OUT OF STOCK
 export default (sequelize:any, DataTypes:any) => {
-  class Product extends Model implements Model<PorductAttributes>{
+  //class Product extends Model implements Model<PorductAttributes>{
+    class Product extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

@@ -1,13 +1,14 @@
+import { Express, Request, Response } from "express"
+import createproduct from '../middleware/cretaeProduct' 
 
-
-
-import express, { Response, Request, Router} from "express"
-
-//postUser = Router()
-
-const postProduct = (request:Request, response:Response) => {
-   response.send("Post Product")
+const postProduct = async (request:Request, response:Response) => {
+   try {
+      const prod = request.body;
+      const newProd = await createproduct(prod);
+      response.status(200).json(newProd)
+   } catch (error) {
+      response.status(400).json(error)
+   }
 }
 
-//export default postUser
 export default postProduct;

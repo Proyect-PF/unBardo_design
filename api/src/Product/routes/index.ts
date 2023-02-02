@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import postProduct from '../controllers/postProduct';
-import getProduct from '../controllers/getProduct.route';
+import getProduct from '../controllers/getProduct';
 import putProduct from '../controllers/putProductr';
 import deleteProduct from '../controllers/deleteProduct';
 

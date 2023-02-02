@@ -7,11 +7,11 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col space-y-4 items-center justify-start py-4 bg-white">  
+    <div className="font-family: font-poppins flex flex-col space-y-4 items-center justify-start py-4 bg-white">  
       <div className="w-full h-0.5 bg-gray-200" />
       
       <div className="flex flex-col space-y-5 items-left justify-start w-5/6">
-        <div className="flex flex-col space-y-2.5 items-center justify-start">
+        <div className="font-family: font-poppins flex flex-col space-y-2.5 items-center justify-start">
           <p className="text-lg font-semibold leading-relaxed uppercase">
             Contacto
           </p>
@@ -29,7 +29,7 @@ const Footer = () => {
           <p className="text-lg font-semibold leading-relaxed uppercase">
             Newsletter
           </p>
-          <p className="flex justify-center w-full h-1/3 text-xs leading-none">
+          <p className="font-family: font-poppins flex justify-center w-full h-1/3 text-xs leading-none">
             Recibí todas las novedades y beneficios exclusivos de la fraternidad
             <br />
           </p>
@@ -49,7 +49,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="w-full h-0.5 bg-gray-200" />
-      <p className="flex items-center w-32 h-10 text-base font-light leading-normal">
+      <p className="font-semibold flex items-center w-32 h-10 text-base  leading-normal">
         © 2023 UNBARDO
       </p>
     </div>

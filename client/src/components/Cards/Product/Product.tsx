@@ -3,9 +3,9 @@ import imageF from "../../../assets/images/remeras/unbardo-07F.png";
 
 const Product = () => {
   return (
-    <div className="flex-col w-40 gap-4 m-auto my-4 text-center">
+    <div className="flex-col w-56 gap-4 m-auto my-4 text-center">
       <img
-        className="w-32 m-auto border-b-2 border-black "
+        className="w-56 m-auto border-b-2 border-black"
         alt="black tshirt"
         src={imageF}
       />

@@ -1,9 +1,9 @@
 import React from "react";
-import logo from "../../assets/svg/principal-logo.svg";
-import searchIcon from "../../assets/svg/search.svg";
+//import logo from "../../assets/svg/principal-logo.svg";
+//import searchIcon from "../../assets/svg/search.svg";
 
-import facebookIcon from "../../assets/svg/facebook.svg";
-import shoppingIcon from "../../assets/svg/shopping-bag.svg";
+//import facebookIcon from "../../assets/svg/facebook.svg";
+//import shoppingIcon from "../../assets/svg/shopping-bag.svg";
 
 const Footer = () => {
   return (

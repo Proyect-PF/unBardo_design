@@ -4,10 +4,20 @@ import userIcon from '../../assets/svg/user-icon.svg';
 import outIcon from '../../assets/svg/out-session.svg';
 import helpIcon from '../../assets/svg/help.svg';
 
+interface Props{
+    openClose: boolean
+    handleChange: any
+}
 
-const Sidebar = () => {
+const Sidebar = ({openClose, handleChange}: Props) => {
+    let style:string;
+    if(openClose) style = "left-full"
+    else{
+        style = ""
+    }
+
     return (
-        <div className={`flex fixed left-full`}>
+        <div className={`flex fixed ${style} w-full bg-black/50`}>
             <div className="flex flex-col bg-white w-2/3 max-w-lg min-h-screen justify-between">
                 <div>
                     <div className="flex h-16 justify-center items-center border-b-2 border-gray-300">
@@ -33,7 +43,7 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            <p className="bg-black h-16 w-16 pt-2 duration-300 font-semibold text-3xl text-white text-center duration-300 hover:bg-white hover:text-black hover:cursor-pointer">x</p>
+            <p onClick={handleChange} className="bg-black h-16 w-16 pt-2 duration-300 font-semibold text-3xl text-white text-center duration-300 hover:bg-white hover:text-black hover:cursor-pointer">x</p>
 
         </div>
     )

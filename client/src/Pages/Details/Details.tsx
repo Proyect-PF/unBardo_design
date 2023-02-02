@@ -1,19 +1,16 @@
 import imageF from "../../assets/images/remeras/unbardo-06F.png";
 import imageB from "../../assets/images/remeras/unbardo-06B.png";
-import { useState } from "react";
+import React, { useState } from "react";
+import AmountInput from "../../components/Inputs/Amount/AmountInput";
+import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
+import AddCart from "../../components/Buttons/AddCart/AddCart";
 
-const Details = () => {
+const Details = (): JSX.Element => {
   const [show, setShow] = useState(false);
-  const [ammount, setAmmount] = useState(1);
+  const sizes: string[] = ["M", "L", "XL"];
 
   const handleShow = (): void => {
     show ? setShow(false) : setShow(true);
-  };
-  const handleMinus = (): void => {
-    if (ammount > 1) setAmmount(ammount - 1);
-  };
-  const handlePlus = (): void => {
-    if (ammount < 10) setAmmount(ammount + 1);
   };
 
   return (
@@ -39,20 +36,10 @@ const Details = () => {
           </p>
           <p className="my-2 text-lg font-bold ">$8.000</p>
         </div>
-        <div className="flex gap-4 my-4 font-mono text-lg font-bold text-center">
-          <p className="w-8 h-8 border border-black">M</p>
-          <p className="w-8 h-8 border border-black ">L</p>
-          <p className="w-8 h-8 border border-black ">XL</p>
-        </div>
+        <SizeSelector sizes={sizes} />
         <div className="flex justify-between my-8 font-mono text-lg text-center">
-          <div className="flex content-center self-center gap-4 ml-3 font-bold">
-            <p onClick={handleMinus}>-</p>
-            <p>{ammount}</p>
-            <p onClick={handlePlus}>+</p>
-          </div>
-          <div className="w-40 mr-4 font-semibold border border-black">
-            <p>Añadir al carrito</p>
-          </div>
+          <AmountInput />
+          <AddCart />
         </div>
       </div>
     </div>

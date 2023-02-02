@@ -83,11 +83,11 @@ export default (sequelize:any, DataTypes:any) => {
       allowNull: false
     },
     waist: {
-      type: DataTypes.ENUM(...Object.values(CredentialWaist)),
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     show_in_shop: {
-      type: DataTypes.ENUM(...Object.values(CredentialShow)),
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     price: {

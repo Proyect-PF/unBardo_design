@@ -1,9 +1,14 @@
 import outIcon from "../../assets/svg/out-session.svg";
+import SizeSelector from "../Inputs/SizeSelector/SizeSelector";
+
+import Input from "../Inputs/Input";
 const NewProduct = () => {
   return (
     <div className="font-family: font-poppins flex-col max-w-sm items-center justify-start py-4 bg-white">
       <div className="inline-flex items-start justify-start w-full px-4 bg-white">
-        <div className="inline-flex flex-col space-y-4 items-center justify-start flex-1">
+        <div className="">
+
+          // esto es un comentario
           <div className="inline-flex items-start justify-between w-full">
             <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
               Crear producto
@@ -11,125 +16,79 @@ const NewProduct = () => {
             <img className="w-8 h-8 rounded-lg" src={outIcon} />
           </div>
 
-            <label 
-                htmlFor="product_title"
-                className="w-full text-md font-medium leading-tight text-gray-900"
-            >
-              Título
-            </label>
-            <div 
-                className="inline-flex items-start justify-start w-full px-1 py-1 bg-gray-50 border rounded-lg border-gray-300">
+          <div className="text-left text-align: left ">
+            Titulo
+            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
               <div className="flex-1">
-                <input
+                <Input
                   type="text"
-                  id="product_title"
-                  className="flex-1 text-md leading-none text-gray-900"
-                  placeholder="Ingrese título"
-                ></input>
+                  placeholder="Ingrese Titulo"
+                  name="titulo"
+                  value=""
+                  onChange=""
+                />
               </div>
             </div>
-          
+          </div>
 
-
-
-          <div className="flex flex-col bg-gray-50 border rounded-lg border-gray-300">
-            <label
-              htmlFor="product_description"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Descripción
-            </label>
-            <div className="mt-1">
-              <textarea
-                id="about"
-                name="prods"
-                rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="Ingrese la descripción del producto"
-                defaultValue={""}
+          <div className="text-left text-align: left ">
+            Descripcion
+            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+              <Input
+                type="textarea"
+                placeholder="Ingrese descripcion"
+                name="texto"
+                value=""
+                onChange=""
               />
             </div>
-            <p className="mt-2 text-sm text-gray-500">
-              Detalle las caracteristicas del producto de manera clara.
-            </p>
           </div>
 
-
-
-          <div className="flex flex-col space-y-2 items-center justify-start w-full">
-            <p className="w-full text-sm font-medium leading-tight text-gray-900">
-              Descripcion
-            </p>
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
-              <div className="flex-1">
-                <p className="flex-1 text-sm leading-none text-gray-500">
-                  Ingrese descripción...
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col space-y-2 items-center justify-start w-full">
-            <p className="w-full text-sm font-medium leading-tight text-gray-900">
-              Talles
-            </p>
-          </div>
-          <div className="inline-flex space-x-4 items-center justify-start w-full">
-            <div className="flex items-center justify-center w-7 h-6 pl-2 pr-1.5 border border-black">
-              <p className="text-base font-medium leading-normal text-center">
-                S
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-7 h-6 pl-1.5 pr-1 border border-black">
-              <p className="text-base font-medium leading-normal text-center">
-                M
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-7 h-6 px-2 border border-black">
-              <p className="text-base font-medium leading-normal text-center">
-                L
-              </p>
-            </div>
-            <div className="flex items-center justify-center w-7 h-6 pl-1 pr-0.5 border border-black">
-              <p className="text-base font-medium leading-normal text-center">
-                XL
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col space-y-2 items-center justify-start w-full">
-            <p className="w-full text-sm font-medium leading-tight text-gray-900">
-              Imagen
-            </p>
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
-              <div className="flex items-center justify-center flex-1 h-full">
-                <p className="flex-1 text-sm leading-none text-center text-gray-500">
-                  Cloudinary
-                </p>
-              </div>
+          <div className="text-left text-align: left ">
+            Seleccionar talle
+            <div className="flex flex-col border rounded-lg border-gray-300">
+              <SizeSelector sizes={["x", "s", "m"]} />
             </div>
           </div>
 
-          <div className="flex flex-col space-y-2 items-center justify-start w-full">
-            <p className="w-full text-sm font-medium leading-tight text-gray-900">
-              Precio Anterior
-            </p>
+          <div className="text-left text-align: left ">
+            Cargar imagenes
             <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
-              <div className="flex-1">
-                <p className="flex-1 text-sm leading-none text-gray-500">
-                  $$$ Para generar promoción
-                </p>
-              </div>
+              <input
+                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                id="multiple_files"
+                type="file"
+                multiple
+              ></input>
             </div>
           </div>
-          <div className="flex flex-col space-y-2 items-center justify-start w-full">
-            <p className="w-full text-sm font-medium leading-tight text-gray-900">
-              Precio Actual
-            </p>
+
+          <div className="text-left text-align: left ">
+            Precio anterior
             <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
-              <div className="flex-1">
-                <p className="flex-1 text-sm leading-none text-gray-500">$$$</p>
-              </div>
+              <Input
+                type="text"
+                placeholder="$$$"
+                name="titulo"
+                value=""
+                onChange=""
+              />
             </div>
           </div>
+
+          <div className="text-left text-align: left ">
+            Precio Actual
+            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+              <Input
+                type="text"
+                placeholder="$$$"
+                name="titulo"
+                value=""
+                onChange=""
+              />
+            </div>
+          </div>
+
           <div className="flex">
             <div className="flex items-center h-5">
               <input
@@ -155,11 +114,14 @@ const NewProduct = () => {
               </p>
             </div>
           </div>
+
           <div className="inline-flex items-center justify-center w-80 px-5 py-3 border border-gray-900">
             <p className="text-base font-medium leading-normal text-gray-900">
               Crear Publicación
             </p>
           </div>
+
+          
         </div>
       </div>
     </div>

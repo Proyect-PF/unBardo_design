@@ -22,6 +22,17 @@ const ProductForm: React.FC = () => {
     image: new File([], ""),
   });
 
+  const [errors, setErrors] = useState({
+    title: "",
+    description: "",
+    sizes: "",
+    color: "",
+    price: "",
+    image: "",
+  });
+ 
+
+
   const isFormValid =
     formData.title &&
     formData.description &&

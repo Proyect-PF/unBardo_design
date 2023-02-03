@@ -1,6 +1,7 @@
 import React from 'react'
 
 interface Props{
+    id: string
     type: string
     placeholder: string
     value: string
@@ -8,10 +9,11 @@ interface Props{
     onChange: any
 }
 
-const Input = ({type, placeholder, value, name, onChange}: Props) => {
+const Input = ({id, type, placeholder, value, name, onChange}: Props) => {
     return (
         <div>
             <input
+            id={id}
             type={type}
             placeholder={placeholder}
             value={value}

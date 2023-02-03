@@ -1,32 +1,39 @@
 import React, { useState } from "react";
+import Button from "../../components/Buttons/Button/Button";
 import Input from "../../components/Inputs/Input";
 
 const LogIn = (): JSX.Element => {
-  const [user, setUser] = useState("");
-  const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState({ user: "", pw: "" });
 
   const handleChangeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser(event.target.value);
+    setCredentials({ ...credentials, user: event.target.value });
   };
 
   const handleChangePw = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    setCredentials({ ...credentials, pw: event.target.value });
+  };
+
+  const handleClick = () => {
+    console.log(credentials);
   };
 
   return (
     <div>
+      <p>Usuario:</p>
       <Input
         type="text"
         placeholder="User..."
         name="userLogin"
         onChange={handleChangeUser}
       />
+      <p>Contraseña:</p>
       <Input
         type="password"
         placeholder="Password..."
         name="passwordLogin"
         onChange={handleChangePw}
       />
+      <Button name="LogIn" text="Iniciar Sesion" onClick={handleClick} />
     </div>
   );
 };

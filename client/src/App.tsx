@@ -7,11 +7,9 @@ import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Sidebar from "./layouts/Sidebar/Sidebar";
 import Details from "./Pages/Details/Details";
-
-import Checkout from "./Pages/Checkout/Checkout";
 import Home from "./Pages/Home/Home";
 import LogIn from "./Pages/LogIn/LogIn";
-
+import Checkout from "./Pages/Checkout/Checkout";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);

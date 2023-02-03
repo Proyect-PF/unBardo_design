@@ -17,9 +17,8 @@ export default (sequelize: any, DataTypes: any) => {
       //TODO Un pedido pertenece a un solo usuario (Order belongs to User)
       // Un pedido tiene muchos detalles de pedido (Order has many Order Details)
       // Un pedido tiene un solo pago (Order has one Payment)
-      models.Orders.hasMany(models.Payment, { foreignKey: "orderId" });
-      models.Orders.hasMany(models.OrderDetail, { foreignKey: "orderId" });
-      models.Orders.belongsTo(models.Users);
+        models.Orders.hasMany(models.Payment, { foreignKey: 'orderId' });
+        models.Orders.hasMany(models.OrderDetail, { foreignKey: 'orderId' });
     }
   }
   //implements Model<OrdersAttributes>{

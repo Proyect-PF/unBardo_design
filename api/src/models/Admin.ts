@@ -27,6 +27,8 @@ export default (sequelize:any, DataTypes:any)=> {
         
         static associate(models:any) {
 // define association here
+            models.Admin.hasMany(models.Product, { foreignKey: "adminId" });
+
         }
     }
     Admin.init({

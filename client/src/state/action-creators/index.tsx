@@ -29,9 +29,15 @@ export const getAllProducts = () => {
 
 export const addProduct = (payload: AddProductPayload) => {
   return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.ADD_PRODUCT,
-      payload,
-    });
+    axios({
+      method: "post",
+      url: "http://localhost:3700/products",
+      data: payload,
+    }).then((res) =>
+      dispatch({
+        type: ActionType.ADD_PRODUCT,
+        payload,
+      })
+    );
   };
 };

@@ -30,9 +30,10 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
         productList: products,
       };
     case ActionType.ADD_PRODUCT:
+      const newProduct = { ...action.payload, id: state.productList.length };
       return {
         ...state,
-        productList: [...state.productList, action.payload],
+        productList: [...state.productList, newProduct],
       };
     case ActionType.UPDATE_RENDER:
       return {

@@ -11,7 +11,6 @@ interface UpdateRender {
 interface AddProduct {
   type: ActionType.ADD_PRODUCT;
   payload: {
-    id: number;
     name: string;
     description: string;
     size: string;
@@ -24,7 +23,6 @@ interface AddProduct {
 export type Action = GetAllAction | AddProduct | UpdateRender;
 
 export type AddProductPayload = {
-  id: number;
   name: string;
   description: string;
   size: string;

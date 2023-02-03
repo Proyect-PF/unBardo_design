@@ -6,7 +6,6 @@ import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import { useSelector } from "react-redux";
 import { State } from "../../state/reducers";
-import { useEffect, useState } from "react";
 
 const Home = () => {
   const { productList } = useSelector((state: State) => state.products);

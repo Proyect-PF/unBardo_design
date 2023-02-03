@@ -65,11 +65,6 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    sizes: {
-      type: Sequelize.ENUM("XS", "S", "M"),
-      allowNull: true,
-      defaultValue: "XS",
-    },
     description: {
       type: DataTypes.TEXT,
       allowNull: false

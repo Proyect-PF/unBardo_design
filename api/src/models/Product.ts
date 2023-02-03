@@ -1,6 +1,6 @@
 //'use strict';
 
-import { Model } from "sequelize";
+import Sequelize, { Model } from "sequelize";
 
 interface PorductAttributes {
   id: number;
@@ -47,11 +47,11 @@ export default (sequelize:any, DataTypes:any) => {
 
     static associate(models:any) {
       // define association here
-      // models.Product.hasMany(models.OrderDetail, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.Image, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.ProductRating, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.ProductCategory, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.ProductColour, { foreignKey: 'productId' });
+      models.Product.hasMany(models.OrderDetail, { foreignKey: 'productId' });
+      models.Product.hasMany(models.Image, { foreignKey: 'productId' });
+      models.Product.hasMany(models.ProductRating, { foreignKey: 'productId' });
+      models.Product.hasMany(models.ProductCategory, { foreignKey: 'productId' });
+      models.Product.hasMany(models.ProductColour, { foreignKey: 'productId' });
     }
   }
   Product.init({
@@ -64,6 +64,11 @@ export default (sequelize:any, DataTypes:any) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    sizes: {
+      type: Sequelize.ENUM("XS", "S", "M"),
+      allowNull: true,
+      defaultValue: "XS",
     },
     description: {
       type: DataTypes.TEXT,

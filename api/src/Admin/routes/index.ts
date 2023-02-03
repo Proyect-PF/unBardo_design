@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import postAdmin from '../controllers/postAdmin';
-
+import getAdmins from '../controllers/getAdmins';
 const adminRoutes = Router();
 
 
@@ -9,7 +9,7 @@ const adminRoutes = Router();
 
 // adminRoutes.put("/", )
 
-// adminRoutes.get("/", )
+adminRoutes.get("/", getAdmins)
 
 adminRoutes.post("/", postAdmin)
 

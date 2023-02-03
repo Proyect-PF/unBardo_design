@@ -1,19 +1,25 @@
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AmountInput from "../../components/Inputs/Amount/AmountInput";
 import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
-import AddCart from "../../components/Buttons/AddCart/AddCart";
 import { useLocation } from "react-router-dom";
+import Button from "../../components/Buttons/Button/Button";
+const sizes: string[] = ["M", "L", "XL"];
 
 const Details = (): JSX.Element => {
   const [show, setShow] = useState(false);
-  const sizes: string[] = ["M", "L", "XL"];
+  const [amount, setAmount] = useState(1);
+  const [size, setSize] = useState("");
+
   const location = useLocation();
   const name = location.pathname.split("/")[2].replaceAll("%20", " ");
 
   const handleShow = (): void => {
     show ? setShow(false) : setShow(true);
+  };
+  const handleCart = () => {
+    if (amount && size) alert(size + " " + amount);
   };
 
   return (
@@ -37,11 +43,11 @@ const Details = (): JSX.Element => {
           <p className="mt-4 text-lg font-bold text-center ">{name}</p>
           <p className="my-2 text-lg font-bold ">$8.000</p>
         </div>
-        <SizeSelector sizes={sizes} />
         <div className="flex justify-between my-8 font-mono text-lg text-center">
-          <AmountInput />
-          <AddCart />
+          <SizeSelector sizes={sizes} setter={setSize} />
+          <AmountInput setter={setAmount} />
         </div>
+        <Button text="Añadir al carrito" onClick={handleCart} name="Carrito" />
       </div>
     </div>
   );

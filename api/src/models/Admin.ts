@@ -1,11 +1,8 @@
 
 
-import { Sequelize } from "sequelize";
-import { Model } from "sequelize";
-
-
-
-export default (sequelize:any, DataTypes:any)=> {
+import sequelize, { Model } from "sequelize";
+import db from ".";
+export default  (sequelize:any, DataTypes:any)=>{
     
     class Admin extends Model {
         /**
@@ -14,8 +11,26 @@ export default (sequelize:any, DataTypes:any)=> {
          * The models/index file will call this method automatically.
          */
         
+        public static async findByNameAll(username : string | undefined ) {
+            if (username){
+                const foundName = await Admin.findAll({
+                    where: {
+                        username
+                    }
+                })
+                
+                return foundName
+            }else{
+                const arrUsers = await Admin.findAll()
+                return arrUsers
+            }
+        }
+        
+        
         static associate(models:any) {
 // define association here
+            models.Admin.hasMany(models.Product, { foreignKey: "adminId" });
+
         }
     }
     Admin.init({
@@ -29,6 +44,7 @@ export default (sequelize:any, DataTypes:any)=> {
         },
         password: {
             type: DataTypes.STRING,
+
         },
     }, {
         timestamps: false,
@@ -37,3 +53,4 @@ export default (sequelize:any, DataTypes:any)=> {
     });
     return Admin;
 };
+

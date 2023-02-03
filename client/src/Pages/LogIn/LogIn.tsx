@@ -21,14 +21,18 @@ const LogIn = (): JSX.Element => {
     <div>
       <p>Usuario:</p>
       <Input
+        id="userLogin"
         type="text"
         placeholder="User..."
+        value={credentials.user}
         name="userLogin"
         onChange={handleChangeUser}
       />
       <p>Contraseña:</p>
       <Input
+        id="password"
         type="password"
+        value={credentials.pw}
         placeholder="Password..."
         name="passwordLogin"
         onChange={handleChangePw}

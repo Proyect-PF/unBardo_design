@@ -2,18 +2,22 @@ import React from "react";
 
 
 interface Props {
+  id: string;
   type: string;
   placeholder: string;
   //   value: string;
   name: string;
   onChange: any;
+  value: any;
 }
 
-const Input = ({ type, placeholder, name, onChange }: Props) => {
+const Input = ({ id, value, type, placeholder, name, onChange }: Props) => {
   return (
     <div>
       <input
+        id={id}
         type={type}
+        value={value}
         placeholder={placeholder}
         // value={value}
         onChange={onChange}

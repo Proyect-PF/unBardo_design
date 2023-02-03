@@ -1,11 +1,11 @@
 export type AddProductAction = {
     type: "ADD_PRODUCT";
     payload: {
-        title: string;
+        name: string;
         description: string;
+        size: string;
         price: number;
-        image: string;
-        color: string;
+        show_in_shop: string;
     };
 }
 

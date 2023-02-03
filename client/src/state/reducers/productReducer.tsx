@@ -21,8 +21,32 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
     case ActionType.GET_ALL_PRODUCTS:
       let products = [
         {
-          name: "remera",
-          description: "remera",
+          name: "Remera Oversize unBardo Black",
+          description: "Remera Oversize unBardo Black",
+          size: "M",
+          price: 8000,
+          image: "url",
+          show_in_shop: "string",
+        },
+        {
+          name: "Remera Oversize unBardo Black",
+          description: "Remera Oversize unBardo Black",
+          size: "M",
+          price: 8000,
+          image: "url",
+          show_in_shop: "string",
+        },
+        {
+          name: "Remera Oversize unBardo Black",
+          description: "Remera Oversize unBardo Black",
+          size: "M",
+          price: 8000,
+          image: "url",
+          show_in_shop: "string",
+        },
+        {
+          name: "Remera Oversize unBardo Black",
+          description: "Remera Oversize unBardo Black",
           size: "M",
           price: 8000,
           image: "url",
@@ -32,6 +56,11 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
       return {
         ...state,
         products,
+      };
+    case ActionType.ADD_PRODUCT:
+      return {
+        ...state,
+        products: [...state.products, action.payload],
       };
     default:
       return {

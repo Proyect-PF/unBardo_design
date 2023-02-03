@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Sidebar from "./layouts/Sidebar/Sidebar";
 import Details from "./Pages/Details/Details";
+import LogIn from "./Pages/LogIn/LogIn";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -27,7 +28,7 @@ function App() {
           <Route path="*" element={<div>404</div>} />
           <Route path="/" element={<Home />} />
           <Route path="/product/:name" element={<Details />} />
-          <Route path="/account/login" element={<div>Login</div>} />
+          <Route path="/account/login" element={<LogIn />} />
           <Route path="/account/panel" element={<div>Admin Panel</div>} />
         </Routes>
         <Footer />

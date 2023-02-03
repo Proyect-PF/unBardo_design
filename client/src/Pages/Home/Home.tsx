@@ -5,7 +5,6 @@ import ig2 from "../../assets/images/ig2.jpg";
 import Product from "../../components/Cards/Product/Product";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
-import { Link } from "react-router-dom";
 
 const productsAmmount = [
   { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
@@ -26,12 +25,9 @@ const Home = () => {
       <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
         {productsAmmount &&
           productsAmmount.map((e) => (
-            <Link to={`/product/${e.name}`}>
-              <Product imageB={e.imageB} imageF={e.imageF} name={e.name} />
-            </Link>
+            <Product imageB={e.imageB} imageF={e.imageF} name={e.name} />
           ))}
       </div>
-
       <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 font-mono border-t-2 mb-7">
         <p className="mt-5 text-xs font-semibold text-center">
           ETIQUETANOS EN INSTAGRAM @UNBARDO
@@ -43,11 +39,6 @@ const Home = () => {
             alt="instagram post"
             src={ig2}
           />
-          {/* <img
-            className="relative h-56 top-20 right-"
-            alt="instagram post"
-            src={ig3}
-          /> */}
         </div>
       </div>
     </div>

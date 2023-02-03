@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 interface Props{
     id: string
@@ -25,4 +25,5 @@ const Input = ({id, type, placeholder, value, name, onChange}: Props) => {
     )
 }
 
-export default Input
+
+export default Input;

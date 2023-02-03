@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 
-const AmountInput = (): JSX.Element => {
+interface Props {
+  setter: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const AmountInput = ({ setter }: Props): JSX.Element => {
   const [amount, setAmount] = useState(1);
 
   const handleAmount = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;
     if (button.innerHTML === "+") {
-      if (amount < 10) setAmount(amount + 1);
+      if (amount < 10) {
+        setter(amount + 1);
+        setAmount(amount + 1);
+      }
     } else if (amount > 1) {
+      setter(amount - 1);
       setAmount(amount - 1);
     }
   };

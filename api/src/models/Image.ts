@@ -14,8 +14,9 @@ export default (sequelize: any, DataTypes: any) => {
     static associate(models: any) {
       // define association here
       //TODO Una imagen pertenece a un solo producto (Image belongs to Product)
-      models.Image.belongsTo(models.Product);
-    }
+      models.Image.belongsTo(models.Product, {
+        foreignKey: 'productId'
+      });    }
   }
   Image.init(
     {

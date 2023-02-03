@@ -13,11 +13,11 @@ function App() {
   const [openClose, setOpenClose] = useState(true);
 
   const handleChange = () => {
-    if(!openClose) setOpenClose(true)
-    else{
-      setOpenClose(false)
+    if (!openClose) setOpenClose(true);
+    else {
+      setOpenClose(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -27,7 +27,7 @@ function App() {
         <Routes>
           <Route path="*" element={<div>404</div>} />
           <Route path="/" element={<Home />} />
-          <Route path="/product" element={<Details />} />
+          <Route path="/product/:name" element={<Details />} />
           <Route path="/account/login" element={<div>Login</div>} />
           <Route path="/account/panel" element={<div>Admin Panel</div>} />
           <Route path="/panel/newproduct" element={< NewProduct />} />

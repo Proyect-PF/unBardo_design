@@ -1,13 +1,16 @@
-import imageF from "../../assets/images/remeras/unbardo-06F.png";
-import imageB from "../../assets/images/remeras/unbardo-06B.png";
+import imageF from "../../assets/images/remeras/unbardo-07F.png";
+import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import React, { useState } from "react";
 import AmountInput from "../../components/Inputs/Amount/AmountInput";
 import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
 import AddCart from "../../components/Buttons/AddCart/AddCart";
+import { useLocation } from "react-router-dom";
 
 const Details = (): JSX.Element => {
   const [show, setShow] = useState(false);
   const sizes: string[] = ["M", "L", "XL"];
+  const location = useLocation();
+  const name = location.pathname.split("/")[2].replaceAll("%20", " ");
 
   const handleShow = (): void => {
     show ? setShow(false) : setShow(true);
@@ -31,9 +34,7 @@ const Details = (): JSX.Element => {
       </div>
       <div className="mx-auto w-fit md:h-1/2 md:flex md:flex-col md:justify-between md:mt-8">
         <div>
-          <p className="mt-4 text-lg font-bold text-center ">
-            REMERA OVERSIZE KING KONG BLACK
-          </p>
+          <p className="mt-4 text-lg font-bold text-center ">{name}</p>
           <p className="my-2 text-lg font-bold ">$8.000</p>
         </div>
         <SizeSelector sizes={sizes} />

@@ -2,13 +2,13 @@ import outIcon from "../../assets/svg/out-session.svg";
 import SizeSelector from "../Inputs/SizeSelector/SizeSelector";
 
 import Input from "../Inputs/Input";
+
 const NewProduct = () => {
   return (
-    <div className="font-family: font-poppins flex-col max-w-sm items-center justify-start py-4 bg-white">
+    <div className="font-mono flex-col max-w-sm items-center justify-start py-4 bg-white">
       <div className="inline-flex items-start justify-start w-full px-4 bg-white">
         <div className="">
 
-        
           <div className="inline-flex items-start justify-between w-full">
             <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
               Crear producto
@@ -18,7 +18,7 @@ const NewProduct = () => {
 
           <div className="text-left text-align: left ">
             Titulo
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+            <div className="inline-flex items-start justify-start w-full px-1 py-3   rounded-lg">
               <div className="flex-1">
                 <Input
                   type="text"
@@ -33,7 +33,7 @@ const NewProduct = () => {
 
           <div className="text-left text-align: left ">
             Descripcion
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+            <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
               <Input
                 type="textarea"
                 placeholder="Ingrese descripcion"
@@ -46,16 +46,16 @@ const NewProduct = () => {
 
           <div className="text-left text-align: left ">
             Seleccionar talle
-            <div className="flex flex-col border rounded-lg border-gray-300">
+            <div className="flex flex-col  ">
               <SizeSelector sizes={["x", "s", "m"]} />
             </div>
           </div>
 
           <div className="text-left text-align: left ">
             Cargar imagenes
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+            <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
               <input
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
                 id="multiple_files"
                 type="file"
                 multiple
@@ -63,9 +63,13 @@ const NewProduct = () => {
             </div>
           </div>
 
+       
+
+
+
           <div className="text-left text-align: left ">
             Precio anterior
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+            <div className="inline-flex items-start justify-start w-full px-1 py-3  ">
               <Input
                 type="text"
                 placeholder="$$$"
@@ -78,7 +82,7 @@ const NewProduct = () => {
 
           <div className="text-left text-align: left ">
             Precio Actual
-            <div className="inline-flex items-start justify-start w-full px-4 py-3 bg-gray-50 border rounded-lg border-gray-300">
+            <div className="inline-flex items-start justify-start w-full px-1 py-3">
               <Input
                 type="text"
                 placeholder="$$$"

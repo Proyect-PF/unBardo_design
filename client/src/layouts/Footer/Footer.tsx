@@ -7,7 +7,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className="flex flex-col items-start border-t-2 mt-14">
+    <div className=" font-mono flex flex-col items-start border-t-2 mt-14">
       <div className="flex flex-col gap-4 m-5 uppercase">
         <p className="text-lg font-bold">Contacto</p>
         <div className="flex flex-col gap-2 text-sm font-semibold">
@@ -27,7 +27,7 @@ const Footer = () => {
             placeholder="Email..."
             className="pl-4 text-sm text-opacity-50 bg-gray-200 w-80"
           />
-          <button className="px-4 py-1 text-sm font-semibold text-center border-2 border-black">
+          <button className="px-4 py-1 text-sm  text-center border-2 border-black">
             SUBSCRIBIRME
           </button>
         </div>

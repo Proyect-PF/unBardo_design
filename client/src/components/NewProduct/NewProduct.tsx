@@ -22,61 +22,6 @@ const ProductForm: React.FC = () => {
     image: new File([], ""),
   });
 
-  const [errors, setErrors] = useState({
-    title: "",
-    description: "",
-    sizes: "",
-    color: "",
-    price: "",
-    image: "",
-  });
-  {
-    /*
-  const validateForm = () => {
-    let newErrors = { ...errors };
-    let formIsValid = true;
-
-    if (!formData.title) {
-      newErrors.title = "El título es requerido";
-      formIsValid = false;
-    }
-
-    if (!formData.description) {
-      newErrors.description = "La descripción es requerida";
-      formIsValid = false;
-    }
-
-    if (!formData.size) {
-      newErrors.
-      
-      
-      = "El talle es requerido";
-      formIsValid = false;
-    }
-
-    if (!formData.color) {
-      newErrors.color = "El color es requerido";
-      formIsValid = false;
-    }
-
-    if (!formData.price) {
-      newErrors.price = "El precio es requerido";
-      formIsValid = false;
-    }
-
-    if (!formData.image) {
-      newErrors.image = "La imagen es requerida";
-      formIsValid = false;
-    }
-
-    setErrors(newErrors);
-    return formIsValid;
-  };
-*/
-  }
-
-  const colorOptions = ["Blanco", "Negro"];
-
   const isFormValid =
     formData.title &&
     formData.description &&

@@ -21,7 +21,9 @@ const Product = ({ imageB, imageF, name, id }: Props) => {
           alt="black tshirt"
           src={imageF}
         />
-        <p className="mt-2 font-mono text-xs font-semibold">{name}</p>
+        <p className="mt-2 font-mono text-xs font-semibold">
+          {name.toUpperCase()}
+        </p>
       </Link>
     </div>
   );

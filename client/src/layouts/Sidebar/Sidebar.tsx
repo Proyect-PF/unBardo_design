@@ -75,8 +75,8 @@ const Sidebar = ({openClose, handleChange}: Props) => {
 
             <p onClick={handleChange} className="bg-black h-16 w-16 pt-2 duration-300 font-semibold text-3xl text-white text-center duration-300 hover:bg-white hover:text-black hover:cursor-pointer">x</p>
 
-        </div>
-    )
-}
+    </div>
+  );
+};
 
-export default Sidebar
+export default Sidebar;

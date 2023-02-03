@@ -10,9 +10,11 @@ import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
 import LogIn from "./Pages/LogIn/LogIn";
 import Checkout from "./Pages/Checkout/Checkout";
+import Searchbar from "./layouts/Searchbar/Searchbar";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
+  const [search, setSearch] = useState(true);
 
   const handleChange = () => {
     if (!openClose) setOpenClose(true);
@@ -21,11 +23,19 @@ function App() {
     }
   };
 
+  const handleSearch = () => {
+    if (!search) setSearch(true);
+    else {
+      setSearch(false);
+    }
+  };
+
   return (
     <div>
       <BrowserRouter>
+        <Searchbar openClose={search} handleSearch={handleSearch} />
         <Sidebar openClose={openClose} handleChange={handleChange} />
-        <Navbar handleChange={handleChange} />
+        <Navbar handleChange={handleChange} handleSearch={handleSearch} />
         <Routes>
           <Route path="*" element={<div>404</div>} />
           <Route path="/" element={<Home />} />

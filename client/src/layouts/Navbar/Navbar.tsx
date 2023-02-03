@@ -5,7 +5,7 @@ import logo from "../../assets/svg/principal-logo.svg";
 import searchIcon from "../../assets/svg/search.svg";
 import shoppingIcon from "../../assets/svg/shopping-bag.svg";
 
-const Navbar = ({ handleChange }: any) => {
+const Navbar = ({ handleChange, handleSearch }: any) => {
   return (
     <div className="flex items-center justify-between h-16 px-3 bg-white border-b-2 border-gray-200">
       <div>
@@ -24,7 +24,7 @@ const Navbar = ({ handleChange }: any) => {
       </div>
 
       <div className="flex justify-between w-20">
-        <img src={searchIcon} alt="searcg-icon" className="h-7" />
+        <img onClick={handleSearch} src={searchIcon} alt="searcg-icon" className="h-7" />
         <Link to="/checkout">
           <img src={shoppingIcon} alt="shopping-bag-icon" className="h-7" />
         </Link>

@@ -1,6 +1,4 @@
-const Sequelize = require('sequelize');
-import Product from "../../models/Product"
-import db from "../../models";
+import instanceOfProd from "..";
 
 type productType = {
     name: string,
@@ -21,8 +19,7 @@ type productType = {
 
 const createProduct = async (product: productType): Promise<any> => {
     try {
-        const productInstance = await Product(db.sequelize, Sequelize.DataTypes);
-        const newProduct = productInstance.create(product);
+        const newProduct = instanceOfProd.create(product);
         return newProduct;
     } catch (error: unknown) {
         throw new Error("No es posible crear el producto");

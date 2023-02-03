@@ -11,7 +11,7 @@ const adminRoutes = Router();
 
 adminRoutes.get("/", getAdmins)
 
-adminRoutes.get("/", postAdmin)
+adminRoutes.post("/", postAdmin)
 
 
 

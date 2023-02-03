@@ -1,7 +1,5 @@
 
-const Sequelize = require('sequelize');
-import Admin from "../../models/Admin"
-import db from "../../models";
+import instanceOfAdmin from "..";
 
 
 //TODO Puede ser que mas adelante presenten cambios las contraseñas etc.
@@ -24,8 +22,7 @@ const createAdmin = async (admin: adminType): Promise<any> => {
          * Se llama a la funcion Admin la cual retorna un clase , esta clase da acceso consultas SQL
          * Por parametro recibe la base de datos en si, para sincronizarla y el tipado que van a obtener los datos de este modelo/tabla
          */
-        const InstanciaDeAdmin = await Admin(db.sequelize, Sequelize.DataTypes)
-        const newAdmin = InstanciaDeAdmin.create(admin)
+        const newAdmin = instanceOfAdmin.create(admin)
         return newAdmin
     } catch (error: any) {
         throw new Error(error.message)

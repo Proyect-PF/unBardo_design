@@ -4,6 +4,9 @@ interface GetAllAction {
   type: ActionType.GET_ALL_PRODUCTS;
   payload: any;
 }
+interface UpdateRender {
+  type: ActionType.UPDATE_RENDER;
+}
 
 interface AddProduct {
   type: ActionType.ADD_PRODUCT;
@@ -18,7 +21,7 @@ interface AddProduct {
   };
 }
 
-export type Action = GetAllAction | AddProduct;
+export type Action = GetAllAction | AddProduct | UpdateRender;
 
 export type AddProductPayload = {
   id: number;

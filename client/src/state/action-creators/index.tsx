@@ -5,25 +5,27 @@ import axios from "axios";
 import { ProductState } from "../reducers/productReducer";
 
 export const getAllProducts = () => {
-  let payload: ProductState["productList"] = [];
-  axios.get("http://localhost:3700/products").then((res) =>
-    res.data.forEach((e: any) => {
-      payload.push({
-        id: e.id,
-        name: e.name,
-        description: e.description,
-        size: e.size,
-        price: e.price,
-        image: "xd",
-        show_in_shop: "no se que es esto",
-      });
-    })
-  );
   return (dispatch: Dispatch<Action>) => {
-    dispatch({
-      type: ActionType.GET_ALL_PRODUCTS,
-      payload,
-    });
+    let payload: ProductState["productList"] = [];
+    fetch("http://localhost:3700/products")
+      .then((response) => response.json())
+      .then((res) => {
+        res.forEach((e: any) => {
+          payload.push({
+            id: e.id,
+            name: e.name,
+            description: e.description,
+            size: e.size,
+            price: e.price,
+            image: "",
+            show_in_shop: "",
+          });
+        });
+        dispatch({
+          type: ActionType.GET_ALL_PRODUCTS,
+          payload,
+        });
+      });
   };
 };
 

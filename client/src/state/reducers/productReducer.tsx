@@ -12,16 +12,19 @@ export type ProductState = {
     image: string;
     show_in_shop: string;
   }[];
+  render: boolean;
 };
 
 const initialState: ProductState = {
   productList: [],
+  render: true,
 };
 
 const productReducer = (state: ProductState = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.GET_ALL_PRODUCTS:
       let products: ProductState["productList"] = action.payload;
+      console.log("reducer", products);
       return {
         ...state,
         productList: products,
@@ -30,6 +33,11 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
       return {
         ...state,
         productList: [...state.productList, action.payload],
+      };
+    case ActionType.UPDATE_RENDER:
+      return {
+        ...state,
+        render: state.render ? false : true,
       };
     default:
       return {

@@ -6,6 +6,7 @@ import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import { useSelector } from "react-redux";
 import { State } from "../../state/reducers";
+import { useEffect, useState } from "react";
 
 const Home = () => {
   const { productList } = useSelector((state: State) => state.products);
@@ -33,6 +34,7 @@ const Home = () => {
         <p className="mt-5 text-xs font-semibold text-center">
           ETIQUETANOS EN INSTAGRAM @UNBARDO
         </p>
+
         <div className="flex items-center justify-center w-full mb-5">
           <img className="h-56 " alt="instagram post" src={ig1} />
           <img

@@ -14,23 +14,6 @@ const Footer = () => {
           <p>AV. Falsa 123, Palermo, C.a.b.a.</p>
           <p>unbardo@gmail.com</p>
           <p>tel: +54 11 123 1234</p>
-    <div className="font-family: font-poppins flex flex-col space-y-4 items-center justify-start py-4 bg-white">  
-      <div className="w-full h-0.5 bg-gray-200" />
-      
-      <div className="flex flex-col space-y-5 items-left justify-start w-5/6">
-        <div className="font-family: font-poppins flex flex-col space-y-2.5 items-center justify-start">
-          <p className="text-lg font-semibold leading-relaxed uppercase">
-            Contacto
-          </p>
-          <div className="flex flex-col space-y-2.5 items-left justify-start">
-            <p className="text-xs leading-none uppercase">
-              av. falsa 123, Palermo, C.a.b.a.
-            </p>
-            <p className="text-xs leading-none uppercase">unbardo@gmail.com</p>
-            <p className="text-xs leading-none uppercase">
-              tel: +54 11 123 1234
-            </p>
-          </div>
         </div>
       </div>
       <div className="flex flex-col gap-4 m-5 uppercase">

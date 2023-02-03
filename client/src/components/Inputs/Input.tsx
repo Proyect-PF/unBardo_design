@@ -1,5 +1,6 @@
 import React from "react";
 
+
 interface Props {
   type: string;
   placeholder: string;
@@ -22,5 +23,6 @@ const Input = ({ type, placeholder, name, onChange }: Props) => {
     </div>
   );
 };
+
 
 export default Input;

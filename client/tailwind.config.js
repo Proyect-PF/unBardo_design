@@ -368,7 +368,9 @@ module.exports = {
       DEFAULT: "1",
     },
     fontFamily: {
+      poppins: ['Poppins', 'sans-serif'],
       sans: [
+        'Poppins',
         '"Josefin Sans"',
         "ui-sans-serif",
         "system-ui",

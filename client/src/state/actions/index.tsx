@@ -2,6 +2,10 @@ import { ActionType } from "../action-types";
 
 interface GetAllAction {
   type: ActionType.GET_ALL_PRODUCTS;
+  payload: any;
+}
+interface UpdateRender {
+  type: ActionType.UPDATE_RENDER;
 }
 
 interface AddProduct {
@@ -16,7 +20,7 @@ interface AddProduct {
   };
 }
 
-export type Action = GetAllAction | AddProduct;
+export type Action = GetAllAction | AddProduct | UpdateRender;
 
 export type AddProductPayload = {
   name: string;

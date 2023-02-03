@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import outIcon from "../../assets/svg/out-session.svg";
 import Input from "../Inputs/Input";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../state";
 
 interface FormData {
   title: string;
@@ -13,6 +16,9 @@ interface FormData {
 }
 
 const ProductForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const { addProduct } = bindActionCreators(actionCreators, dispatch);
+
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
@@ -46,9 +52,25 @@ const ProductForm: React.FC = () => {
     event.preventDefault();
 
     // Hacer lamada a la api
-
+    addProduct({
+      name: formData.title,
+      description: formData.description,
+      size: formData.sizes,
+      price: Number(formData.price),
+      image: "",
+      show_in_shop: "true",
+    });
     console.log(formData);
   };
+  // interface FormData {
+  //   title: string;
+  //   description: string;
+  //   price: string;
+  //   sizes: string;
+  //   color: string;
+  //   inStock: string;
+  //   image: File;
+  // }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -66,7 +88,7 @@ const ProductForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="font-mono flex-col max-w-sm items-center justify-start py-4 bg-white"
+      className="flex-col items-center justify-start max-w-sm py-4 font-mono bg-white"
     >
       <div>
         <div className="inline-flex items-start justify-start w-full px-4 bg-white">
@@ -83,7 +105,7 @@ const ProductForm: React.FC = () => {
             <div className="text-left text-align: left ">
               Titulo
               {errors.title && <p>{errors.title}</p>}
-              <div className="inline-flex items-start justify-start w-full px-1 py-3   rounded-lg">
+              <div className="inline-flex items-start justify-start w-full px-1 py-3 rounded-lg">
                 <div className="flex-1">
                   <Input
                     id="title"
@@ -143,7 +165,6 @@ const ProductForm: React.FC = () => {
                     onChange={handleSelect}
                   >
                     <option value="" disabled hidden>
-                      
                       ELEGIR TALLE
                     </option>
                     <option value="x">X</option>
@@ -162,7 +183,7 @@ const ProductForm: React.FC = () => {
               Cargar imagenes
               <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
                 <input
-                  className="block w-full text-sm  border-gray-300  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
+                  className="block w-full text-sm border-gray-300 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:border-gray-600 dark:placeholder-gray-400"
                   id="image"
                   name="image"
                   type="file"
@@ -202,7 +223,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>*/}
 
-<div>
+            <div>
               <div className="text-left text-align: left ">
                 <div className="inline-flex items-start justify-start w-full "></div>
                 En stock?:
@@ -214,7 +235,6 @@ const ProductForm: React.FC = () => {
                   onChange={handleSelect}
                 >
                   <option value="" disabled hidden>
-                
                     ELEGIR OPCION
                   </option>
                   <option value="true">Si</option>
@@ -223,7 +243,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
-            <div className="inline-flex items-center justify-center w-80 px-5 py-3 border border-gray-900">
+            <div className="inline-flex items-center justify-center px-5 py-3 border border-gray-900 w-80">
               <p className="text-base font-medium leading-normal text-gray-900">
                 <button
                   type="submit"

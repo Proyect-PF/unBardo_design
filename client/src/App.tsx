@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import NewProduct from "./components/NewProduct/NewProduct";
@@ -10,11 +11,20 @@ import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
 import LogIn from "./Pages/LogIn/LogIn";
 import Checkout from "./Pages/Checkout/Checkout";
+import { actionCreators } from "./state";
 import Searchbar from "./layouts/Searchbar/Searchbar";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
   const [search, setSearch] = useState(true);
+  const dispatch = useDispatch();
+  const { getAllProducts } = bindActionCreators(actionCreators, dispatch);
+  
+  useEffect(() => {
+    getAllProducts();
+  }, [dispatch]);
+
+
 
   const handleChange = () => {
     if (!openClose) setOpenClose(true);
@@ -43,7 +53,7 @@ function App() {
           <Route path="/account/login" element={<LogIn />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/account/panel" element={<div>Admin Panel</div>} />
-          <Route path="/panel/newproduct" element={< NewProduct />} />
+          <Route path="/panel/newproduct" element={<NewProduct />} />
         </Routes>
         <Footer />
       </BrowserRouter>

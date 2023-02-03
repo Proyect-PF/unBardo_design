@@ -1,8 +1,10 @@
 import { Action } from "../actions";
 import { ActionType } from "../action-types";
+import axios from "axios";
 
-type ProductState = {
-  products: {
+export type ProductState = {
+  productList: {
+    id: number;
     name: string;
     description: string;
     size: string;
@@ -10,57 +12,33 @@ type ProductState = {
     image: string;
     show_in_shop: string;
   }[];
+  render: boolean;
 };
 
 const initialState: ProductState = {
-  products: [],
+  productList: [],
+  render: true,
 };
 
 const productReducer = (state: ProductState = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.GET_ALL_PRODUCTS:
-      let products = [
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-      ];
+      let products: ProductState["productList"] = action.payload;
+      console.log("reducer", products);
       return {
         ...state,
-        products,
+        productList: products,
       };
     case ActionType.ADD_PRODUCT:
+      const newProduct = { ...action.payload, id: state.productList.length };
       return {
         ...state,
-        products: [...state.products, action.payload],
+        productList: [...state.productList, newProduct],
+      };
+    case ActionType.UPDATE_RENDER:
+      return {
+        ...state,
+        render: state.render ? false : true,
       };
     default:
       return {

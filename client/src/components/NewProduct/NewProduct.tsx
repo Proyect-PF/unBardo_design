@@ -1,135 +1,258 @@
+import React, { useState } from "react";
 import outIcon from "../../assets/svg/out-session.svg";
-import SizeSelector from "../Inputs/SizeSelector/SizeSelector";
-
 import Input from "../Inputs/Input";
 
-const NewProduct = () => {
+interface FormData {
+  title: string;
+  description: string;
+  price: string;
+  sizes: string;
+  color: string;
+  image: File;
+}
+
+const ProductForm: React.FC = () => {
+
+  const [formData, setFormData] = useState<FormData>({
+    title: "",
+    description: "",
+    price: "",
+    sizes: "",
+    color: "",
+    image: new File([], ""),
+  });
+
+  const [errors, setErrors] = useState({
+    title: "",
+    description: "",
+    sizes: "",
+    color: "",
+    price: "",
+    image: "",
+  });
+  {
+    /*
+  const validateForm = () => {
+    let newErrors = { ...errors };
+    let formIsValid = true;
+
+    if (!formData.title) {
+      newErrors.title = "El título es requerido";
+      formIsValid = false;
+    }
+
+    if (!formData.description) {
+      newErrors.description = "La descripción es requerida";
+      formIsValid = false;
+    }
+
+    if (!formData.size) {
+      newErrors.
+      
+      
+      = "El talle es requerido";
+      formIsValid = false;
+    }
+
+    if (!formData.color) {
+      newErrors.color = "El color es requerido";
+      formIsValid = false;
+    }
+
+    if (!formData.price) {
+      newErrors.price = "El precio es requerido";
+      formIsValid = false;
+    }
+
+    if (!formData.image) {
+      newErrors.image = "La imagen es requerida";
+      formIsValid = false;
+    }
+
+    setErrors(newErrors);
+    return formIsValid;
+  };
+*/
+  }
+
+  const colorOptions = ["Blanco", "Negro"];
+
+  const isFormValid =
+    formData.title &&
+    formData.description &&
+    formData.sizes &&
+    formData.color &&
+    formData.price &&
+    formData.image &&
+    !Object.values(errors).some((error) => error !== "");
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    // Hacer lamada a la api
+
+    console.log(formData);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+ 
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, image: event.target.files![0] });
+  };
+
   return (
-    <div className="font-mono flex-col max-w-sm items-center justify-start py-4 bg-white">
-      <div className="inline-flex items-start justify-start w-full px-4 bg-white">
-        <div className="">
+    <form
+      onSubmit={handleSubmit}
+      className="font-mono flex-col max-w-sm items-center justify-start py-4 bg-white"
+    >
+      <div>
+        <div className="inline-flex items-start justify-start w-full px-4 bg-white">
+          <div className="">
+            <div className="inline-flex items-start justify-between w-full">
+              <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
+                Crear producto
+              </p>
+              <a href="http://localhost:3000/">
+                <img className="w-8 h-8 rounded-lg" src={outIcon} />
+              </a>
+            </div>
 
-          <div className="inline-flex items-start justify-between w-full">
-            <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
-              Crear producto
-            </p>
-            <img className="w-8 h-8 rounded-lg" src={outIcon} />
-          </div>
+            <div className="text-left text-align: left ">
+              Titulo
+              {errors.title && <p>{errors.title}</p>}
+              <div className="inline-flex items-start justify-start w-full px-1 py-3   rounded-lg">
+                <div className="flex-1">
+                  <Input
+                    id="title"
+                    type="text"
+                    placeholder="Ingrese Titulo"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+            </div>
 
-          <div className="text-left text-align: left ">
-            Titulo
-            <div className="inline-flex items-start justify-start w-full px-1 py-3   rounded-lg">
-              <div className="flex-1">
+            <div className="text-left text-align: left ">
+              Descripcion
+              <div className="inline-flex items-start justify-start w-full px-1 ">
                 <Input
-                  type="text"
-                  placeholder="Ingrese Titulo"
-                  name="titulo"
-                  value=""
-                  onChange=""
+                  id="description"
+                  name="description"
+                  type="textarea"
+                  placeholder="Ingrese descripcion"
+                  value={formData.description}
+                  onChange={handleChange}
                 />
               </div>
             </div>
-          </div>
 
-          <div className="text-left text-align: left ">
-            Descripcion
-            <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
-              <Input
-                type="textarea"
-                placeholder="Ingrese descripcion"
-                name="texto"
-                value=""
-                onChange=""
-              />
-            </div>
-          </div>
-
-          <div className="text-left text-align: left ">
-            Seleccionar talle
-            <div className="flex flex-col  ">
-              <SizeSelector sizes={["x", "s", "m"]} />
-            </div>
-          </div>
-
-          <div className="text-left text-align: left ">
-            Cargar imagenes
-            <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
-              <input
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
-                id="multiple_files"
-                type="file"
-                multiple
-              ></input>
-            </div>
-          </div>
-
-       
+            <div>
 
 
-
-          <div className="text-left text-align: left ">
-            Precio anterior
-            <div className="inline-flex items-start justify-start w-full px-1 py-3  ">
-              <Input
-                type="text"
-                placeholder="$$$"
-                name="titulo"
-                value=""
-                onChange=""
-              />
-            </div>
-          </div>
-
-          <div className="text-left text-align: left ">
-            Precio Actual
-            <div className="inline-flex items-start justify-start w-full px-1 py-3">
-              <Input
-                type="text"
-                placeholder="$$$"
-                name="titulo"
-                value=""
-                onChange=""
-              />
-            </div>
-          </div>
-
-          <div className="flex">
-            <div className="flex items-center h-5">
-              <input
-                id="helper-checkbox"
-                aria-describedby="helper-checkbox-text"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              ></input>
-            </div>
-            <div className="ml-2 text-sm">
-              <label
-                htmlFor="helper-checkbox"
-                className="font-medium text-gray-900 dark:text-gray-1000"
+            <div className="text-left text-align: left ">
+           
+              <div className="inline-flex items-start justify-start w-full "></div>
+              Color:  
+              <select
+                className="inline-flex items-start"
+                id="color"
+                name="color"
+                value={formData.color}
+                onChange={handleSelect}
+                
               >
-                Seleccionar si hay stock
-              </label>
-              <p
-                id="helper-checkbox-text"
-                className="text-xs font-normal text-gray-500 dark:text-gray-600"
+                <option value="" selected disabled hidden> ELEGIR COLOR </option>
+                <option value="white">Blanco</option>
+                <option value="black">Negro</option>
+              </select>
+              
+            </div>
+            </div>
+
+
+
+
+
+
+            <div className="text-left text-align: left ">
+              <div className="inline-flex items-start justify-start w-full py-4 ">
+              <div>
+              <label htmlFor="size">Talle:</label>
+              <select
+                id="sizes"
+                name="sizes"
+                value={formData.sizes}
+              
+                onChange={handleSelect}
               >
-                Aquellos productos marcados estarán disponibles.
+                <option value="" selected disabled hidden> ELEGIR TALLE </option>
+                <option value="x">X</option>
+                <option value="xs">XS</option>
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+                <option value="xxl">XXL</option>
+              </select>
+            </div>
+              </div>
+            </div>
+
+            <div className="text-left text-align: left ">
+              Cargar imagenes
+              <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
+                <input
+                  className="block w-full text-sm  border-gray-300  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none  dark:border-gray-600 dark:placeholder-gray-400"
+                  id="image"
+                  name="image"
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                ></input>
+              </div>
+            </div>
+
+            <div className="text-left text-align: left ">
+              Precio Actual
+              <div className="inline-flex items-start justify-start w-full px-1 py-3">
+                <Input
+                  id="price"
+                  name="price"
+                  type="string"
+                  value={formData.price}
+                  placeholder="$$$"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="inline-flex items-center justify-center w-80 px-5 py-3 border border-gray-900">
+              <p className="text-base font-medium leading-normal text-gray-900">
+                <button
+                  type="submit"
+                  disabled={!isFormValid}
+                  style={{ opacity: isFormValid ? 1 : 0.5 }}
+                >
+                  {" "}
+                  Crear Publicación
+                </button>
               </p>
             </div>
           </div>
-
-          <div className="inline-flex items-center justify-center w-80 px-5 py-3 border border-gray-900">
-            <p className="text-base font-medium leading-normal text-gray-900">
-              Crear Publicación
-            </p>
-          </div>
-
-          
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
-export default NewProduct;
+export default ProductForm;

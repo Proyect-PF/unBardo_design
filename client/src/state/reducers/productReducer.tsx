@@ -1,8 +1,9 @@
 import { Action } from "../actions";
 import { ActionType } from "../action-types";
+import axios from "axios";
 
-type ProductState = {
-  products: {
+export type ProductState = {
+  productList: {
     name: string;
     description: string;
     size: string;
@@ -13,54 +14,21 @@ type ProductState = {
 };
 
 const initialState: ProductState = {
-  products: [],
+  productList: [],
 };
 
 const productReducer = (state: ProductState = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.GET_ALL_PRODUCTS:
-      let products = [
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-        {
-          name: "Remera Oversize unBardo Black",
-          description: "Remera Oversize unBardo Black",
-          size: "M",
-          price: 8000,
-          image: "url",
-          show_in_shop: "string",
-        },
-      ];
+      let products: ProductState["productList"] = action.payload;
       return {
         ...state,
-        products,
+        productList: products,
       };
     case ActionType.ADD_PRODUCT:
       return {
         ...state,
-        products: [...state.products, action.payload],
+        products: [...state.productList, action.payload],
       };
     default:
       return {

@@ -2,6 +2,7 @@ import { ActionType } from "../action-types";
 
 interface GetAllAction {
   type: ActionType.GET_ALL_PRODUCTS;
+  payload: any;
 }
 
 interface AddProduct {

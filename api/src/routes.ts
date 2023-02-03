@@ -6,7 +6,7 @@ import productRoutes from './Product/routes'
 
 const routes = Router();
 //Rutas de administradores
-routes.use("/admin", adminRoutes)
+routes.use("/admins", adminRoutes)
 
 //Ruta de usuarios
 routes.use('/users', userRoutes);

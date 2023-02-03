@@ -5,6 +5,11 @@ import ig2 from "../../assets/images/ig2.jpg";
 import Product from "../../components/Cards/Product/Product";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../state";
+import { useSelector } from "react-redux/es/exports";
+import { State } from "../../state/reducers";
 
 const productsAmmount = [
   { imageB, imageF, name: "REMERA OVERSIZE UNBARDO BLACK" },
@@ -16,6 +21,10 @@ const productsAmmount = [
 ];
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const { getAllProducts } = bindActionCreators(actionCreators, dispatch);
+  const products = useSelector((state: State) => state.products);
+
   return (
     <div>
       <img className="object-none w-full h-48" alt="homepage" src={photo} />

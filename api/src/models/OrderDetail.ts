@@ -17,9 +17,11 @@ export default (sequelize: any, DataTypes: any) => {
       },
       createdAt: {
         type: DataTypes.DATE,
+        allowNull: true,
       },
       updatedAt: {
         type: DataTypes.DATE,
+        allowNull: true,
       },
     },
     {

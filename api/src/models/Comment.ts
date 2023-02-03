@@ -1,7 +1,5 @@
 'use strict';
-const {
-    Model
-} = require('sequelize');
+import { Model } from "sequelize";
 
 export default (sequelize:any, DataTypes:any) => {
     class Comment extends Model {

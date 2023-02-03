@@ -1,8 +1,7 @@
 "use strict";
 
-import { DataType } from "sequelize-typescript";
+import { Model } from "sequelize";
 
-const { Model } = require("sequelize");
 
 // interface OrdersAttributes {
 //   id: number;
@@ -12,6 +11,8 @@ const { Model } = require("sequelize");
 
 export default (sequelize: any, DataTypes: any) => {
   class Orders extends Model {
+
+
     static associate(models: any) {
       // define association here
       //TODO Un pedido pertenece a un solo usuario (Order belongs to User)

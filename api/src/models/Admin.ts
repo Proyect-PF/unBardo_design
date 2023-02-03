@@ -1,7 +1,8 @@
 
 
-import sequelize, { Model } from "sequelize";
-import db from ".";
+import { Model } from "sequelize";
+
+
 export default  (sequelize:any, DataTypes:any)=>{
     
     class Admin extends Model {

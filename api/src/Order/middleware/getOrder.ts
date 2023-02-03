@@ -2,10 +2,6 @@ const Sequelize = require('sequelize');
 import Orders from "../../models/Orders"
 import db from "../../models";
 
-type OrdersType ={
-    total_amount: string,
-    state: string,
-}
 
 const getOrders = async () => {
     try {

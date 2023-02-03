@@ -30,9 +30,11 @@ fs
     console.log(file, i)
     //TODO: require(path.join(__dirname, file)) => devuelve un objeto con la propiedad default y es un array de funciones de todos los modelos en la carpeta models    
 
-    const model = require(path.join(__dirname, file)).default(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+      const model = require(path.join(__dirname, file)).default(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    
   });
+
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

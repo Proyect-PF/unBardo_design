@@ -1,17 +1,16 @@
 "use strict";
-const { Model } = require("sequelize");
-
+import { Model } from "sequelize";
 export default (sequelize: any, DataTypes: any) => {
   class OrderDetail extends Model {
     static associate(models: any) {
       // // define association here
       //TODO Un detalle de pedido pertenece a un solo pedido (Order Detail belongs to Order)
-        {/*models.OrderDetail.belongsTo(models.Product, {
-            foreignKey: 'productId'
-        });
-        models.OrderDetail.belongsTo(models.Orders, {
-            foreignKey: 'orderId'
-        });*/}
+        // models.OrderDetail.belongsTo(models.Product, {
+        //     foreignKey: 'productId'
+        // });
+        // models.OrderDetail.belongsTo(models.Orders, {
+        //     foreignKey: 'orderId'
+        // });
     }
   }
 
@@ -22,9 +21,11 @@ export default (sequelize: any, DataTypes: any) => {
       },
       createdAt: {
         type: DataTypes.DATE,
+        allowNull: true,
       },
       updatedAt: {
         type: DataTypes.DATE,
+        allowNull: true,
       },
     },
     {

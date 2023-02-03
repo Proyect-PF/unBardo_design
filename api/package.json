@@ -27,6 +27,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@types/helmet": "^4.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

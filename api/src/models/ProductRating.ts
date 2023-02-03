@@ -1,6 +1,5 @@
 'use strict';
-const { Model } = require('sequelize');
-
+import { Model } from "sequelize";
 export default (sequelize: any, DataTypes: any) => {
     class ProductRating extends Model {
         static associate(models: any) {}

@@ -8,7 +8,7 @@ const NewProduct = () => {
       <div className="inline-flex items-start justify-start w-full px-4 bg-white">
         <div className="">
 
-          // esto es un comentario
+        
           <div className="inline-flex items-start justify-between w-full">
             <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
               Crear producto

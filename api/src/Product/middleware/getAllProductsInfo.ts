@@ -1,11 +1,8 @@
-const Sequelize = require('sequelize');
-import Product from "../../models/Product"
-import db from "../../models";
+import instanceOfProd from "..";
 
 const getAllProductsInfo = async () => {
     try {
-        const getAllInstance = await Product(db.sequelize, Sequelize.DataTypes);
-        const allProduct = getAllInstance.findAll();
+        const allProduct = instanceOfProd.findAll();
         return allProduct;
     } catch (error: unknown) {
         throw new Error("No es posible obtener los productos");

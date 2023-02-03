@@ -65,22 +65,21 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    sizes: {
-      type: Sequelize.ENUM("XS", "S", "M"),
-      allowNull: true,
-      defaultValue: "XS",
-    },
     description: {
       type: DataTypes.TEXT,
       allowNull: false
     },
     size: {
+      //type: Sequelize.ENUM("XS", "S", "M", "L", "XL"),
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      //defaultValue: "XS"
     },
     show_in_shop: {
+      //type: Sequelize.ENUM("si", "no"),
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      //defaultValue: "no"
     },
     price: {
       type: DataTypes.INTEGER,

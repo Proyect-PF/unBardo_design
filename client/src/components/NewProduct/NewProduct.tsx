@@ -127,7 +127,7 @@ const ProductForm: React.FC = () => {
                 onChange={handleSelect}
                 
               >
-                <option value="" selected disabled hidden> ELEGIR COLOR </option>
+                <option defaultValue=""  disabled hidden> ELEGIR COLOR </option>
                 <option value="white">Blanco</option>
                 <option value="black">Negro</option>
               </select>
@@ -151,7 +151,7 @@ const ProductForm: React.FC = () => {
               
                 onChange={handleSelect}
               >
-                <option value="" selected disabled hidden> ELEGIR TALLE </option>
+                <option defaultValue="" disabled hidden> ELEGIR TALLE </option>
                 <option value="x">X</option>
                 <option value="xs">XS</option>
                 <option value="s">S</option>

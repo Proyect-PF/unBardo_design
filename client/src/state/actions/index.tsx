@@ -8,6 +8,7 @@ interface GetAllAction {
 interface AddProduct {
   type: ActionType.ADD_PRODUCT;
   payload: {
+    id: number;
     name: string;
     description: string;
     size: string;
@@ -20,6 +21,7 @@ interface AddProduct {
 export type Action = GetAllAction | AddProduct;
 
 export type AddProductPayload = {
+  id: number;
   name: string;
   description: string;
   size: string;

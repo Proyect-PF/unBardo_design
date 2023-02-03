@@ -9,6 +9,7 @@ export const getAllProducts = () => {
   axios.get("http://localhost:3700/products").then((res) =>
     res.data.forEach((e: any) => {
       payload.push({
+        id: e.id,
         name: e.name,
         description: e.description,
         size: e.size,

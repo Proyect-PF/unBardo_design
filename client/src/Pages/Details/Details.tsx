@@ -1,25 +1,38 @@
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import AmountInput from "../../components/Inputs/Amount/AmountInput";
 import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Buttons/Button/Button";
-const sizes: string[] = ["M", "L", "XL"];
+import { State } from "../../state/reducers";
 
 const Details = (): JSX.Element => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+
   const [show, setShow] = useState(false);
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("");
 
-  const location = useLocation();
-  const name = location.pathname.split("/")[2].replaceAll("%20", " ");
+  const { productList } = useSelector((state: State) => state.products);
+  const [product, setProduct] = useState(productList[0]);
+
+  useEffect(() => {
+    if (productList.length > 0) {
+      let target = productList.filter((e) => e.id.toString() === id)[0];
+      setProduct(target);
+    }
+  }, [productList]);
 
   const handleShow = (): void => {
     show ? setShow(false) : setShow(true);
   };
+
   const handleCart = () => {
     if (amount && size) alert(size + " " + amount);
+    console.log(product);
   };
 
   return (
@@ -40,11 +53,11 @@ const Details = (): JSX.Element => {
       </div>
       <div className="mx-auto w-fit md:h-1/2 md:flex md:flex-col md:justify-between md:mt-8">
         <div>
-          <p className="mt-4 text-lg font-bold text-center ">{name}</p>
-          <p className="my-2 text-lg font-bold ">$8.000</p>
+          <p className="mt-4 text-lg font-bold text-center ">{product?.name}</p>
+          <p className="my-2 text-lg font-bold ">{`$ ${product?.price}`}</p>
         </div>
         <div className="flex justify-between my-8 font-mono text-lg text-center">
-          <SizeSelector sizes={sizes} setter={setSize} />
+          <SizeSelector sizes={[product?.size]} setter={setSize} />
           <AmountInput setter={setAmount} />
         </div>
         <Button text="Añadir al carrito" onClick={handleCart} name="Carrito" />

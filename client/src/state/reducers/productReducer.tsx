@@ -4,6 +4,7 @@ import axios from "axios";
 
 export type ProductState = {
   productList: {
+    id: number;
     name: string;
     description: string;
     size: string;
@@ -28,7 +29,7 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
     case ActionType.ADD_PRODUCT:
       return {
         ...state,
-        products: [...state.productList, action.payload],
+        productList: [...state.productList, action.payload],
       };
     default:
       return {

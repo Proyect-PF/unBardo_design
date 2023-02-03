@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { State } from "../../state/reducers";
 
 const Home = () => {
-  const products = useSelector((state: State) => state.products.productList);
+  const { productList } = useSelector((state: State) => state.products);
 
   return (
     <div>
@@ -17,10 +17,15 @@ const Home = () => {
         WELCOME TO THE JUNGLE
       </p>
       <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
-        {products.length > 0 &&
-          products.map(
+        {productList.length > 0 &&
+          productList.map(
             (e): JSX.Element => (
-              <Product imageB={imageB} imageF={imageF} name={e.name} />
+              <Product
+                imageB={imageB}
+                imageF={imageF}
+                name={e.name}
+                id={e.id}
+              />
             )
           )}
       </div>

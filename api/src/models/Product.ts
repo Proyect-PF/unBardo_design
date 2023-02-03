@@ -1,6 +1,6 @@
 //'use strict';
 
-import { Model } from "sequelize";
+import Sequelize, { Model } from "sequelize";
 
 interface PorductAttributes {
   id: number;
@@ -64,6 +64,11 @@ export default (sequelize:any, DataTypes:any) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    sizes: {
+      type: Sequelize.ENUM("XS", "S", "M"),
+      allowNull: true,
+      defaultValue: "XS",
     },
     description: {
       type: DataTypes.TEXT,

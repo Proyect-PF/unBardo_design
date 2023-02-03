@@ -8,6 +8,7 @@ const routes = Router();
 //Rutas de administradores
 routes.use("/admins", adminRoutes)
 
+
 //Ruta de usuarios
 routes.use("/users", userRoutes);
 

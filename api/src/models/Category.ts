@@ -12,9 +12,10 @@ export default (sequelize:any, DataTypes:any) => {
             
         static associate(models:any) {
         // define association here
-        // models.Category.hasMany(models.Product, { foreignKey: 'categoryId' });
-        // models.Category.hasMany(models.ProductCategory, { foreignKey: 'categoryId' });
+            models.Category.hasMany(models.Product, { foreignKey: 'categoryId' });
+            models.Category.hasMany(models.ProductCategory, { foreignKey: 'categoryId' });
         }
+
     }
     Category.init({
         name: {

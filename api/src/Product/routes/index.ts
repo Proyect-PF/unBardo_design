@@ -7,15 +7,13 @@ import deleteProduct from '../controllers/deleteProduct';
 const productRoutes = Router();
 
 
-//postUser
 productRoutes.delete('/', deleteProduct);
 
-productRoutes.put("/", putProduct)
+productRoutes.put("/", putProduct);
 
-productRoutes.get("/", getProduct)
+productRoutes.get("/", getProduct);
 
-productRoutes.post("/", postProduct)
-
+productRoutes.post("/", postProduct);
 
 
 export default productRoutes;

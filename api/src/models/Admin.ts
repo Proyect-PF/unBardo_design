@@ -14,8 +14,21 @@ export default (sequelize:any, DataTypes:any)=> {
          * The models/index file will call this method automatically.
          */
         
+        public static async findByNameAll(username : string) {
+            const foundName = await Admin.findAll({
+                where: {
+                    username
+                }
+            })
+            
+            return foundName
+        }
+        
+        
         static associate(models:any) {
 // define association here
+            models.Admin.hasMany(models.Product, { foreignKey: "adminId" });
+
         }
     }
     Admin.init({
@@ -29,6 +42,7 @@ export default (sequelize:any, DataTypes:any)=> {
         },
         password: {
             type: DataTypes.STRING,
+            
         },
     }, {
         timestamps: false,

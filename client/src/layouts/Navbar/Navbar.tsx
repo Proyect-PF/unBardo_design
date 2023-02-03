@@ -25,7 +25,9 @@ const Navbar = ({ handleChange }: any) => {
 
       <div className="flex justify-between w-20">
         <img src={searchIcon} alt="searcg-icon" className="h-7" />
-        <img src={shoppingIcon} alt="shopping-bag-icon" className="h-7" />
+        <Link to="/checkout">
+          <img src={shoppingIcon} alt="shopping-bag-icon" className="h-7" />
+        </Link>
       </div>
     </div>
   );

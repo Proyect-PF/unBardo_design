@@ -8,6 +8,8 @@ import Navbar from "./layouts/Navbar/Navbar";
 import Sidebar from "./layouts/Sidebar/Sidebar";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
+import LogIn from "./Pages/LogIn/LogIn";
+import Checkout from "./Pages/Checkout/Checkout";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -28,7 +30,8 @@ function App() {
           <Route path="*" element={<div>404</div>} />
           <Route path="/" element={<Home />} />
           <Route path="/product/:name" element={<Details />} />
-          <Route path="/account/login" element={<div>Login</div>} />
+          <Route path="/account/login" element={<LogIn />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/account/panel" element={<div>Admin Panel</div>} />
           <Route path="/panel/newproduct" element={< NewProduct />} />
         </Routes>

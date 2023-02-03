@@ -47,11 +47,11 @@ export default (sequelize:any, DataTypes:any) => {
 
     static associate(models:any) {
       // define association here
-      // models.Product.hasMany(models.OrderDetail, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.Image, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.ProductRating, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.ProductCategory, { foreignKey: 'productId' });
-      // models.Product.hasMany(models.ProductColour, { foreignKey: 'productId' });
+      models.Product.hasMany(models.OrderDetail, { foreignKey: 'productId' });
+      models.Product.hasMany(models.Image, { foreignKey: 'productId' });
+      models.Product.hasMany(models.ProductRating, { foreignKey: 'productId' });
+      models.Product.hasMany(models.ProductCategory, { foreignKey: 'productId' });
+      models.Product.hasMany(models.ProductColour, { foreignKey: 'productId' });
     }
   }
   Product.init({

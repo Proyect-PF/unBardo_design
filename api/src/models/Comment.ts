@@ -12,6 +12,12 @@ export default (sequelize:any, DataTypes:any) => {
          */
         static associate(models:any) {
             // define association here
+            models.Comment.belongsTo(models.Product, {
+                foreignKey: 'productId'
+            });
+            models.Comment.belongsTo(models.Users, {
+                foreignKey: 'userId'
+            });
         }
     }
     Comment.init({

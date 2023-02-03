@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import outIcon from "../../assets/svg/out-session.svg";
-import Input from "../Inputs/Input";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+import outIcon from "../../assets/svg/out-session.svg";
 import { actionCreators } from "../../state";
+import Input from "../Inputs/Input";
 
 interface FormData {
   title: string;
@@ -29,6 +29,8 @@ const ProductForm: React.FC = () => {
     image: new File([], ""),
   });
 
+
+  {/* ESTADO ERROR */}
   const [errors, setErrors] = useState({
     title: "",
     description: "",
@@ -39,6 +41,8 @@ const ProductForm: React.FC = () => {
     inStock: "",
   });
 
+
+  {/* VARIABLE PARA CHECKEAR QUE EL ESTADO NO ESTE VACIO */}
   const isFormValid =
     formData.title &&
     formData.description &&
@@ -48,6 +52,21 @@ const ProductForm: React.FC = () => {
     formData.image &&
     !Object.values(errors).some((error) => error !== "");
 
+  
+  // interface FormData {
+  //   title: string;
+  //   description: string;
+  //   price: string;
+  //   sizes: string;
+  //   color: string;
+  //   inStock: string;
+  //   image: File;
+  // }
+
+  
+              {/* MANEJADORES DE EVENTO */}
+
+  {/* EVENTO PARA EL SUBMIT DEL FORM */}
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -61,37 +80,35 @@ const ProductForm: React.FC = () => {
       show_in_shop: "true",
     });
     console.log(formData);
-  };
-  // interface FormData {
-  //   title: string;
-  //   description: string;
-  //   price: string;
-  //   sizes: string;
-  //   color: string;
-  //   inStock: string;
-  //   image: File;
-  // }
+  }; 
 
+  {/* MANEJADOR CAMBIO DE VALUES INPUT */}
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  {/* MANEJADOR DE CAMBIO DE VALUES SELECT */}
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  {/* MANEJADOR DE CAMBIO DE FILE INPUT IMAGE */}
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, image: event.target.files![0] });
   };
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit} 
       className="flex-col items-center justify-start max-w-sm py-4 font-mono bg-white"
     >
       <div>
         <div className="inline-flex items-start justify-start w-full px-4 bg-white">
+          
+          
+          {/* TITULO */}
           <div className="">
             <div className="inline-flex items-start justify-between w-full">
               <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
@@ -102,6 +119,8 @@ const ProductForm: React.FC = () => {
               </a>
             </div>
 
+
+            {/* SE ENVIA NAME: TITLE */}
             <div className="text-left text-align: left ">
               Titulo
               {errors.title && <p>{errors.title}</p>}
@@ -119,6 +138,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
+            {/* SE ENVIA NAME: DESCRIPTION */}
             <div className="text-left text-align: left ">
               Descripcion
               <div className="inline-flex items-start justify-start w-full px-1 ">
@@ -133,6 +153,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
+            {/* SE ENVIA NAME: COLOR */}
             <div>
               <div className="text-left text-align: left ">
                 <div className="inline-flex items-start justify-start w-full "></div>
@@ -154,6 +175,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
+            {/* SE ENVIA NAME: TALLE */}
             <div className="text-left text-align: left ">
               <div className="inline-flex items-start justify-start w-full py-4 ">
                 <div>
@@ -179,6 +201,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
+            {/* SE ENVIA NAME: FILE */}
             <div className="text-left text-align: left ">
               Cargar imagenes
               <div className="inline-flex items-start justify-start w-full px-1 py-3 ">
@@ -193,6 +216,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
+            {/* SE ENVIA NAME: PRICE */}
             <div className="text-left text-align: left ">
               Precio Actual
               <div className="inline-flex items-start justify-start w-full px-1 py-3">
@@ -207,22 +231,7 @@ const ProductForm: React.FC = () => {
               </div>
             </div>
 
-            {/*<div className="text-left text-align: left ">
-              En stock
-              <div className="inline-flex items-start justify-start w-full px-1 py-3">
-                <div>
-                  <input
-                    type="checkbox"
-                    id="inStock"
-                    name="inStock"
-                    checked={formData.inStock}
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="in-stock">En stock</label>
-                </div>
-              </div>
-            </div>*/}
-
+            {/* SE ENVIA NAME: STOCK */}
             <div>
               <div className="text-left text-align: left ">
                 <div className="inline-flex items-start justify-start w-full "></div>

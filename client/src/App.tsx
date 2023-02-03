@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router";
 import Sidebar from "./layouts/Sidebar/Sidebar";
 import Details from "./Pages/Details/Details";
 import LogIn from "./Pages/LogIn/LogIn";
+import Checkout from "./Pages/Checkout/Checkout";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product/:name" element={<Details />} />
           <Route path="/account/login" element={<LogIn />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/account/panel" element={<div>Admin Panel</div>} />
         </Routes>
         <Footer />

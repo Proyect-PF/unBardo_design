@@ -19,9 +19,9 @@ const filterProdByColor = async (request: Request<RequestParams, ResponseBody, R
 
     let filteredProducts = await filterByColor(color);
     if (filteredProducts)
-    response.status(200).json(filteredProducts);
-  } catch (error) {
-    response.status(400).json(error);
+    return response.status(200).json(filteredProducts);
+  } catch (error:any) {
+    return response.status(400).json(error.message);
   }
 };
 

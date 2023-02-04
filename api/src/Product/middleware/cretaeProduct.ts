@@ -1,5 +1,4 @@
-import instanceOfProd from "..";
-
+import db from "../../models";
 type productType = {
     name: string,
     description: Text,
@@ -19,7 +18,7 @@ type productType = {
 
 const createProduct = async (product: productType): Promise<any> => {
     try {
-        const newProduct = instanceOfProd.create(product);
+        const newProduct = await db.Product.create(product);
         return newProduct;
     } catch (error: unknown) {
         throw new Error("No es posible crear el producto");

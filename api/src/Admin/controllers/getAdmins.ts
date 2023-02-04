@@ -1,7 +1,8 @@
 
 import { Request, Response } from "express"
 import getByUsername from "../middlewares/getByUsename"
-import instanceOfAdmin from "..";
+import db from "../../models";
+
 
 interface RequestParams {}
 
@@ -21,13 +22,11 @@ const getAdmins = async (req:Request<RequestParams, ResponseBody, RequestBody, R
             const user = await getByUsername(username)
             return res.status(200).json(user)
         }else{
-            const arrusers = await instanceOfAdmin.findByNameAll(username)
+            const arrusers = await db.Admin.findByNameAll(username)
             return res.status(200).json(arrusers)
-
         }
-
-    } catch (error) {
-        res.status(400).json(error)
+    } catch (error:any) {
+        res.status(400).json(error.message)
     }
 
 }

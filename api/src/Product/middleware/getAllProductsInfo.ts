@@ -1,8 +1,8 @@
-import instanceOfProd from "..";
+import db from "../../models";
 
 const getAllProductsInfo = async () => {
     try {
-        const allProduct = instanceOfProd.findAll();
+        const allProduct = await db.Product.findAll();
         return allProduct;
     } catch (error: unknown) {
         throw new Error("No es posible obtener los productos");

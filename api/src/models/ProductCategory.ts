@@ -2,6 +2,7 @@
 import { Model } from "sequelize";
 
 
+
 export default (sequelize: any, DataTypes: any) => {
     class ProductCategory extends Model {
         static associate(models: any) {}

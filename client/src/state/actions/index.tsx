@@ -19,8 +19,24 @@ interface AddProduct {
     show_in_shop: string;
   };
 }
+interface GetProductDetails {
+  type: ActionType.GET_PRODUCT_DETAILS;
+  payload: {
+    id: number;
+    name: string;
+    description: string;
+    size: string;
+    price: number;
+    image: string;
+    show_in_shop: string;
+  };
+}
 
-export type Action = GetAllAction | AddProduct | UpdateRender;
+export type Action =
+  | GetAllAction
+  | AddProduct
+  | UpdateRender
+  | GetProductDetails;
 
 export type AddProductPayload = {
   name: string;

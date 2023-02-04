@@ -29,8 +29,9 @@ const ProductForm: React.FC = () => {
     image: new File([], ""),
   });
 
-
-  {/* ESTADO ERROR */}
+  {
+    /* ESTADO ERROR */
+  }
   const [errors, setErrors] = useState({
     title: "",
     description: "",
@@ -41,8 +42,9 @@ const ProductForm: React.FC = () => {
     inStock: "",
   });
 
-
-  {/* VARIABLE PARA CHECKEAR QUE EL ESTADO NO ESTE VACIO */}
+  {
+    /* VARIABLE PARA CHECKEAR QUE EL ESTADO NO ESTE VACIO */
+  }
   const isFormValid =
     formData.title &&
     formData.description &&
@@ -52,7 +54,6 @@ const ProductForm: React.FC = () => {
     formData.image &&
     !Object.values(errors).some((error) => error !== "");
 
-  
   // interface FormData {
   //   title: string;
   //   description: string;
@@ -63,10 +64,13 @@ const ProductForm: React.FC = () => {
   //   image: File;
   // }
 
-  
-              {/* MANEJADORES DE EVENTO */}
+  {
+    /* MANEJADORES DE EVENTO */
+  }
 
-  {/* EVENTO PARA EL SUBMIT DEL FORM */}
+  {
+    /* EVENTO PARA EL SUBMIT DEL FORM */
+  }
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -80,34 +84,38 @@ const ProductForm: React.FC = () => {
       show_in_shop: "true",
     });
     console.log(formData);
-  }; 
+  };
 
-  {/* MANEJADOR CAMBIO DE VALUES INPUT */}
+  {
+    /* MANEJADOR CAMBIO DE VALUES INPUT */
+  }
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  {/* MANEJADOR DE CAMBIO DE VALUES SELECT */}
+  {
+    /* MANEJADOR DE CAMBIO DE VALUES SELECT */
+  }
   const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  {/* MANEJADOR DE CAMBIO DE FILE INPUT IMAGE */}
+  {
+    /* MANEJADOR DE CAMBIO DE FILE INPUT IMAGE */
+  }
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, image: event.target.files![0] });
   };
 
   return (
     <form
-      onSubmit={handleSubmit} 
-      className="flex-col items-center justify-start max-w-sm py-4 font-mono bg-white"
+      onSubmit={handleSubmit}
+      className="flex-col items-center justify-start max-w-sm py-4  bg-white"
     >
       <div>
         <div className="inline-flex items-start justify-start w-full px-4 bg-white">
-          
-          
           {/* TITULO */}
           <div className="">
             <div className="inline-flex items-start justify-between w-full">
@@ -118,7 +126,6 @@ const ProductForm: React.FC = () => {
                 <img className="w-8 h-8 rounded-lg" src={outIcon} />
               </a>
             </div>
-
 
             {/* SE ENVIA NAME: TITLE */}
             <div className="text-left text-align: left ">

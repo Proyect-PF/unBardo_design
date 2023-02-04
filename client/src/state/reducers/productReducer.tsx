@@ -12,11 +12,29 @@ export type ProductState = {
     image: string;
     show_in_shop: string;
   }[];
+  productDetails: {
+    id: number;
+    name: string;
+    description: string;
+    size: string;
+    price: number;
+    image: string;
+    show_in_shop: string;
+  };
   render: boolean;
 };
 
 const initialState: ProductState = {
   productList: [],
+  productDetails: {
+    id: -1,
+    name: "",
+    description: "",
+    size: "",
+    price: 0,
+    image: "",
+    show_in_shop: "",
+  },
   render: true,
 };
 
@@ -24,7 +42,6 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.GET_ALL_PRODUCTS:
       let products: ProductState["productList"] = action.payload;
-      console.log("reducer", products);
       return {
         ...state,
         productList: products,
@@ -34,6 +51,11 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
       return {
         ...state,
         productList: [...state.productList, newProduct],
+      };
+    case ActionType.GET_PRODUCT_DETAILS:
+      return {
+        ...state,
+        productDetails: action.payload,
       };
     case ActionType.UPDATE_RENDER:
       return {

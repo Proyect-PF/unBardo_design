@@ -32,7 +32,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className=" font-poppins">
       <BrowserRouter>
         <Searchbar openClose={search} handleSearch={handleSearch} />
         <Sidebar openClose={openClose} handleChange={handleChange} />

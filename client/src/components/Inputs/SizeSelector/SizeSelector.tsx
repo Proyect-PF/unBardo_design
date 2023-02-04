@@ -16,7 +16,7 @@ const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
   };
 
   return (
-    <div className="flex gap-4 my-4 font-mono text-lg font-bold text-center">
+    <div className="flex gap-4 my-4  text-lg font-bold text-center">
       {sizes &&
         sizes.map((e) => (
           <button

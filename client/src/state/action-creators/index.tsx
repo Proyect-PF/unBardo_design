@@ -41,3 +41,34 @@ export const addProduct = (payload: AddProductPayload) => {
     );
   };
 };
+
+export const getProductDetails = (id: number) => {
+  return (dispatch: Dispatch<Action>) => {
+    let product = {
+      id: -1,
+      name: "id malo",
+      description: "",
+      size: "",
+      price: 0,
+      image: "",
+      show_in_shop: "",
+    };
+    axios.get(`http://localhost:3700/products?id=${id}`).then((res) => {
+      if (res.data?.id) {
+        product = {
+          id: res.data.id,
+          name: res.data.name,
+          description: res.data.description,
+          size: res.data.size,
+          price: res.data.price,
+          image: "",
+          show_in_shop: "",
+        };
+      }
+      dispatch({
+        type: ActionType.GET_PRODUCT_DETAILS,
+        payload: product,
+      });
+    });
+  };
+};

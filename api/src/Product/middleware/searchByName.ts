@@ -1,11 +1,11 @@
-import instanceOfProd from "..";
+import db from "../../models";
 const Sequelize = require("sequelize");
 //import { Sequelize } from "sequelize";
 const Op = Sequelize.Op;
 
 const searchByName = async (search: string) => {
     try {
-        const searchProduct = instanceOfProd.findAll({
+        const searchProduct = db.Product.findAll({
             where: {
                 name: { [Op.iLike]: `%${search}%`}
             }

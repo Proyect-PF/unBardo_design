@@ -79,11 +79,15 @@ const Details = (): JSX.Element => {
             </p>
             <p className="my-2 text-lg font-bold ">{`$ ${productDetails.price}`}</p>
           </div>
-          {/* <div className="flex justify-between my-8 text-lg text-center">
-          <SizeSelector sizes={[product?.size]} setter={setSize} />
-          <AmountInput setter={setAmount} />
-        </div>
-        <Button text="Añadir al carrito" onClick={handleCart} name="Carrito" /> */}
+          <div className="flex justify-between my-8 text-lg text-center">
+            <SizeSelector sizes={[productDetails.size]} setter={setSize} />
+            <AmountInput setter={setAmount} />
+          </div>
+          <Button
+            text="Añadir al carrito"
+            onClick={handleCart}
+            name="Carrito"
+          />
         </div>
       </div>
     </div>

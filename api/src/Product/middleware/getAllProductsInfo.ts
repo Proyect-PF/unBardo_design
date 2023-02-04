@@ -2,10 +2,14 @@ import db from "../../models";
 
 const getAllProductsInfo = async () => {
     try {
-        const allProduct = await db.Product.findAll();
+        const allProduct = await db.Product.findAll({
+            attributes: {
+              exclude: ['promotional_price', 'video', 'stock', , 'height', 'weight', 'width', 'length', 'SKU', 'barcode', 'createdAt', 'updatedAt', 'adminId', 'categoryId']
+            }
+        });
         return allProduct;
-    } catch (error: unknown) {
-        throw new Error("No es posible obtener los productos");
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 }
 

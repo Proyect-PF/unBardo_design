@@ -1,18 +1,28 @@
 import db from "../../models";
-const Sequelize = require("sequelize");
-//import { Sequelize } from "sequelize";
-const Op = Sequelize.Op;
+import {Op} from "sequelize";
 
 const searchByName = async (search: string) => {
     try {
-        const searchProduct = db.Product.findAll({
+        // const searchProduct = await db.Product.findAll({
+        //     where: {
+        //         name: { [Op.ilike]: `%${search}%` }
+        //     }
+        // });
+        console.log(search);
+        
+        const searchProduct = await db.Product.findAll({
             where: {
-                name: { [Op.like]: `%${search}%`}
+                name : { [Op.iLike]: `%${search}%`},
+            },
+            attributes: {
+              exclude: ['promotional_price', 'video', 'stock', , 'height', 'weight', 'width', 'length', 'SKU', 'barcode', 'createdAt', 'updatedAt', 'adminId', 'categoryId']
             }
         });
+        console.log(searchProduct);
+        
         return searchProduct;
-    } catch (error: unknown) {
-        throw new Error("No es posible buscar el producto");
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 }
 

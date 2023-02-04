@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../state";
+import Dropdown from "../../components/DropDowns/dropdown";
 
 interface Props {
   openClose: boolean;
@@ -15,7 +16,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
   const { searchProducts } = bindActionCreators(actionCreators, dispatch);
 
   const [input, setInput] = useState("");
-  const [output, setOutput] = useState();
+  const [showFilter, setShowFilters] = useState(false);
 
   let style: string;
   if (openClose) style = "right-full";
@@ -28,14 +29,18 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
     searchProducts(e.target.value);
   };
 
+  const handleShowFilters = () => {
+    showFilter ? setShowFilters(false) : setShowFilters(true);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    alert("epa");
     setInput("");
   };
 
   return (
-    <div className={`flex fixed ${style} bg-white w-full  z-40`}>
+    <div className={`flex flex-col fixed ${style} bg-white w-full  z-40`}>
       <div className="flex justify-between w-full h-16 border-b border-gray-300">
         <button onClick={handleSearch} className="px-5">
           <img src={comeBack} alt="icono" className="h-5" />
@@ -48,10 +53,25 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
             placeholder="Buscar"
             className="w-full bg-white h-13 focus:outline-0"
           />
-          <button type="submit">
+          {/* <button type="submit">
             <img src={searchIcon} alt="iconSea" className="h-10 px-5" />
+          </button> */}
+          <button
+            type="button"
+            onClick={handleShowFilters}
+            className={`px-5 ${!showFilter ? "-rotate-90" : "rotate-90"}`}
+          >
+            <img src={comeBack} alt="icono" className="h-5" />
           </button>
         </form>
+      </div>
+      <div
+        className={` flex justify-around ${
+          !showFilter ? " hidden" : "visible"
+        }`}
+      >
+        <Dropdown type="filter" />
+        <Dropdown type="order" />
       </div>
     </div>
   );

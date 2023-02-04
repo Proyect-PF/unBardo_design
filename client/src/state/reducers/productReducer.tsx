@@ -1,7 +1,7 @@
 import { Action } from "../actions";
 import { ActionType } from "../action-types";
 import axios from "axios";
-import { ProductState } from "../types";
+import { Product, ProductState } from "../types";
 
 //AL: initialState first defining, needs to match the type defined.
 const initialState: ProductState = {
@@ -37,7 +37,10 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
         productList: productSearch,
       };
     case ActionType.ADD_PRODUCT:
-      const newProduct = { ...action.payload, id: state.productList.length };
+      const newProduct: Product = {
+        ...action.payload,
+        id: state.productList.length,
+      };
       return {
         ...state,
         productList: [...state.productList, newProduct],

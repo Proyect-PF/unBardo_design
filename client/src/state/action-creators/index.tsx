@@ -2,7 +2,7 @@ import { ActionType } from "../action-types";
 import { Dispatch } from "redux";
 import { Action } from "../actions";
 import axios from "axios";
-import { AddProductPayload, ProductState } from "../types";
+import { AddProductPayload, ProductState, Product } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -53,13 +53,12 @@ export const addProduct = (payload: AddProductPayload) => {
 //AL: this actions searchs specific products by id in the database
 export const getProductDetails = (id: number) => {
   return (dispatch: Dispatch<Action>) => {
-    let product = {
+    let product: Product = {
       id: -1,
       name: "error",
       description: "",
       size: "",
       price: 0,
-      image: "",
       show_in_shop: "",
     };
     axios.get(`http://localhost:3700/products?id=${id}`).then((res) => {
@@ -70,7 +69,6 @@ export const getProductDetails = (id: number) => {
           description: res.data.description,
           size: res.data.size,
           price: res.data.price,
-          image: "",
           show_in_shop: "",
         };
       }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import outIcon from "../../assets/svg/out-session.svg";
+import outIcon from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 import Input from "../Inputs/Input";
 
@@ -80,7 +81,6 @@ const ProductForm: React.FC = () => {
       description: formData.description,
       size: formData.sizes,
       price: Number(formData.price),
-      image: "",
       show_in_shop: "true",
     });
     console.log(formData);
@@ -112,19 +112,19 @@ const ProductForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex-col items-center justify-start max-w-sm py-4  bg-white"
+      className="flex-col items-center justify-start max-w-sm py-4 bg-white"
     >
       <div>
         <div className="inline-flex items-start justify-start w-full px-4 bg-white">
           {/* TITULO */}
           <div className="">
-            <div className="inline-flex items-start justify-between w-full">
+            <div className="inline-flex items-center justify-between w-full">
               <p className="flex-1 h-full text-2xl font-bold leading-9 text-gray-900">
                 Crear producto
               </p>
-              <a href="http://localhost:3000/">
-                <img className="w-8 h-8 rounded-lg" src={outIcon} />
-              </a>
+              <Link to="/">
+                <img className="w-5 h-5" src={outIcon} />
+              </Link>
             </div>
 
             {/* SE ENVIA NAME: TITLE */}
@@ -140,24 +140,24 @@ const ProductForm: React.FC = () => {
                     name="title"
                     value={formData.title}
                     onChange={handleChange}
+                    className=""
                   />
                 </div>
               </div>
             </div>
 
             {/* SE ENVIA NAME: DESCRIPTION */}
-            <div className="text-left text-align: left ">
+            <div className="flex flex-col gap-2 text-left">
               Descripcion
-              <div className="inline-flex items-start justify-start w-full px-1 ">
-                <Input
-                  id="description"
-                  name="description"
-                  type="textarea"
-                  placeholder="Ingrese descripcion"
-                  value={formData.description}
-                  onChange={handleChange}
-                />
-              </div>
+              <Input
+                id="description"
+                name="description"
+                type="textarea"
+                placeholder="Ingrese descripcion"
+                value={formData.description}
+                onChange={handleChange}
+                className="h-40"
+              />
             </div>
 
             {/* SE ENVIA NAME: COLOR */}
@@ -234,6 +234,7 @@ const ProductForm: React.FC = () => {
                   value={formData.price}
                   placeholder="$$$"
                   onChange={handleChange}
+                  className=""
                 />
               </div>
             </div>

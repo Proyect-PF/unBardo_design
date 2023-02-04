@@ -1,8 +1,8 @@
 import { ActionType } from "../action-types";
 import { Dispatch } from "redux";
-import { Action, AddProductPayload } from "../actions";
+import { Action } from "../actions";
 import axios from "axios";
-import { ProductState } from "../reducers/productReducer";
+import { AddProductPayload, ProductState } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -11,18 +11,7 @@ export const getAllProducts = () => {
   return (dispatch: Dispatch<Action>) => {
     let payload: ProductState["productList"] = [];
     axios.get("http://localhost:3700/products").then((res) => {
-      res.data.forEach((e: any) => {
-        //AL: this properties needs to be revisited for implementation of the blank strings
-        payload.push({
-          id: e.id,
-          name: e.name,
-          description: e.description,
-          size: e.size,
-          price: e.price,
-          image: "",
-          show_in_shop: "",
-        });
-      });
+      payload = res.data;
       dispatch({
         type: ActionType.GET_ALL_PRODUCTS,
         payload,
@@ -36,18 +25,7 @@ export const searchProducts = (name: string) => {
   return (dispatch: Dispatch<Action>) => {
     let payload: ProductState["productList"] = [];
     axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
-      res.data.forEach((e: any) => {
-        //AL: this properties needs to be revisited for implementation of the blank strings
-        payload.push({
-          id: e.id,
-          name: e.name,
-          description: e.description,
-          size: e.size,
-          price: e.price,
-          image: "",
-          show_in_shop: "",
-        });
-      });
+      payload = res.data;
       dispatch({
         type: ActionType.SEARCH_PRODUCTS,
         payload,

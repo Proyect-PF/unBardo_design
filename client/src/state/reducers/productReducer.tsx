@@ -1,39 +1,7 @@
 import { Action } from "../actions";
 import { ActionType } from "../action-types";
 import axios from "axios";
-
-//AL: States Type need to be defined, all properties used & future implemented needs
-//  to be defined here first.
-export type ProductState = {
-  productTotal: {
-    id: number;
-    name: string;
-    description: string;
-    size: string;
-    price: number;
-    image: string;
-    show_in_shop: string;
-  }[];
-  productList: {
-    id: number;
-    name: string;
-    description: string;
-    size: string;
-    price: number;
-    image: string;
-    show_in_shop: string;
-  }[];
-  productDetails: {
-    id: number;
-    name: string;
-    description: string;
-    size: string;
-    price: number;
-    image: string;
-    show_in_shop: string;
-  };
-  render: boolean;
-};
+import { ProductState } from "../types";
 
 //AL: initialState first defining, needs to match the type defined.
 const initialState: ProductState = {
@@ -46,7 +14,6 @@ const initialState: ProductState = {
     description: "",
     size: "",
     price: 0,
-    image: "",
     show_in_shop: "",
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)

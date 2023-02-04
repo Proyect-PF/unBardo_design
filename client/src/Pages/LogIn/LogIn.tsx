@@ -27,6 +27,7 @@ const LogIn = (): JSX.Element => {
         value={credentials.user}
         name="userLogin"
         onChange={handleChangeUser}
+        className=""
       />
       <p>Contraseña:</p>
       <Input
@@ -36,6 +37,7 @@ const LogIn = (): JSX.Element => {
         placeholder="Password..."
         name="passwordLogin"
         onChange={handleChangePw}
+        className=""
       />
       <Button name="LogIn" text="Iniciar Sesion" onClick={handleClick} />
     </div>

@@ -1,6 +1,5 @@
 import React from "react";
 
-
 interface Props {
   id: string;
   type: string;
@@ -9,9 +8,18 @@ interface Props {
   name: string;
   onChange: any;
   value: any;
+  className: string;
 }
 
-const Input = ({ id, value, type, placeholder, name, onChange }: Props) => {
+const Input = ({
+  id,
+  value,
+  type,
+  placeholder,
+  name,
+  onChange,
+  className,
+}: Props) => {
   return (
     <div>
       <input
@@ -21,12 +29,11 @@ const Input = ({ id, value, type, placeholder, name, onChange }: Props) => {
         placeholder={placeholder}
         // value={value}
         onChange={onChange}
-        className="w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50"
+        className={`w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50 ${className}`}
         name={name}
       />
     </div>
   );
 };
-
 
 export default Input;

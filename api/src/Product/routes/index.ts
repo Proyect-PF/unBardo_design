@@ -18,4 +18,10 @@ productRoutes.post("/", postProduct);
 
 productRoutes.get("/search/:search", searchProduct);
 
+productRoutes.get("/filterColor/:colour", searchProduct);
+
+
+
+
+
 export default productRoutes;

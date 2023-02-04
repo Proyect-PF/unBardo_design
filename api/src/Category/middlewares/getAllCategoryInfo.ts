@@ -1,5 +1,6 @@
 import instanceOfCategory from "..";
 
+
 const getAllProductsInfo = async () => {
     try {
         const allCategory = instanceOfCategory.findAll();

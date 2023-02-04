@@ -24,11 +24,7 @@ interface PorductAttributes {
 export default (sequelize:any, DataTypes:any) => {
   //class Product extends Model implements Model<PorductAttributes>{
     class Product extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+
     id!: number;
     name!: string;
     description!: Text;
@@ -46,12 +42,7 @@ export default (sequelize:any, DataTypes:any) => {
     barcode!: string;
 
     static associate(models:any) {
-      // define association here
-      models.Product.hasMany(models.OrderDetail, { foreignKey: 'productId' });
-      models.Product.hasMany(models.Image, { foreignKey: 'productId' });
-      models.Product.hasMany(models.ProductRating, { foreignKey: 'productId' });
-      models.Product.hasMany(models.ProductCategory, { foreignKey: 'productId' });
-      models.Product.hasMany(models.ProductColour, { foreignKey: 'productId' });
+
     }
   }
   Product.init({
@@ -60,6 +51,13 @@ export default (sequelize:any, DataTypes:any) => {
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
+    },
+    colour: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    image_url: {
+      type: DataTypes.STRING
     },
     name: {
       type: DataTypes.STRING,

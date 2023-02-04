@@ -27,6 +27,29 @@ export const getAllProducts = () => {
   };
 };
 
+export const searchProducts = (name: string) => {
+  return (dispatch: Dispatch<Action>) => {
+    let payload: ProductState["productList"] = [];
+    axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
+      res.data.forEach((e: any) => {
+        payload.push({
+          id: e.id,
+          name: e.name,
+          description: e.description,
+          size: e.size,
+          price: e.price,
+          image: "",
+          show_in_shop: "",
+        });
+      });
+      dispatch({
+        type: ActionType.SEARCH_PRODUCTS,
+        payload,
+      });
+    });
+  };
+};
+
 export const addProduct = (payload: AddProductPayload) => {
   return (dispatch: Dispatch<Action>) => {
     axios({
@@ -46,7 +69,7 @@ export const getProductDetails = (id: number) => {
   return (dispatch: Dispatch<Action>) => {
     let product = {
       id: -1,
-      name: "id malo",
+      name: "id error",
       description: "",
       size: "",
       price: 0,

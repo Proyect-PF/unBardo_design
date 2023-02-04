@@ -32,11 +32,17 @@ interface GetProductDetails {
   };
 }
 
+interface SearchProducts {
+  type: ActionType.SEARCH_PRODUCTS;
+  payload: any;
+}
+
 export type Action =
   | GetAllAction
   | AddProduct
   | UpdateRender
-  | GetProductDetails;
+  | GetProductDetails
+  | SearchProducts;
 
 export type AddProductPayload = {
   name: string;

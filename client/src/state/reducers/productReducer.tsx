@@ -3,6 +3,15 @@ import { ActionType } from "../action-types";
 import axios from "axios";
 
 export type ProductState = {
+  productTotal: {
+    id: number;
+    name: string;
+    description: string;
+    size: string;
+    price: number;
+    image: string;
+    show_in_shop: string;
+  }[];
   productList: {
     id: number;
     name: string;
@@ -25,9 +34,10 @@ export type ProductState = {
 };
 
 const initialState: ProductState = {
+  productTotal: [],
   productList: [],
   productDetails: {
-    id: -1,
+    id: 0,
     name: "",
     description: "",
     size: "",
@@ -44,7 +54,15 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
       let products: ProductState["productList"] = action.payload;
       return {
         ...state,
+        productTotal: products,
         productList: products,
+      };
+    case ActionType.SEARCH_PRODUCTS:
+      let productSearch: ProductState["productList"] = action.payload;
+      if (productSearch.length === 0) productSearch = state.productTotal;
+      return {
+        ...state,
+        productList: productSearch,
       };
     case ActionType.ADD_PRODUCT:
       const newProduct = { ...action.payload, id: state.productList.length };

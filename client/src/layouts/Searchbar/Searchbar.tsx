@@ -1,42 +1,80 @@
 import searchIcon from "../../assets/svg/search.svg";
 import comeBack from "../../assets/svg/come-back.svg";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../state";
+import Dropdown from "../../components/DropDowns/dropdown";
 
-interface Props{
-    openClose: boolean
-    handleSearch: any
+interface Props {
+  openClose: boolean;
+  handleSearch: any;
 }
 
-const Searchbar = ({openClose, handleSearch}: Props) => {
-    const [input, setInput] = useState("")
+const Searchbar = ({ openClose, handleSearch }: Props) => {
+  const dispatch = useDispatch();
+  const { searchProducts } = bindActionCreators(actionCreators, dispatch);
 
-    let style:string;
-    if(openClose) style = "right-full"
-    else{
-        style = ""
-    }
+  const [input, setInput] = useState("");
+  const [showFilter, setShowFilters] = useState(false);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(e.target.value)
-    }
+  let style: string;
+  if (openClose) style = "right-full";
+  else {
+    style = "";
+  }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        setInput("")
-        window.alert(`buscaste ${input}`)
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    searchProducts(e.target.value);
+  };
 
-    return (
-        <div className={`flex fixed ${style} bg-white w-full min-h-screen z-40`}>
-            <div className="flex w-full h-14 justify-between border-b border-gray-300">
-                <button onClick={handleSearch} className="px-5"><img src={comeBack} alt="icono" className="h-5" /></button>
-                <form onSubmit={handleSubmit} className="flex w-full">
-                    <input onChange={handleChange} value={input} type="search" placeholder="Buscar" className="h-13 w-full bg-white focus:outline-0"/>
-                    <button type="submit"><img src={searchIcon} alt="iconSea" className="h-10 px-5" /></button>
-                </form>
-            </div>
-        </div>
-    )
-}
+  const handleShowFilters = () => {
+    showFilter ? setShowFilters(false) : setShowFilters(true);
+  };
 
-export default Searchbar
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    alert("epa");
+    setInput("");
+  };
+
+  return (
+    <div className={`flex flex-col fixed ${style} bg-white w-full  z-40`}>
+      <div className="flex justify-between w-full h-16 border-b border-gray-300">
+        <button onClick={handleSearch} className="px-5">
+          <img src={comeBack} alt="icono" className="h-5" />
+        </button>
+        <form onSubmit={handleSubmit} className="flex w-full">
+          <input
+            onChange={handleChange}
+            value={input}
+            type="search"
+            placeholder="Buscar"
+            className="w-full bg-white h-13 focus:outline-0"
+          />
+          {/* <button type="submit">
+            <img src={searchIcon} alt="iconSea" className="h-10 px-5" />
+          </button> */}
+          <button
+            type="button"
+            onClick={handleShowFilters}
+            className={`px-5 ${!showFilter ? "-rotate-90" : "rotate-90"}`}
+          >
+            <img src={comeBack} alt="icono" className="h-5" />
+          </button>
+        </form>
+      </div>
+      <div
+        className={` flex justify-around ${
+          !showFilter ? " hidden" : "visible"
+        }`}
+      >
+        <Dropdown type="filter" />
+        <Dropdown type="order" />
+      </div>
+    </div>
+  );
+};
+
+export default Searchbar;

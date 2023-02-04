@@ -87,7 +87,10 @@ const Details = (): JSX.Element => {
             <p className="my-2 text-lg font-bold ">{`$ ${productDetails.price}`}</p>
           </div>
           <div className="flex justify-between my-8 text-lg text-center">
-            <SizeSelector sizes={[productDetails.size]} setter={setSize} />
+            <SizeSelector
+              sizes={productDetails.size.split(",")}
+              setter={setSize}
+            />
             <AmountInput setter={setAmount} />
           </div>
           <Button

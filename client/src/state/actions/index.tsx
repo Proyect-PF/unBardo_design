@@ -1,4 +1,5 @@
 import { ActionType } from "../action-types";
+import { AddProductPayload, Product } from "../types";
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -6,7 +7,7 @@ import { ActionType } from "../action-types";
 
 interface GetAllAction {
   type: ActionType.GET_ALL_PRODUCTS;
-  payload: any;
+  payload: Product[];
 }
 interface UpdateRender {
   type: ActionType.UPDATE_RENDER;
@@ -14,31 +15,16 @@ interface UpdateRender {
 
 interface AddProduct {
   type: ActionType.ADD_PRODUCT;
-  payload: {
-    name: string;
-    description: string;
-    size: string;
-    price: number;
-    image: string;
-    show_in_shop: string;
-  };
+  payload: AddProductPayload;
 }
 interface GetProductDetails {
   type: ActionType.GET_PRODUCT_DETAILS;
-  payload: {
-    id: number;
-    name: string;
-    description: string;
-    size: string;
-    price: number;
-    image: string;
-    show_in_shop: string;
-  };
+  payload: Product;
 }
 
 interface SearchProducts {
   type: ActionType.SEARCH_PRODUCTS;
-  payload: any;
+  payload: Product[];
 }
 
 //AL: once you created the needed interface add it here with |
@@ -48,12 +34,3 @@ export type Action =
   | UpdateRender
   | GetProductDetails
   | SearchProducts;
-
-export type AddProductPayload = {
-  name: string;
-  description: string;
-  size: string;
-  price: number;
-  image: string;
-  show_in_shop: string;
-};

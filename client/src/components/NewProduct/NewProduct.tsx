@@ -80,7 +80,6 @@ const ProductForm: React.FC = () => {
       description: formData.description,
       size: formData.sizes,
       price: Number(formData.price),
-      image: "",
       show_in_shop: "true",
     });
     console.log(formData);
@@ -112,7 +111,7 @@ const ProductForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex-col items-center justify-start max-w-sm py-4  bg-white"
+      className="flex-col items-center justify-start max-w-sm py-4 bg-white"
     >
       <div>
         <div className="inline-flex items-start justify-start w-full px-4 bg-white">

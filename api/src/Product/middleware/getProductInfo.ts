@@ -3,10 +3,17 @@ import db from "../../models";
 
 const getProductInfo = async (id: any): Promise<any> => {
     try {
-        const infoProduct = await db.Product.findByPk(id);
+        const infoProduct = await db.Product.findOne({
+            where: {
+                id
+            },
+            attributes: {
+              exclude: ['promotional_price', 'video', 'stock', , 'height', 'weight', 'width', 'length', 'SKU', 'barcode', 'createdAt', 'updatedAt', 'adminId', 'categoryId']
+            }
+        });
         return infoProduct;
-    } catch (error: unknown) {
-        throw new Error("No es posible obtener el producto");
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 }
 

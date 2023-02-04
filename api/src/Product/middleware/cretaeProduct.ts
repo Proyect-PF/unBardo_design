@@ -20,8 +20,8 @@ const createProduct = async (product: productType): Promise<any> => {
     try {
         const newProduct = await db.Product.create(product);
         return newProduct;
-    } catch (error: unknown) {
-        throw new Error("No es posible crear el producto");
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 }
 

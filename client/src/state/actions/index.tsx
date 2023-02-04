@@ -1,5 +1,9 @@
 import { ActionType } from "../action-types";
 
+//AL: IMPORTANT!!!!
+// all actions needs an interface, also be added to the Action type.
+//define your interfaces here. (check below for action Type)
+
 interface GetAllAction {
   type: ActionType.GET_ALL_PRODUCTS;
   payload: any;
@@ -37,6 +41,7 @@ interface SearchProducts {
   payload: any;
 }
 
+//AL: once you created the needed interface add it here with |
 export type Action =
   | GetAllAction
   | AddProduct

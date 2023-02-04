@@ -5,6 +5,9 @@ interface Props {
 }
 
 const Button = ({ text, name, onClick }: Props): JSX.Element => {
+  //AL: consumes all the data from props, the function of this button will be determined
+  // by the onCLick prop
+
   return (
     <div className="flex justify-center">
       <button

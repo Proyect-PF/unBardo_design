@@ -1,3 +1,5 @@
+//AL: Define your actionType here
+
 export enum ActionType {
   GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS",
   ADD_PRODUCT = "ADD_PRODUCT",

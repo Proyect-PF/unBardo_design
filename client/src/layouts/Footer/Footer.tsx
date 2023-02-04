@@ -7,7 +7,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div className=" font-mono flex flex-col items-start border-t-2 mt-14">
+    <div className="  flex flex-col items-start border-t-2 mt-14">
       <div className="flex flex-col gap-4 m-5 uppercase">
         <p className="text-lg font-bold">Contacto</p>
         <div className="flex flex-col gap-2 text-sm font-semibold">

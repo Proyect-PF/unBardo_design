@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser"
 import morgan from "morgan";
 // import routes from "./routes"
-import db from "./models";
+
 
 const app = express()
 

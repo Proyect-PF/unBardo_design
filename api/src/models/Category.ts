@@ -11,9 +11,7 @@ export default (sequelize:any, DataTypes:any) => {
         name!: string;
             
         static associate(models:any) {
-        // define association here
-            models.Category.hasMany(models.Product, { foreignKey: 'categoryId' });
-            models.Category.hasMany(models.ProductCategory, { foreignKey: 'categoryId' });
+            
         }
 
     }

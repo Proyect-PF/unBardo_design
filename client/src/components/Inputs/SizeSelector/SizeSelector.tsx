@@ -6,8 +6,11 @@ interface Props {
 }
 
 const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
+  //AL: selected state for visual changes in the component, the value passed
+  //to the invoking is manneged by the "setter" function
   const [selected, setSelected] = useState("");
 
+  //AL: this functions manages the selected state & setting the value for the invoking page
   const handleSize = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;
@@ -16,7 +19,7 @@ const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
   };
 
   return (
-    <div className="flex gap-4 my-4  text-lg font-bold text-center">
+    <div className="flex gap-4 my-4 text-lg font-bold text-center">
       {sizes &&
         sizes.map((e) => (
           <button

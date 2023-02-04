@@ -5,8 +5,11 @@ interface Props {
 }
 
 const AmountInput = ({ setter }: Props): JSX.Element => {
+  //AL: amount state for visual changes in the component, the value passed
+  //to the invoking is manneged by the "setter" function
   const [amount, setAmount] = useState(1);
 
+  //AL: this functions manages the amount state & setting the value for the invoking page
   const handleAmount = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;

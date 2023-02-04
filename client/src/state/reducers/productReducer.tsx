@@ -2,6 +2,8 @@ import { Action } from "../actions";
 import { ActionType } from "../action-types";
 import axios from "axios";
 
+//AL: States Type need to be defined, all properties used & future implemented needs
+//  to be defined here first.
 export type ProductState = {
   productTotal: {
     id: number;
@@ -33,9 +35,11 @@ export type ProductState = {
   render: boolean;
 };
 
+//AL: initialState first defining, needs to match the type defined.
 const initialState: ProductState = {
-  productTotal: [],
-  productList: [],
+  productTotal: [], //AL:use this state for backup, if needs to retrieve total info for filtering/ordering/etc
+  productList: [], //AL:this state is the one being rendered in the page
+  //AL: this state is for information rendered in the details page of specific items
   productDetails: {
     id: 0,
     name: "",
@@ -45,6 +49,7 @@ const initialState: ProductState = {
     image: "",
     show_in_shop: "",
   },
+  //AL:this state is for future implementations (you can trigger a change here to force re-render)
   render: true,
 };
 

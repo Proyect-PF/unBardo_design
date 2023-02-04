@@ -14,32 +14,39 @@ const Details = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { getProductDetails } = bindActionCreators(actionCreators, dispatch);
-
-  const idS = location.pathname.split("/")[2]; //retrieve the id from the url
-  const id = Number(idS);
-  const { productDetails, render } = useSelector(
-    (state: State) => state.products
-  );
-
+  const { productDetails } = useSelector((state: State) => state.products);
+  //AL: loading state for loading implementation (done)
   const [loading, setLoading] = useState(true);
-
+  //AL: show state for changing between front / back image of the product (functional but
+  // needs to be rewired to future implementation)
   const [show, setShow] = useState(false);
+  //AL: size / amount state retrieve the selection for future add to cart implementation
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState("");
 
+  //AL:retrieve the id from the url & transform to number to match type
+  const idS = location.pathname.split("/")[2];
+  const id = Number(idS);
+
+  //AL:Same loading implementation as HOME page
   useEffect(() => {
     setLoading(true);
     getProductDetails(id);
   }, [dispatch]);
 
+  //AL: Check if the data is correct (see getProductDetails action for context), needs to be rewired
+  //  but functional for now.
   useEffect(() => {
-    if (productDetails.id !== -1) setLoading(false);
+    setLoading(true);
+    if (productDetails.name !== "error") setLoading(false);
   }, [productDetails]);
 
-  const handleShow = (): void => {
-    show ? setShow(false) : setShow(true);
-  };
+  //AL: this function controll the  show state (see states for context)
+  // const handleShow = (): void => {
+  //   show ? setShow(false) : setShow(true);
+  // };
 
+  //AL: this function manages the add to cart functionality, needs to be implemented
   const handleCart = () => {
     if (amount && size) alert(size + " " + amount);
   };

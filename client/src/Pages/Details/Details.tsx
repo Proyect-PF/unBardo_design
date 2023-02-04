@@ -79,16 +79,17 @@ const Details = (): JSX.Element => {
           onClick={handleShow}
         /> */}
         </div>
-        <div className="mx-auto w-fit md:h-1/2 md:flex md:flex-col md:justify-between md:mt-8">
+        <div className="w-4/5 mx-auto md:h-1/2 md:flex md:flex-col md:justify-between md:mt-8">
           <div>
             <p className="mt-4 text-lg font-bold text-center ">
               {productDetails.name}
             </p>
             <p className="my-2 text-lg font-bold ">{`$ ${productDetails.price}`}</p>
+            <p className="my-2 font-medium">{`${productDetails.description}`}</p>
           </div>
           <div className="flex justify-between my-8 text-lg text-center">
             <SizeSelector
-              sizes={productDetails.size.split(",")}
+              sizes={productDetails.size.toUpperCase().split(",")}
               setter={setSize}
             />
             <AmountInput setter={setAmount} />

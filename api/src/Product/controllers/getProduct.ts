@@ -25,8 +25,8 @@ const getProduct = async (request:Request<RequestParams, ResponseBody, RequestBo
          const allProd = await getAllProductsInfo();
          return response.status(200).json(allProd)
       }
-   } catch (error) {
-      return response.status(400).json(error)
+   } catch (error:any) {
+      return response.status(400).json(error.message)
    }
 }
 

@@ -1,15 +1,12 @@
-const Sequelize = require('sequelize');
-import Orders from "../../models/Orders"
 import db from "../../models";
-
 
 const getOrders = async () => {
     try {
-        const orderInstance = await Orders(db.sequelize, Sequelize.DataTypes)
-        const allOrders = orderInstance.findAll()
+        const allOrders = await db.Orders.findAll()
+        if (!allOrders.length) throw new Error("No se encontraron ordenes en la base de datos")
         return allOrders;
-    } catch (error: unknown) {
-            throw new Error("No es posible obtener ordenes")
+    } catch (error: any) {
+        throw new Error(error.message)
     }
 }
 

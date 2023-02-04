@@ -10,7 +10,7 @@ const productRoutes = Router();
 
 productRoutes.delete('/', deleteProduct);
 
-productRoutes.put("/", putProduct);
+productRoutes.put("/",putProduct);
 
 productRoutes.get("/", getProduct);
 

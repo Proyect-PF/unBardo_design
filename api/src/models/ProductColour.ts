@@ -12,8 +12,6 @@ export default (sequelize: any, DataTypes: any) => {
 // define association her
             models.Users.hasMany(models.Orders, { foreignKey: 'userId' });
             models.Users.hasMany(models.ProductRating, { foreignKey: 'userId' });
-
-
         }
     }
     ProductColour.init({

@@ -5,10 +5,10 @@ const getOrder = async (request:Request, response:Response) => {
    
    try {
       const orders = await getOrders()
-      response.status(200).json(orders)
+      return response.status(200).json(orders)
       
    } catch (error:any) {
-      throw new Error(error.message)
+      return response.status(400).json(error.message)
    }
    
 }

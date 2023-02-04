@@ -8,8 +8,10 @@ module.exports = {
   host: process.env.DB_HOST || "localhost",
   dialect: "postgres",
   define: {
-    timestamps: true
-    
-  }
+    timestamps: true,
+
+  },
+  native: false,
+  logging:false
 }
 

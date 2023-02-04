@@ -6,8 +6,8 @@ const postAdmin = async (req: Request, res: Response) => {
         const adm = req.body
         const newAdmin = await createAdmin(adm)
         return res.status(200).json(newAdmin)
-    } catch (error) {
-        res.status(401).json(error)
+    } catch (error:any) {
+        res.status(401).json(error.message)
     }
 }
 

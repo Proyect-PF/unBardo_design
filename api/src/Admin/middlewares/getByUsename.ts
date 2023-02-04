@@ -1,12 +1,12 @@
-import instanceOfAdmin from "..";
+import db from "../../models"
+
 
 
 const getByUsername = async (username:string):Promise<any>=> {
     try {
-        const adminByUsername = await instanceOfAdmin.findOne({where: {
+        return await db.Admin.findOne({where: {
             username
         }})
-        return adminByUsername
     } catch (error:any) {
         throw new Error(error.message)
     }

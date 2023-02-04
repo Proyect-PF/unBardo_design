@@ -14,6 +14,9 @@ let sequelize:any;
 
 sequelize = new Sequelize(config.database, config.username, config.password, config);
 
+sequelize.authenticate()
+.then(()=>console.log('Conection to Database'))
+.catch((err:any)=> console.error("Unable to connect to the database:", err))
 
 fs
   .readdirSync(__dirname)
@@ -56,6 +59,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+console.log(db)
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

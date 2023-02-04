@@ -7,7 +7,7 @@ const searchByName = async (search: string) => {
     try {
         const searchProduct = instanceOfProd.findAll({
             where: {
-                name: { [Op.like]: `%${search}%`}
+                name: { [Op.iLike]: `%${search}%`}
             }
         });
         return searchProduct;

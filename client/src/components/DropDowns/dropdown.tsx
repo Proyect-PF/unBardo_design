@@ -11,7 +11,7 @@ interface Query {
 
 const INITIAL_STATE = {
   byColor: "all",
-  byOrder: "DESC",
+  byOrder: "desc",
 }
 
 const Dropdown = (): JSX.Element => {
@@ -47,8 +47,8 @@ const Dropdown = (): JSX.Element => {
         className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
           show ? "visible" : "hidden"
         }`}
-        id="filt"
-        name="filters"
+        id="byColor"
+        name="byColor"
         value={Query.byColor}
         onChange={handleChange}
       >
@@ -63,8 +63,8 @@ const Dropdown = (): JSX.Element => {
         className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
           show ? "visible" : "hidden"
         }`}
-        id="ord"
-        name="order"
+        id="byOrder"
+        name="byOrder"
         value={Query.byOrder}
         onChange={handleChange}
       >

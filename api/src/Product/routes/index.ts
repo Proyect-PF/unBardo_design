@@ -6,6 +6,7 @@ import filterByCategories from '../controllers/filterByCategories.controller';
 import filterByColors from '../controllers/filterByColors';
 import getImages from '../controllers/getImages';
 import getProduct from '../controllers/getProduct';
+import getVariants from "../controllers/getVariants";
 import orderByPrice from '../controllers/orderByPrice';
 import postImage from '../controllers/postImage';
 import postProduct from '../controllers/postProduct';
@@ -13,7 +14,6 @@ import putProduct from '../controllers/putProductr';
 import searchProduct from '../controllers/searchProduct';
 import updateImage from '../controllers/updateImage';
 import validateImageId from '../middleware/validateImageId';
-import getVariants from "../controllers/getVariants";
 const productRoutes = Router();
 
 
@@ -32,7 +32,7 @@ productRoutes.get("/variants/:id", getVariants);
 
 
 
-// productRoutes.get("/", getProduct);
+ productRoutes.get("/", getProduct);
 //productRoutes.get("/price/:price", orderByPrice);
 //productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
 

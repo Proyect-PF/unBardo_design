@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
@@ -11,6 +11,7 @@ import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
   const [inputValues, dispatch] = useNewProductForm();
+  const [disabled, setDisabled] = useState(false);
 
   const { adminLogin } = useSelector((state: State) => state.user);
   const navigate = useNavigate();
@@ -20,7 +21,8 @@ const ProductForm: React.FC = () => {
 
   useEffect(() => {
     !adminLogin && navigate("/");
-  }, []);
+    setDisabled(allFieldsFilled());
+  }, [inputValues]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -74,11 +76,11 @@ const ProductForm: React.FC = () => {
     }
   };
 
-  const allFieldsFilled = () =>
+  const allFieldsFilled = (): boolean =>
     Object.values(inputValues).every((value) => value !== "");
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form id="formProd" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-4 mx-8 my-6">
         {/* TITULO */}
         <div className="flex items-center justify-between pr-3">
@@ -105,7 +107,7 @@ const ProductForm: React.FC = () => {
         {/* SE ENVIA NAME: DESCRIPTION */}
         <div>
           <p className="text-xl font-medium ">Descripcion:</p>
-          <Input
+          {/* <Input
             id="description"
             name="description"
             type="textarea"
@@ -113,7 +115,15 @@ const ProductForm: React.FC = () => {
             value={inputValues.description}
             onChange={handleChange}
             className="h-40 pt-0 italic font-poppins"
-          />
+          /> */}
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Descripcion..."
+            value={inputValues.description}
+            onChange={handleChange}
+            className="w-full h-40 pt-0 pl-3 italic border border-gray-300 rounded-md font-poppins text-align: first bg-gray-50"
+          ></textarea>
         </div>
 
         {/* SE ENVIA NAME: COLOR */}
@@ -255,8 +265,8 @@ const ProductForm: React.FC = () => {
         <Button
           text="Crear Publicación"
           name="CreateProduct"
-          onClick={handleSubmit}
-          disabled={!inputValues}
+          onClick={() => {}}
+          disabled={!disabled}
         />
       </div>
     </form>

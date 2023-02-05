@@ -40,6 +40,8 @@ export default (sequelize:any, DataTypes:any) => {
     length!: number;
     SKU!: string;
     barcode!: string;
+    id_category!:number;
+
 
       static associate(models: any) {
         Product.hasMany(models.Image, {
@@ -47,6 +49,7 @@ export default (sequelize:any, DataTypes:any) => {
           as: 'images',
         });
       }
+
 
     }
   Product.init({
@@ -79,8 +82,10 @@ export default (sequelize:any, DataTypes:any) => {
     },
     show_in_shop: {
       //type: Sequelize.ENUM("si", "no"),
+
       type: DataTypes.STRING,
       // allowNull: false,
+
       //defaultValue: "no"
     },
     price: {

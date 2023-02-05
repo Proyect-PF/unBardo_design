@@ -1,56 +1,45 @@
-import React, { useState } from "react";
-import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import outIcon from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 import Input from "../Inputs/Input";
-
-
-import { Product } from "../../state/types";
-
-interface FormState {
-  inputValues:  Product
-}
-
+import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
+  const [inputValues, dispatch] = useNewProductForm();
 
-  // En el parent de app podriamos preparar los dispatcher y directamente pasar por props la funcion addProduct por ej
-  // para evitar sobreimportanciones en cada componente
-  let dispatch = useDispatch();
-  let { addProduct } = bindActionCreators(actionCreators, dispatch);
-  let navigate = useNavigate();
+  const dispatcher = useDispatch()
+  let { addProduct } = bindActionCreators(actionCreators, dispatcher);
 
-  const [inputValues, setinputValues] = useState<FormState["inputValues"]>({
-    name: "",
-    description: "",
-    price: 0,
-    size: "",
-    color: "",
-    show_in_shop: "",
-    image: new File([], ""),
-  });
 
-  
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addProduct(inputValues)
-    navigate('/');
-    console.log(inputValues);
+    addProduct(inputValues);
+    dispatch({ type: "clear" });
   };
 
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = event.target;
+    dispatch({
+      type: "change_value",
+      payload: {
+        inputName: name,
+        inputValue: value,
+      },
+    });
+  };
+
+  const handleClear = () => {
+    dispatch({ type: "clear" });
+  };
 
   const allFieldsFilled = () =>
-  Object.values(inputValues).every((value) => value !== "");
-  
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>)  => {
-    setinputValues({ ...inputValues, [event.target.name]: event.target.value });
-  };
- 
-
+    Object.values(inputValues).every((value) => value !== "");
 
   return (
     <form
@@ -100,8 +89,6 @@ const ProductForm: React.FC = () => {
                 onChange={handleChange}
                 className="h-40"
               />
-
-              
             </div>
 
             {/* SE ENVIA NAME: COLOR */}
@@ -202,6 +189,15 @@ const ProductForm: React.FC = () => {
                   <option value="false">No</option>
                 </select>
               </div>
+            </div>
+
+            <div className="inline-flex items-center justify-center px-5 py-3 border border-gray-900 w-80">
+              <p className="text-base font-medium leading-normal text-gray-900">
+                <button type="button" onSubmit={handleClear}>
+                  {" "}
+                  Limpiar formulario
+                </button>
+              </p>
             </div>
 
             <div className="inline-flex items-center justify-center px-5 py-3 border border-gray-900 w-80">

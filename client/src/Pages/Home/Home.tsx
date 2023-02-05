@@ -55,7 +55,7 @@ const Home = () => {
                   imageB={imageB}
                   imageF={imageF}
                   name={e.name}
-                  id={e.id}
+                  id={Number(e.id)}
                 />
               )
             )}

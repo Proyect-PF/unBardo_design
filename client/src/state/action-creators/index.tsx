@@ -35,7 +35,7 @@ export const searchProducts = (name: string) => {
 };
 
 //AL: this actions post a created product in the database
-export const addProduct = (payload: AddProductPayload) => {
+export const addProduct = (payload: Product) => {
   return (dispatch: Dispatch<Action>) => {
     axios({
       method: "post",

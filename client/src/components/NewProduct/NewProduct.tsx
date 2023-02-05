@@ -1,114 +1,68 @@
 import React, { useState } from "react";
+import ImageUploading, { ImageListType } from "react-images-uploading";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import outIcon from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 import Input from "../Inputs/Input";
 
-interface FormData {
-  title: string;
-  description: string;
-  price: string;
-  sizes: string;
-  color: string;
-  inStock: string;
-  image: File;
+
+import { Product } from "../../state/types";
+
+interface FormState {
+  inputValues:  Product
 }
 
-const ProductForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const { addProduct } = bindActionCreators(actionCreators, dispatch);
 
-  const [formData, setFormData] = useState<FormData>({
-    title: "",
+const ProductForm: React.FC = () => {
+  let dispatch = useDispatch();
+  let { addProduct } = bindActionCreators(actionCreators, dispatch);
+  let navigate = useNavigate();
+
+  const [inputValues, setinputValues] = useState<FormState["inputValues"]>({
+    name: "",
     description: "",
-    price: "",
-    sizes: "",
+    price: 0,
+    size: "",
     color: "",
-    inStock: "",
+    show_in_shop: "",
     image: new File([], ""),
   });
 
-  {
-    /* ESTADO ERROR */
-  }
-  const [errors, setErrors] = useState({
-    title: "",
-    description: "",
-    sizes: "",
-    color: "",
-    price: "",
-    image: "",
-    inStock: "",
-  });
 
-  {
-    /* VARIABLE PARA CHECKEAR QUE EL ESTADO NO ESTE VACIO */
-  }
   const isFormValid =
-    formData.title &&
-    formData.description &&
-    formData.sizes &&
-    formData.color &&
-    formData.price &&
-    formData.image &&
-    !Object.values(errors).some((error) => error !== "");
+  inputValues.name &&
+  inputValues.description &&
+  inputValues.size &&
+  inputValues.color &&
+  inputValues.price &&
+  inputValues.image &&
+  !Object.values(Error).some((error) => error !== "");
 
-  // interface FormData {
-  //   title: string;
-  //   description: string;
-  //   price: string;
-  //   sizes: string;
-  //   color: string;
-  //   inStock: string;
-  //   image: File;
-  // }
-
-  {
-    /* MANEJADORES DE EVENTO */
-  }
-
-  {
-    /* EVENTO PARA EL SUBMIT DEL FORM */
-  }
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     // Hacer lamada a la api
     addProduct({
-      name: formData.title,
-      description: formData.description,
-      size: formData.sizes,
-      price: Number(formData.price),
-      color: formData.color,
-      show_in_shop: formData.inStock,
-    });
-    console.log(formData);
+      name: inputValues.name,
+      description: inputValues.description,
+      size: inputValues.size,
+      price: Number(inputValues.price),
+      color: inputValues.color,
+      image: inputValues.image,
+      show_in_shop: inputValues.show_in_shop,
+    })
+    
+    navigate('/');
+    console.log(inputValues);
   };
 
-  {
-    /* MANEJADOR CAMBIO DE VALUES INPUT */
-  }
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>)  => {
+    setinputValues({ ...inputValues, [event.target.name]: event.target.value });
   };
+ 
 
-  {
-    /* MANEJADOR DE CAMBIO DE VALUES SELECT */
-  }
-  const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  {
-    /* MANEJADOR DE CAMBIO DE FILE INPUT IMAGE */
-  }
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, image: event.target.files![0] });
-  };
 
   return (
     <form
@@ -128,18 +82,17 @@ const ProductForm: React.FC = () => {
               </Link>
             </div>
 
-            {/* SE ENVIA NAME: TITLE */}
+            {/* SE ENVIA NAME: NAME */}
             <div className="text-left text-align: left ">
               Titulo
-              {errors.title && <p>{errors.title}</p>}
               <div className="inline-flex items-start justify-start w-full px-1 py-3 rounded-lg">
                 <div className="flex-1">
                   <Input
-                    id="title"
+                    id="name"
                     type="text"
                     placeholder="Ingrese Titulo"
-                    name="title"
-                    value={formData.title}
+                    name="name"
+                    value={inputValues.name}
                     onChange={handleChange}
                     className=""
                   />
@@ -148,17 +101,19 @@ const ProductForm: React.FC = () => {
             </div>
 
             {/* SE ENVIA NAME: DESCRIPTION */}
-            <div className="flex flex-col gap-2 text-left">
+            <div className="flex-inline">
               Descripcion
               <Input
                 id="description"
                 name="description"
                 type="textarea"
                 placeholder="Ingrese descripcion"
-                value={formData.description}
+                value={inputValues.description}
                 onChange={handleChange}
                 className="h-40"
               />
+
+              
             </div>
 
             {/* SE ENVIA NAME: COLOR */}
@@ -170,8 +125,8 @@ const ProductForm: React.FC = () => {
                   className="inline-flex items-start"
                   id="color"
                   name="color"
-                  value={formData.color}
-                  onChange={handleSelect}
+                  value={inputValues.color}
+                  onChange={handleChange}
                 >
                   <option value="" disabled hidden>
                     {" "}
@@ -191,8 +146,8 @@ const ProductForm: React.FC = () => {
                   <select
                     id="sizes"
                     name="sizes"
-                    value={formData.sizes}
-                    onChange={handleSelect}
+                    value={inputValues.size}
+                    onChange={handleChange}
                   >
                     <option value="" disabled hidden>
                       ELEGIR TALLE
@@ -218,7 +173,7 @@ const ProductForm: React.FC = () => {
                   id="image"
                   name="image"
                   type="file"
-                  onChange={handleFileChange}
+                  value={undefined}
                   multiple
                 ></input>
               </div>
@@ -231,8 +186,8 @@ const ProductForm: React.FC = () => {
                 <Input
                   id="price"
                   name="price"
-                  type="string"
-                  value={formData.price}
+                  type="number"
+                  value={inputValues.price}
                   placeholder="$$$"
                   onChange={handleChange}
                   className=""
@@ -247,10 +202,10 @@ const ProductForm: React.FC = () => {
                 En stock?:
                 <select
                   className="inline-flex items-start"
-                  id="inStock"
-                  name="inStock"
-                  value={formData.inStock}
-                  onChange={handleSelect}
+                  id="show_in_shop"
+                  name="show_in_shop"
+                  value={inputValues.show_in_shop}
+                  onChange={handleChange}
                 >
                   <option value="" disabled hidden>
                     ELEGIR OPCION
@@ -265,7 +220,7 @@ const ProductForm: React.FC = () => {
               <p className="text-base font-medium leading-normal text-gray-900">
                 <button
                   type="submit"
-                  disabled={!isFormValid}
+                  disabled={!inputValues}
                   style={{ opacity: isFormValid ? 1 : 0.5 }}
                 >
                   {" "}

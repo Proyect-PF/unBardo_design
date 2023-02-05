@@ -9,7 +9,6 @@ const getAllProductsInfo = async () => {
           "promotional_price",
           "video",
           "stock",
-          ,
           "height",
           "weight",
           "width",

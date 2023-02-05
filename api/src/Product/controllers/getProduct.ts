@@ -1,6 +1,6 @@
 import { Express, Request, Response } from "express";
-import getProductInfo from "../middleware/getProductInfo";
 import getAllProductsInfo from "../middleware/getAllProductsInfo";
+import getProductInfo from "../middleware/getProductInfo";
 
 interface RequestParams {}
 
@@ -12,7 +12,7 @@ interface RequestQuery {
   id: number;
 }
 
-const getProduct = async (request:Request<RequestParams, ResponseBody, RequestBody, RequestQuery>, response:Response) => {
+const getProduct = async (request:Request, response:Response) => {
    try {
       const {id} = request.query;
       if (id) {

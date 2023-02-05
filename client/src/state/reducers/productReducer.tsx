@@ -39,6 +39,13 @@ const productReducer = (
         ...state,
         productList: productSearch,
       };
+    case ActionType.FILTER_PRODUCTS:
+      let filteredProducts: ProductState["productList"] = action.payload
+      if (filteredProducts.length === 0) filteredProducts = state.productTotal;
+      return {
+        ...state,
+        productList: filteredProducts,
+      };
     case ActionType.ADD_PRODUCT:
       const newProduct: Product = {
         ...action.payload,
@@ -63,11 +70,7 @@ const productReducer = (
         ...state,
         productList: action.payload,
       };
-    case ActionType.FILTER_PRODUCTS:
-      return {
-        ...state,
-        productList: action.payload,
-      };
+    
     default:
       return {
         ...state,

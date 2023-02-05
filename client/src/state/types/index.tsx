@@ -18,11 +18,13 @@ export type AddProductPayload = {
   show_in_shop: string;
 };
 
-
-
 export type ProductState = {
   productTotal: Product[];
   productList: Product[];
   productDetails: Product;
   render: boolean;
+};
+
+export type UserState = {
+  adminLogin: boolean;
 };

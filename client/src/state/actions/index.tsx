@@ -38,7 +38,7 @@ interface FilterProducts {
 }
 
 //AL: once you created the needed interface add it here with |
-export type Action =
+export type ActionProducts =
   | GetAllAction
   | AddProduct
   | UpdateRender
@@ -46,3 +46,11 @@ export type Action =
   | SearchProducts
   | SortProducts
   | FilterProducts;
+
+//AL: Interfaces & types for USER STATE
+
+interface AdminLogin {
+  type: ActionType.ADMIN_LOGIN;
+}
+
+export type ActionUser = AdminLogin;

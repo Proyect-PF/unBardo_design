@@ -1,17 +1,24 @@
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import outIcon from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
+import { State } from "../../state/reducers";
 import Input from "../Inputs/Input";
 import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
   const [inputValues, dispatch] = useNewProductForm();
+  const { adminLogin } = useSelector((state: State) => state.user);
+  const navigate = useNavigate();
 
-  const dispatcher = useDispatch()
+  const dispatcher = useDispatch();
   let { addProduct } = bindActionCreators(actionCreators, dispatcher);
 
+  useEffect(() => {
+    !adminLogin && navigate("/");
+  }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

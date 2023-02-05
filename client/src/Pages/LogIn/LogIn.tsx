@@ -1,9 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { bindActionCreators } from "redux";
 import Button from "../../components/Buttons/Button/Button";
 import Input from "../../components/Inputs/Input";
+import { actionCreators } from "../../state";
 
 const LogIn = (): JSX.Element => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { adminLog } = bindActionCreators(actionCreators, dispatch);
+
   const [credentials, setCredentials] = useState({ user: "", pw: "" });
+  const admin = { user: "admin", pw: "admin" };
 
   const handleChangeUser = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCredentials({ ...credentials, user: event.target.value });
@@ -15,6 +24,13 @@ const LogIn = (): JSX.Element => {
 
   const handleClick = () => {
     console.log(credentials);
+    console.log(admin);
+    if (credentials.user === admin.user && credentials.pw === admin.pw) {
+      adminLog();
+      navigate("/");
+    } else {
+      alert("credenciales invalidas");
+    }
   };
 
   return (

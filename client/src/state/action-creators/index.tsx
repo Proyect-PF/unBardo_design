@@ -1,14 +1,14 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types";
-import { Action } from "../actions";
+import { ActionProducts, ActionUser } from "../actions";
 import { AddProductPayload, Product, ProductState } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
 //AL: this function fetch all products in the database
 export const getAllProducts = () => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios.get("http://localhost:3700/products").then((res) => {
       payload = res.data;
@@ -22,7 +22,7 @@ export const getAllProducts = () => {
 
 //AL: this actions searchs specific products by a string match in the database
 export const searchProducts = (name: string) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
       payload = res.data;
@@ -36,7 +36,7 @@ export const searchProducts = (name: string) => {
 
 //AL: this actions post a created product in the database
 export const addProduct = (payload: Product) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
     axios({
       method: "post",
       url: "http://localhost:3700/products",
@@ -52,7 +52,7 @@ export const addProduct = (payload: Product) => {
 
 //AL: this actions searchs specific products by id in the database
 export const getProductDetails = (id: number) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
     let product: Product = {
       id: -1,
       name: "error",
@@ -85,7 +85,7 @@ export const getProductDetails = (id: number) => {
 //AL: route needs to match http://localhost:3700/products/price/desc
 //so filter needs to be ["price","asc or desc"]
 export const sortProducts = (sort: string[]) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
       .get(`http://localhost:3700/products/${sort[0]}/${sort[1]}`)
@@ -104,7 +104,7 @@ export const sortProducts = (sort: string[]) => {
 //AL: route needs to match http://localhost:3700/products/filterColor/black
 //so filter needs to be ["filterColor","color that needs to be filtered"]
 export const filterProducts = (filter: string[]) => {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
       .get(`http://localhost:3700/products/${filter[0]}/${filter[1]}`)
@@ -117,5 +117,13 @@ export const filterProducts = (filter: string[]) => {
           });
         }
       });
+  };
+};
+
+export const adminLog = () => {
+  return (dispatch: Dispatch<ActionUser>) => {
+    dispatch({
+      type: ActionType.ADMIN_LOGIN,
+    });
   };
 };

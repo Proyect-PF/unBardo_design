@@ -58,6 +58,7 @@ const Checkout = (): JSX.Element => {
           return acc + e.ammount;
         }, 0)})`}
         onClick={handleCheckout}
+        disabled={false}
       />
     </div>
   );

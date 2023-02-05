@@ -57,7 +57,12 @@ const LogIn = (): JSX.Element => {
           className="font-poppins"
         />
       </div>
-      <Button name="LogIn" text="Iniciar Sesion" onClick={handleClick} />
+      <Button
+        name="LogIn"
+        text="Iniciar Sesion"
+        onClick={handleClick}
+        disabled={false}
+      />
     </div>
   );
 };

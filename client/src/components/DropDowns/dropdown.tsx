@@ -1,33 +1,32 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../state";
 import arrow from "../../assets/svg/come-back.svg";
+import { actionCreators } from "../../state";
+
+interface Query {
+  byColor: string,
+  byOrder: string,
+}
+
+const INITIAL_STATE = {
+  byColor: "all",
+  byOrder: "DESC",
+}
 
 const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { filterProducts, sortProducts } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
-  //AL: states for filter & orders, filter state has to be converted to array when more implemented
-  // for combined filters.
-  const [filters, setFilters] = useState("");
-  const [order, setOrder] = useState("");
+
   const [show, setShow] = useState(false);
+  const [Query, setQuery] = useState(INITIAL_STATE);
 
-  const handleChangeFilter = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ): void => {
-    const { value } = event.target;
-    setFilters(value);
-  };
+  const { action_getFillteredOrderProducts } = bindActionCreators( actionCreators, dispatch)
 
-  const handleChangeOrder = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ): void => {
-    const { value } = event.target;
-    setOrder(value);
+  const handleChange = ( event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { name, value } = event.target;
+    setQuery({ ...Query, [name]: value });
+    action_getFillteredOrderProducts(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
+
   };
 
   const handleShow = () => {
@@ -36,16 +35,12 @@ const Dropdown = (): JSX.Element => {
 
   //AL: this useEffect dispatch the actions when detects a change on filters / order
   useEffect(() => {
-    if (filters !== "") {
-      filterProducts(["filterColor", filters]);
-    }
-  }, [filters]);
+  
+  }, []);
 
   useEffect(() => {
-    if (order !== "") {
-      sortProducts(["Price", order]);
-    }
-  }, [order]);
+  
+  }, []);
 
   return (
     <div className="flex justify-around my-2">
@@ -55,8 +50,8 @@ const Dropdown = (): JSX.Element => {
         }`}
         id="filt"
         name="filters"
-        value={filters}
-        onChange={handleChangeFilter}
+        value={Query.byColor}
+        onChange={handleChange}
       >
         <option value="" disabled hidden>
           Color
@@ -71,10 +66,10 @@ const Dropdown = (): JSX.Element => {
         }`}
         id="ord"
         name="order"
-        value={order}
-        onChange={handleChangeOrder}
+        value={Query.byOrder}
+        onChange={handleChange}
       >
-        <option value="" disabled hidden>
+        <option value="all" disabled hidden>
           Ordenar por
         </option>
         <option value="asc">{"Menor precio"}</option>

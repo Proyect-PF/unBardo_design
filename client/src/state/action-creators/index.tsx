@@ -82,9 +82,27 @@ export const getProductDetails = (id: number) => {
   };
 };
 
+
+export const action_getFillteredOrderProducts = ( query: string) =>{
+  return (dispatch: Dispatch<ActionProducts>) =>{
+    let payload: ProductState["productList"] = [];
+    axios
+    .get(`http://localhost:3700/products/filtered/?${query}`)
+    .then((response) => {
+      if (response.data) {
+        payload = response.data;
+        dispatch({
+          type: ActionType.FILTER_PRODUCTS,
+          payload,
+        });
+      }
+    });
+  };
+};
+
 //AL: route needs to match http://localhost:3700/products/price/desc
 //so filter needs to be ["price","asc or desc"]
-export const sortProducts = (sort: string[]) => {
+{/*export const sortProducts = (sort: string[]) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
@@ -99,11 +117,11 @@ export const sortProducts = (sort: string[]) => {
         }
       });
   };
-};
+};*/}
 
 //AL: route needs to match http://localhost:3700/products/filterColor/black
 //so filter needs to be ["filterColor","color that needs to be filtered"]
-export const filterProducts = (filter: string[]) => {
+{/*export const filterProducts = (filter: string[]) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
@@ -118,7 +136,7 @@ export const filterProducts = (filter: string[]) => {
         }
       });
   };
-};
+};*/}
 
 export const adminLog = () => {
   return (dispatch: Dispatch<ActionUser>) => {

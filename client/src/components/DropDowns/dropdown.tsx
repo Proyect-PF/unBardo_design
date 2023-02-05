@@ -26,7 +26,6 @@ const Dropdown = (): JSX.Element => {
     const { name, value } = event.target;
     setQuery({ ...Query, [name]: value });
     action_getFillteredOrderProducts(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
-
   };
 
   const handleShow = () => {

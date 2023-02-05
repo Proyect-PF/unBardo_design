@@ -12,7 +12,9 @@ const Button = ({ text, name, onClick, disabled }: Props): JSX.Element => {
   return (
     <div className="flex justify-center">
       <button
-        className="py-2 my-4 text-xl font-semibold text-center border border-black w-72"
+        className={`py-2 my-4 text-xl font-semibold text-center border border-black w-72 ${
+          disabled ? "opacity-50" : "opacity-100"
+        }`}
         name={name}
         disabled={disabled}
         onClick={onClick}

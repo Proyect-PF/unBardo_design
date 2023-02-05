@@ -12,7 +12,7 @@ export default (sequelize:any, DataTypes:any) => {
         name!: string;
         
         static associate(models:any) {
-
+            
         }
     }
     Color.init({

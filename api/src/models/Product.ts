@@ -48,9 +48,11 @@ export default (sequelize:any, DataTypes:any) => {
           foreignKey: 'productId',
           as: 'images',
         })
+        
         Product.belongsTo(models.Category, {
             foreignKey: 'id_category',
         } )
+
         Product.hasMany(models.ProductVariant, {
           foreignKey: 'productId',
           as: 'variants',

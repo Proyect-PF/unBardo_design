@@ -22,21 +22,19 @@ productRoutes.put("/",putProduct);
 
 productRoutes.get("/", getProduct);
 
-productRoutes.post("/", postProduct);
 
-productRoutes.get("/search/:search", searchProduct);
-
-productRoutes.get("/filterColor/:colour", filterByColors);
-
-productRoutes.get("/price/:price", orderByPrice);
 
 productRoutes.get("/filtered/?", controller_getFillteredOrderProducts);
 
 
 productRoutes.get("/images/:id", getImages);
 
-productRoutes.post("/images", postImage);
 
+productRoutes.post("/", postProduct);
+
+
+productRoutes.get("/search/:search", searchProduct)
+productRoutes.post("/images", postImage);
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.put("/images/:id", updateImage);
 

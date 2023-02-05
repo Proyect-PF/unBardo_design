@@ -9,7 +9,9 @@ import Input from "../Inputs/Input";
 import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
+
   const [inputValues, dispatch] = useNewProductForm();
+
   const { adminLogin } = useSelector((state: State) => state.user);
   const navigate = useNavigate();
 
@@ -211,7 +213,7 @@ const ProductForm: React.FC = () => {
               <p className="text-base font-medium leading-normal text-gray-900">
                 <button
                   type="submit"
-                  disabled={!inputValues}
+                  disabled={inputValues}
                   style={{ opacity: allFieldsFilled() ? 1 : 0.5 }}
                 >
                   {" "}

@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { getAllProducts, sortProducts } = bindActionCreators(
+  const { getAllProducts, filterProducts } = bindActionCreators(
     actionCreators,
     dispatch
   );

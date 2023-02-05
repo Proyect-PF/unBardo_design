@@ -32,6 +32,11 @@ interface SortProducts {
   payload: Product[];
 }
 
+interface FilterProducts {
+  type: ActionType.FILTER_PRODUCTS;
+  payload: Product[];
+}
+
 //AL: once you created the needed interface add it here with |
 export type Action =
   | GetAllAction
@@ -39,4 +44,5 @@ export type Action =
   | UpdateRender
   | GetProductDetails
   | SearchProducts
-  | SortProducts;
+  | SortProducts
+  | FilterProducts;

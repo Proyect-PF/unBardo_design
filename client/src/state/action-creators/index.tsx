@@ -80,6 +80,8 @@ export const getProductDetails = (id: number) => {
   };
 };
 
+//AL: route needs to match http://localhost:3700/products/price/desc
+//so filter needs to be ["price","asc or desc"]
 export const sortProducts = (sort: string[]) => {
   return (dispatch: Dispatch<Action>) => {
     let payload: ProductState["productList"] = [];
@@ -90,6 +92,25 @@ export const sortProducts = (sort: string[]) => {
           payload = res.data;
           dispatch({
             type: ActionType.SEARCH_PRODUCTS,
+            payload,
+          });
+        }
+      });
+  };
+};
+
+//AL: route needs to match http://localhost:3700/products/filterColor/black
+//so filter needs to be ["filterColor","color that needs to be filtered"]
+export const filterProducts = (filter: string[]) => {
+  return (dispatch: Dispatch<Action>) => {
+    let payload: ProductState["productList"] = [];
+    axios
+      .get(`http://localhost:3700/products/${filter[0]}/${filter[1]}`)
+      .then((res) => {
+        if (res.data) {
+          payload = res.data;
+          dispatch({
+            type: ActionType.FILTER_PRODUCTS,
             payload,
           });
         }

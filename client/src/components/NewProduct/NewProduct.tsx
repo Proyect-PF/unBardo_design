@@ -16,6 +16,9 @@ interface FormState {
 
 
 const ProductForm: React.FC = () => {
+
+  // En el parent de app podriamos preparar los dispatcher y directamente pasar por props la funcion addProduct por ej
+  // para evitar sobreimportanciones en cada componente
   let dispatch = useDispatch();
   let { addProduct } = bindActionCreators(actionCreators, dispatch);
   let navigate = useNavigate();
@@ -30,34 +33,19 @@ const ProductForm: React.FC = () => {
     image: new File([], ""),
   });
 
-
-  const isFormValid =
-  inputValues.name &&
-  inputValues.description &&
-  inputValues.size &&
-  inputValues.color &&
-  inputValues.price &&
-  inputValues.image &&
-  !Object.values(Error).some((error) => error !== "");
+  
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
-    // Hacer lamada a la api
-    addProduct({
-      name: inputValues.name,
-      description: inputValues.description,
-      size: inputValues.size,
-      price: Number(inputValues.price),
-      color: inputValues.color,
-      image: inputValues.image,
-      show_in_shop: inputValues.show_in_shop,
-    })
-    
+    addProduct(inputValues)
     navigate('/');
     console.log(inputValues);
   };
 
+
+  const allFieldsFilled = () =>
+  Object.values(inputValues).every((value) => value !== "");
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>)  => {
     setinputValues({ ...inputValues, [event.target.name]: event.target.value });
   };
@@ -144,8 +132,8 @@ const ProductForm: React.FC = () => {
                 <div>
                   <label htmlFor="size">Talle:</label>
                   <select
-                    id="sizes"
-                    name="sizes"
+                    id="size"
+                    name="size"
                     value={inputValues.size}
                     onChange={handleChange}
                   >
@@ -221,7 +209,7 @@ const ProductForm: React.FC = () => {
                 <button
                   type="submit"
                   disabled={!inputValues}
-                  style={{ opacity: isFormValid ? 1 : 0.5 }}
+                  style={{ opacity: allFieldsFilled() ? 1 : 0.5 }}
                 >
                   {" "}
                   Crear Publicación

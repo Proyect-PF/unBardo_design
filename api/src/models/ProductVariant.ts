@@ -33,15 +33,12 @@ export default (sequelize: any, DataTypes: any) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false
         },
         size: {
             type: DataTypes.STRING,
-            allowNull: false
         },
         color: {
             type: DataTypes.STRING,
-            allowNull: false
         },
         stock: {
             type: DataTypes.INTEGER,

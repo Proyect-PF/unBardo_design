@@ -17,33 +17,32 @@ import getVariants from "../controllers/getVariants";
 const productRoutes = Router();
 
 
+productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.delete('/', deleteProduct);
 
 productRoutes.put("/",putProduct);
-
-productRoutes.get("/", getProduct);
+productRoutes.put("/images/:id", updateImage);
 
 
 
 productRoutes.get("/filtered/?", controller_getFillteredOrderProducts);
+productRoutes.get("/images/:id", getImages);
+productRoutes.get("/search/:search", searchProduct)
+productRoutes.get("/variants/:id", getVariants);
 
 
 
+// productRoutes.get("/", getProduct);
 //productRoutes.get("/price/:price", orderByPrice);
 //productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
 
-productRoutes.get("/images/:id", getImages);
+
+
 
 
 productRoutes.post("/", postProduct);
-
-
-productRoutes.get("/search/:search", searchProduct)
 productRoutes.post("/images", postImage);
-productRoutes.delete("/images/:id", validateImageId, deleteImage);
-productRoutes.put("/images/:id", updateImage);
 
-productRoutes.get("/variants/:id", getVariants);
 
 
 

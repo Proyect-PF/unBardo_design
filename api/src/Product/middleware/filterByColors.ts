@@ -5,8 +5,24 @@ const filterByColors = async (color: string): Promise<any> => {
         const filteredProduct = await db.Product.findAll({ 
             where: {
                 color : `${color}`
-            } });
-            console.log(filteredProduct)
+            },
+            attributes: {
+                exclude: [
+                  "video",
+                  "stock",
+                  "height",
+                  "weight",
+                  "width",
+                  "length",
+                  "SKU",
+                  "barcode",
+                  "createdAt",
+                  "updatedAt",
+                  "adminId",
+                  "id_category",
+                ],
+              },
+        });
         return filteredProduct;
 
     } catch (error: unknown) {

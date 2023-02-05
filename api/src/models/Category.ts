@@ -13,7 +13,7 @@ export default (sequelize:any, DataTypes:any) => {
         static associate(models:any) {
             models.Category.hasMany(models.Product, {foreignKey: "id_category"})
         }
-
+        
     }
     Category.init({
         name: {

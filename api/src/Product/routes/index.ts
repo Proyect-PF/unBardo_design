@@ -29,6 +29,7 @@ productRoutes.get("/search/:search", searchProduct);
 productRoutes.get("/filterColor/:colour", filterByColors);
 
 productRoutes.get("/price/:price", orderByPrice);
+productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
 
 productRoutes.get("/images/:id", getImages);
 

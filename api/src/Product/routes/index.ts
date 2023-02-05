@@ -8,6 +8,7 @@ import filterByCategories from '../controllers/filterByCategories.controller';
 import orderByPrice from '../controllers/orderByPrice';
 import filterByColors from '../controllers/filterByColors';
 import getImages from '../controllers/getImages';
+import postImage from '../controllers/postImage';
 const productRoutes = Router();
 
 
@@ -23,10 +24,12 @@ productRoutes.get("/search/:search", searchProduct);
 
 productRoutes.get("/filterColor/:colour", filterByColors);
 
-
 productRoutes.get("/price/:price", orderByPrice);
 
 productRoutes.get("/images/:id", getImages);
+
+productRoutes.post("/images", postImage);
+
 
 
 

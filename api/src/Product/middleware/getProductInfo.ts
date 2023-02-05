@@ -7,8 +7,9 @@ const getProductInfo = async (id: any): Promise<any> => {
             where: {
                 id
             },
+            
             attributes: {
-              exclude: ['promotional_price', 'video', 'stock', , 'height', 'weight', 'width', 'length', 'SKU', 'barcode', 'createdAt', 'updatedAt', 'adminId', 'categoryId']
+              exclude: ['promotional_price', 'video', 'stock', , 'height', 'weight', 'width', 'length', 'SKU', 'barcode', 'createdAt', 'updatedAt', 'adminId', 'categoryId'],
             }
         });
         return infoProduct;

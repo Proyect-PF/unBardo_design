@@ -25,14 +25,8 @@ import Op from "../../models/index";
     updatedAt?: string,
     id_category?: null
   }
-
-
   const getFillteredOrderProducts = async (req: Request , res:Response): Promise<any> => {
     try {
-      //req.params
-      //const { byColor, byOrder } = req.params;
-
-      //const filteredProducts = await db.Product.findAll<Product>({ where : byColor } as any);
       console.log("VAMOS A PROCEDER A TOMAR LA QUERY")
       const { byColor , byOrder } = req.query;
       console.log("VAÑOR DE byColor:",byColor)
@@ -52,5 +46,4 @@ import Op from "../../models/index";
       return res.status(400).json(error.message);
     }
   };
-
   export default getFillteredOrderProducts;

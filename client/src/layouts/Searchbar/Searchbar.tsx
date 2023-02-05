@@ -40,7 +40,9 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
   };
 
   return (
-    <div className={`flex flex-col fixed ${style} bg-white w-full  z-40`}>
+    <div
+      className={`flex flex-col fixed ${style} bg-white w-full  z-40 text-xl`}
+    >
       <div className="flex justify-between w-full h-16 border-b border-gray-300">
         <button onClick={handleSearch} className="px-5">
           <img src={comeBack} alt="icono" className="h-5" />
@@ -67,7 +69,6 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
         </form>
       </div>
 
-      
       {/*<div
         className={` flex justify-around ${
           !showFilter ? " hidden" : "visible"

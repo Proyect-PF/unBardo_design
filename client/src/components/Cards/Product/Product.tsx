@@ -10,7 +10,7 @@ interface Props {
 
 const Product = ({ price, imageB, imageF, name, id }: Props) => {
   return (
-    <div className="flex-col w-56 gap-4 m-auto my-4 text-center">
+    <div className="flex-col w-56 gap-4 m-auto my-4">
       <Link to={`/product/${id}`}>
         <img
           className="absolute w-56 m-auto border-b-2 border-black opacity-0 hover:opacity-100"
@@ -22,7 +22,10 @@ const Product = ({ price, imageB, imageF, name, id }: Props) => {
           alt="black tshirt"
           src={imageF}
         />
-        <p className="mt-2 text-xs font-semibold">{name.toUpperCase()} $ {price}</p>
+        <div className="flex flex-col gap-2 mt-3 ml-3 ">
+          <p className="text-lg font-semibold ">{name.toUpperCase()}</p>
+          <p className="text-lg font-medium ">$ {price}</p>
+        </div>
       </Link>
     </div>
   );

@@ -13,6 +13,7 @@ import putProduct from '../controllers/putProductr';
 import searchProduct from '../controllers/searchProduct';
 import updateImage from '../controllers/updateImage';
 import validateImageId from '../middleware/validateImageId';
+import getVariants from "../controllers/getVariants";
 const productRoutes = Router();
 
 
@@ -27,6 +28,10 @@ productRoutes.get("/", getProduct);
 productRoutes.get("/filtered/?", controller_getFillteredOrderProducts);
 
 
+
+//productRoutes.get("/price/:price", orderByPrice);
+//productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
+
 productRoutes.get("/images/:id", getImages);
 
 
@@ -38,8 +43,7 @@ productRoutes.post("/images", postImage);
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.put("/images/:id", updateImage);
 
-
-
+productRoutes.get("/variants/:id", getVariants);
 
 
 

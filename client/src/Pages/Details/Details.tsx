@@ -79,26 +79,27 @@ const Details = (): JSX.Element => {
           onClick={handleShow}
         /> */}
         </div>
-        <div className="w-4/5 mx-auto md:h-1/2 md:flex md:flex-col md:justify-between md:mt-8">
+        <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8">
           <div>
-            <p className="mt-4 text-lg font-bold text-center ">
-              {productDetails.name}
-            </p>
-            <p className="my-2 text-lg font-bold ">{`$ ${productDetails.price}`}</p>
-            <p className="my-2 font-medium">{`${productDetails.description}`}</p>
+            <p className="mt-4 text-4xl font-bold ">{productDetails.name}</p>
+            <p className="my-2 text-3xl font-bold ">{`$ ${productDetails.price}`}</p>
+            <p className="my-2 text-lg italic font-medium font-poppins">{`${productDetails.description}`}</p>
           </div>
-          <div className="flex justify-between my-8 text-lg text-center">
-            <SizeSelector
-              sizes={productDetails.size.toUpperCase().split(",")}
-              setter={setSize}
+          <div>
+            <div className="flex justify-around my-8 text-lg text-center">
+              <SizeSelector
+                sizes={productDetails.size.toUpperCase().split(",")}
+                setter={setSize}
+              />
+              <AmountInput setter={setAmount} />
+            </div>
+            <Button
+              text="Añadir al carrito"
+              onClick={handleCart}
+              name="Carrito"
+              disabled={true}
             />
-            <AmountInput setter={setAmount} />
           </div>
-          <Button
-            text="Añadir al carrito"
-            onClick={handleCart}
-            name="Carrito"
-          />
         </div>
       </div>
     </div>

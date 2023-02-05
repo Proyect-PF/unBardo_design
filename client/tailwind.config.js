@@ -368,9 +368,11 @@ module.exports = {
       DEFAULT: "1",
     },
     fontFamily: {
-      poppins: ['Poppins', 'sans-serif'],
+      anisette: ["anisette-std", "sans-serif"],
+      rift: ["rift", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
       sans: [
-        'Poppins',
+        "Poppins",
         '"Josefin Sans"',
         "ui-sans-serif",
         "system-ui",

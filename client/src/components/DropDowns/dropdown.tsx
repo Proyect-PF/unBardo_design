@@ -4,37 +4,43 @@ import { bindActionCreators } from "redux";
 import arrow from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 
-interface Query {
-  byColor: string,
-  byOrder: string,
-}
+// interface Query {
+//   byColor: string,
+//   byOrder: string,
+// }
 
-const INITIAL_STATE = {
-  byColor: "all",
-  byOrder: "asc",
-}
+
 
 const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   
-  const [Query, setQuery] = useState(INITIAL_STATE);
-
+  
   const { action_getFillteredOrderProducts } = bindActionCreators( actionCreators, dispatch)
-
+      const INITIAL_STATE = {
+      byColor: "all",
+      byOrder: "asc",
+    }
+    const [Query, setQuery] = useState(INITIAL_STATE);
+  
   const handleChange = ( event: React.ChangeEvent<HTMLSelectElement>): void => {
-    const { name, value } = event.target;
-    setQuery({ ...Query, [name]: value });
-    action_getFillteredOrderProducts(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
-    //setQuery({ byColor: "all", byOrder: "asc" })
-  };
 
+    const { name, value } = event.target;
+    setQuery({ 
+        ...Query, 
+        [name]: value 
+      });
+    };
   const handleShow = () => {
     show ? setShow(false) : setShow(true);
   };
 
   //AL: this useEffect dispatch the actions when detects a change on filters / order
+  //Usamos el useeffect para despachar las filtraciones que vienen del estado local desde el handleChange
+useEffect(() => {
+  action_getFillteredOrderProducts(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
+}, [Query])
 
 
   return (
@@ -49,8 +55,8 @@ const Dropdown = (): JSX.Element => {
         onChange={handleChange}
       >
         <option value="all">Todos</option>
-        <option value="black">Negro</option>
         <option value="white">Blanco</option>
+        <option value="black">Negro</option>
       </select>
       <select
         className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${

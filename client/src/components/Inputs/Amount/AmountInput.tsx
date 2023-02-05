@@ -25,7 +25,7 @@ const AmountInput = ({ setter }: Props): JSX.Element => {
   };
 
   return (
-    <div className="flex content-center self-center gap-4 ml-3 font-bold">
+    <div className="flex content-center self-center gap-4 px-4 ml-3 font-bold">
       <button onClick={handleAmount}>-</button>
       <p>{amount}</p>
       <button onClick={handleAmount}>+</button>

@@ -52,7 +52,9 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
   };
 
   return (
-    <div className={`flex fixed ${style} w-full bg-black/80 z-40`}>
+    <div
+      className={`flex fixed ${style} w-full bg-black/80 z-40  text-2xl font-semibold`}
+    >
       <div className="flex flex-col justify-between w-2/3 max-w-lg min-h-screen bg-white">
         <div>
           <div className="flex items-center justify-center h-16 border-b-2 border-gray-300">
@@ -65,7 +67,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
               <img src={login} alt="user" className="h-6" />
-              <p className="pl-4 text-xl font-semibold">Iniciar Sesión</p>
+              <p className="pl-4">Iniciar Sesión</p>
             </div>
           </div>
           <div className={adminLogin ? "visible" : "hidden"}>
@@ -75,7 +77,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
               <img src={userIcon} alt="user" className="h-6" />
-              <p className="pl-4 text-xl font-semibold">Crear Producto</p>
+              <p className="pl-4">Crear Producto</p>
             </div>
 
             <div
@@ -84,7 +86,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
               <img src={outIcon} alt="out" className="h-6" />
-              <p className="pl-4 text-xl font-semibold">Cerrar Sesión</p>
+              <p className="pl-4">Cerrar Sesión</p>
             </div>
           </div>
         </div>

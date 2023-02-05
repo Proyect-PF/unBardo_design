@@ -23,8 +23,6 @@ const LogIn = (): JSX.Element => {
   };
 
   const handleClick = () => {
-    console.log(credentials);
-    console.log(admin);
     if (credentials.user === admin.user && credentials.pw === admin.pw) {
       adminLog();
       navigate("/");
@@ -34,27 +32,31 @@ const LogIn = (): JSX.Element => {
   };
 
   return (
-    <div>
-      <p>Usuario:</p>
-      <Input
-        id="userLogin"
-        type="text"
-        placeholder="User..."
-        value={credentials.user}
-        name="userLogin"
-        onChange={handleChangeUser}
-        className=""
-      />
-      <p>Contraseña:</p>
-      <Input
-        id="password"
-        type="password"
-        value={credentials.pw}
-        placeholder="Password..."
-        name="passwordLogin"
-        onChange={handleChangePw}
-        className=""
-      />
+    <div className="flex flex-col gap-8 mx-6 my-3">
+      <div>
+        <p className="text-2xl font-medium">Usuario:</p>
+        <Input
+          id="userLogin"
+          type="text"
+          placeholder="..."
+          value={credentials.user}
+          name="userLogin"
+          onChange={handleChangeUser}
+          className=" font-poppins"
+        />
+      </div>
+      <div>
+        <p className="text-2xl font-medium">Contraseña:</p>
+        <Input
+          id="password"
+          type="password"
+          value={credentials.pw}
+          placeholder="..."
+          name="passwordLogin"
+          onChange={handleChangePw}
+          className="font-poppins"
+        />
+      </div>
       <Button name="LogIn" text="Iniciar Sesion" onClick={handleClick} />
     </div>
   );

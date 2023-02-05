@@ -1,8 +1,8 @@
-import { ActionType } from "../action-types";
-import { Dispatch } from "redux";
-import { Action } from "../actions";
 import axios from "axios";
-import { AddProductPayload, ProductState } from "../types";
+import { Dispatch } from "redux";
+import { ActionType } from "../action-types";
+import { Action } from "../actions";
+import { AddProductPayload, Product, ProductState } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -35,7 +35,7 @@ export const searchProducts = (name: string) => {
 };
 
 //AL: this actions post a created product in the database
-export const addProduct = (payload: AddProductPayload) => {
+export const addProduct = (payload: Product) => {
   return (dispatch: Dispatch<Action>) => {
     axios({
       method: "post",
@@ -53,13 +53,13 @@ export const addProduct = (payload: AddProductPayload) => {
 //AL: this actions searchs specific products by id in the database
 export const getProductDetails = (id: number) => {
   return (dispatch: Dispatch<Action>) => {
-    let product = {
+    let product: Product = {
       id: -1,
       name: "error",
       description: "",
       size: "",
       price: 0,
-      image: "",
+      color: "",
       show_in_shop: "",
     };
     axios.get(`http://localhost:3700/products?id=${id}`).then((res) => {
@@ -70,7 +70,7 @@ export const getProductDetails = (id: number) => {
           description: res.data.description,
           size: res.data.size,
           price: res.data.price,
-          image: "",
+          color: res.data.color,
           show_in_shop: "",
         };
       }
@@ -79,5 +79,43 @@ export const getProductDetails = (id: number) => {
         payload: product,
       });
     });
+  };
+};
+
+//AL: route needs to match http://localhost:3700/products/price/desc
+//so filter needs to be ["price","asc or desc"]
+export const sortProducts = (sort: string[]) => {
+  return (dispatch: Dispatch<Action>) => {
+    let payload: ProductState["productList"] = [];
+    axios
+      .get(`http://localhost:3700/products/${sort[0]}/${sort[1]}`)
+      .then((res) => {
+        if (res.data) {
+          payload = res.data;
+          dispatch({
+            type: ActionType.SEARCH_PRODUCTS,
+            payload,
+          });
+        }
+      });
+  };
+};
+
+//AL: route needs to match http://localhost:3700/products/filterColor/black
+//so filter needs to be ["filterColor","color that needs to be filtered"]
+export const filterProducts = (filter: string[]) => {
+  return (dispatch: Dispatch<Action>) => {
+    let payload: ProductState["productList"] = [];
+    axios
+      .get(`http://localhost:3700/products/${filter[0]}/${filter[1]}`)
+      .then((res) => {
+        if (res.data) {
+          payload = res.data;
+          dispatch({
+            type: ActionType.FILTER_PRODUCTS,
+            payload,
+          });
+        }
+      });
   };
 };

@@ -55,7 +55,7 @@ export default (sequelize:any, DataTypes:any) => {
       autoIncrement: true,
       allowNull: false
     },
-    colour: {
+    color: {
       type: DataTypes.STRING,
       allowNull: false
     },

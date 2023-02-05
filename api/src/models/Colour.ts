@@ -2,12 +2,12 @@
 
 import { Model } from "sequelize";
 
-interface ColourAttributes {
+interface ColorAttributes {
     name: string;
   }
 
 export default (sequelize:any, DataTypes:any) => {
-    class Colour extends Model implements Model<ColourAttributes>{
+    class Color extends Model implements Model<ColorAttributes>{
 
         name!: string;
         
@@ -15,7 +15,7 @@ export default (sequelize:any, DataTypes:any) => {
 
         }
     }
-    Colour.init({
+    Color.init({
         name: {
             type: DataTypes.STRING,
         },
@@ -27,7 +27,7 @@ export default (sequelize:any, DataTypes:any) => {
         },
     }, {
         sequelize,
-        modelName: 'Colour',
+        modelName: 'color',
     });
-    return Colour;
+    return Color;
 };

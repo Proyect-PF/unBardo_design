@@ -1,18 +1,22 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
 import photo from "../../assets/images/homep.jpg";
 import ig1 from "../../assets/images/ig1.jpg";
 import ig2 from "../../assets/images/ig2.jpg";
-import Product from "../../components/Cards/Product/Product";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
-import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { State } from "../../state/reducers";
+import Product from "../../components/Cards/Product/Product";
+import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
-import { useEffect, useState } from "react";
+import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { getAllProducts } = bindActionCreators(actionCreators, dispatch);
+  const { getAllProducts, filterProducts } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
   const [loading, setLoading] = useState(true);
   const { productList } = useSelector((state: State) => state.products);
 
@@ -42,6 +46,7 @@ const Home = () => {
         <p className="p-5 font-bold text-center border-b-2">
           WELCOME TO THE JUNGLE
         </p>
+        <Dropdown type={""}/>
         <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
           {productList.length > 0 &&
             productList.map(
@@ -50,7 +55,7 @@ const Home = () => {
                   imageB={imageB}
                   imageF={imageF}
                   name={e.name}
-                  id={e.id}
+                  id={Number(e.id)}
                 />
               )
             )}

@@ -29,7 +29,7 @@ const Input = ({
         placeholder={placeholder}
         // value={value}
         onChange={onChange}
-        className={`w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50 ${className}`}
+        className={`text-align: first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50 ${className}`}
         name={name}
       />
     </div>

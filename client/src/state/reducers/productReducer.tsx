@@ -1,7 +1,7 @@
-import { Action } from "../actions";
-import { ActionType } from "../action-types";
 import axios from "axios";
-import { ProductState } from "../types";
+import { ActionType } from "../action-types";
+import { Action } from "../actions";
+import { Product, ProductState } from "../types";
 
 //AL: initialState first defining, needs to match the type defined.
 const initialState: ProductState = {
@@ -14,6 +14,7 @@ const initialState: ProductState = {
     description: "",
     size: "",
     price: 0,
+    color: "",
     show_in_shop: "",
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
@@ -37,7 +38,10 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
         productList: productSearch,
       };
     case ActionType.ADD_PRODUCT:
-      const newProduct = { ...action.payload, id: state.productList.length };
+      const newProduct: Product = {
+        ...action.payload,
+        id: state.productList.length,
+      };
       return {
         ...state,
         productList: [...state.productList, newProduct],
@@ -51,6 +55,16 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
       return {
         ...state,
         render: state.render ? false : true,
+      };
+    case ActionType.SORT_PRODUCTS:
+      return {
+        ...state,
+        productList: action.payload,
+      };
+    case ActionType.FILTER_PRODUCTS:
+      return {
+        ...state,
+        productList: action.payload,
       };
     default:
       return {

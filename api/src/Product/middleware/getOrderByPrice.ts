@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import db from "../../models";
 
 const getOrderByPrice = async (price: string) => {
@@ -24,6 +25,9 @@ const getOrderByPrice = async (price: string) => {
         throw new Error(error.message);
     }
 }
+
+
+
 
 export default getOrderByPrice;
 //order: [['price', 'ASC'],],

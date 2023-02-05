@@ -97,6 +97,7 @@ const Details = (): JSX.Element => {
               text="Añadir al carrito"
               onClick={handleCart}
               name="Carrito"
+              disabled={true}
             />
           </div>
         </div>

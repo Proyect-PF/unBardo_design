@@ -4,6 +4,7 @@ export type Product = {
   description: string;
   size: string;
   price: number;
+  color: string;
   show_in_shop: string;
 };
 
@@ -12,6 +13,7 @@ export type AddProductPayload = {
   description: string;
   size: string;
   price: number;
+  color: string;
   show_in_shop: string;
 };
 

@@ -1,6 +1,6 @@
-import { Action } from "../actions";
-import { ActionType } from "../action-types";
 import axios from "axios";
+import { ActionType } from "../action-types";
+import { Action } from "../actions";
 import { Product, ProductState } from "../types";
 
 //AL: initialState first defining, needs to match the type defined.
@@ -14,6 +14,7 @@ const initialState: ProductState = {
     description: "",
     size: "",
     price: 0,
+    color: "",
     show_in_shop: "",
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)

@@ -1,14 +1,15 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
 import photo from "../../assets/images/homep.jpg";
 import ig1 from "../../assets/images/ig1.jpg";
 import ig2 from "../../assets/images/ig2.jpg";
-import Product from "../../components/Cards/Product/Product";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
-import { useSelector, useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { State } from "../../state/reducers";
+import Product from "../../components/Cards/Product/Product";
+import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
-import { useEffect, useState } from "react";
+import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const Home = () => {
         <p className="p-5 font-bold text-center border-b-2">
           WELCOME TO THE JUNGLE
         </p>
+        <Dropdown type={"order"}/>
         <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
           {productList.length > 0 &&
             productList.map(

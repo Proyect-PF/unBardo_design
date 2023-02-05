@@ -35,28 +35,9 @@ const Dropdown = ({ type }: Props): JSX.Element => {
   }, [order, filters]);
 
   return (
-    <div>
-      {type === "order" ? (
-        <div className="text-lg ">
-          <div className="mt-2">Ordenar</div>
-          <select
-            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base"
-            id="ord"
-            name="order"
-            value={order}
-            onChange={handleChangeOrder}
-          >
-            <option value="" disabled hidden>
-              Precio
-            </option>
-            <option value="priceasc">{"$ Asc."}</option>
-            <option value="pricedesc">{"$ Desc."}</option>
-          </select>
-        </div>
-      ) : (
-        <div className="text-lg">
-          <div className="mt-2 ">Filtrar</div>
-          <select
+    <div className="flex-">
+      
+      <select
             className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base "
             id="filt"
             name="filters"
@@ -66,11 +47,31 @@ const Dropdown = ({ type }: Props): JSX.Element => {
             <option value="" disabled hidden>
               Color
             </option>
+            <option value="all">Todos</option>
             <option value="black">Negro</option>
             <option value="white">Blanco</option>
           </select>
-        </div>
-      )}
+         
+          <select
+            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base"
+            id="ord"
+            name="order"
+            value={order}
+            onChange={handleChangeOrder}
+          >
+            <option value="" disabled hidden>
+              Ordenar por
+            </option>
+            <option value="priceasc">{"Menor precio"}</option>
+            <option value="pricedesc">{"Mayor precio"}</option>
+          </select>
+       
+      
+      
+         
+          
+        
+      
     </div>
   );
 };

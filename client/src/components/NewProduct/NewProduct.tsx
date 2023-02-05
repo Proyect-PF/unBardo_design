@@ -81,7 +81,8 @@ const ProductForm: React.FC = () => {
       description: formData.description,
       size: formData.sizes,
       price: Number(formData.price),
-      show_in_shop: "true",
+      color: formData.color,
+      show_in_shop: formData.inStock,
     });
     console.log(formData);
   };

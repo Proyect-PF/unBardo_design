@@ -1,8 +1,8 @@
-import { ActionType } from "../action-types";
-import { Dispatch } from "redux";
-import { Action } from "../actions";
 import axios from "axios";
-import { AddProductPayload, ProductState, Product } from "../types";
+import { Dispatch } from "redux";
+import { ActionType } from "../action-types";
+import { Action } from "../actions";
+import { AddProductPayload, Product, ProductState } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -59,6 +59,7 @@ export const getProductDetails = (id: number) => {
       description: "",
       size: "",
       price: 0,
+      color: "",
       show_in_shop: "",
     };
     axios.get(`http://localhost:3700/products?id=${id}`).then((res) => {
@@ -69,6 +70,7 @@ export const getProductDetails = (id: number) => {
           description: res.data.description,
           size: res.data.size,
           price: res.data.price,
+          color: res.data.color,
           show_in_shop: "",
         };
       }

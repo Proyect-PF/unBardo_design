@@ -13,10 +13,7 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { getAllProducts, filterProducts } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
+  const { getAllProducts } = bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
   const { productList } = useSelector((state: State) => state.products);
 
@@ -46,7 +43,7 @@ const Home = () => {
         <p className="p-5 font-bold text-center border-b-2">
           WELCOME TO THE JUNGLE
         </p>
-        <Dropdown type={""}/>
+        <Dropdown type={""} />
         <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
           {productList.length > 0 &&
             productList.map(

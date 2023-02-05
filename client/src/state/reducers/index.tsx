@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
 import productReducer from "./productReducer";
+import userReducer from "./userReducer";
 
 //AL: multiple reducers will be combined here, this leads to a cleaner modularization
 const reducers = combineReducers({
   products: productReducer,
+  user: userReducer,
 });
 
 export default reducers;

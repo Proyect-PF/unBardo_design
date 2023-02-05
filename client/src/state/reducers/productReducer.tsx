@@ -1,6 +1,5 @@
-import axios from "axios";
 import { ActionType } from "../action-types";
-import { Action } from "../actions";
+import { ActionProducts } from "../actions";
 import { Product, ProductState } from "../types";
 
 //AL: initialState first defining, needs to match the type defined.
@@ -21,7 +20,10 @@ const initialState: ProductState = {
   render: true,
 };
 
-const productReducer = (state: ProductState = initialState, action: Action) => {
+const productReducer = (
+  state: ProductState = initialState,
+  action: ActionProducts
+) => {
   switch (action.type) {
     case ActionType.GET_ALL_PRODUCTS:
       let products: ProductState["productList"] = action.payload;

@@ -10,7 +10,6 @@ import Input from "../Inputs/Input";
 import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
-
   const [inputValues, dispatch] = useNewProductForm();
 
   const { adminLogin } = useSelector((state: State) => state.user);
@@ -46,6 +45,33 @@ const ProductForm: React.FC = () => {
 
   const handleClear = () => {
     dispatch({ type: "clear" });
+  };
+
+  const handleSize = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = event.target;
+    const index = inputValues.size.search(value);
+    if (index === -1) {
+      const newSizes = inputValues.size.split(",");
+      newSizes.push(value);
+      dispatch({
+        type: "change_value",
+        payload: {
+          inputName: "size",
+          inputValue: newSizes.join(","),
+        },
+      });
+    } else {
+      let newSizes = inputValues.size.split(",");
+      newSizes[newSizes.indexOf(value)] = "";
+      const newSizesS = newSizes.filter((e) => e !== "").join(",");
+      dispatch({
+        type: "change_value",
+        payload: {
+          inputName: "size",
+          inputValue: newSizesS,
+        },
+      });
+    }
   };
 
   const allFieldsFilled = () =>
@@ -111,7 +137,49 @@ const ProductForm: React.FC = () => {
         {/* SE ENVIA NAME: TALLE */}
         <div>
           <p className="text-xl font-medium ">Talle:</p>
-          <select
+          <div className="flex gap-8">
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="S"
+                name="sizeS"
+                value="S"
+                onChange={handleSize}
+              />
+              <p>S</p>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="M"
+                name="sizeM"
+                value="M"
+                onChange={handleSize}
+              />
+              <p>M</p>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="L"
+                name="sizeL"
+                value="L"
+                onChange={handleSize}
+              />
+              <p>L</p>
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="checkbox"
+                id="XL"
+                name="sizeXL"
+                value="XL"
+                onChange={handleSize}
+              />
+              <p>XL</p>
+            </div>
+          </div>
+          {/* <select
             className="mt-2 "
             id="size"
             name="size"
@@ -128,11 +196,11 @@ const ProductForm: React.FC = () => {
             <option value="l">L</option>
             <option value="xl">XL</option>
             <option value="xxl">XXL</option>
-          </select>
+          </select> */}
         </div>
 
         {/* SE ENVIA NAME: FILE */}
-        <div>
+        {/* <div>
           <p className="text-xl font-medium ">Cargar imagenes</p>
           <input
             className="block w-full mt-2 text-sm cursor-pointer dark:text-gray-400 focus:outline-none dark:border-gray-600 dark:placeholder-gray-400"
@@ -142,7 +210,7 @@ const ProductForm: React.FC = () => {
             value={undefined}
             multiple
           />
-        </div>
+        </div> */}
 
         {/* SE ENVIA NAME: PRICE */}
         <div>
@@ -175,7 +243,6 @@ const ProductForm: React.FC = () => {
             <option value="true">Si</option>
             <option value="false">No</option>
           </select>
-
         </div>
 
         <Button

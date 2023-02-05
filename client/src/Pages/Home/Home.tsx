@@ -12,7 +12,10 @@ import { useEffect, useState } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { getAllProducts } = bindActionCreators(actionCreators, dispatch);
+  const { getAllProducts, sortProducts } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
   const [loading, setLoading] = useState(true);
   const { productList } = useSelector((state: State) => state.products);
 

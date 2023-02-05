@@ -79,3 +79,20 @@ export const getProductDetails = (id: number) => {
     });
   };
 };
+
+export const sortProducts = (sort: string[]) => {
+  return (dispatch: Dispatch<Action>) => {
+    let payload: ProductState["productList"] = [];
+    axios
+      .get(`http://localhost:3700/products/${sort[0]}/${sort[1]}`)
+      .then((res) => {
+        if (res.data) {
+          payload = res.data;
+          dispatch({
+            type: ActionType.SEARCH_PRODUCTS,
+            payload,
+          });
+        }
+      });
+  };
+};

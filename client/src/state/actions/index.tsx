@@ -27,10 +27,16 @@ interface SearchProducts {
   payload: Product[];
 }
 
+interface SortProducts {
+  type: ActionType.SORT_PRODUCTS;
+  payload: Product[];
+}
+
 //AL: once you created the needed interface add it here with |
 export type Action =
   | GetAllAction
   | AddProduct
   | UpdateRender
   | GetProductDetails
-  | SearchProducts;
+  | SearchProducts
+  | SortProducts;

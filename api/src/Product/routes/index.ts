@@ -9,6 +9,9 @@ import orderByPrice from '../controllers/orderByPrice';
 import filterByColors from '../controllers/filterByColors';
 import getImages from '../controllers/getImages';
 import postImage from '../controllers/postImage';
+import deleteImage from '../controllers/deleteImage';
+import validateImageId from '../middleware/validateImageId';
+
 const productRoutes = Router();
 
 
@@ -29,6 +32,8 @@ productRoutes.get("/price/:price", orderByPrice);
 productRoutes.get("/images/:id", getImages);
 
 productRoutes.post("/images", postImage);
+
+productRoutes.delete("/images/:id", validateImageId, deleteImage);
 
 
 

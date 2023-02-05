@@ -1,10 +1,10 @@
-import searchIcon from "../../assets/svg/search.svg";
-import comeBack from "../../assets/svg/come-back.svg";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
-import { actionCreators } from "../../state";
+import comeBack from "../../assets/svg/come-back.svg";
+import searchIcon from "../../assets/svg/search.svg";
 import Dropdown from "../../components/DropDowns/dropdown";
+import { actionCreators } from "../../state";
 
 interface Props {
   openClose: boolean;
@@ -56,23 +56,26 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
           {/* <button type="submit">
             <img src={searchIcon} alt="iconSea" className="h-10 px-5" />
           </button> */}
+          {/*
           <button
             type="button"
             onClick={handleShowFilters}
             className={`px-5 ${!showFilter ? "-rotate-90" : "rotate-90"}`}
           >
             <img src={comeBack} alt="icono" className="h-5" />
-          </button>
+        </button>*/}
         </form>
       </div>
-      <div
+
+      
+      {/*<div
         className={` flex justify-around ${
           !showFilter ? " hidden" : "visible"
         }`}
       >
         <Dropdown type="filter" />
         <Dropdown type="order" />
-      </div>
+      </div>*/}
     </div>
   );
 };

@@ -11,7 +11,7 @@ import getImages from '../controllers/getImages';
 import postImage from '../controllers/postImage';
 import deleteImage from '../controllers/deleteImage';
 import validateImageId from '../middleware/validateImageId';
-
+import updateImage from '../controllers/updateImage';
 const productRoutes = Router();
 
 
@@ -34,6 +34,7 @@ productRoutes.get("/images/:id", getImages);
 productRoutes.post("/images", postImage);
 
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
+productRoutes.put("/images/:id", updateImage);
 
 
 

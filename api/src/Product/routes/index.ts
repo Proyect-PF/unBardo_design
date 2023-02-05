@@ -6,7 +6,7 @@ import deleteProduct from '../controllers/deleteProduct';
 import searchProduct from '../controllers/searchProduct';
 import orderByPrice from '../controllers/orderByPrice';
 import filterByColors from '../controllers/filterByColors';
-
+import getImages from '../controllers/getImages';
 const productRoutes = Router();
 
 
@@ -23,6 +23,8 @@ productRoutes.get("/search/:search", searchProduct);
 productRoutes.get("/filterColor/:colour", filterByColors);
 
 productRoutes.get("/price/:price", orderByPrice);
+
+productRoutes.get("/images/:id", getImages);
 
 
 

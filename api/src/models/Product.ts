@@ -41,10 +41,14 @@ export default (sequelize:any, DataTypes:any) => {
     SKU!: string;
     barcode!: string;
 
-    static associate(models:any) {
+      static associate(models: any) {
+        Product.hasMany(models.Image, {
+          foreignKey: 'productId',
+          as: 'images',
+        });
+      }
 
     }
-  }
   Product.init({
     id: {
       type: DataTypes.INTEGER,
@@ -54,34 +58,34 @@ export default (sequelize:any, DataTypes:any) => {
     },
     color: {
       type: DataTypes.STRING,
-      allowNull: false
+      // allowNull: false
     },
-    image_url: {
-      type: DataTypes.STRING
-    },
+    // image_url: {
+    //   type: DataTypes.STRING
+    // },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      // allowNull: false
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false
+      // allowNull: false
     },
     size: {
       //type: Sequelize.ENUM("XS", "S", "M", "L", "XL"),
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
       //defaultValue: "XS"
     },
     show_in_shop: {
       //type: Sequelize.ENUM("si", "no"),
       type: DataTypes.STRING,
-      allowNull: false,
+      // allowNull: false,
       //defaultValue: "no"
     },
     price: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      // allowNull: false
     },
     promotional_price: {
       type: DataTypes.INTEGER,

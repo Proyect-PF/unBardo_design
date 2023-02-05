@@ -4,10 +4,11 @@ interface Props {
   imageF: string;
   imageB: string;
   name: string;
+  price: string;
   id: number;
 }
 
-const Product = ({ imageB, imageF, name, id }: Props) => {
+const Product = ({ price, imageB, imageF, name, id }: Props) => {
   return (
     <div className="flex-col w-56 gap-4 m-auto my-4 text-center">
       <Link to={`/product/${id}`}>
@@ -21,7 +22,7 @@ const Product = ({ imageB, imageF, name, id }: Props) => {
           alt="black tshirt"
           src={imageF}
         />
-        <p className="mt-2 text-xs font-semibold">{name.toUpperCase()}</p>
+        <p className="mt-2 text-xs font-semibold">{name.toUpperCase()} $ {price}</p>
       </Link>
     </div>
   );

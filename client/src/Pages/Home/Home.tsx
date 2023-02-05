@@ -55,6 +55,7 @@ const Home = () => {
                   imageB={imageB}
                   imageF={imageF}
                   name={e.name}
+                  price={e.price.toString()}
                   id={Number(e.id)}
                 />
               )

@@ -4,7 +4,8 @@ import getProduct from '../controllers/getProduct';
 import putProduct from '../controllers/putProductr';
 import deleteProduct from '../controllers/deleteProduct';
 import searchProduct from '../controllers/searchProduct';
-
+import filterByColors from '../middleware/filterByColors';
+import filterByCategories from '../controllers/filterByCategories.controller';
 const productRoutes = Router();
 
 
@@ -18,8 +19,9 @@ productRoutes.post("/", postProduct);
 
 productRoutes.get("/search/:search", searchProduct);
 
-productRoutes.get("/filterColor/:colour", searchProduct);
+productRoutes.get("/filterColor/:colour", filterByColors);
 
+productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
 
 
 

@@ -9,6 +9,7 @@ module.exports = {
   dialect: "postgres",
   define: {
     timestamps: true,
+    freezeTableName: true,
 
   },
   native: false,

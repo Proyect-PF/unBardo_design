@@ -14,6 +14,7 @@ type productType = {
     length: number,
     SKU: string,
     barcode: string,
+    CategoryId:number
 }
 
 const createProduct = async (product: productType): Promise<any> => {

@@ -40,9 +40,12 @@ export default (sequelize:any, DataTypes:any) => {
     length!: number;
     SKU!: string;
     barcode!: string;
+    id_category!:number;
 
     static associate(models:any) {
-
+      models.Product.belongsTo(models.Category, {
+        foreignKey: "id_category"
+      })
     }
   }
   Product.init({
@@ -75,7 +78,7 @@ export default (sequelize:any, DataTypes:any) => {
     },
     show_in_shop: {
       //type: Sequelize.ENUM("si", "no"),
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       //defaultValue: "no"
     },

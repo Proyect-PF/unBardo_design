@@ -9,15 +9,15 @@ interface ResponseBody {}
 interface RequestBody {}
 
 interface RequestQuery {
-    id: number;
+    id_category: number;
 }
 
 const getCategory = async (request:Request<RequestParams, ResponseBody, RequestBody, RequestQuery>, response:Response) => {
     try {
-        const {id} = request.query;
-        if (id) {
+        const {id_category} = request.query;
+        if (id_category) {
             //TODO: Si se envía id por query busca en la base de datos la información del producto relacionada a ese id
-            const infoCategory = await getCategoryInfo(id);
+            const infoCategory = await getCategoryInfo(id_category);
             return response.status(200).json(infoCategory)
         }
         else {

@@ -12,6 +12,7 @@ import postImage from '../controllers/postImage';
 import deleteImage from '../controllers/deleteImage';
 import validateImageId from '../middleware/validateImageId';
 import updateImage from '../controllers/updateImage';
+import getVariants from '../controllers/getVariants';
 const productRoutes = Router();
 
 
@@ -35,7 +36,9 @@ productRoutes.post("/images", postImage);
 
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.put("/images/:id", updateImage);
+productRoutes.get("/categories/:id", filterByCategories);
 
+productRoutes.get("/variants/:id", getVariants);
 
 
 

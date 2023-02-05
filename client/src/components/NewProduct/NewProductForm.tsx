@@ -10,7 +10,9 @@ import Input from "../Inputs/Input";
 import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
+
   const [inputValues, dispatch] = useNewProductForm();
+
   const { adminLogin } = useSelector((state: State) => state.user);
   const navigate = useNavigate();
 
@@ -173,6 +175,7 @@ const ProductForm: React.FC = () => {
             <option value="true">Si</option>
             <option value="false">No</option>
           </select>
+
         </div>
 
         <Button

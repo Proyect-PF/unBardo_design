@@ -1,17 +1,18 @@
 import { Router } from 'express';
-import postProduct from '../controllers/postProduct';
-import getProduct from '../controllers/getProduct';
-import putProduct from '../controllers/putProductr';
+import controller_getFillteredOrderProducts from "../controllers/controller_getFillteredOrderProducts";
+import deleteImage from '../controllers/deleteImage';
 import deleteProduct from '../controllers/deleteProduct';
-import searchProduct from '../controllers/searchProduct';
 import filterByCategories from '../controllers/filterByCategories.controller';
-import orderByPrice from '../controllers/orderByPrice';
 import filterByColors from '../controllers/filterByColors';
 import getImages from '../controllers/getImages';
+import getProduct from '../controllers/getProduct';
+import orderByPrice from '../controllers/orderByPrice';
 import postImage from '../controllers/postImage';
-import deleteImage from '../controllers/deleteImage';
-import validateImageId from '../middleware/validateImageId';
+import postProduct from '../controllers/postProduct';
+import putProduct from '../controllers/putProductr';
+import searchProduct from '../controllers/searchProduct';
 import updateImage from '../controllers/updateImage';
+import validateImageId from '../middleware/validateImageId';
 import getVariants from "../controllers/getVariants";
 const productRoutes = Router();
 
@@ -22,19 +23,23 @@ productRoutes.put("/",putProduct);
 
 productRoutes.get("/", getProduct);
 
-productRoutes.post("/", postProduct);
 
-productRoutes.get("/search/:search", searchProduct);
 
-productRoutes.get("/filterColor/:colour", filterByColors);
+productRoutes.get("/filtered/?", controller_getFillteredOrderProducts);
 
-productRoutes.get("/price/:price", orderByPrice);
-productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
+
+
+//productRoutes.get("/price/:price", orderByPrice);
+//productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
 
 productRoutes.get("/images/:id", getImages);
 
-productRoutes.post("/images", postImage);
 
+productRoutes.post("/", postProduct);
+
+
+productRoutes.get("/search/:search", searchProduct)
+productRoutes.post("/images", postImage);
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.put("/images/:id", updateImage);
 

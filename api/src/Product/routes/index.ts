@@ -5,6 +5,7 @@ import putProduct from '../controllers/putProductr';
 import deleteProduct from '../controllers/deleteProduct';
 import searchProduct from '../controllers/searchProduct';
 import orderByPrice from '../controllers/orderByPrice';
+import filterByColors from '../controllers/filterByColors';
 
 const productRoutes = Router();
 
@@ -19,7 +20,7 @@ productRoutes.post("/", postProduct);
 
 productRoutes.get("/search/:search", searchProduct);
 
-productRoutes.get("/filterColor/:colour", searchProduct);
+productRoutes.get("/filterColor/:colour", filterByColors);
 
 productRoutes.get("/price/:price", orderByPrice);
 

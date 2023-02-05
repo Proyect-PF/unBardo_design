@@ -55,6 +55,16 @@ const productReducer = (state: ProductState = initialState, action: Action) => {
         ...state,
         render: state.render ? false : true,
       };
+    case ActionType.SORT_PRODUCTS:
+      return {
+        ...state,
+        productList: action.payload,
+      };
+    case ActionType.FILTER_PRODUCTS:
+      return {
+        ...state,
+        productList: action.payload,
+      };
     default:
       return {
         ...state,

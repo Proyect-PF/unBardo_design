@@ -12,6 +12,7 @@ import postImage from '../controllers/postImage';
 import deleteImage from '../controllers/deleteImage';
 import validateImageId from '../middleware/validateImageId';
 import updateImage from '../controllers/updateImage';
+import getVariants from "../controllers/getVariants";
 const productRoutes = Router();
 
 
@@ -28,6 +29,7 @@ productRoutes.get("/search/:search", searchProduct);
 productRoutes.get("/filterColor/:colour", filterByColors);
 
 productRoutes.get("/price/:price", orderByPrice);
+productRoutes.get("/filterByCategories/:categoriId", filterByCategories);
 
 productRoutes.get("/images/:id", getImages);
 
@@ -36,8 +38,7 @@ productRoutes.post("/images", postImage);
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.put("/images/:id", updateImage);
 
-
-
+productRoutes.get("/variants/:id", getVariants);
 
 
 

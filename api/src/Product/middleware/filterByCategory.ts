@@ -33,7 +33,7 @@ const productsByCategories = async (id_category: number): Promise<Products> => {
           "createdAt",
           "updatedAt",
           "adminId",
-          "categoryId",
+          "id_category",
         ],
       },
     });

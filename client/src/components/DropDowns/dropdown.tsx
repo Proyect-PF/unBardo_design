@@ -69,8 +69,8 @@ useEffect(() => {
         value={Query.byOrder}
       >
         
-        <option value="desc">{"Menor precio"}</option>
-        <option value="asc">{"Mayor precio"}</option>
+        <option value="asc">{"Menor precio"}</option>
+        <option value="desc">{"Mayor precio"}</option>
       </select>{" "}
       <img
         src={arrow}

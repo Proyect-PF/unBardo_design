@@ -17,7 +17,7 @@ const Dropdown = (): JSX.Element => {
   const [show, setShow] = useState(false);
   
   
-  const { action_getFillteredOrderProducts } = bindActionCreators( actionCreators, dispatch)
+  const { fetch_filtered_products } = bindActionCreators( actionCreators, dispatch)
       const INITIAL_STATE = {
       byColor: "all",
       byOrder: "asc",
@@ -39,7 +39,7 @@ const Dropdown = (): JSX.Element => {
   //AL: this useEffect dispatch the actions when detects a change on filters / order
   //Usamos el useeffect para despachar las filtraciones que vienen del estado local desde el handleChange
 useEffect(() => {
-  action_getFillteredOrderProducts(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
+  fetch_filtered_products(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
 }, [Query])
 
 

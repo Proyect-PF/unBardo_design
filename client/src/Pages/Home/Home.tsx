@@ -16,15 +16,16 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { getAllProducts } = bindActionCreators(actionCreators, dispatch);
+  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
   const { productList } = useSelector((state: State) => state.products);
+  
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
   useEffect(() => {
     setLoading(true);
-    getAllProducts();
+    fetch_products();
   }, [dispatch]);
 
   //AL: Set loading state to false when data has been retrieved

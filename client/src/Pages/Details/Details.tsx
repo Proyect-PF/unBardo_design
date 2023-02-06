@@ -1,19 +1,19 @@
-import imageF from "../../assets/images/remeras/unbardo-07F.png";
-import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import { useSelector, useDispatch } from "react-redux";
+import imageB from "../../assets/images/remeras/unbardo-07B.png";
+import imageF from "../../assets/images/remeras/unbardo-07F.png";
+import Button from "../../components/Buttons/Button/Button";
 import AmountInput from "../../components/Inputs/Amount/AmountInput";
 import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
-import { useLocation } from "react-router-dom";
-import Button from "../../components/Buttons/Button/Button";
-import { State } from "../../state/reducers";
 import { actionCreators } from "../../state";
+import { State } from "../../state/reducers";
 
 const Details = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { getProductDetails } = bindActionCreators(actionCreators, dispatch);
+  const { fetch_product_detail } = bindActionCreators(actionCreators, dispatch);
   const { productDetails } = useSelector((state: State) => state.products);
   //AL: loading state for loading implementation (done)
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,7 @@ const Details = (): JSX.Element => {
   //AL:Same loading implementation as HOME page
   useEffect(() => {
     setLoading(true);
-    getProductDetails(id);
+    fetch_product_detail(id);
   }, [dispatch]);
 
   //AL: Check if the data is correct (see getProductDetails action for context), needs to be rewired

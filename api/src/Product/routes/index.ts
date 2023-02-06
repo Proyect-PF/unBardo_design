@@ -27,10 +27,11 @@ productRoutes.get("/", GET_AllProducts);
 productRoutes.get("/id/:id", GET_ProductById);
 productRoutes.delete("/delete/:id", POST_DeleteProduct);
 productRoutes.post("/new/", POST_NewProduct);
+productRoutes.get("/search/:name", GET_SearchByName);
 
 // PRODUCTS LIST OPERATIONS
 productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
-productRoutes.get("/search/:name", GET_SearchByName);
+
 
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.post("/images", postImage);

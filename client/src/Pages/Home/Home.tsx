@@ -1,3 +1,6 @@
+// import { Cloudinary } from "@cloudinary/url-gen";
+// import { AdvancedImage } from "@cloudinary/react";
+// import { fill } from "@cloudinary/url-gen/actions/resize";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -5,7 +8,7 @@ import photo from "../../assets/images/homep.jpg";
 import ig1 from "../../assets/images/ig1.jpg";
 import ig2 from "../../assets/images/ig2.jpg";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
-import imageF from "../../assets/images/remeras/unbardo-07F.png";
+// import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import Product from "../../components/Cards/Product/Product";
 import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
@@ -50,7 +53,7 @@ const Home = () => {
               (e): JSX.Element => (
                 <Product
                   imageB={imageB}
-                  imageF={imageF}
+                  imageF={e.image}
                   name={e.name}
                   price={e.price.toString()}
                   id={Number(e.id)}

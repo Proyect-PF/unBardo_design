@@ -8,6 +8,7 @@ import { State } from "../../state/reducers";
 import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
 import useNewProductForm from "./useNewProductForm";
+import UploadWidget from "../UploadWidget/UploadWidget";
 
 const ProductForm: React.FC = () => {
   const [inputValues, dispatch] = useNewProductForm();
@@ -26,8 +27,12 @@ const ProductForm: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(inputValues);
     addProduct(inputValues);
     dispatch({ type: "clear" });
+    document.querySelectorAll("input[type=checkbox]").forEach((e: any) => {
+      e.checked = false;
+    });
   };
 
   const handleChange = (
@@ -210,6 +215,7 @@ const ProductForm: React.FC = () => {
         </div>
 
         {/* SE ENVIA NAME: FILE */}
+        <UploadWidget dispatch={dispatch} />
         {/* <div>
           <p className="text-xl font-medium ">Cargar imagenes</p>
           <input
@@ -256,6 +262,7 @@ const ProductForm: React.FC = () => {
         </div>
 
         <Button
+          type="button"
           text="Limpiar Formulario"
           name="clearProdCreation"
           onClick={handleClear}
@@ -263,6 +270,7 @@ const ProductForm: React.FC = () => {
         />
 
         <Button
+          type="submit"
           text="Crear Publicación"
           name="CreateProduct"
           onClick={() => {}}

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import db from "../../models";
+import db from '../../database';
 import { Product } from './../../../../client/src/state/types/index';
 
 

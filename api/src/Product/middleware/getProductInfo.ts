@@ -1,4 +1,4 @@
-import db from "../../models";
+import db from "../../database";
 
 const getProductInfo = async (id: any): Promise<any> => {
   try {

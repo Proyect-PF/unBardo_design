@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import db from "../../models";
+import { NextFunction, Request, Response } from "express";
+import db from "../../database";
 
 const validateImageId = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;

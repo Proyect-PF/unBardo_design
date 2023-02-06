@@ -1,5 +1,4 @@
-import db from "../../models";
-
+import db from "../../database";
 const insertImage = async (data: any) => {
     try {
         const { productId, imgUrl } = data;

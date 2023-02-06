@@ -1,5 +1,5 @@
-import db from "../../models";
 import { Op } from "sequelize";
+import db from "../../database";
 
 const searchByName = async (search: string) => {
   try {

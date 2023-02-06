@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import db from "../../models";
+import db from "../../database";
 
 const postImage = async (request: Request, response: Response) => {
     try {

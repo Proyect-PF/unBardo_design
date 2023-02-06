@@ -41,22 +41,23 @@ export default (sequelize:any, DataTypes:any) => {
     SKU!: string;
     barcode!: string;
     id_category!:number;
+    image!:string;
 
 
       static associate(models: any) {
-        Product.hasMany(models.Image, {
-          foreignKey: 'productId',
-          as: 'images',
-        })
+        // Product.hasMany(models.Image, {
+        //   foreignKey: 'productId',
+        //   as: 'images',
+        // })
         
         Product.belongsTo(models.Category, {
             foreignKey: 'id_category',
         } )
 
-        Product.hasMany(models.ProductVariant, {
-          foreignKey: 'productId',
-          as: 'variants',
-        });
+        // Product.hasMany(models.ProductVariant, {
+        //   foreignKey: 'productId',
+        //   as: 'variants',
+        // });
 
       }
 
@@ -73,9 +74,9 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.STRING,
       // allowNull: false
     },
-    // image_url: {
-    //   type: DataTypes.STRING
-    // },
+    image: {
+      type: DataTypes.STRING
+    },
     name: {
       type: DataTypes.STRING,
       // allowNull: false

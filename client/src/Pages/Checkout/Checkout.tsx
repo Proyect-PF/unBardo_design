@@ -53,6 +53,7 @@ const Checkout = (): JSX.Element => {
         0
       )}`}</p>
       <Button
+        type="button"
         name="Checkout"
         text={`Pagar ahora (${products.reduce((acc, e) => {
           return acc + e.ammount;

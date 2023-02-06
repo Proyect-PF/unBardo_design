@@ -1,51 +1,54 @@
-import { useReducer } from "react"
-import { Product } from "../../state/types"
+import { useReducer } from "react";
+import { Product } from "../../state/types";
 
 interface FormState {
-    inputValues:  Product
-  }
-
+  inputValues: Product;
+}
 
 const INITIAL_STATE = {
-    name: "",
-    description: "",
-    price: 0,
-    size: "",
-    color: "",
-    show_in_shop: "",
-    image: new File([], ""),
-  }
+  name: "",
+  description: "",
+  price: 0,
+  size: "",
+  color: "",
+  show_in_shop: "",
+  image: "",
+};
 
 // Tipo para definir las actions del reducer
-  type FormReducerAction = {
-    type: "change_value",
-    payload: {
-      inputName: string,
-      inputValue: string
+type FormReducerAction =
+  | {
+      type: "change_value";
+      payload: {
+        inputName: string;
+        inputValue: string;
+      };
     }
-  } | {
-      type: "clear"
+  | {
+      type: "clear";
+    };
+
+const formReducer = (
+  state: FormState["inputValues"],
+  action: FormReducerAction
+) => {
+  switch (action.type) {
+    case "change_value":
+      const { inputName, inputValue } = action.payload;
+      return {
+        ...state,
+        [inputName]: inputValue,
+      };
+    case "clear":
+      return INITIAL_STATE;
+
+    default:
+      return state;
   }
+};
 
-  const formReducer = (state: FormState["inputValues"], action: FormReducerAction) => {
-    switch(action.type){
-      case "change_value":
-        const {inputName, inputValue} = action.payload
-        return {
-          ...state,
-          [inputName]: inputValue
-        }
-      case "clear":
-          return INITIAL_STATE
+const useNewProductForm = () => {
+  return useReducer(formReducer, INITIAL_STATE);
+};
 
-      default:
-        return state
-    }
-  }
-
-
-  const useNewProductForm = () => {
-    return useReducer(formReducer, INITIAL_STATE)
-  }
-
-  export default useNewProductForm
+export default useNewProductForm;

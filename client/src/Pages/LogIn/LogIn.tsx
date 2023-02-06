@@ -58,6 +58,7 @@ const LogIn = (): JSX.Element => {
         />
       </div>
       <Button
+        type="button"
         name="LogIn"
         text="Iniciar Sesion"
         onClick={handleClick}

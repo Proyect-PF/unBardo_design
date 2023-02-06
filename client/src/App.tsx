@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 import NewProductForm from "./components/NewProduct/NewProductForm";
@@ -10,7 +9,6 @@ import Checkout from "./Pages/Checkout/Checkout";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
 import LogIn from "./Pages/LogIn/LogIn";
-
 import Searchbar from "./layouts/Searchbar/Searchbar";
 
 function App() {

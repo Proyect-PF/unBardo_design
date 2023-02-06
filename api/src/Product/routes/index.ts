@@ -5,10 +5,8 @@ const productRoutes = Router();
 import { GET_AllProducts, GET_FillteredOrderProducts, GET_ProductById, GET_SearchByName, POST_NewProduct } from "../controllers/controllers_product";
 // PRODUCT FUNCTIONS
 import deleteProduct from '../controllers/deleteProduct';
-import getProduct from '../controllers/getProduct';
 // PRODUCTS LIST FUNCTIONS
 //import controller_getFillteredOrderProducts from "../controllers/controller_getFillteredOrderProducts";
-import searchProduct from '../controllers/searchProduct';
 
 import deleteImage from '../controllers/deleteImage';
 import getImages from '../controllers/getImages';

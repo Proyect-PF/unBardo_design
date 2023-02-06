@@ -51,9 +51,9 @@ fs
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
-    console.log("MODELO",db[modelName].associations);
+    //console.log("MODELO",db[modelName].associations);
     for (const association in db[modelName].associations) {
-      console.log(` ASOCIACION: ${association} : MODELO ${db[modelName].associations[association].associationType}`);
+      console.log(` MODELO: ${association} : ASOCIACION ${db[modelName].associations[association].associationType}`);
     }
   }
 });

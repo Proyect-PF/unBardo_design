@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import db from "../../models";
-import { Product } from './../../../../client/src/state/types/index';
+// import { Product } from './../../../../client/src/state/types/index';
 
 
 

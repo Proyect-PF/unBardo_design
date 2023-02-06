@@ -106,15 +106,36 @@ export const POST_NewProduct = async (request: Request, response: Response) =>{
 
 export const GET_ProductById = async (request:Request, response:Response) => {
   try {
-     const {id} = request.query;
+     const {id} = request.params;
      if (id) {
-        const PRODUCT_INFO = await db.Product.crea
+        const PRODUCT_INFO = await db.Product.findOne({
+          where: {
+            id,
+          },
+        attributes: {
+          exclude: [
+            "promotional_price",
+            "video",
+            "stock",
+            "height",
+            "weight",
+            "width",
+            "length",
+            "SKU",
+            "barcode",
+            "createdAt",
+            "updatedAt",
+            "adminId",
+            "id_category",
+          ],
+        },
+      });
         return (PRODUCT_INFO === null)? response.status(204).json('Porducto no encontrado') : response.status(200).json(PRODUCT_INFO); //TODO: STATUS => 200: OK, 204: No Content
      }
   } catch (error:any) {
      return response.status(400).json(error.message) //TODO: STATUS => 400: Bad Request
   }
-}
+};
 
 export const GET_AllProducts = async (request:Request, response:Response) => {
   try {
@@ -139,6 +160,37 @@ export const GET_AllProducts = async (request:Request, response:Response) => {
       },
     });
     return response.status(200).json(ALL_PRODUCTS);
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const GET_SearchByName = async (request:Request, response:Response) => {
+  const { name }  = request.params;
+  try {
+    const searchProduct = await db.Product.findAll({
+      where: {
+        name: { [Op.iLike]: `%${name}%` },
+      },
+      attributes: {
+        exclude: [
+          "promotional_price",
+          "video",
+          "stock",
+          "height",
+          "weight",
+          "width",
+          "length",
+          "SKU",
+          "barcode",
+          "createdAt",
+          "updatedAt",
+          "adminId",
+          "id_category",
+        ],
+      },
+    });
+    return response.status(200).json(searchProduct);
   } catch (error: any) {
     throw new Error(error.message);
   }

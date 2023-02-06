@@ -2,7 +2,7 @@
 import { Router } from 'express';
 const productRoutes = Router();
 
-import { GET_AllProducts, GET_FillteredOrderProducts, GET_ProductById, POST_NewProduct } from "../controllers/controllers_product";
+import { GET_AllProducts, GET_FillteredOrderProducts, GET_ProductById, GET_SearchByName, POST_NewProduct } from "../controllers/controllers_product";
 // PRODUCT FUNCTIONS
 import deleteProduct from '../controllers/deleteProduct';
 import getProduct from '../controllers/getProduct';
@@ -17,28 +17,6 @@ import postImage from '../controllers/postImage';
 import updateImage from '../controllers/updateImage';
 import validateImageId from '../middleware/validateImageId';
 
-type productType = {
-    name: string,
-    description: Text,
-    size: string,
-    price: number,
-    promotional_price: number,
-    video: string,
-    show_in_shop: string,
-    stock: number,
-    weight: number,
-    width: number,
-    height: number,
-    length: number,
-    SKU: string,
-    barcode: string,
-    CategoryId:number
-  }
-  
-
-
-
-
 // PRDUCT CRUD
 productRoutes.get("/", GET_AllProducts)
 productRoutes.get("/id/:id", GET_ProductById);
@@ -48,7 +26,7 @@ productRoutes.post("/new/", POST_NewProduct);
 
 // PRODUCTS LIST OPERATIONS
 productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
-productRoutes.get("/search/:search", searchProduct)
+productRoutes.get("/search/:name", GET_SearchByName)
 
 
 productRoutes.delete("/images/:id", validateImageId, deleteImage);

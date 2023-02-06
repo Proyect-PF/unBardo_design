@@ -18,7 +18,7 @@ const getFillteredOrderProducts = async (
       byColor === "all"
     ) {
       filteredProducts = await db.Product.findAll({
-         order: [['price', byOrder ? byOrder :"ASC"],],
+         order: [['price', byOrder ? byOrder : "ASC"],],
         attributes: {
           exclude: [
             "promotional_price",
@@ -32,7 +32,6 @@ const getFillteredOrderProducts = async (
             "barcode",
             "createdAt",
             "updatedAt",
-            "adminId",
             "id_category",
           ],
         },
@@ -56,7 +55,6 @@ const getFillteredOrderProducts = async (
             "barcode",
             "createdAt",
             "updatedAt",
-            "adminId",
             "id_category",
           ],
         },

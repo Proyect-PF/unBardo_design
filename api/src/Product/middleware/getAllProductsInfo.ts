@@ -1,5 +1,4 @@
-import db from "../../models";
-
+import db from "../../database";
 const getAllProductsInfo = async () => {
   try {
     const allProduct = await db.Product.findAll({

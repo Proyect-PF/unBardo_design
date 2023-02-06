@@ -7,8 +7,8 @@ import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
 import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
-import useNewProductForm from "./useNewProductForm";
 import UploadWidget from "../UploadWidget/UploadWidget";
+import useNewProductForm from "./useNewProductForm";
 
 const ProductForm: React.FC = () => {
   const [inputValues, dispatch] = useNewProductForm();
@@ -18,7 +18,7 @@ const ProductForm: React.FC = () => {
   const navigate = useNavigate();
 
   const dispatcher = useDispatch();
-  let { addProduct } = bindActionCreators(actionCreators, dispatcher);
+  let { create_product } = bindActionCreators(actionCreators, dispatcher);
 
   useEffect(() => {
     !adminLogin && navigate("/");
@@ -28,7 +28,7 @@ const ProductForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(inputValues);
-    addProduct(inputValues);
+    create_product(inputValues);
     dispatch({ type: "clear" });
     document.querySelectorAll("input[type=checkbox]").forEach((e: any) => {
       e.checked = false;

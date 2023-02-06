@@ -1,5 +1,5 @@
 import { OrdersType } from "..";
-import db from "../../models";
+import db from "../../database";
 const createOrder = async (order:OrdersType) => {
     try {
         console.log(order)

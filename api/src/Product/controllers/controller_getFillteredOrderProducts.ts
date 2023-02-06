@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import db from "../../models";
+import db from "../../database";
 import { Op } from "sequelize";
 
 const getFillteredOrderProducts = async (

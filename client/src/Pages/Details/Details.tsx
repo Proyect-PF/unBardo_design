@@ -88,7 +88,10 @@ const Details = (): JSX.Element => {
           <div>
             <div className="flex justify-around my-8 text-lg text-center">
               <SizeSelector
-                sizes={productDetails.size.toUpperCase().split(",")}
+                sizes={productDetails.size
+                  .toUpperCase()
+                  .split(",")
+                  .filter((e) => e !== "")}
                 setter={setSize}
               />
               <AmountInput setter={setAmount} />

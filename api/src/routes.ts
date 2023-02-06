@@ -6,6 +6,8 @@ import userRoutes from "./User/routes";
 const routes = Router();
 
 
+//END POINTS
+
 //Ruta de usuarios
 routes.use("/users", userRoutes);
 
@@ -17,7 +19,10 @@ routes.use("/orders", orderRoutes);
 
 
 
-routes.use("/categories", categoryRoutes);
+// COMENTADA POR JOAQUIN
+// NO SE SABE SI SE VAN A IMPLEMENTAR CATEGORIAS
+
+// routes.use("/categories", categoryRoutes);
 
 
 

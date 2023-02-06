@@ -196,7 +196,7 @@ export const GET_SearchByName = async (request:Request, response:Response) => {
   }
 };
 
-export const POST_DeleteProduct = async (request: Request, response: Response) => {
+export const DELETE_DeleteProduct = async (request: Request, response: Response) => {
   const {id} = request.params;
   try {
       const DELETE_PRDOUCT = await db.Product.destroy({

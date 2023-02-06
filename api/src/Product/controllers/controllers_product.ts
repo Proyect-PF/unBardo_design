@@ -196,3 +196,16 @@ export const GET_SearchByName = async (request:Request, response:Response) => {
   }
 };
 
+export const POST_DeleteProduct = async (request: Request, response: Response) => {
+  const {id} = request.params;
+  try {
+      const DELETE_PRDOUCT = await db.Product.destroy({
+        where: {
+          id,
+        }
+      })
+  return response.status(200).json(DELETE_PRDOUCT);
+  } catch (error: any){
+    throw new Error(error.message)
+  }
+};

@@ -23,6 +23,9 @@ type productType = {
 
 
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
+
+// Joaco borraste todos los comment, hate u
+
 export const GET_FillteredOrderProducts = async (
   req: Request,
   res: Response

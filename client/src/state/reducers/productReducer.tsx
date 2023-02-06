@@ -15,6 +15,7 @@ const initialState: ProductState = {
     price: 0,
     color: "",
     show_in_shop: "",
+    image: "",
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
   render: true,
@@ -40,7 +41,7 @@ const productReducer = (
         productList: productSearch,
       };
     case ActionType.FILTER_PRODUCTS:
-      let filteredProducts: ProductState["productList"] = action.payload
+      let filteredProducts: ProductState["productList"] = action.payload;
       if (filteredProducts.length === 0) filteredProducts = state.productTotal;
       return {
         ...state,
@@ -70,7 +71,7 @@ const productReducer = (
         ...state,
         productList: action.payload,
       };
-    
+
     default:
       return {
         ...state,

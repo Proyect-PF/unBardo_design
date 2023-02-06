@@ -71,7 +71,7 @@ const Details = (): JSX.Element => {
             alt="black tshirt"
             src={imageB}
           />
-          <img className="" alt="black tshirt" src={imageF} />
+          <img className="" alt="black tshirt" src={productDetails.image} />
           {/* <img
           className="absolute w-16 border-2 border-black left-4 top-4 z-1"
           alt="black tshirt"
@@ -94,6 +94,7 @@ const Details = (): JSX.Element => {
               <AmountInput setter={setAmount} />
             </div>
             <Button
+              type="button"
               text="Añadir al carrito"
               onClick={handleCart}
               name="Carrito"

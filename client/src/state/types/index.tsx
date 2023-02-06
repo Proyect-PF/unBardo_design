@@ -6,7 +6,7 @@ export type Product = {
   price: number;
   color: string;
   show_in_shop: string;
-  image?: File;
+  image: string;
 };
 
 export type AddProductPayload = {
@@ -16,6 +16,7 @@ export type AddProductPayload = {
   price: number;
   color: string;
   show_in_shop: string;
+  image: string;
 };
 
 export type ProductState = {

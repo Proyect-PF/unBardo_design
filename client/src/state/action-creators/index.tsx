@@ -10,7 +10,7 @@ import { AddProductPayload, Product, ProductState } from "../types";
 export const getAllProducts = () => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get("http://localhost:3700/products").then((res) => {
+    axios.get("http://localhost:3800/products").then((res) => {
       payload = res.data;
       dispatch({
         type: ActionType.GET_ALL_PRODUCTS,
@@ -24,7 +24,7 @@ export const getAllProducts = () => {
 export const searchProducts = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
+    axios.get(`http://localhost:3800/products/search/${name}`).then((res) => {
       payload = res.data;
       dispatch({
         type: ActionType.SEARCH_PRODUCTS,
@@ -39,7 +39,7 @@ export const addProduct = (payload: Product) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     axios({
       method: "post",
-      url: "http://localhost:3700/products",
+      url: "http://localhost:3800/products",
       data: payload,
     }).then(() =>
       dispatch({
@@ -61,8 +61,9 @@ export const getProductDetails = (id: number) => {
       price: 0,
       color: "",
       show_in_shop: "",
+      image: "",
     };
-    axios.get(`http://localhost:3700/products?id=${id}`).then((res) => {
+    axios.get(`http://localhost:3800/products?id=${id}`).then((res) => {
       if (res.data?.id) {
         product = {
           id: res.data.id,
@@ -71,7 +72,8 @@ export const getProductDetails = (id: number) => {
           size: res.data.size,
           price: res.data.price,
           color: res.data.color,
-          show_in_shop: "",
+          show_in_shop: res.data.show_in_shop,
+          image: res.data.image,
         };
       }
       dispatch({
@@ -82,31 +84,31 @@ export const getProductDetails = (id: number) => {
   };
 };
 
-
-export const action_getFillteredOrderProducts = ( query: string) =>{
-  return (dispatch: Dispatch<ActionProducts>) =>{
-    let payload: ProductState["productList"] = [];
-    axios
-    .get(`http://localhost:3700/products/filtered/?${query}`)
-    .then((response) => {
-      if (response.data) {
-        payload = response.data;
-        dispatch({
-          type: ActionType.FILTER_PRODUCTS,
-          payload,
-        });
-      }
-    });
-  };
-};
-
-//AL: route needs to match http://localhost:3700/products/price/desc
-//so filter needs to be ["price","asc or desc"]
-{/*export const sortProducts = (sort: string[]) => {
+export const action_getFillteredOrderProducts = (query: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
-      .get(`http://localhost:3700/products/${sort[0]}/${sort[1]}`)
+      .get(`http://localhost:3800/products/filtered/?${query}`)
+      .then((response) => {
+        if (response.data) {
+          payload = response.data;
+          dispatch({
+            type: ActionType.FILTER_PRODUCTS,
+            payload,
+          });
+        }
+      });
+  };
+};
+
+//AL: route needs to match http://localhost:3800/products/price/desc
+//so filter needs to be ["price","asc or desc"]
+{
+  /*export const sortProducts = (sort: string[]) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
+    let payload: ProductState["productList"] = [];
+    axios
+      .get(`http://localhost:3800/products/${sort[0]}/${sort[1]}`)
       .then((res) => {
         if (res.data) {
           payload = res.data;
@@ -117,15 +119,17 @@ export const action_getFillteredOrderProducts = ( query: string) =>{
         }
       });
   };
-};*/}
+};*/
+}
 
-//AL: route needs to match http://localhost:3700/products/filterColor/black
+//AL: route needs to match http://localhost:3800/products/filterColor/black
 //so filter needs to be ["filterColor","color that needs to be filtered"]
-{/*export const filterProducts = (filter: string[]) => {
+{
+  /*export const filterProducts = (filter: string[]) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
-      .get(`http://localhost:3700/products/${filter[0]}/${filter[1]}`)
+      .get(`http://localhost:3800/products/${filter[0]}/${filter[1]}`)
       .then((res) => {
         if (res.data) {
           payload = res.data;
@@ -136,7 +140,8 @@ export const action_getFillteredOrderProducts = ( query: string) =>{
         }
       });
   };
-};*/}
+};*/
+}
 
 export const adminLog = () => {
   return (dispatch: Dispatch<ActionUser>) => {

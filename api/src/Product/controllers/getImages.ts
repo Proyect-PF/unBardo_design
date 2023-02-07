@@ -1,6 +1,6 @@
 import { Express, Request, Response } from "express";
 import getImagesInfo from "../middleware/getImagesInfo";
-import getAllProductsInfo from "../middleware/getAllProductsInfo";
+// import getAllProductsInfo from "../middleware/getAllProductsInfo";
 
 interface RequestParams {}
 

@@ -9,20 +9,18 @@ interface interUser {
 }
 
 export default (sequelize:any, DataTypes:any) => {
-  class Users extends Model implements Model<interUser>{
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class Users extends Model{
+
     firstName!: string
     lastName!:string
     email!:string
     color!:string
 
-    static associate(models:any) {
-      // define association here
-      //_id_
+    static associate(models: any) {
+      Users.hasMany(models.Orders, {
+        foreignKey: 'userId',
+        as: 'orders'
+      });
     }
   }
   Users.init({
@@ -32,8 +30,7 @@ export default (sequelize:any, DataTypes:any) => {
     },
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
-    color:DataTypes.STRING,
-    perritoColor: DataTypes.STRING
+
     
   }, {
     sequelize,

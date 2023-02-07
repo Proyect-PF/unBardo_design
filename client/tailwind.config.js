@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+//  @type {import('tailwindcss').Config}
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   presets: [],
@@ -368,7 +368,11 @@ module.exports = {
       DEFAULT: "1",
     },
     fontFamily: {
+      anisette: ["anisette-std", "sans-serif"],
+      rift: ["rift", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
       sans: [
+        "Poppins",
         '"Josefin Sans"',
         "ui-sans-serif",
         "system-ui",

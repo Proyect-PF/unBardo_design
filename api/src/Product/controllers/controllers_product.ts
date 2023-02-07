@@ -57,7 +57,7 @@ export const GET_FillteredOrderProducts = async (req: Request,res: Response)=> {
       
     return res.status(200).json(filteredProducts);
   } catch (error: any) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({error: error.message});
   }
 };
 
@@ -65,7 +65,7 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
   try {
     const newProduct = await db.Product.create(req.body);
     return res.status(201).json(newProduct);
-    } catch (error) {
+    } catch (error: any) {
     return res.status(400).json({ error: error.message });
     }
 };
@@ -80,8 +80,8 @@ export const GET_ProductById = async (request: Request, response: Response) => {
     });
     if (!product) return response.status(204).json("Producto no encontrado");
     return response.status(200).json(product);
-  } catch (error) {
-    return response.status(400).json(error.message);
+  } catch (error:any) {
+    return response.status(400).json({ error: error.message});
   }
 };
 
@@ -118,8 +118,8 @@ export const GET_SearchByName = async (
       },
     });
     return response.status(200).json(products);
-  } catch (error) {
-    return response.status(400).json(error.message);
+  } catch (error: any) {
+    return response.status(400).json({error: error.message});
   }
 };
 
@@ -132,7 +132,7 @@ export const DELETE_DeleteProduct = async (
   try {
     const deletedProduct = await db.Product.destroy({ where: { id } });
     return response.status(200).json(deletedProduct);
-  } catch (error) {
-    return response.status(500).json({rror: error.message, }).send("No se elimino");
+  } catch (error: any) {
+    return response.status(500).json({error: error.message, }).send("No se elimino");
   }
 };

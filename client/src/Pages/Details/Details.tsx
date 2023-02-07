@@ -32,7 +32,7 @@ const Details = (): JSX.Element => {
   useEffect(() => {
     setLoading(true);
     fetch_product_detail(id);
-  }, [dispatch]);
+  }, [dispatch,id]);
 
   //AL: Check if the data is correct (see getProductDetails action for context), needs to be rewired
   //  but functional for now.
@@ -73,11 +73,11 @@ const Details = (): JSX.Element => {
           />
           <img className="" alt="black tshirt" src={productDetails.image} />
           {/* <img
-          className="absolute w-16 border-2 border-black left-4 top-4 z-1"
-          alt="black tshirt"
-          src={show ? imageF : imageB}
-          onClick={handleShow}
-        /> */}
+            className="absolute w-16 border-2 border-black left-4 top-4 z-1"
+            alt="black tshirt"
+            src={show ? imageF : imageB}
+            onClick={handleShow}
+          /> */}
         </div>
         <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8">
           <div>

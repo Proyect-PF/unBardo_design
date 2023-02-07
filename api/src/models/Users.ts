@@ -9,15 +9,18 @@ interface interUser {
 }
 
 export default (sequelize:any, DataTypes:any) => {
-  class Users extends Model implements Model<interUser>{
+  class Users extends Model{
 
     firstName!: string
     lastName!:string
     email!:string
     color!:string
 
-    static associate(models:any) {
-            
+    static associate(models: any) {
+      Users.hasMany(models.Orders, {
+        foreignKey: 'userId',
+        as: 'orders'
+      });
     }
   }
   Users.init({

@@ -24,6 +24,7 @@ const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
         sizes.map((e) => (
           <button
             onClick={handleSize}
+            key={sizes.indexOf(e)}
             className={`w-8 h-8 border border-black ${
               selected === e ? "bg-black text-white" : "bg-white text-black"
             }`}

@@ -2,213 +2,137 @@ import { Express, Request, Response } from "express";
 import { Op } from "sequelize";
 import db from "../../database";
 
-type productType = {
-  name: string,
-  description: Text,
-  size: string,
-  price: number,
-  promotional_price: number,
-  video: string,
-  show_in_shop: string,
-  stock: number,
-  weight: number,
-  width: number,
-  height: number,
-  length: number,
-  SKU: string,
-  barcode: string,
-  CategoryId:number
-}
-
-
+// LOS PRODUCT EN LA BASE DE DATOS TIENEN ESTA INFO TAMBIEN, Y NO QUEREMOS TOMARLA. ASIQUE USAMOS ...TO_EXCLUDE en la query, para todos
+// los endpoint
+const TO_EXCLUDE = [
+  "promotional_price",
+  "video",
+  "stock",
+  "height",
+  "weight",
+  "width",
+  "length",
+  "SKU",
+  "barcode",
+  "createdAt",
+  "updatedAt",
+  "adminId",
+  "id_category",
+];
 
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
 
-// Joaco borraste todos los comment, hate u
-
-export const GET_FillteredOrderProducts = async (
-  req: Request,
-  res: Response
-): Promise<Object> => {
+export const GET_FillteredOrderProducts = async (req: Request,res: Response)=> {
   try {
     let filteredProducts;
     const { byColor, byOrder } = req.query;
-    if (
-      byColor === "undefined" ||
-      !byColor ||
-      byOrder === "undefined" ||
-      byColor === "null" ||
-      byOrder === "null" ||
-      byColor === "all"
-    ) {
-      filteredProducts = await db.Product.findAll({
-         order: [['price', byOrder ? byOrder :"ASC"],],
-        attributes: {
-          exclude: [
-            "promotional_price",
-            "video",
-            "stock",
-            "height",
-            "weight",
-            "width",
-            "length",
-            "SKU",
-            "barcode",
-            "createdAt",
-            "updatedAt",
-            "adminId",
-            "id_category",
-          ],
-        },
-      });
-    } else {
-      filteredProducts = await db.Product.findAll({
-        where: {
-          color: { [Op.iLike]: byColor },
-        },
-        order: [["price", byOrder ? byOrder : "ASC"]],
-        attributes: {
-          exclude: [
-            "promotional_price",
-            "video",
-            "stock",
-            "height",
-            "weight",
-            "width",
-            "length",
-            "SKU",
-            "barcode",
-            "createdAt",
-            "updatedAt",
-            "adminId",
-            "id_category",
-          ],
-        },
-      });
-    }
+
+    // Intentamos quitar las cosas que se repiten nuevamente.
+    const COMMON = {
+      order: [["price", byOrder || "ASC"]],
+      attributes: {
+        exclude: TO_EXCLUDE,
+      },
+    };
+
+    // Seteamos una consulta standar, para no repetir. De todos modos este parseo hay que arreglaro en el componente principal
+    const WHERE =
+      byColor &&
+      byColor !== "null" &&
+      byColor !== "all" &&
+      byColor !== "undefined"
+        ? { where: { color: { [Op.iLike]: byColor } } }
+        : {};
+
+    // Como pasamos un objeto, usamos ... para terminar de armar la consulta
+    filteredProducts = await db.Product.findAll({
+      ...WHERE,
+      ...COMMON,
+    });
 
     if (!filteredProducts.length)
       throw new Error(
         "No se encontraron productos en la base de datos cargados"
       );
+      
     return res.status(200).json(filteredProducts);
   } catch (error: any) {
-    return res.status(400).json(error.message);
+    return res.status(400).json({error: error.message});
   }
 };
 
-export const POST_NewProduct = async (request: Request, response: Response) =>{
-    const producto = request.body;
-    try {
-        const CARGAR = await db.Product.create(producto)
-        return response.status(201).json(CARGAR)
+export const POST_NewProduct = async (req: Request, res: Response) => {
+  try {
+    const newProduct = await db.Product.create(req.body);
+    return res.status(201).json(newProduct);
     } catch (error: any) {
-      return response.status(400).json({ error: error.message });
+    return res.status(400).json({ error: error.message });
     }
-}
+};
 
-export const GET_ProductById = async (request:Request, response:Response) => {
+export const GET_ProductById = async (request: Request, response: Response) => {
+  const { id } = request.params;
+  if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
   try {
-     const {id} = request.params;
-     if (id) {
-        const PRODUCT_INFO = await db.Product.findOne({
-          where: {
-            id,
-          },
-        attributes: {
-          exclude: [
-            "promotional_price",
-            "video",
-            "stock",
-            "height",
-            "weight",
-            "width",
-            "length",
-            "SKU",
-            "barcode",
-            "createdAt",
-            "updatedAt",
-            "adminId",
-            "id_category",
-          ],
-        },
-      });
-        return (PRODUCT_INFO === null)? response.status(204).json('Porducto no encontrado') : response.status(200).json(PRODUCT_INFO); //TODO: STATUS => 200: OK, 204: No Content
-     }
+    const product = await db.Product.findOne({
+      where: { id },
+      attributes: { exclude: TO_EXCLUDE }
+    });
+    if (!product) return response.status(204).json("Producto no encontrado");
+    return response.status(200).json(product);
   } catch (error:any) {
-     return response.status(400).json(error.message) //TODO: STATUS => 400: Bad Request
+    return response.status(400).json({ error: error.message});
   }
 };
 
-export const GET_AllProducts = async (request:Request, response:Response) => {
+export const GET_AllProducts = async (request: Request, response: Response) => {
   try {
-    const ALL_PRODUCTS = await db.Product.findAll({
+    const total = await db.Product.count();
+    const products = await db.Product.findAll({
       include: db.Category,
       attributes: {
-        exclude: [
-          "promotional_price",
-          "video",
-          "stock",
-          "height",
-          "weight",
-          "width",
-          "length",
-          "SKU",
-          "barcode",
-          "createdAt",
-          "updatedAt",
-          "adminId",
-          "id_category",
-        ],
+        exclude: TO_EXCLUDE,
       },
     });
-    return response.status(200).json(ALL_PRODUCTS);
+
+    response.set("X-Total-Count", total);
+    return response.status(200).json(products);
   } catch (error: any) {
-    throw new Error(error.message);
+    return response.status(500).json({ error: error.message });
   }
 };
 
-export const GET_SearchByName = async (request:Request, response:Response) => {
-  const { name }  = request.params;
-  try {
-    const searchProduct = await db.Product.findAll({
+export const GET_SearchByName = async (
+  request: Request,
+  response: Response
+) => {
+  const { name } = request.params;
+  if (!name) return response.status(400).json("No se ha proporcionado un NOMBRE de producto");
+  try { 
+    const products = await db.Product.findAll({
       where: {
         name: { [Op.iLike]: `%${name}%` },
       },
       attributes: {
-        exclude: [
-          "promotional_price",
-          "video",
-          "stock",
-          "height",
-          "weight",
-          "width",
-          "length",
-          "SKU",
-          "barcode",
-          "createdAt",
-          "updatedAt",
-          "adminId",
-          "id_category",
-        ],
+        exclude: TO_EXCLUDE,
       },
     });
-    return response.status(200).json(searchProduct);
+    return response.status(200).json(products);
   } catch (error: any) {
-    throw new Error(error.message);
+    return response.status(400).json({error: error.message});
   }
 };
 
-export const DELETE_DeleteProduct = async (request: Request, response: Response) => {
-  const {id} = request.params;
+export const DELETE_DeleteProduct = async (
+  request: Request,
+  response: Response
+) => {
+  const { id } = request.params;
+  if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A ELIMINAR");
   try {
-      const DELETE_PRDOUCT = await db.Product.destroy({
-        where: {
-          id,
-        }
-      })
-  return response.status(200).json(DELETE_PRDOUCT);
-  } catch (error: any){
-    throw new Error(error.message)
+    const deletedProduct = await db.Product.destroy({ where: { id } });
+    return response.status(200).json(deletedProduct);
+  } catch (error: any) {
+    return response.status(500).json({error: error.message, }).send("No se elimino");
   }
 };

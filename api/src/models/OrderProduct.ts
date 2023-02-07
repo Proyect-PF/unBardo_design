@@ -6,11 +6,11 @@ export default (sequelize: any, DataTypes: any) => {
     class OrderProducts extends Model {
         static associate(models: any) {
             OrderProducts.belongsTo(models.Orders, {
-                foreignKey: "orderId",
+                foreignKey: "id_order",
                 as: "orders",
             });
             OrderProducts.belongsTo(models.Product, {
-                foreignKey: "productId",
+                foreignKey: "id_product",
                 as: "products",
             });
         }
@@ -24,7 +24,7 @@ export default (sequelize: any, DataTypes: any) => {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            orderId: {
+            id_order: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {
@@ -32,7 +32,7 @@ export default (sequelize: any, DataTypes: any) => {
                     key: "id",
                 },
             },
-            productId: {
+            id_product: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {

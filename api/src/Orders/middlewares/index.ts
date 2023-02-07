@@ -14,7 +14,8 @@ interface RequestWithUser extends Request {
 }
 
 export const verifyToken: RequestHandler = (req, res, next) => {
-    const token = req.headers["x-access-token"] || fakeToken;
+    // const token = req.headers["x-access-token"] || fakeToken;
+    const token = req.headers["authorization"] ? req.headers["authorization"].split(" ")[1] : fakeToken;
     if (!token) {
         return res.status(401).json({ message: "Unauthorized" });
     }

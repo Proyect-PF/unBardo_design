@@ -8,8 +8,8 @@ import Sidebar from "./layouts/Sidebar/Sidebar";
 import Checkout from "./Pages/Checkout/Checkout";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
-import LogIn from "./Pages/LogIn/LogIn";
 import Searchbar from "./layouts/Searchbar/Searchbar";
+import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -39,7 +39,7 @@ function App() {
           <Route path="*" element={<div>404</div>} />
           <Route path="/" element={<Home />} />
           <Route path="/product/:name" element={<Details />} />
-          <Route path="/account/login" element={<LogIn />} />
+          <Route path="/account/login" element={<UserSignPage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/account/panel" element={<div>Admin Panel</div>} />
           <Route path="/panel/newproduct" element={<NewProductForm />} />

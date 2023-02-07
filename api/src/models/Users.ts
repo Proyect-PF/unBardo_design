@@ -18,7 +18,7 @@ export default (sequelize:any, DataTypes:any) => {
 
     static associate(models: any) {
       Users.hasMany(models.Orders, {
-        foreignKey: 'userId',
+        foreignKey: 'id_user',
         as: 'orders'
       });
     }
@@ -30,8 +30,7 @@ export default (sequelize:any, DataTypes:any) => {
     },
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
-    color:DataTypes.STRING,
-    perritoColor: DataTypes.STRING
+
     
   }, {
     sequelize,

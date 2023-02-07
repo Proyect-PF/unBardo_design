@@ -30,8 +30,7 @@ export default (sequelize:any, DataTypes:any) => {
     },
     lastName: DataTypes.STRING,
     email: DataTypes.STRING,
-    color:DataTypes.STRING,
-    perritoColor: DataTypes.STRING
+
     
   }, {
     sequelize,

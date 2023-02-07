@@ -49,11 +49,23 @@ export default (sequelize: any, DataTypes: any) => {
                 primaryKey: true,
                 autoIncrement: true,
             },
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                references: {
+                    model: "Users",
+                    key: "id",
+                },
+            },
             total_amount: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
             status: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            shipping_address: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
@@ -65,3 +77,4 @@ export default (sequelize: any, DataTypes: any) => {
     );
     return Orders;
 };
+

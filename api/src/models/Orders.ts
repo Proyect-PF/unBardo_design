@@ -23,10 +23,10 @@ export default (sequelize: any, DataTypes: any) => {
             // models.Orders.hasMany(models.OrderDetail, { foreignKey: 'orderId' });
             Orders.belongsToMany(models.Product, {
                 through: models.OrderProducts,
-                foreignKey: 'orderId',
+                foreignKey: 'id_order',
                 as: 'products'
             });
-            Orders.belongsTo(models.Users, {foreignKey: 'userId', as: 'users'});
+            Orders.belongsTo(models.Users, {foreignKey: 'id_user', as: 'users'});
 
         }
     }
@@ -49,7 +49,7 @@ export default (sequelize: any, DataTypes: any) => {
                 primaryKey: true,
                 autoIncrement: true,
             },
-            userId: {
+            id_user: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 references: {

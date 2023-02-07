@@ -13,7 +13,7 @@ interface Props {
 
 const Searchbar = ({ openClose, handleSearch }: Props) => {
   const dispatch = useDispatch();
-  const { searchProducts } = bindActionCreators(actionCreators, dispatch);
+  const { fetch_product_byname } = bindActionCreators(actionCreators, dispatch);
 
   const [input, setInput] = useState("");
   const [showFilter, setShowFilters] = useState(false);
@@ -26,7 +26,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-    searchProducts(e.target.value);
+    fetch_product_byname(e.target.value);
   };
 
   const handleShowFilters = () => {

@@ -1,4 +1,4 @@
-import db from "../../models";
+import db from "../../database";
 const getImageInfo = async (id: any) => {
     try {
         return await db.sequelize.query(`

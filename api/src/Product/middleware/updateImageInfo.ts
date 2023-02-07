@@ -1,4 +1,4 @@
-import db from "../../models";
+import db from "../../database";
 
 const updateImageInfo = async (id: any, imgUrl: string) => {
     try {

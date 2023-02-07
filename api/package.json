@@ -1,6 +1,6 @@
 {
   "name": "api_unbardo",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Lado del servidor de la aplicacion para la empresa UnBardo design",
   "main": "index.ts",
   "scripts": {
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@types/helmet": "^4.0.0",
+    "@types/jsonwebtoken": "^9.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -35,6 +36,7 @@
     "helmet": "^6.0.1",
     "http-errors": "^2.0.0",
     "i": "^0.3.7",
+    "jsonwebtoken": "^9.0.0",
     "npm": "^9.4.1",
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",

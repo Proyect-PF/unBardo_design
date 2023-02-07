@@ -18,7 +18,7 @@ export default (sequelize:any, DataTypes:any) => {
 
     static associate(models: any) {
       Users.hasMany(models.Orders, {
-        foreignKey: 'userId',
+        foreignKey: 'id_user',
         as: 'orders'
       });
     }

@@ -98,7 +98,7 @@ const ProductForm: React.FC = () => {
         {/* SE ENVIA NAME: NAME */}
         <div>
           <p className="text-xl font-medium ">NOMBRE:</p>
-          <Input
+          {/* <Input
             id="name"
             type="text"
             placeholder="Nombre..."
@@ -106,7 +106,7 @@ const ProductForm: React.FC = () => {
             value={inputValues.name}
             onChange={handleChange}
             className="italic font-poppins"
-          />
+          /> */}
         </div>
 
         {/* SE ENVIA NAME: DESCRIPTION */}
@@ -232,7 +232,7 @@ const ProductForm: React.FC = () => {
         <div>
           <p className="text-xl font-medium ">Precio:</p>
 
-          <Input
+          {/* <Input
             id="price"
             name="price"
             type="number"
@@ -240,7 +240,7 @@ const ProductForm: React.FC = () => {
             placeholder="$$$"
             onChange={handleChange}
             className="mt-2 italic font-poppins"
-          />
+          /> */}
         </div>
 
         {/* SE ENVIA NAME: STOCK */}

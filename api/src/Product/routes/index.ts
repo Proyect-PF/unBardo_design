@@ -8,7 +8,8 @@ import {
     GET_ProductById,
     GET_SearchByName,
     DELETE_DeleteProduct,
-    POST_NewProduct
+    POST_NewProduct,
+    UPDATE_UpdateProduct
 } from "../controllers/controllers_product";
 
 import deleteImage from "../controllers/deleteImage";
@@ -17,6 +18,7 @@ import getVariants from "../controllers/getVariants";
 import postImage from "../controllers/postImage";
 import updateImage from "../controllers/updateImage";
 import validateImageId from "../middleware/validateImageId";
+
 
 
 productRoutes.get("/", GET_AllProducts);
@@ -31,6 +33,8 @@ productRoutes.delete("/delete/:id", DELETE_DeleteProduct);
 
 
 productRoutes.post("/new/", POST_NewProduct);
+
+productRoutes.put("/update/", UPDATE_UpdateProduct);
 
 
 

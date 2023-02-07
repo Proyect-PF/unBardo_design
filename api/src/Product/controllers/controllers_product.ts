@@ -1,6 +1,7 @@
-import { Express, Request, Response } from "express";
+import { Express, Request, Response, response } from "express";
 import { Op } from "sequelize";
 import db from "../../database";
+import { request } from "http";
 
 // LOS PRODUCT EN LA BASE DE DATOS TIENEN ESTA INFO TAMBIEN, Y NO QUEREMOS TOMARLA. ASIQUE USAMOS ...TO_EXCLUDE en la query, para todos
 // los endpoint
@@ -21,6 +22,7 @@ const TO_EXCLUDE = [
 ];
 
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
+
 
 export const GET_FillteredOrderProducts = async (req: Request,res: Response)=> {
   try {
@@ -65,7 +67,7 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
   try {
     const newProduct = await db.Product.create(req.body);
     return res.status(201).json(newProduct);
-    } catch (error) {
+    } catch (error:any) {
     return res.status(400).json({ error: error.message });
     }
 };
@@ -80,7 +82,7 @@ export const GET_ProductById = async (request: Request, response: Response) => {
     });
     if (!product) return response.status(204).json("Producto no encontrado");
     return response.status(200).json(product);
-  } catch (error) {
+  } catch (error:any) {
     return response.status(400).json(error.message);
   }
 };
@@ -118,7 +120,7 @@ export const GET_SearchByName = async (
       },
     });
     return response.status(200).json(products);
-  } catch (error) {
+  } catch (error:any) {
     return response.status(400).json(error.message);
   }
 };
@@ -132,7 +134,47 @@ export const DELETE_DeleteProduct = async (
   try {
     const deletedProduct = await db.Product.destroy({ where: { id } });
     return response.status(200).json(deletedProduct);
-  } catch (error) {
+  } catch (error:any) {
     return response.status(500).json({rror: error.message, }).send("No se elimino");
   }
 };
+
+
+export const UPDATE_UpdateProduct = async (
+  request: Request,
+  response: Response 
+) => {
+  try{
+  const product = request.body;
+  
+        // const existingProduct = await db.Product.findByPk(product.id);
+        // if (!existingProduct) { 
+          
+        //     throw new Error(` product found with id ${product.id}`);
+        // }
+  const [numberOfAffectedRows, affectedRows] = await db.Product.update({
+          name: product.name,
+          image: product.image,
+          description: product.description,
+          size: product.size,
+          price: product.price,
+          show_in_shop: product.show_in_shop,
+          color: product.color,
+          //"id_category": product.id_category,
+      }, {
+          where: { id: product.id },
+          returning: true
+      });
+      if (numberOfAffectedRows === 0) {
+          throw new Error(`No product updated with id ${product.id}`);
+      }
+      return response.status(200).json(affectedRows[0]);
+      
+
+       //TODO: STATUS => 201: Created, 204: No Content
+   } catch (error:any) {
+      return response.status(400).json(error.message) //TODO: STATUS => 400: Bad Request
+   }
+  }
+
+

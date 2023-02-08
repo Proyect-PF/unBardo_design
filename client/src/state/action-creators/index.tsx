@@ -53,6 +53,9 @@ export const fetch_product_byname = (name: string) => {
         type: ActionType.SEARCH_PRODUCTS,
         payload,
       });
+    }).catch((err) => {
+      console.log(err)
+      window.alert(err.message)
     });
   };
 };
@@ -80,13 +83,16 @@ export const create_product = (payload: Product) => {
 export const fetch_product_detail = (id: number) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let product: Product = {
-      id: -1,
-      name: "error",
+      id: 0,
+      name: "",
       description: "",
-      size: "",
+      S: 0,
+      M: 0,
+      L: 0,
+      XL: 0,
       price: 0,
       color: "",
-      show_in_shop: "",
+      show_in_shop: true,
       image: "",
     };
     axios.get(`http://localhost:3700/products/${id}`).then((res) => {
@@ -95,7 +101,10 @@ export const fetch_product_detail = (id: number) => {
           id: res.data.id,
           name: res.data.name,
           description: res.data.description,
-          size: res.data.size,
+          S: res.data.S,
+          M: res.data.M,
+          L: res.data.L,
+          XL: res.data.XL,
           price: res.data.price,
           color: res.data.color,
           show_in_shop: res.data.show_in_shop,

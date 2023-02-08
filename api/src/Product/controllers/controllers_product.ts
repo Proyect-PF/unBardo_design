@@ -143,6 +143,7 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
   const product = request.body;
+
       const { id } = request.params;
   
         // const existingProduct = await db.Product.findByPk(product.id);

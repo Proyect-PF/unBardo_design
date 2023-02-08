@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
@@ -13,6 +13,7 @@ import { State } from "../../state/reducers";
 const Details = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { fetch_product_detail } = bindActionCreators(actionCreators, dispatch);
   const { productDetails } = useSelector((state: State) => state.products);
   //AL: loading state for loading implementation (done)
@@ -32,13 +33,14 @@ const Details = (): JSX.Element => {
   useEffect(() => {
     setLoading(true);
     fetch_product_detail(id);
-  }, [dispatch,id]);
+  }, [dispatch, id]);
 
   //AL: Check if the data is correct (see getProductDetails action for context), needs to be rewired
   //  but functional for now.
   useEffect(() => {
     setLoading(true);
-    if (productDetails.name !== "error") setLoading(false);
+    !productDetails.show_in_shop && navigate("/");
+    if (productDetails.name !== "") setLoading(false);
   }, [productDetails]);
 
   //AL: this function controll the  show state (see states for context)
@@ -88,10 +90,12 @@ const Details = (): JSX.Element => {
           <div>
             <div className="flex justify-around my-8 text-lg text-center">
               <SizeSelector
-                sizes={productDetails.size
-                  .toUpperCase()
-                  .split(",")
-                  .filter((e) => e !== "")}
+                sizes={[
+                  productDetails.S,
+                  productDetails.M,
+                  productDetails.L,
+                  productDetails.XL,
+                ]}
                 setter={setSize}
               />
               <AmountInput setter={setAmount} />

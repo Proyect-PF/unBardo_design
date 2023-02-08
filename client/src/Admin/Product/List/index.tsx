@@ -13,9 +13,12 @@ export const ProductList = () => (
       <TextField source="name" />
       <TextField source="description" />
       <TextField source="color" />
-      <TextField source="size" />
-      <TextField source="show_in_shop" />
       <NumberField source="price" />
+      <NumberField source="S" />
+      <NumberField source="M" />
+      <NumberField source="L" />
+      <NumberField source="XL" />
+      <TextField source="show_in_shop" />
       <ImageField source="image" />
     </Datagrid>
   </List>

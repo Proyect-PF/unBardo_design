@@ -48,8 +48,7 @@ export const create_product = (payload: Product) => {
       url: "http://localhost:3700/products/new",
       data: payload,
     }).then(() =>
-
-    // ENVIAMOS PAYLOAD A REDUX
+      // ENVIAMOS PAYLOAD A REDUX
       dispatch({
         type: ActionType.ADD_PRODUCT,
         payload,
@@ -72,7 +71,7 @@ export const fetch_product_detail = (id: number) => {
       show_in_shop: "",
       image: "",
     };
-    axios.get(`http://localhost:3700/products/id/${id}`).then((res) => {
+    axios.get(`http://localhost:3700/products/${id}`).then((res) => {
       if (res.data?.id) {
         product = {
           id: res.data.id,

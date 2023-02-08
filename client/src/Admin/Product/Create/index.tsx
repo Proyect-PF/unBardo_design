@@ -3,9 +3,15 @@ import {
   Create,
   SimpleForm,
   TextInput,
-  DateInput,
+  NumberInput,
+  SelectInput,
   required,
 } from "react-admin";
+
+const colors = [
+  { id: "white", name: "Blanco" },
+  { id: "black", name: "Negro" },
+];
 
 export const ProductCreate = () => (
   <Create>
@@ -18,8 +24,9 @@ export const ProductCreate = () => (
         validate={[required()]}
         fullWidth
       />
+      <SelectInput source="color" choices={colors} />
       <TextInput source="size" validate={[required()]} />
-      <TextInput source="price" validate={[required()]} />
+      <NumberInput source="price" validate={[required()]} />
       <TextInput source="image" validate={[required()]} />
       <TextInput source="show_in_shop" validate={[required()]} />
     </SimpleForm>

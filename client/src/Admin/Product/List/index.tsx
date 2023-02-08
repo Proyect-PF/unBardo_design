@@ -1,4 +1,10 @@
-import { List, Datagrid, TextField, ImageField } from "react-admin";
+import {
+  List,
+  Datagrid,
+  TextField,
+  ImageField,
+  NumberField,
+} from "react-admin";
 
 export const ProductList = () => (
   <List>
@@ -6,9 +12,10 @@ export const ProductList = () => (
       <TextField source="id" />
       <TextField source="name" />
       <TextField source="description" />
+      <TextField source="color" />
       <TextField source="size" />
       <TextField source="show_in_shop" />
-      <TextField source="price" />
+      <NumberField source="price" />
       <ImageField source="image" />
     </Datagrid>
   </List>

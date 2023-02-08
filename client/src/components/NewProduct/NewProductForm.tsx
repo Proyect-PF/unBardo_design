@@ -54,6 +54,26 @@ const ProductForm: React.FC = () => {
     dispatch({ type: "clear" });
   };
 
+  //Refactoring 
+  const handleSize = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = event.target;
+    const sizes = inputValues.size.split(",");
+    const index = sizes.indexOf(value);
+    const newSizes = index === -1
+      ? [...sizes, value]
+      : sizes.filter((e) => e !== value);
+    const newSizeString = newSizes.join(",");
+    dispatch({
+      type: "change_value",
+      payload: {
+        inputName: "size",
+        inputValue: newSizeString,
+      },
+    });
+  };
+
+
+  {/*
   const handleSize = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     const index = inputValues.size.search(value);
@@ -79,7 +99,7 @@ const ProductForm: React.FC = () => {
         },
       });
     }
-  };
+  };*/}
 
   const allFieldsFilled = (): boolean =>
     Object.values(inputValues).every((value) => value !== "");

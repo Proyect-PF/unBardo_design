@@ -1,2 +1,1 @@
-export * from './Checkout';
-export * from './Payment';
+export * from "./Checkout";

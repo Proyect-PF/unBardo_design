@@ -55,7 +55,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
             placeholder="Buscar"
             className="w-full bg-white h-13 focus:outline-0"
           />
-          <button type="submit">
+          <button type="submit" disabled={input === ""}>
             <img src={searchIcon} alt="iconSea" className="h-10 px-5" />
           </button>
           {/*

@@ -12,6 +12,10 @@ const colors = [
   { id: "white", name: "Blanco" },
   { id: "black", name: "Negro" },
 ];
+const show_in_show = [
+  { id: "true", name: "Si" },
+  { id: "false", name: "No" },
+];
 
 export const ProductCreate = () => (
   <Create>
@@ -20,15 +24,19 @@ export const ProductCreate = () => (
       <TextInput
         source="description"
         multiline={true}
-        label="Short description"
+        label="Description"
         validate={[required()]}
         fullWidth
       />
-      <SelectInput source="color" choices={colors} />
+      <SelectInput source="color" choices={colors} validate={[required()]} />
       <TextInput source="size" validate={[required()]} />
       <NumberInput source="price" validate={[required()]} />
       <TextInput source="image" validate={[required()]} />
-      <TextInput source="show_in_shop" validate={[required()]} />
+      <SelectInput
+        source="show_in_show"
+        choices={show_in_show}
+        validate={[required()]}
+      />
     </SimpleForm>
   </Create>
 );

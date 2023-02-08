@@ -11,6 +11,10 @@ const colors = [
   { id: "white", name: "Blanco" },
   { id: "black", name: "Negro" },
 ];
+const show_in_show = [
+  { id: "true", name: "Si" },
+  { id: "false", name: "No" },
+];
 
 export const ProductEdit = () => (
   <Edit mutationMode="optimistic">
@@ -21,7 +25,7 @@ export const ProductEdit = () => (
       <SelectInput source="color" choices={colors} />
       <TextInput source="size" />
       <NumberInput source="price" />
-      <TextInput source="show_in_shop" />
+      <SelectInput source="show_in_show" choices={show_in_show} />
       <TextInput source="image" />
     </SimpleForm>
   </Edit>

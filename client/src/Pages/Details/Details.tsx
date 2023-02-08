@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 import imageF from "../../assets/images/remeras/unbardo-07F.png";
@@ -13,6 +13,7 @@ import { State } from "../../state/reducers";
 const Details = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { fetch_product_detail } = bindActionCreators(actionCreators, dispatch);
   const { productDetails } = useSelector((state: State) => state.products);
   //AL: loading state for loading implementation (done)
@@ -38,7 +39,8 @@ const Details = (): JSX.Element => {
   //  but functional for now.
   useEffect(() => {
     setLoading(true);
-    if (productDetails.name !== "error") setLoading(false);
+    !productDetails.show_in_shop && navigate("/");
+    if (productDetails.name !== "") setLoading(false);
   }, [productDetails]);
 
   //AL: this function controll the  show state (see states for context)

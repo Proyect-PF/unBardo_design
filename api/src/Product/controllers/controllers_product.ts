@@ -94,7 +94,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         exclude: TO_EXCLUDE,
       },
     });
-
+    response.set('Access-Control-Expose-Headers', 'X-Total-Count')
     response.set("X-Total-Count", total);
     return response.status(200).json(products);
   } catch (error: any) {

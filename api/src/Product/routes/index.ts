@@ -20,14 +20,14 @@ import validateImageId from "../middleware/validateImageId";
 
 
 productRoutes.get("/", GET_AllProducts);
-productRoutes.get("/id/:id", GET_ProductById);
+productRoutes.get("/:id", GET_ProductById);
 productRoutes.get("/search/:name", GET_SearchByName);
 
 // PRODUCTS LIST OPERATIONS
 productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
 
 
-productRoutes.delete("/delete/:id", DELETE_DeleteProduct);
+productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 
 productRoutes.post("/new/", POST_NewProduct);

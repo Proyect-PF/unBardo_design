@@ -3,12 +3,10 @@ import { Router } from "express";
 const productRoutes = Router();
 
 import {
-    GET_AllProducts,
+    DELETE_DeleteProduct, GET_AllProducts,
     GET_FillteredOrderProducts,
-    GET_ProductById,
-    GET_SearchByName,
-    DELETE_DeleteProduct,
-    POST_NewProduct
+    //GET_ProductById,
+    GET_SearchByName, POST_NewProduct
 } from "../controllers/controllers_product";
 
 import deleteImage from "../controllers/deleteImage";
@@ -18,13 +16,16 @@ import postImage from "../controllers/postImage";
 import updateImage from "../controllers/updateImage";
 import validateImageId from "../middleware/validateImageId";
 
-
 productRoutes.get("/", GET_AllProducts);
-productRoutes.get("/id/:id", GET_ProductById);
+//productRoutes.get("/:id", GET_AllProducts);
 productRoutes.get("/search/:name", GET_SearchByName);
 
+
+//productRoutes.get("/id/:id", GET_ProductById);
+
+
 // PRODUCTS LIST OPERATIONS
-productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
+//productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
 
 
 productRoutes.delete("/delete/:id", DELETE_DeleteProduct);

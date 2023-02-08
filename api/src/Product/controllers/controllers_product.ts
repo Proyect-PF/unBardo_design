@@ -22,6 +22,10 @@ const TO_EXCLUDE = [
 
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
 
+
+
+
+
 export const GET_FillteredOrderProducts = async (req: Request,res: Response)=> {
   try {
     let filteredProducts;
@@ -70,7 +74,7 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
     }
 };
 
-export const GET_ProductById = async (request: Request, response: Response) => {
+{/*export const GET_ProductById = async (request: Request, response: Response) => {
   const { id } = request.params;
   if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
   try {
@@ -83,8 +87,9 @@ export const GET_ProductById = async (request: Request, response: Response) => {
   } catch (error:any) {
     return response.status(400).json({ error: error.message});
   }
-};
+};/*}
 
+{/*
 export const GET_AllProducts = async (request: Request, response: Response) => {
   try {
     const total = await db.Product.count();
@@ -96,11 +101,12 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
     });
 
     response.set("X-Total-Count", total);
+    response.set('Access-Control-Expose-Headers', 'X-Total-Count')
     return response.status(200).json(products);
   } catch (error: any) {
     return response.status(500).json({ error: error.message });
   }
-};
+}; */}
 
 export const GET_SearchByName = async (
   request: Request,
@@ -108,7 +114,7 @@ export const GET_SearchByName = async (
 ) => {
   const { name } = request.params;
   if (!name) return response.status(400).json("No se ha proporcionado un NOMBRE de producto");
-  try { 
+  try {
     const products = await db.Product.findAll({
       where: {
         name: { [Op.iLike]: `%${name}%` },
@@ -134,5 +140,57 @@ export const DELETE_DeleteProduct = async (
     return response.status(200).json(deletedProduct);
   } catch (error: any) {
     return response.status(500).json({error: error.message, }).send("No se elimino");
+  }
+};
+
+
+
+export const GET_AllProducts = async (request: Request, response: Response ) => {
+  try {
+   
+    
+    const { id, filter, order, page, perPage, sort } = request.query;
+
+    // Seteamos el optiones BASE de consulta
+    let options: any = {
+      include: db.Category,
+      attributes: {
+        exclude: TO_EXCLUDE,
+      },
+    };
+
+    // si recibe el id de un producto. 
+    if (id) {
+      options.where = { id: id };
+      console.log("RECIBI UN ID")
+    }
+
+    // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
+    if (filter) {
+      //options.where = JSON.parse(filter as string);
+      console.log("El valor de filter es",filter);
+    }
+    // Ordenamos por la columna sort y por order, tenemos q convertirlos a string para que se puedan usar en la consulta.
+    if (sort) {
+      options.order = [[sort as string, order as string]];
+    }
+
+    // Tenemos q mandar las page para filtrar, pero la bd solo permite tipo number asique casteamos
+    if (perPage && page){
+      options.offset = (Number(page) - 1) * Number(perPage);
+      options.limit = perPage;
+    }
+
+    // Tomamos la cantidad de la consulta para enviar el paginado al front
+    const total = await db.Product.count({ where: options.where });
+    const products = await db.Product.findAll(options);
+    
+    // Añadimos la info para el paginado al header del response
+    response.set("X-Total-Count", total);
+    response.set("Access-Control-Expose-Header", "X-Total-Count");
+    return response.status(200).json(products);
+
+  } catch (error: any) {
+    return response.status(500).json( { error: error.message });
   }
 };

@@ -152,7 +152,7 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
   const product = request.body;
-  
+  const {id} = request.params;
         // const existingProduct = await db.Product.findByPk(product.id);
         // if (!existingProduct) { 
           
@@ -168,7 +168,7 @@ export const UPDATE_UpdateProduct = async (
           color: product.color,
           //"id_category": product.id_category,
       }, {
-          where: { id: product.id },
+          where: { id: id },
           returning: true
       });
       if (numberOfAffectedRows === 0) {

@@ -32,9 +32,9 @@ productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 
-productRoutes.post("/new/", POST_NewProduct);
+productRoutes.post("/", POST_NewProduct);
 
-productRoutes.put("/update/", UPDATE_UpdateProduct);
+productRoutes.put("/:id", UPDATE_UpdateProduct);
 
 
 

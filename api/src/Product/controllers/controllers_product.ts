@@ -122,6 +122,7 @@ export const GET_SearchByName = async (
         exclude: TO_EXCLUDE,
       },
     });
+    if(products.length < 1) return response.status(400).send("No se encontraron productos que coincidan con la búsqueda");
     return response.status(200).json(products);
 
   } catch (error: any) {

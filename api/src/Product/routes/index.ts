@@ -26,8 +26,11 @@ import validateImageId from "../middleware/validateImageId";
 //productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
 
 productRoutes.get("/", GET_AllProducts);
-productRoutes.get("/search/:name", GET_SearchByName);
 productRoutes.get("/:id", GET_ProductById);
+
+
+productRoutes.get("/search/:name", GET_SearchByName);
+
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 

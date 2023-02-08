@@ -4,7 +4,7 @@ import { ProductCreate } from "./Product/Create";
 import { ProductEdit } from "./Product/Edit";
 import { ProductList } from "./Product/List";
 
-const dataProdiver = jsonServerProvider("http://localhost:3700");
+const dataProdiver = jsonServerProvider(`http://localhost:3700`);
 
 const AdminPanel = () => (
   <Admin basename="/admin" dataProvider={dataProdiver}>

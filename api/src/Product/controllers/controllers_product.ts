@@ -89,6 +89,7 @@ export const DELETE_DeleteProduct = async (
 
 export const GET_AllProducts = async (request: Request, response: Response ) => {
   try {
+    const {id } = request.params;
     const {  filter, order, page, perPage, sort } = request.query;
 
     // Seteamos el optiones BASE de consulta
@@ -99,9 +100,12 @@ export const GET_AllProducts = async (request: Request, response: Response ) => 
       },
     };
     // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
-    if (filter) {
-      //options.where = JSON.parse(filter as string);
-      console.log("El valor de filter es",filter);
+    if(filter) {
+      let where: any = {};
+      if (filter === "black" || "white" ){
+        where.color = filter
+      }
+      options.where = where;
     }
     // Ordenamos por la columna sort y por order, tenemos q convertirlos a string para que se puedan usar en la consulta.
     if (sort) {
@@ -118,8 +122,14 @@ export const GET_AllProducts = async (request: Request, response: Response ) => 
     let products = await db.Product.findAll(options);
     // Añadimos la info para el paginado al header del response
 
+  
+
     response.set("X-Total-Count", total);
     response.set("Access-Control-Expose-Headers", "X-Total-Count");
+    if (id){
+      return response.status(200).json(products[0]);
+    }
+
     return response.status(200).json(products);
   } catch (error: any) {
     return response.status(500).json( { error: error.message });

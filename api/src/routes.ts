@@ -4,6 +4,7 @@ import categoryRoutes from "./Category/routes";
 import ordersRoutes from "./Orders/routes/index";
 import productRoutes from "./Product/routes";
 import userRoutes from "./User/routes";
+import cartRoutes from "./Cart/routes";
 const routes = Router();
 
 
@@ -17,6 +18,9 @@ routes.use("/products", productRoutes);
 
 //Ruta de Ordenes
 routes.use("/orders", ordersRoutes);
+
+//Ruta para el Carrito
+routes.use("/Cart", cartRoutes);
 
 
 

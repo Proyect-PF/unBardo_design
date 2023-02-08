@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import arrow from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
+import { fetch_products } from "../../state/action-creators";
 
 // interface Query {
 //   byColor: string,
@@ -17,10 +18,10 @@ const Dropdown = (): JSX.Element => {
   const [show, setShow] = useState(false);
   
   
-  const { fetch_filtered_products } = bindActionCreators( actionCreators, dispatch)
+  const { fetch_products } = bindActionCreators( actionCreators, dispatch)
       const INITIAL_STATE = {
       byColor: "all",
-      byOrder: "asc",
+      byOrder: "ASC",
     }
     const [Query, setQuery] = useState(INITIAL_STATE);
   
@@ -39,7 +40,7 @@ const Dropdown = (): JSX.Element => {
   //AL: this useEffect dispatch the actions when detects a change on filters / order
   //Usamos el useeffect para despachar las filtraciones que vienen del estado local desde el handleChange
 useEffect(() => {
-  fetch_filtered_products(`byColor=${Query.byColor}&byOrder=${Query.byOrder}`)
+  fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}`)
 }, [Query])
 
 
@@ -54,7 +55,7 @@ useEffect(() => {
         value={Query.byColor}
         onChange={handleChange}
       >
-        <option value="all">Todos</option>
+        <option value="">Todos</option>
         <option value="white">Blanco</option>
         <option value="black">Negro</option>
       </select>

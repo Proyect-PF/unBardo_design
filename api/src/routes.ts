@@ -4,6 +4,7 @@ import categoryRoutes from "./Category/routes";
 import ordersRoutes from "./Orders/routes/index";
 import productRoutes from "./Product/routes";
 import userRoutes from "./User/routes";
+import authRouter from "./User/routes/auth";
 const routes = Router();
 
 
@@ -17,6 +18,9 @@ routes.use("/products", productRoutes);
 
 //Ruta de Ordenes
 routes.use("/orders", ordersRoutes);
+
+routes.use("/auth", authRouter)
+
 
 
 

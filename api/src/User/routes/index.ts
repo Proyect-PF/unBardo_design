@@ -1,24 +1,25 @@
-import { Router } from 'express';
-import deleteUser from '../controllers/deleteUser';
-import postUser from '../controllers/postUser';
-import getUser from '../controllers/getUser.route';
-import updateUser from '../controllers/updateUser';
+import { Router } from "express";
+import {
+  DELETE_User,
+  GET_User,
+  GET_UserByName,
+  POST_User,
+  UPDATE_User,
+} from "../controllers/controllers_user";
+import { verifyTokenIsAdmin } from "../../helpers/verifyTokenIsAdmin";
+
 
 const userRoutes = Router();
 
 
-//postUser
-userRoutes.delete('/', deleteUser);
-
-userRoutes.put("/", updateUser)
-
-userRoutes.get("/", getUser)
-
-userRoutes.post("/", postUser)
+userRoutes.delete("/", DELETE_User);
 
 
 
+userRoutes.put("/", UPDATE_User);
 
+userRoutes.get("/", GET_User);
 
+userRoutes.post("/",POST_User);
 
 export default userRoutes;

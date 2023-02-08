@@ -54,13 +54,13 @@ export const POST_GeneratePayment =async (
     binary_mode: true,
     payer: {
       phone: {
-        area_code: prod.area_code.toString() || null,
-        number: prod.number.toString() || null
+        area_code: prod.area_code.toString(),
+        number: prod.number
       },
       address: {
-        zip_code: prod.zip_code.toString() || null,
-        street_name: prod.street_name || null,
-        street_number: prod.street_number.toString() || null
+        zip_code: prod.zip_code.toString(),
+        street_name: prod.street_name,
+        street_number: prod.street_number
       },
       email: prod.email,
       name: prod.name,

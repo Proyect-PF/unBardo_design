@@ -5,8 +5,6 @@ import arrow from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 import { fetch_products } from "../../state/action-creators";
 
-
-
 const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
 
@@ -14,7 +12,7 @@ const Dropdown = (): JSX.Element => {
 
   const { fetch_products } = bindActionCreators(actionCreators, dispatch);
   const INITIAL_STATE = {
-    byColor: "all",
+    byColor: "",
     byOrder: "ASC",
   };
   const [Query, setQuery] = useState(INITIAL_STATE);

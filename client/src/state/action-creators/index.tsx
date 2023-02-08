@@ -20,13 +20,10 @@ export const fetch_products = (query: string | null = null) => {
       });
     });
   };
-
-
 };
 
-
-
-{/** 
+{
+  /** 
 export const fetch_products = (color: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
@@ -45,7 +42,8 @@ export const fetch_products = (color: string | null = null) => {
       });
     });
   };
-};*/}
+};*/
+}
 // Funcion que retorna un Producto desde la API segun nombre
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {

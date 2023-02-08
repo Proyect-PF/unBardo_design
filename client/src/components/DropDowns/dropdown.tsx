@@ -5,35 +5,17 @@ import arrow from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 import { fetch_products } from "../../state/action-creators";
 
-// interface Query {
-//   byColor: string,
-//   byOrder: string,
-// }
+
 
 const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
 
-  
-  
-  const { fetch_products } = bindActionCreators( actionCreators, dispatch)
-      const INITIAL_STATE = {
-      byColor: "all",
-      byOrder: "ASC",
-    }
-    const [Query, setQuery] = useState(INITIAL_STATE);
-  
-  const handleChange = ( event: React.ChangeEvent<HTMLSelectElement>): void => {
-
-
-  const { fetch_filtered_products } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
+  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
   const INITIAL_STATE = {
     byColor: "all",
-    byOrder: "asc",
+    byOrder: "ASC",
   };
   const [Query, setQuery] = useState(INITIAL_STATE);
 
@@ -48,14 +30,9 @@ const Dropdown = (): JSX.Element => {
     show ? setShow(false) : setShow(true);
   };
 
-  //AL: this useEffect dispatch the actions when detects a change on filters / order
-  //Usamos el useeffect para despachar las filtraciones que vienen del estado local desde el handleChange
-
-useEffect(() => {
-  fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}&sort=price`)
-}, [Query])
-
-
+  useEffect(() => {
+    fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}&sort=price`);
+  }, [Query]);
 
   return (
     <div className="flex justify-around my-2">
@@ -81,7 +58,6 @@ useEffect(() => {
         onChange={handleChange}
         value={Query.byOrder}
       >
-        
         <option value="ASC">{"Menor precio"}</option>
         <option value="DESC">{"Mayor precio"}</option>
       </select>{" "}
@@ -93,5 +69,4 @@ useEffect(() => {
     </div>
   );
 };
-}
 export default Dropdown;

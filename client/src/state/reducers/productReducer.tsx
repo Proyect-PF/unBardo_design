@@ -38,7 +38,6 @@ const productReducer = (
       };
     case ActionType.SEARCH_PRODUCTS:
       let productSearch: ProductState["productList"] = action.payload;
-      if (productSearch.length === 0) productSearch = state.productTotal;
       return {
         ...state,
         productList: productSearch,

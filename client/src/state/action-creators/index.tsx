@@ -36,7 +36,8 @@ export const fetch_product_byname = (name: string) => {
         payload,
       });
     }).catch((err) => {
-      window.alert(err.response.data)
+      console.log(err)
+      window.alert(err.message)
     });
   };
 };

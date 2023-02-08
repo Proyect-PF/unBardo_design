@@ -8,7 +8,7 @@ export const ProductEdit = () => (
       <TextInput source="description" />
       <TextInput source="size" />
       <TextInput source="price" />
-      <TextInput source="show_in_true" />
+      <TextInput source="show_in_shop" />
       <TextInput source="image" />
     </SimpleForm>
   </Edit>

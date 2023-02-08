@@ -7,6 +7,7 @@ import {
   SelectInput,
   required,
 } from "react-admin";
+import CloudinaryInput from "../Inputs/Cloudinary";
 
 const colors = [
   { id: "white", name: "Blanco" },
@@ -36,12 +37,13 @@ export const ProductCreate = () => (
         <NumberInput source="XL" validate={[required()]} />
       </div>
       <NumberInput source="price" validate={[required()]} />
-      <TextInput source="image" validate={[required()]} />
+      {/* <TextInput source="image" validate={[required()]} /> */}
       <SelectInput
         source="show_in_shop"
         choices={show_in_shop}
         validate={[required()]}
       />
+      <CloudinaryInput source="image" label="Cargar imagen" />
     </SimpleForm>
   </Create>
 );

@@ -9,24 +9,29 @@ mercadopago.configure({
   access_token: "TEST-6048539528179925-020714-f42fb626d9eccb6ec0e04d307f902464-1207110990",
 });
 
-// Información que se recibe por body
-/*{
-  id,             //id del producto
-  title,          //Este es el name del producto
-  price,
-  quantity,
-  area_code,      //Telefono
-  number,         //Telefono
-  zip_code,       //direccion
-  street_name,    //direccion
-  street_number,  //direccion
-  email,
-  name,
-  surname,
-}*/
+interface RequestParams {}
+
+interface ResponseBody {}
+
+interface RequestBody {
+  id: number;     //id del producto
+  title: string;  //Este es el name del producto
+  price: number;
+  quantity: number;
+  area_code: number;  //Telefono
+  number: number;     //Telefono
+  zip_code: number;       //direccion
+  street_name: string;    //direccion
+  street_number: number;  //direccion
+  email: string;
+  name: string;
+  surname: string;
+}
+
+interface RequestQuery {}
 
 export const POST_GeneratePayment =async (
-  request: Request,
+  request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
   response: Response
 ) => {
   const prod = request.body;
@@ -49,11 +54,11 @@ export const POST_GeneratePayment =async (
     binary_mode: true,
     payer: {
       phone: {
-        area_code: prod.area_code,
+        area_code: prod.area_code.toString(),
         number: prod.number
       },
       address: {
-        zip_code: prod.zip_code,
+        zip_code: prod.zip_code.toString(),
         street_name: prod.street_name,
         street_number: prod.street_number || null
       },

@@ -2,7 +2,7 @@
 //TODO Middelwares de terceros Documentacion => https://expressjs.com/es/resources/middleware.html
 
 
-import express,{Response, Request, NextFunction} from "express";
+import express,{Response, Request, NextFunction, Express} from "express";
 import router from "./routes";
 //TODO Libreria para tipar los errores 
 import { HttpError } from "http-errors";
@@ -10,10 +10,9 @@ import helmet from "helmet"
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser"
 import morgan from "morgan";
-// import routes from "./routes"
 
 
-const app = express()
+const app:Express = express()
 
 let {name} = app
 name = "UNBARDO_DESIGN_API"

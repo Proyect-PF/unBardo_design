@@ -14,7 +14,7 @@ interface PorductAttributes {
   price: number;
   promotional_price: number;
   video: string;
-  show_in_shop: string;
+  show_in_shop: boolean;
   stock: number;
   weight: number;
   width: number;
@@ -39,7 +39,7 @@ export default (sequelize:any, DataTypes:any) => {
     price!: number;
     promotional_price!: number;
     video!: string;
-    show_in_shop!: string;
+    show_in_shop!: boolean;
     stock!: number;
     weight!: number;
     width!: number;
@@ -122,10 +122,8 @@ export default (sequelize:any, DataTypes:any) => {
     show_in_shop: {
       //type: Sequelize.ENUM("si", "no"),
 
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       // allowNull: false,
-
-      //defaultValue: "no"
     },
     price: {
       type: DataTypes.INTEGER,

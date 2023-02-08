@@ -2,20 +2,26 @@ export type Product = {
   id?: number;
   name: string;
   description: string;
-  size: string;
+  S: number;
+  M: number;
+  L: number;
+  XL: number;
   price: number;
   color: string;
-  show_in_shop: string;
+  show_in_shop: boolean;
   image: string;
 };
 
 export type AddProductPayload = {
   name: string;
   description: string;
-  size: string;
+  S: number;
+  M: number;
+  L: number;
+  XL: number;
   price: number;
   color: string;
-  show_in_shop: string;
+  show_in_shop: boolean;
   image: string;
 };
 

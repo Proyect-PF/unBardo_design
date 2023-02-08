@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import NewProductForm from "./components/NewProduct/NewProductForm";
+// import NewProductForm from "./components/NewProduct/NewProductForm";
 import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Sidebar from "./layouts/Sidebar/Sidebar";
@@ -42,7 +42,7 @@ function App() {
           <Route path="/product/:name" element={<Details />} />
           <Route path="/account/login" element={<UserSignPage />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/panel/newproduct" element={<NewProductForm />} />
+          {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/admin/*" element={<AdminPanel />} />
         </Routes>
         <Footer />

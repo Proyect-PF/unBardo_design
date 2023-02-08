@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Button from "../Buttons/Button/Button";
-import useNewProductForm from "../NewProduct/useNewProductForm";
+// import useNewProductForm from "../NewProduct/useNewProductForm";
 
 declare global {
   interface Window {

@@ -32,7 +32,7 @@ const Details = (): JSX.Element => {
   useEffect(() => {
     setLoading(true);
     fetch_product_detail(id);
-  }, [dispatch,id]);
+  }, [dispatch, id]);
 
   //AL: Check if the data is correct (see getProductDetails action for context), needs to be rewired
   //  but functional for now.
@@ -88,10 +88,12 @@ const Details = (): JSX.Element => {
           <div>
             <div className="flex justify-around my-8 text-lg text-center">
               <SizeSelector
-                sizes={productDetails.size
-                  .toUpperCase()
-                  .split(",")
-                  .filter((e) => e !== "")}
+                sizes={[
+                  productDetails.S,
+                  productDetails.M,
+                  productDetails.L,
+                  productDetails.XL,
+                ]}
                 setter={setSize}
               />
               <AmountInput setter={setAmount} />

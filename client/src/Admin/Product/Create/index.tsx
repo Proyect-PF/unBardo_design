@@ -13,8 +13,8 @@ const colors = [
   { id: "black", name: "Negro" },
 ];
 const show_in_shop = [
-  { id: "true", name: "Si" },
-  { id: "false", name: "No" },
+  { id: true, name: "Si" },
+  { id: false, name: "No" },
 ];
 
 export const ProductCreate = () => (

@@ -4,7 +4,11 @@ import categoryRoutes from "./Category/routes";
 import ordersRoutes from "./Orders/routes/index";
 import productRoutes from "./Product/routes";
 import userRoutes from "./User/routes";
+
 import authRouter from "./User/routes/auth";
+
+import cartRoutes from "./Cart/routes";
+
 const routes = Router();
 
 
@@ -19,7 +23,12 @@ routes.use("/products", productRoutes);
 //Ruta de Ordenes
 routes.use("/orders", ordersRoutes);
 
+//Ruta de Autorizacion
 routes.use("/auth", authRouter)
+
+
+//Ruta para el Carrito
+routes.use("/Cart", cartRoutes);
 
 
 
@@ -29,7 +38,9 @@ routes.use("/auth", authRouter)
 
 // routes.use("/categories", categoryRoutes);
 
-
+// Esta ruta es para probar las validaciones (Luego se borrara)
+import validationsRoutes from "./validations/routes";
+routes.use("/validations", validationsRoutes);
 
 
 export default routes;

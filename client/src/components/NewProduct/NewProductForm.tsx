@@ -54,6 +54,26 @@ const ProductForm: React.FC = () => {
     dispatch({ type: "clear" });
   };
 
+  //Refactoring 
+  const handleSize = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = event.target;
+    const sizes = inputValues.size.split(",");
+    const index = sizes.indexOf(value);
+    const newSizes = index === -1
+      ? [...sizes, value]
+      : sizes.filter((e) => e !== value);
+    const newSizeString = newSizes.join(",");
+    dispatch({
+      type: "change_value",
+      payload: {
+        inputName: "size",
+        inputValue: newSizeString,
+      },
+    });
+  };
+
+
+  {/*
   const handleSize = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     const index = inputValues.size.search(value);
@@ -79,7 +99,7 @@ const ProductForm: React.FC = () => {
         },
       });
     }
-  };
+  };*/}
 
   const allFieldsFilled = (): boolean =>
     Object.values(inputValues).every((value) => value !== "");
@@ -98,7 +118,7 @@ const ProductForm: React.FC = () => {
         {/* SE ENVIA NAME: NAME */}
         <div>
           <p className="text-xl font-medium ">NOMBRE:</p>
-          <Input
+          {/* <Input
             id="name"
             type="text"
             placeholder="Nombre..."
@@ -106,7 +126,7 @@ const ProductForm: React.FC = () => {
             value={inputValues.name}
             onChange={handleChange}
             className="italic font-poppins"
-          />
+          /> */}
         </div>
 
         {/* SE ENVIA NAME: DESCRIPTION */}
@@ -232,7 +252,7 @@ const ProductForm: React.FC = () => {
         <div>
           <p className="text-xl font-medium ">Precio:</p>
 
-          <Input
+          {/* <Input
             id="price"
             name="price"
             type="number"
@@ -240,7 +260,7 @@ const ProductForm: React.FC = () => {
             placeholder="$$$"
             onChange={handleChange}
             className="mt-2 italic font-poppins"
-          />
+          /> */}
         </div>
 
         {/* SE ENVIA NAME: STOCK */}

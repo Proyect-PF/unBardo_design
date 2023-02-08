@@ -35,6 +35,8 @@ export const fetch_product_byname = (name: string) => {
         type: ActionType.SEARCH_PRODUCTS,
         payload,
       });
+    }).catch((err) => {
+      window.alert(err.response.data)
     });
   };
 };

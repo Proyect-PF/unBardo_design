@@ -51,7 +51,39 @@ export const POST_SignUp = async (req: Request, res: Response) => {
 */}
 
 
+// Sacamos un poco las variables intermedias y comparamos las contraseñas con el compare para los tipo password
+{/**
+export const POST_SignIn = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const user = await db.Users.findOne({
+      where: { email },
+      include: [{
+        model: db.Role,
+        attributes: ["name", "id"]
+      }]
+    });
 
+    if (!user) {
+      return res.status(400).json({ message: "Usuario no encontrado" });
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Contraseña inválida" });
+    }
+
+    const token = jwt.sign({ id: user.id }, process.env.SECRET || "tokenFake", {
+      expiresIn: 86400
+    });
+
+    return res.json({ token });
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+};
+*/}
 
 
 export const POST_SignUp = async (req: Request, res: Response) => {

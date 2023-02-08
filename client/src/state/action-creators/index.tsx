@@ -7,6 +7,7 @@ import { Product, ProductState } from "../types";
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
+
 export const fetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
@@ -19,7 +20,10 @@ export const fetch_products = (query: string | null = null) => {
       });
     });
   };
+
+
 };
+
 
 
 {/** 
@@ -27,7 +31,7 @@ export const fetch_products = (color: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     let url = `http://localhost:3700/products`;
-    if (color){
+    if (color) {
       url += `?filter={"color": "${color}"}`;
       console.log(url)
     }
@@ -47,18 +51,21 @@ export const fetch_products = (color: string | null = null) => {
 export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
-      payload = res.data;
+    axios
+      .get(`http://localhost:3700/products/search/${name}`)
+      .then((res) => {
+        payload = res.data;
 
-      // ENVIAMOS PAYLOAD A REDUX
-      dispatch({
-        type: ActionType.SEARCH_PRODUCTS,
-        payload,
+        // ENVIAMOS PAYLOAD A REDUX
+        dispatch({
+          type: ActionType.SEARCH_PRODUCTS,
+          payload,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        window.alert(err.message);
       });
-    }).catch((err) => {
-      console.log(err)
-      window.alert(err.message)
-    });
   };
 };
 

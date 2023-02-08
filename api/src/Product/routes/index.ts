@@ -4,17 +4,8 @@ const productRoutes = Router();
 
 import {
     DELETE_DeleteProduct, GET_AllProducts,
-    GET_FillteredOrderProducts,
-<<<<<<< HEAD
-    //GET_ProductById,
-    GET_SearchByName, POST_NewProduct
-=======
-    GET_ProductById,
-    GET_SearchByName,
-    DELETE_DeleteProduct,
-    POST_NewProduct,
+    GET_SearchByName, POST_NewProduct,
     UPDATE_UpdateProduct
->>>>>>> 8180c390811ffb70268060c9065ac871db066c2e
 } from "../controllers/controllers_product";
 
 import deleteImage from "../controllers/deleteImage";
@@ -24,15 +15,8 @@ import postImage from "../controllers/postImage";
 import updateImage from "../controllers/updateImage";
 import validateImageId from "../middleware/validateImageId";
 
-<<<<<<< HEAD
 productRoutes.get("/", GET_AllProducts);
 //productRoutes.get("/:id", GET_AllProducts);
-=======
-
-
-productRoutes.get("/", GET_AllProducts);
-productRoutes.get("/:id", GET_ProductById);
->>>>>>> 8180c390811ffb70268060c9065ac871db066c2e
 productRoutes.get("/search/:name", GET_SearchByName);
 
 

@@ -76,8 +76,6 @@ export const DELETE_DeleteProduct = async (
 
 export const GET_AllProducts = async (request: Request, response: Response ) => {
   try {
-   
-    
     const { id, filter, order, page, perPage, sort } = request.query;
 
     // Seteamos el optiones BASE de consulta

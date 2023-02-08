@@ -40,7 +40,7 @@ const Dropdown = (): JSX.Element => {
   //AL: this useEffect dispatch the actions when detects a change on filters / order
   //Usamos el useeffect para despachar las filtraciones que vienen del estado local desde el handleChange
 useEffect(() => {
-  fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}`)
+  fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}&sort=price`)
 }, [Query])
 
 
@@ -70,8 +70,8 @@ useEffect(() => {
         value={Query.byOrder}
       >
         
-        <option value="asc">{"Menor precio"}</option>
-        <option value="desc">{"Mayor precio"}</option>
+        <option value="ASC">{"Menor precio"}</option>
+        <option value="DESC">{"Mayor precio"}</option>
       </select>{" "}
       <img
         src={arrow}

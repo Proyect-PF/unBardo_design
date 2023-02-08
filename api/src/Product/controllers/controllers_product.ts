@@ -23,7 +23,20 @@ const TO_EXCLUDE = [
 
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
 
-
+export const GET_ProductById = async (request: Request, response: Response) => {
+  const { id } = request.params;
+  if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
+  try {
+    const product = await db.Product.findOne({
+      where: { id },
+      attributes: { exclude: TO_EXCLUDE }
+    });
+    if (!product) return response.status(204).json("Producto no encontrado");
+    return response.status(200).json(product);
+  } catch (error:any) {
+    return response.status(400).json({ error: error.message});
+  }
+};
 
 export const POST_NewProduct = async (req: Request, res: Response) => {
   try {
@@ -76,7 +89,7 @@ export const DELETE_DeleteProduct = async (
 
 export const GET_AllProducts = async (request: Request, response: Response ) => {
   try {
-    const { id, filter, order, page, perPage, sort } = request.query;
+    const {  filter, order, page, perPage, sort } = request.query;
 
     // Seteamos el optiones BASE de consulta
     let options: any = {
@@ -85,13 +98,6 @@ export const GET_AllProducts = async (request: Request, response: Response ) => 
         exclude: TO_EXCLUDE,
       },
     };
-
-    // si recibe el id de un producto. 
-    if (id) {
-      options.where = { id: id };
-      console.log("RECIBI UN ID")
-    }
-
     // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
     if (filter) {
       //options.where = JSON.parse(filter as string);
@@ -107,16 +113,14 @@ export const GET_AllProducts = async (request: Request, response: Response ) => 
       options.offset = (Number(page) - 1) * Number(perPage);
       options.limit = perPage;
     }
-
     // Tomamos la cantidad de la consulta para enviar el paginado al front
     const total = await db.Product.count({ where: options.where });
-    const products = await db.Product.findAll(options);
-    
+    let products = await db.Product.findAll(options);
     // Añadimos la info para el paginado al header del response
-    response.set("X-Total-Count", total);
-    response.set("Access-Control-Expose-Header", "X-Total-Count");
-    return response.status(200).json(products);
 
+    response.set("X-Total-Count", total);
+    response.set("Access-Control-Expose-Headers", "X-Total-Count");
+    return response.status(200).json(products);
   } catch (error: any) {
     return response.status(500).json( { error: error.message });
   }
@@ -129,6 +133,7 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
   const product = request.body;
+      const { id } = request.params;
   
         // const existingProduct = await db.Product.findByPk(product.id);
         // if (!existingProduct) { 
@@ -145,7 +150,7 @@ export const UPDATE_UpdateProduct = async (
           color: product.color,
           //"id_category": product.id_category,
       }, {
-          where: { id: product.id },
+          where: { id: id },
           returning: true
       });
       if (numberOfAffectedRows === 0) {

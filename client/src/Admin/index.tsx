@@ -1,8 +1,8 @@
-import { Admin, EditGuesser, Resource } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
-import { ProductList } from "./Product/List";
-import { ProductEdit } from "./Product/Edit";
+import { Admin, EditGuesser, Resource } from "react-admin";
 import { ProductCreate } from "./Product/Create";
+import { ProductEdit } from "./Product/Edit";
+import { ProductList } from "./Product/List";
 
 const dataProdiver = jsonServerProvider("http://localhost:3700");
 
@@ -14,6 +14,7 @@ const AdminPanel = () => (
       edit={ProductEdit}
       create={ProductCreate}
     />
+    
   </Admin>
 );
 

@@ -3,8 +3,7 @@ import { Router } from "express";
 const productRoutes = Router();
 
 import {
-    DELETE_DeleteProduct, GET_AllProducts,
-    GET_SearchByName, POST_NewProduct,
+    DELETE_DeleteProduct, GET_AllProducts, GET_ProductById, GET_SearchByName, POST_NewProduct,
     UPDATE_UpdateProduct
 } from "../controllers/controllers_product";
 
@@ -15,9 +14,9 @@ import postImage from "../controllers/postImage";
 import updateImage from "../controllers/updateImage";
 import validateImageId from "../middleware/validateImageId";
 
-productRoutes.get("/", GET_AllProducts);
+
 //productRoutes.get("/:id", GET_AllProducts);
-productRoutes.get("/search/:name", GET_SearchByName);
+
 
 
 //productRoutes.get("/id/:id", GET_ProductById);
@@ -26,13 +25,15 @@ productRoutes.get("/search/:name", GET_SearchByName);
 // PRODUCTS LIST OPERATIONS
 //productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
 
-
+productRoutes.get("/", GET_AllProducts);
+productRoutes.get("/search/:name", GET_SearchByName);
+productRoutes.get("/:id", GET_ProductById);
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 
-productRoutes.post("/new/", POST_NewProduct);
+productRoutes.post("/", POST_NewProduct);
 
-productRoutes.put("/update/", UPDATE_UpdateProduct);
+productRoutes.put("/:id", UPDATE_UpdateProduct);
 
 
 

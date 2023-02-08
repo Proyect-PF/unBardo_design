@@ -97,7 +97,7 @@ const Details = (): JSX.Element => {
               <AmountInput setter={setAmount} />
             </div>
 
-            <div className='flex flex-row'>
+            <div className='flex flex-col'>
               <Button
                 type='button'
                 text='Añadir al carrito'

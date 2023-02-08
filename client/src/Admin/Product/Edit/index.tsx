@@ -1,4 +1,16 @@
-import { Edit, ReferenceInput, SimpleForm, TextInput } from "react-admin";
+import {
+  Edit,
+  ReferenceInput,
+  SimpleForm,
+  TextInput,
+  NumberInput,
+  SelectInput,
+} from "react-admin";
+
+const colors = [
+  { id: "white", name: "Blanco" },
+  { id: "black", name: "Negro" },
+];
 
 export const ProductEdit = () => (
   <Edit mutationMode="optimistic">
@@ -6,8 +18,9 @@ export const ProductEdit = () => (
       <TextInput source="id" disabled label="Id" />
       <TextInput source="name" />
       <TextInput source="description" />
+      <SelectInput source="color" choices={colors} />
       <TextInput source="size" />
-      <TextInput source="price" />
+      <NumberInput source="price" />
       <TextInput source="show_in_shop" />
       <TextInput source="image" />
     </SimpleForm>

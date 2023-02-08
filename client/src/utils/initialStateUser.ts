@@ -26,12 +26,12 @@
 // }
 
 export const initialStateUser = {
-  name: '',
-  surname: '',
+  name: 'Diego',
+  surname: 'Maidana',
   email: 'diegoshhh@gmail.com',
-  area_code: '',
-  phone: '',
-  street_name: '',
-  zip_code: '',
-  street_number: '',
+  area_code: '2954',
+  number: '23341232',
+  street_name: 'San Martin',
+  zip_code: 3200,
+  street_number: 12,
 };

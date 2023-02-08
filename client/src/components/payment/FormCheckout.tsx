@@ -6,7 +6,28 @@ import { initialStateUser } from '../../utils/initialStateUser';
 import axios from 'axios';
 
 export const FormCheckout = (): JSX.Element => {
-  const [userDataPayment, setUserDataPayment] = useState(initialStateUser);
+  const [userDataPayment, setUserDataPayment] = useState({
+    name: 'Diego',
+    surname: 'Maidana',
+    email: 'diegoshhh@gmail.com',
+    area_code: '2954',
+    number: 23341232,
+    street_name: 'San Martin',
+    zip_code: '3200',
+    street_number: 12,
+    id: 2,
+    title: 'Remera blanca',
+    price: 35,
+    quantity: 2,
+  });
+
+  function handleChange(e: any) {
+    e.preventDefault();
+    setUserDataPayment({
+      ...userDataPayment,
+      [e.target.name]: e.target.value,
+    });
+  }
 
   return (
     <form
@@ -21,7 +42,7 @@ export const FormCheckout = (): JSX.Element => {
           name='name'
           placeholder='Ej: Marcos'
           value={userDataPayment.name}
-          onChange={() => {}}
+          onChange={(e: any) => handleChange(e)}
           className=' font-poppins'
           onBlur={() => {}}
         />
@@ -34,7 +55,7 @@ export const FormCheckout = (): JSX.Element => {
           name='surname'
           placeholder='Solis'
           value={userDataPayment.surname}
-          onChange={() => {}}
+          onChange={(e: any) => handleChange(e)}
           className=' font-poppins'
           onBlur={() => {}}
         />
@@ -47,7 +68,7 @@ export const FormCheckout = (): JSX.Element => {
           name='email'
           placeholder=''
           value={userDataPayment.email}
-          onChange={() => {}}
+          onChange={(e: any) => handleChange(e)}
           className=' font-poppins'
           onBlur={() => {}}
         />
@@ -61,7 +82,7 @@ export const FormCheckout = (): JSX.Element => {
             name='area_code'
             placeholder='2954'
             value={userDataPayment.area_code}
-            onChange={() => {}}
+            onChange={(e: any) => handleChange(e)}
             className=' font-poppins'
             onBlur={() => {}}
           />
@@ -73,8 +94,8 @@ export const FormCheckout = (): JSX.Element => {
             id='phone'
             name='phone'
             placeholder='432234454'
-            value={userDataPayment.phone}
-            onChange={() => {}}
+            value={userDataPayment.number}
+            onChange={(e: any) => handleChange(e)}
             className=' font-poppins'
             onBlur={() => {}}
           />
@@ -88,7 +109,7 @@ export const FormCheckout = (): JSX.Element => {
           name='street_name'
           placeholder='San Martin'
           value={userDataPayment.street_name}
-          onChange={() => {}}
+          onChange={(e: any) => handleChange(e)}
           className=' font-poppins'
           onBlur={() => {}}
         />
@@ -101,7 +122,7 @@ export const FormCheckout = (): JSX.Element => {
               name='street_number'
               placeholder='12'
               value={userDataPayment.street_number}
-              onChange={() => {}}
+              onChange={(e: any) => handleChange(e)}
               className=' font-poppins'
               onBlur={() => {}}
             />
@@ -114,7 +135,7 @@ export const FormCheckout = (): JSX.Element => {
               name='zip_code'
               placeholder='3200'
               value={userDataPayment.zip_code}
-              onChange={() => {}}
+              onChange={(e: any) => handleChange(e)}
               className=' font-poppins'
               onBlur={() => {}}
             />

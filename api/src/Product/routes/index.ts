@@ -13,7 +13,7 @@ import getVariants from "../controllers/getVariants";
 import postImage from "../controllers/postImage";
 import updateImage from "../controllers/updateImage";
 import validateImageId from "../middleware/validateImageId";
-
+import { verifyTokenIsAdmin } from "../../helpers/verifyTokenIsAdmin";
 
 //productRoutes.get("/:id", GET_AllProducts);
 
@@ -27,6 +27,8 @@ import validateImageId from "../middleware/validateImageId";
 
 productRoutes.get("/", GET_AllProducts);
 productRoutes.get("/:id", GET_ProductById);
+
+productRoutes.delete("/delete/:id", verifyTokenIsAdmin, DELETE_DeleteProduct);
 
 
 productRoutes.get("/search/:name", GET_SearchByName);
@@ -47,19 +49,13 @@ productRoutes.put("/:id", UPDATE_UpdateProduct);
 
 //   ALEJANDRO EN REVISION POR JOAQUIN CARRERA
 
-
 // IMAGES FOR PRODUCTS BY ID
 productRoutes.delete("/images/:id", validateImageId, deleteImage);
 productRoutes.post("/images", postImage);
 productRoutes.put("/images/:id", updateImage);
 productRoutes.get("/images/:id", getImages);
 
-
-
-
-
 // EXPERIMENTAL ROUTE ....
 productRoutes.get("/variants/:id", getVariants);
-
 
 export default productRoutes;

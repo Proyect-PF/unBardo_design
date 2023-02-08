@@ -5,7 +5,9 @@ export default (sequelize:any, DataTypes:any) => {
   class Role extends Model {
 
     static associate(models:any) {
-      
+      Role.hasMany(models.Users, {
+        foreignKey: 'id_role',
+    } )
     }
   }
   Role.init({
@@ -17,6 +19,8 @@ export default (sequelize:any, DataTypes:any) => {
   }, {
     sequelize,
     modelName: 'Role',
+    timestamps:true
   });
   return Role;
 };
+

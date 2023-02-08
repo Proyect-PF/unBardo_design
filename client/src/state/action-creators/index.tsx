@@ -7,10 +7,29 @@ import { Product, ProductState } from "../types";
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
-export const fetch_products = () => {
+{/*export const fetch_products = () => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get("http://localhost:3700/products").then((res) => {
+    axios.get(`http://localhost:3700/products`).then((res) => {
+      payload = res.data;
+
+      // ENVIAMOS PAYLOAD A REDUX
+      dispatch({
+        type: ActionType.GET_ALL_PRODUCTS,
+        payload,
+      });
+    });
+  };
+};*/}
+
+export const fetch_products = (color: string | null = null) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
+    let payload: ProductState["productList"] = [];
+    let url = `http://localhost:3700/products`;
+    if (color){
+      url += `?filter={"color": "${color}"}`;
+    }
+    axios.get(url).then((res) => {
       payload = res.data;
 
       // ENVIAMOS PAYLOAD A REDUX
@@ -21,7 +40,6 @@ export const fetch_products = () => {
     });
   };
 };
-
 // Funcion que retorna un Producto desde la API segun nombre
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {

@@ -1,7 +1,7 @@
 import { Express, Request, Response, response } from "express";
+import { request } from "http";
 import { Op } from "sequelize";
 import db from "../../database";
-import { request } from "http";
 
 // LOS PRODUCT EN LA BASE DE DATOS TIENEN ESTA INFO TAMBIEN, Y NO QUEREMOS TOMARLA. ASIQUE USAMOS ...TO_EXCLUDE en la query, para todos
 // los endpoint
@@ -23,43 +23,18 @@ const TO_EXCLUDE = [
 
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
 
-
-export const GET_FillteredOrderProducts = async (req: Request,res: Response)=> {
+export const GET_ProductById = async (request: Request, response: Response) => {
+  const { id } = request.params;
+  if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
   try {
-    let filteredProducts;
-    const { byColor, byOrder } = req.query;
-
-    // Intentamos quitar las cosas que se repiten nuevamente.
-    const COMMON = {
-      order: [["price", byOrder || "ASC"]],
-      attributes: {
-        exclude: TO_EXCLUDE,
-      },
-    };
-
-    // Seteamos una consulta standar, para no repetir. De todos modos este parseo hay que arreglaro en el componente principal
-    const WHERE =
-      byColor &&
-      byColor !== "null" &&
-      byColor !== "all" &&
-      byColor !== "undefined"
-        ? { where: { color: { [Op.iLike]: byColor } } }
-        : {};
-
-    // Como pasamos un objeto, usamos ... para terminar de armar la consulta
-    filteredProducts = await db.Product.findAll({
-      ...WHERE,
-      ...COMMON,
+    const product = await db.Product.findOne({
+      where: { id },
+      attributes: { exclude: TO_EXCLUDE }
     });
-
-    if (!filteredProducts.length)
-      throw new Error(
-        "No se encontraron productos en la base de datos cargados"
-      );
-      
-    return res.status(200).json(filteredProducts);
-  } catch (error: any) {
-    return res.status(400).json({error: error.message});
+    if (!product) return response.status(204).json("Producto no encontrado");
+    return response.status(200).json(product);
+  } catch (error:any) {
+    return response.status(400).json({ error: error.message});
   }
 };
 
@@ -74,46 +49,13 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
     }
 };
 
-export const GET_ProductById = async (request: Request, response: Response) => {
-  const { id } = request.params;
-  if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
-  try {
-    const product = await db.Product.findOne({
-      where: { id },
-      attributes: { exclude: TO_EXCLUDE }
-    });
-    if (!product) return response.status(204).json("Producto no encontrado");
-    return response.status(200).json(product);
-  } catch (error:any) {
-    return response.status(400).json({ error: error.message});
-
-  }
-};
-
-export const GET_AllProducts = async (request: Request, response: Response) => {
-  try {
-    const total = await db.Product.count();
-    const products = await db.Product.findAll({
-      include: db.Category,
-      attributes: {
-        exclude: TO_EXCLUDE,
-      },
-    });
-    response.set('Access-Control-Expose-Headers', 'X-Total-Count')
-    response.set("X-Total-Count", total);
-    return response.status(200).json(products);
-  } catch (error: any) {
-    return response.status(500).json({ error: error.message });
-  }
-};
-
 export const GET_SearchByName = async (
   request: Request,
   response: Response
 ) => {
   const { name } = request.params;
   if (!name) return response.status(400).json("No se ha proporcionado un NOMBRE de producto");
-  try { 
+  try {
     const products = await db.Product.findAll({
       where: {
         name: { [Op.iLike]: `%${name}%` },
@@ -145,6 +87,55 @@ export const DELETE_DeleteProduct = async (
   }
 };
 
+export const GET_AllProducts = async (request: Request, response: Response ) => {
+  try {
+    const {id } = request.params;
+    const {  filter, order, page, perPage, sort } = request.query;
+
+    // Seteamos el optiones BASE de consulta
+    let options: any = {
+      include: db.Category,
+      attributes: {
+        exclude: TO_EXCLUDE,
+      },
+    };
+    // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
+    if(filter) {
+      let where: any = {};
+      if (filter === "black" || "white" ){
+        where.color = filter
+      }
+      options.where = where;
+    }
+    // Ordenamos por la columna sort y por order, tenemos q convertirlos a string para que se puedan usar en la consulta.
+    if (sort) {
+      options.order = [[sort as string, order as string]];
+    }
+
+    // Tenemos q mandar las page para filtrar, pero la bd solo permite tipo number asique casteamos
+    if (perPage && page){
+      options.offset = (Number(page) - 1) * Number(perPage);
+      options.limit = perPage;
+    }
+    // Tomamos la cantidad de la consulta para enviar el paginado al front
+    const total = await db.Product.count({ where: options.where });
+    let products = await db.Product.findAll(options);
+    // Añadimos la info para el paginado al header del response
+
+  
+
+    response.set("X-Total-Count", total);
+    response.set("Access-Control-Expose-Headers", "X-Total-Count");
+    if (id){
+      return response.status(200).json(products[0]);
+    }
+
+    return response.status(200).json(products);
+  } catch (error: any) {
+    return response.status(500).json( { error: error.message });
+  }
+};
+
 
 export const UPDATE_UpdateProduct = async (
   request: Request,
@@ -152,7 +143,9 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
   const product = request.body;
-  const {id} = request.params;
+
+      const { id } = request.params;
+  
         // const existingProduct = await db.Product.findByPk(product.id);
         // if (!existingProduct) { 
           
@@ -182,5 +175,3 @@ export const UPDATE_UpdateProduct = async (
       return response.status(400).json(error.message) //TODO: STATUS => 400: Bad Request
    }
   }
-
-

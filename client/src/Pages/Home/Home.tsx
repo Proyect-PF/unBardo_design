@@ -18,16 +18,21 @@ import Button from "../../components/Buttons/Button/Button";
 const Home = () => {
   const dispatch = useDispatch();
   const { fetch_products } = bindActionCreators(actionCreators, dispatch);
+  const { updateRender } = bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
   const { productList } = useSelector((state: State) => state.products);
   const { productTotal } = useSelector((state: State) => state.products);
+  const { render } = useSelector((state: State) => state.products);
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
   useEffect(() => {
-    setLoading(true);
-    fetch_products();
-  }, [dispatch]);
+    if(render){
+      setLoading(true);
+      fetch_products();
+      updateRender(false)
+    }
+  }, [fetch_products, render, updateRender]);
 
   //AL: Set loading state to false when data has been retrieved
   useEffect(() => {

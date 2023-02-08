@@ -149,6 +149,15 @@ export const fetch_filtered_products = (query: string) => {
   };
 };
 
+export const updateRender = (payload: boolean) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
+    dispatch({
+      type: ActionType.UPDATE_RENDER,
+      payload
+    });
+  };
+};
+
 export const adminLog = () => {
   return (dispatch: Dispatch<ActionUser>) => {
     dispatch({
@@ -156,3 +165,4 @@ export const adminLog = () => {
     });
   };
 };
+

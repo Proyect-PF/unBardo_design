@@ -11,7 +11,7 @@ const colors = [
   { id: "white", name: "Blanco" },
   { id: "black", name: "Negro" },
 ];
-const show_in_show = [
+const show_in_shop = [
   { id: "true", name: "Si" },
   { id: "false", name: "No" },
 ];
@@ -23,9 +23,14 @@ export const ProductEdit = () => (
       <TextInput source="name" />
       <TextInput source="description" />
       <SelectInput source="color" choices={colors} />
-      <TextInput source="size" />
+      <div className="flex gap-12">
+        <NumberInput source="S" />
+        <NumberInput source="M" />
+        <NumberInput source="L" />
+        <NumberInput source="XL" />
+      </div>
       <NumberInput source="price" />
-      <SelectInput source="show_in_show" choices={show_in_show} />
+      <SelectInput source="show_in_shop" choices={show_in_shop} />
       <TextInput source="image" />
     </SimpleForm>
   </Edit>

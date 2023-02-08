@@ -14,7 +14,6 @@ const AdminPanel = () => (
       edit={ProductEdit}
       create={ProductCreate}
     />
-    
   </Admin>
 );
 

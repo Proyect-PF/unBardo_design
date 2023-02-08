@@ -10,12 +10,11 @@ import { fetch_products } from "../../state/action-creators";
 //   byOrder: string,
 // }
 
-
-
 const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
+
   
   
   const { fetch_products } = bindActionCreators( actionCreators, dispatch)
@@ -27,21 +26,35 @@ const Dropdown = (): JSX.Element => {
   
   const handleChange = ( event: React.ChangeEvent<HTMLSelectElement>): void => {
 
+
+  const { fetch_filtered_products } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
+  const INITIAL_STATE = {
+    byColor: "all",
+    byOrder: "asc",
+  };
+  const [Query, setQuery] = useState(INITIAL_STATE);
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { name, value } = event.target;
-    setQuery({ 
-        ...Query, 
-        [name]: value 
-      });
-    };
+    setQuery({
+      ...Query,
+      [name]: value,
+    });
+  };
   const handleShow = () => {
     show ? setShow(false) : setShow(true);
   };
 
   //AL: this useEffect dispatch the actions when detects a change on filters / order
   //Usamos el useeffect para despachar las filtraciones que vienen del estado local desde el handleChange
+
 useEffect(() => {
   fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}&sort=price`)
 }, [Query])
+
 
 
   return (
@@ -65,7 +78,6 @@ useEffect(() => {
         }`}
         id="byOrder"
         name="byOrder"
-        
         onChange={handleChange}
         value={Query.byOrder}
       >
@@ -81,5 +93,5 @@ useEffect(() => {
     </div>
   );
 };
-
+}
 export default Dropdown;

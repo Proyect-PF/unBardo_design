@@ -91,6 +91,7 @@ export const GET_AllProducts = async (request: Request, response: Response ) => 
   try {
     const {id } = request.params;
     const {  filter, order, page, perPage, sort } = request.query;
+    console.log(request.query)
 
     // Seteamos el optiones BASE de consulta
     let options: any = {

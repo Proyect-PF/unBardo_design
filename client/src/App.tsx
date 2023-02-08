@@ -29,7 +29,6 @@ function App() {
       setSearch(false);
     }
   };
-
   return (
     <div className=" font-rift">
       <BrowserRouter>

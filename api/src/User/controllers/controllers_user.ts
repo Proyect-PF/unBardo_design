@@ -2,17 +2,9 @@
 import { Request, Response } from "express"
 import db from "../../database"
 export const GET_User = async(req:Request, res:Response) => {
-
     const users = await db.Users.findAll()
-
     res.send(users)
 }
-
-
-export const GET_UserByName  = async(req:Request, res:Response) => {
-    res.send("Obtiene usuario por nombre")
-}
-
 
 export const POST_User = async(req:Request, res:Response) => {
     res.send("crea un usuario")

@@ -102,7 +102,7 @@ export const POST_SignIn = async (req: Request, res: Response) => {
     expiresIn: 86400,
   });
 
-  res.json({ token });
+  res.json({ token: token });
   } catch (error) {
     res.status(400).json({error})
   }

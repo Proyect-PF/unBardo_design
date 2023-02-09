@@ -11,6 +11,8 @@ USER_EMAIL=admin@admin.com
 USER_PASSWORD=admin
 USER_ROLE=admin
 MERCADOPAGO_KEY=APP_USR-4964430421416242-020813-c46f247ea7b1f91937c722b8ea7b4134-1305644016
+email="unbardodesign2023@gmail.com"
+password="jlvmoatfefqrsgnt\n"
 ```
 
 

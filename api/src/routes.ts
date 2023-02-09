@@ -24,7 +24,6 @@ routes.use("/products", productRoutes);
 //Ruta de Ordenes
 routes.use("/orders", ordersRoutes);
 
-feature/Orders
 // Ruta de email
 routes.use("/email", emailRoutes);
 

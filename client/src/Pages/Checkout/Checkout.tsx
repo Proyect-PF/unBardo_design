@@ -1,52 +1,30 @@
-import { useState } from "react";
 import CheckoutCard from "../../components/Cards/Checkout/CheckoutCard";
-import imgF7 from "../../assets/images/remeras/unbardo-07F.png";
-import imgB7 from "../../assets/images/remeras/unbardo-07F.png";
 import Button from "../../components/Buttons/Button/Button";
+import { useSelector } from "react-redux";
+import { State } from "../../state/reducers";
 
 const Checkout = (): JSX.Element => {
-  const [products, setProducts] = useState([
-    {
-      name: "Remera Oversize unBardo Black",
-      size: "XL",
-      price: 8000,
-      ammount: 1,
-      imgF: imgF7,
-      imgB: imgB7,
-    },
-    {
-      name: "Remera Oversize unBardo White",
-      size: "L",
-      price: 6000,
-      ammount: 2,
-      imgF: imgF7,
-      imgB: imgB7,
-    },
-    {
-      name: "Remera Oversize KingKong Black",
-      size: "M",
-      price: 8000,
-      ammount: 3,
-      imgF: imgF7,
-      imgB: imgB7,
-    },
-  ]);
+  const { checkoutList } = useSelector((state: State) => state.checkout);
 
   const handleCheckout = () => {
     alert("pagadovich");
   };
 
   return (
-    <div>
-      {products?.length > 0 &&
-        products.map((e) => (
+    <div className="flex flex-col items-center">
+      {checkoutList?.length > 0 &&
+        checkoutList.map((e) => (
           <CheckoutCard
-            products={products}
-            setter={setProducts}
-            index={products.indexOf(e)}
+            key={e.id}
+            id={e.id}
+            name={e.name}
+            size={e.size}
+            price={e.price}
+            ammount={e.ammount}
+            imgF={e.imgF}
           />
         ))}
-      <p className="mx-6 font-bold text-right">{`Total: $ ${products.reduce(
+      <p className="mx-6 font-bold text-right">{`Total: $ ${checkoutList.reduce(
         (acc, e) => {
           return acc + e.price * e.ammount;
         },
@@ -55,11 +33,11 @@ const Checkout = (): JSX.Element => {
       <Button
         type="button"
         name="Checkout"
-        text={`Pagar ahora (${products.reduce((acc, e) => {
+        text={`Pagar ahora (${checkoutList.reduce((acc, e) => {
           return acc + e.ammount;
         }, 0)})`}
         onClick={handleCheckout}
-        disabled={false}
+        disabled={checkoutList.length === 0}
       />
     </div>
   );

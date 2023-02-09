@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
-import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import Button from "../../components/Buttons/Button/Button";
 import AmountInput from "../../components/Inputs/Amount/AmountInput";
 import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
@@ -15,6 +14,7 @@ const Details = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { fetch_product_detail } = bindActionCreators(actionCreators, dispatch);
+  const { addCheckout } = bindActionCreators(actionCreators, dispatch);
   const { productDetails } = useSelector((state: State) => state.products);
   //AL: loading state for loading implementation (done)
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ const Details = (): JSX.Element => {
   // needs to be rewired to future implementation)
   const [show, setShow] = useState(false);
   //AL: size / amount state retrieve the selection for future add to cart implementation
-  const [amount, setAmount] = useState(1);
+  const [ammount, setAmmount] = useState(1);
   const [size, setSize] = useState("");
 
   //AL:retrieve the id from the url & transform to number to match type
@@ -49,9 +49,30 @@ const Details = (): JSX.Element => {
   // };
 
   //AL: this function manages the add to cart functionality, needs to be implemented
-  const handleCart = () => {
-    if (amount && size) alert(size + " " + amount);
+  const handleCart = (e: any) => {
+    e.preventDefault()
+    const payload = {
+      id: productDetails.id + "-" + size,
+      name: productDetails.name,
+      size: size,
+      price: productDetails.price,
+      ammount: ammount,
+      imgF: productDetails.image,
+    }
+    addCheckout(payload)
+    setSize("")
+    setAmmount(1)
   };
+
+  const stockSize = (size: string) => {
+    if(size === "S") return productDetails.S
+    if(size === "L") return productDetails.L
+    if(size === "M") return productDetails.M
+    if(size === "XL") return productDetails.XL
+    else {
+      return 1
+    }
+  }
 
   return (
     <div>
@@ -90,6 +111,7 @@ const Details = (): JSX.Element => {
           <div>
             <div className="flex justify-around my-8 text-lg text-center">
               <SizeSelector
+                selected={size}
                 sizes={[
                   productDetails.S,
                   productDetails.M,
@@ -98,14 +120,14 @@ const Details = (): JSX.Element => {
                 ]}
                 setter={setSize}
               />
-              <AmountInput setter={setAmount} />
+              <AmountInput stock={stockSize} size={size} amount={ammount} setter={setAmmount} />
             </div>
             <Button
               type="button"
               text="Añadir al carrito"
               onClick={handleCart}
               name="Carrito"
-              disabled={true}
+              disabled={size === ""}
             />
           </div>
         </div>

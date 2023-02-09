@@ -1,4 +1,5 @@
 // interface Props {
+// import { initialStateUser } from './initialStateUser';
 //   userDataPayment: {
 //     name: string;
 //     surname: string;
@@ -24,16 +25,3 @@
 //     >
 //   >;
 // }
-
-export const initialStateUser = {
-
-    name: 'Diego',
-    surname: 'Maidana',
-    email: 'diegoshhh@gmail.com',
-    area_code: '2954',
-    number: '23341232',
-    street_name: 'San Martin',
-    zip_code: 3200,
-    street_number: 12,
-  };
-

@@ -100,13 +100,26 @@ const Details = (): JSX.Element => {
               />
               <AmountInput setter={setAmount} />
             </div>
-            <Button
-              type="button"
-              text="Añadir al carrito"
-              onClick={handleCart}
-              name="Carrito"
-              disabled={true}
-            />
+
+            <div className='flex flex-col'>
+              <Button
+                type='button'
+                text='Añadir al carrito'
+                onClick={handleCart}
+                name='Carrito'
+                disabled={true}
+              />
+              <Link to={'/checkout/payment'}>
+                <Button
+                  type='button'
+                  text='Comprar Ahora'
+                  onClick={() => {}}
+                  name='mercadopago'
+                  disabled={false}
+                />
+              </Link>
+            </div>
+
           </div>
         </div>
       </div>

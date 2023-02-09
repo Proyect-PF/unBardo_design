@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface Props {
-  sizes: string[];
+  sizes: number[];
   setter: React.Dispatch<React.SetStateAction<string>>;
 }
 
@@ -20,7 +20,47 @@ const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
 
   return (
     <div className="flex gap-4 my-4 text-lg font-bold text-center">
-      {sizes &&
+      <button
+        onClick={handleSize}
+        key="sizeS"
+        className={`w-8 h-8 border border-black ${
+          selected === "S" ? "bg-black text-white" : "bg-white text-black"
+        } ${sizes[0] === 0 ? " text-gray-400" : ""}`}
+        disabled={sizes[0] === 0}
+      >
+        S
+      </button>
+      <button
+        onClick={handleSize}
+        key="sizeM"
+        className={`w-8 h-8 border border-black ${
+          selected === "M" ? "bg-black text-white" : "bg-white text-black"
+        } ${sizes[1] === 0 ? " text-gray-400" : ""}`}
+        disabled={sizes[1] === 0}
+      >
+        M
+      </button>
+      <button
+        onClick={handleSize}
+        key="sizeL"
+        className={`w-8 h-8 border border-black ${
+          selected === "L" ? "bg-black text-white" : "bg-white text-black"
+        } ${sizes[2] === 0 ? " text-gray-400" : ""}`}
+        disabled={sizes[2] === 0}
+      >
+        L
+      </button>
+      <button
+        onClick={handleSize}
+        key="sizeXL"
+        className={`w-8 h-8 border border-black ${
+          selected === "XL" ? "bg-black text-white" : "bg-white text-black"
+        } ${sizes[3] === 0 ? " text-gray-400" : ""}`}
+        disabled={sizes[3] === 0}
+      >
+        XL
+      </button>
+      {/* {sizes &&
         sizes.map((e) => (
           <button
             onClick={handleSize}
@@ -31,7 +71,7 @@ const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
           >
             {e}
           </button>
-        ))}
+        ))} */}
     </div>
   );
 };

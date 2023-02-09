@@ -38,7 +38,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         handleChange();
         break;
       case "newproduct":
-        navigate("/panel/newproduct");
+        navigate("/admin");
         handleChange();
         break;
       case "logout":

@@ -11,6 +11,7 @@ interface GetAllAction {
 }
 interface UpdateRender {
   type: ActionType.UPDATE_RENDER;
+  payload: boolean;
 }
 
 interface AddProduct {

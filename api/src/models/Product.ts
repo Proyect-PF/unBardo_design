@@ -2,15 +2,19 @@
 
 import Sequelize, { Model } from "sequelize";
 
+
 interface PorductAttributes {
   id: number;
   name: string;
   description: Text;
-  size: string;
+  S: number;
+  M: number;
+  L: number;
+  XL: number;
   price: number;
   promotional_price: number;
   video: string;
-  show_in_shop: string;
+  show_in_shop: boolean;
   stock: number;
   weight: number;
   width: number;
@@ -28,11 +32,14 @@ export default (sequelize:any, DataTypes:any) => {
     id!: number;
     name!: string;
     description!: Text;
-    size!: string;
+    S!: number;
+    M!: number;
+    L!: number;
+    XL!: number;
     price!: number;
     promotional_price!: number;
     video!: string;
-    show_in_shop!: string;
+    show_in_shop!: boolean;
     stock!: number;
     weight!: number;
     width!: number;
@@ -89,19 +96,34 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.TEXT,
       // allowNull: false
     },
-    size: {
+    // size: {
       //type: Sequelize.ENUM("XS", "S", "M", "L", "XL"),
-      type: DataTypes.STRING,
+      // type: DataTypes.STRING,
+      
       // allowNull: false,
       //defaultValue: "XS"
+    // },
+    S:{
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    M:{
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    L:{
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    XL:{
+      type:DataTypes.INTEGER,
+      defaultValue: 0
     },
     show_in_shop: {
       //type: Sequelize.ENUM("si", "no"),
 
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       // allowNull: false,
-
-      //defaultValue: "no"
     },
     price: {
       type: DataTypes.INTEGER,

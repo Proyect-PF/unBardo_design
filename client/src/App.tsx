@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import NewProductForm from "./components/NewProduct/NewProductForm";
+// import NewProductForm from "./components/NewProduct/NewProductForm";
 import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Sidebar from "./layouts/Sidebar/Sidebar";
 import Checkout from "./Pages/Checkout/Checkout";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
-import LogIn from "./Pages/LogIn/LogIn";
 import Searchbar from "./layouts/Searchbar/Searchbar";
+import UserSignPage from "./Pages/UserSignPage/UserSignPage";
+import AdminPanel from "./Admin";
+import Payment from "./Pages/Checkout/Payment";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -28,7 +30,6 @@ function App() {
       setSearch(false);
     }
   };
-
   return (
     <div className=" font-rift">
       <BrowserRouter>
@@ -39,10 +40,11 @@ function App() {
           <Route path="*" element={<div>404</div>} />
           <Route path="/" element={<Home />} />
           <Route path="/product/:name" element={<Details />} />
-          <Route path="/account/login" element={<LogIn />} />
+          <Route path="/account/login" element={<UserSignPage />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/account/panel" element={<div>Admin Panel</div>} />
-          <Route path="/panel/newproduct" element={<NewProductForm />} />
+          <Route path="/checkout/payment" element={<Payment />} />
+          {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
+          <Route path="/admin/*" element={<AdminPanel />} />
         </Routes>
         <Footer />
       </BrowserRouter>

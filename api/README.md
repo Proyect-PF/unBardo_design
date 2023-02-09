@@ -54,7 +54,7 @@ Nombre de la funcion = DELETE_DeleteProduct
     Recibe por params el id del producto a eliminar y ejecuta un destroy en la db
 ```
 
-#### PUT -> localhost:3700/products/delete/:id
+#### PUT -> localhost:3700/products/
 ```env
 Nombre de la funcion = UPDATE_UpdateProduct 
     Recibe por params el id del producto a actualizar, recibe por body lo que se debe actualizar
@@ -158,3 +158,17 @@ Nombre de funcion = GET_AllOrders.
 Nombre de funcion = GET_OrderById.
     Si se recibe por param el id, busca la orden relacionada a ese id
 ```
+
+# Endpoints para Cart
+## localhost:3700/cart
+
+#### POST -> localhost:3700/cart/
+
+```env
+Nombre de funcion = POST_AddToCart
+    Esta ruta agrega un producto al carrito de compras en el Back en la tabla "Cart".
+    - Recibe el id y un flag "eliminar"
+    - Si eliminar es "false" agrega un producto, si existe -> suma un contador y su precio.
+    - Si flag es "true" lo elimina y resta la cantidad.
+```
+

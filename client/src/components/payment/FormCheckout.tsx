@@ -1,78 +1,14 @@
-
-import { useFormik } from 'formik';
 import { Formik } from 'formik';
 import Button from '../Buttons/Button/Button';
 import axios from 'axios';
-import * as Yup from 'yup';
 import Input from '../Inputs/Input';
-import { useState } from 'react';
+import { validationSchema } from '../../utils/FormPayment/validation';
+import { initialValues } from '../../utils/FormPayment/initialValues';
 
 export const FormCheckout = (): JSX.Element => {
-
-  const [showModal, setShowModal] = useState(false);
-
-  const [userDataPayment, setUserDataPayment] = useState({
-    name: 'Diego',
-    surname: 'Maidana',
-    email: 'diegoshhh@gmail.com',
-    area_code: '2954',
-    number: 23341232,
-    street_name: 'San Martin',
-    zip_code: '3200',
-    street_number: 12,
-    id: 2,
-    title: 'Remera blanca',
-
-    price: 35,
-    quantity: 2,
-  });
-
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Nombre es requerido')
-      .min(2, 'Debe tener al menos 2 caracteres'),
-    surname: Yup.string()
-      .required('Apellido es requerido')
-      .min(2, 'Debe tener al menos 2 caracteres'),
-    email: Yup.string()
-      .email('Ingrese un email válido')
-      .required('Email es requerido'),
-    area_code: Yup.string()
-      .required('Código de área es requerido')
-      .min(2, 'Debe tener al menos 2 caracteres'),
-    street_name: Yup.string()
-      .required('Direccion es requerida')
-      .min(2, 'Debe tener al menos 2 caracter'),
-    street_number: Yup.string()
-      .required('El numero es requerido')
-      .min(1, 'Debe tener al menos 1 caracter'),
-    number: Yup.string()
-      .required('Número es requerido')
-      .min(6, 'Debe tener al menos 6 caracteres'),
-    zip_code: Yup.string()
-      .required('Código postal es requerido')
-      .min(4, 'Debe tener al menos 4 caracteres'),
-  });
-
   return (
-
     <Formik
-      initialValues={{
-        id: 2,
-        title: 'Remera blanca',
-        price: 35,
-        quantity: 2,
-
-        area_code: '',
-        number: '',
-        zip_code: '',
-        street_name: '',
-        street_number: '',
-        email: '',
-        name: '',
-        surname: '',
-      }}
+      initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         axios({
@@ -135,7 +71,6 @@ export const FormCheckout = (): JSX.Element => {
               onChange={handleChange}
               value={values.email}
               className=' font-poppins'
-
               onBlur={() => {}}
             />
             {errors.email && touched.email && (
@@ -230,7 +165,7 @@ export const FormCheckout = (): JSX.Element => {
           <Button
             text='Pagar'
             name='pagar'
-            onClick={() => setShowModal(true)}
+            onClick={() => {}}
             disabled={isSubmitting}
             // Object.values(errors).some((error) => error) ||
             // Object.values(values).some((value) => !value)
@@ -239,6 +174,5 @@ export const FormCheckout = (): JSX.Element => {
         </form>
       )}
     </Formik>
-
   );
 };

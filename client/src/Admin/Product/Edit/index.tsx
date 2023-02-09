@@ -6,6 +6,7 @@ import {
   NumberInput,
   SelectInput,
 } from "react-admin";
+import UploadImage from "../Inputs/ImgInput/ImgInput";
 
 const colors = [
   { id: "white", name: "Blanco" },
@@ -31,7 +32,7 @@ export const ProductEdit = () => (
       </div>
       <NumberInput source="price" />
       <SelectInput source="show_in_shop" choices={show_in_shop} />
-      <TextInput source="image" />
+      <UploadImage source="image" label="images" />
     </SimpleForm>
   </Edit>
 );

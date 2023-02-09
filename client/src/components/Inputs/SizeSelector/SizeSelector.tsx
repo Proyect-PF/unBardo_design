@@ -1,20 +1,19 @@
 import { useState } from "react";
 
 interface Props {
+  selected: string;
   sizes: number[];
   setter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SizeSelector = ({ sizes, setter }: Props): JSX.Element => {
+const SizeSelector = ({ selected, sizes, setter }: Props): JSX.Element => {
   //AL: selected state for visual changes in the component, the value passed
   //to the invoking is manneged by the "setter" function
-  const [selected, setSelected] = useState("");
 
   //AL: this functions manages the selected state & setting the value for the invoking page
   const handleSize = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;
-    setSelected(button.innerHTML);
     setter(button.innerHTML);
   };
 

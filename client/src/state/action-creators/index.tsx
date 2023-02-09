@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types";
-import { ActionProducts, ActionUser } from "../actions";
-import { Product, ProductState } from "../types";
+import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
+import { Checkout, Product, ProductState } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -162,6 +162,24 @@ export const adminLog = () => {
   return (dispatch: Dispatch<ActionUser>) => {
     dispatch({
       type: ActionType.ADMIN_LOGIN,
+    });
+  };
+};
+
+export const addCheckout = (payload: Checkout) => {
+  return (dispatch: Dispatch<ActionCheckout>) => {
+    dispatch({
+      type: ActionType.ADD_CHECKOUT,
+      payload
+    });
+  };
+};
+
+export const removeCheckout = (payload: string) => {
+  return (dispatch: Dispatch<ActionCheckout>) => {
+    dispatch({
+      type: ActionType.REMOVE_CHECKOUT,
+      payload
     });
   };
 };

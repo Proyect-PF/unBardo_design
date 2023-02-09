@@ -78,40 +78,6 @@ export const FormCheckout = (): JSX.Element => {
             )}
           </div>
 
-          <div className='flex flex-row gap-3 sm:flex-row sm:pt-5 sm:gap-5'>
-            <div className='flex flex-col w-full sm:w-1/2'>
-              <label htmlFor='area_code'>Codigo de Area</label>
-              <Input
-                type='number'
-                id='area_code'
-                name='area_code'
-                placeholder='2954'
-                onChange={handleChange}
-                value={values.area_code}
-                className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
-                onBlur={() => {}}
-              />
-              {errors.area_code && touched.area_code && (
-                <p className='text-red-600'>{errors.area_code}</p>
-              )}
-            </div>
-            <div className='flex flex-col w-full sm:w-1/2'>
-              <label htmlFor='number'>Telefono</label>
-              <Input
-                type='number'
-                id='number'
-                name='number'
-                placeholder='153666987'
-                onChange={handleChange}
-                value={values.number}
-                className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
-                onBlur={() => {}}
-              />
-              {errors.number && touched.number && (
-                <p className='text-red-600'>{errors.number}</p>
-              )}
-            </div>
-          </div>
           <div className='flex flex-col w-full'>
             <label htmlFor='street_name'>Direccion</label>
             <Input
@@ -162,6 +128,42 @@ export const FormCheckout = (): JSX.Element => {
               )}
             </div>
           </div>
+
+          <div className='flex flex-row gap-3 sm:flex-row sm:pt-5 sm:gap-5'>
+            <div className='flex flex-col w-full sm:w-1/2'>
+              <label htmlFor='area_code'>Codigo de Area</label>
+              <Input
+                type='number'
+                id='area_code'
+                name='area_code'
+                placeholder='2954'
+                onChange={handleChange}
+                value={values.area_code}
+                className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
+                onBlur={() => {}}
+              />
+              {errors.area_code && touched.area_code && (
+                <p className='text-red-600'>{errors.area_code}</p>
+              )}
+            </div>
+            <div className='flex flex-col w-full sm:w-1/2'>
+              <label htmlFor='number'>Telefono</label>
+              <Input
+                type='number'
+                id='number'
+                name='number'
+                placeholder='153666987'
+                onChange={handleChange}
+                value={values.number}
+                className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
+                onBlur={() => {}}
+              />
+              {errors.number && touched.number && (
+                <p className='text-red-600'>{errors.number}</p>
+              )}
+            </div>
+          </div>
+
           <Button
             text='Pagar'
             name='pagar'

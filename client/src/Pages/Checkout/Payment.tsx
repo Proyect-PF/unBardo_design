@@ -1,5 +1,7 @@
+
 import React from "react";
 import { FormCheckout } from "../../components/payment/FormCheckout";
+
 
 type Props = {};
 

@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   DELETE_User,
   GET_User,
-  GET_UserByName,
   POST_User,
   UPDATE_User,
 } from "../controllers/controllers_user";
@@ -13,8 +12,6 @@ const userRoutes = Router();
 
 
 userRoutes.delete("/", DELETE_User);
-
-
 
 userRoutes.put("/", UPDATE_User);
 

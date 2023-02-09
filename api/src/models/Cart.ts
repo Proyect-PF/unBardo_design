@@ -16,6 +16,7 @@ export default (sequelize:any, DataTypes:any) => {
             models.Cart.belongsTo(models.Product, {foreignKey: "id_product"})
         }
 
+
     }
     Cart.init({
         total: {
@@ -27,7 +28,6 @@ export default (sequelize:any, DataTypes:any) => {
             allowNull: false,
             defaultValue: 0,
         }
-
     }, {
         sequelize,
         modelName: 'Cart',

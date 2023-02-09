@@ -26,6 +26,7 @@
 // }
 
 export const initialStateUser = {
+
     name: 'Diego',
     surname: 'Maidana',
     email: 'diegoshhh@gmail.com',
@@ -35,3 +36,4 @@ export const initialStateUser = {
     zip_code: 3200,
     street_number: 12,
   };
+

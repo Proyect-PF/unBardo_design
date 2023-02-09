@@ -37,7 +37,7 @@ productRoutes.get("/search/:name", GET_SearchByName);
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 
-productRoutes.post("/", POST_NewProduct);
+productRoutes.post("/",verifyTokenIsAdmin, POST_NewProduct);
 
 
 

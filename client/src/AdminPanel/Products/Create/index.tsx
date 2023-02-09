@@ -27,7 +27,7 @@ const Create = ({ className }: Props): JSX.Element => {
         onSubmit={(values) => {
           create_product({
             ...values,
-            show_in_shop: Boolean(values.show_in_shop),
+            show_in_shop: values.show_in_shop === "true" ? true : false,
           });
         }}
       >

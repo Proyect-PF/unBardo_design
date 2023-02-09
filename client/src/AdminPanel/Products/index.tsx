@@ -1,13 +1,21 @@
 import Button from "../../components/Buttons/Button/Button";
 import ListProducts from "./List";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Create from "./Create";
+import { bindActionCreators } from "redux";
+import { useDispatch } from "react-redux";
+import { actionCreators } from "../../state";
 
 const Products = (): JSX.Element => {
   const [selected, setSelected] = useState("list");
+  const dispatch = useDispatch();
+  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
+  useEffect(() => {
+    fetch_products();
+  }, []);
 
   return (
-    <div className="mx-12">
+    <div>
       <Button
         type="button"
         text={selected === "list" ? "Crear producto" : "Atras"}
@@ -16,7 +24,10 @@ const Products = (): JSX.Element => {
         onClick={
           selected === "list"
             ? () => setSelected("create")
-            : () => setSelected("list")
+            : () => {
+                setSelected("list");
+                fetch_products();
+              }
         }
       />
       <ListProducts className={selected === "list" ? "visible" : "hidden"} />

@@ -1,8 +1,9 @@
 import { Express, Request, Response } from "express";
+import dotenv from 'dotenv'
 import { Op } from "sequelize";
 import db from "../../database";
 const mercadopago = require('mercadopago');
-
+dotenv.config()
 //MERCADOPAGO
 mercadopago.configure({
   access_token: process.env.MERCADOPAGO_KEY,

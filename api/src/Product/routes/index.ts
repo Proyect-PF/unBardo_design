@@ -27,6 +27,7 @@ import { verifyTokenIsAdmin } from "../../helpers/verifyTokenIsAdmin";
 
 productRoutes.get("/", GET_AllProducts);
 productRoutes.get("/:id", GET_ProductById);
+productRoutes.put("/:id", UPDATE_UpdateProduct);
 
 productRoutes.delete("/delete/:id", DELETE_DeleteProduct);
 
@@ -38,7 +39,6 @@ productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 productRoutes.post("/", POST_NewProduct);
 
-productRoutes.put("/:id", UPDATE_UpdateProduct);
 
 
 

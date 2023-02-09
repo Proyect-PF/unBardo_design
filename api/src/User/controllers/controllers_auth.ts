@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import db from "../../database";
 import { POST_AddToCart } from "./../../Cart/controllers/controllers_cart";
+import getErrorMessage from "../../helpers/handleErrorCatch";
 dotenv.config();
 
 
@@ -91,7 +92,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
   try {
     const { fullname, email, password, role } = req.body;
     //Comprobar si el usuario ya existe
-
+    if(!fullname || !email || !password) throw new Error("Datos incompletos")
     if (role) {
       const foundRole = await db.Role.findOne({
         where: { name: role },
@@ -164,7 +165,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
     //Si no esta creado, devuelve el token
     return res.status(200).json({ token: token });
   } catch (error) {
-    return res.status(400).json({ error });
+    return res.status(400).json(getErrorMessage(error));
   }
 };
 
@@ -173,6 +174,8 @@ export const POST_SignUp = async (req: Request, res: Response) => {
 export const POST_SignIn = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
+    if(!email || !password) throw new Error("Datos incompletos")
+
     //Busco el usuario con su nombre de rol
     const userFound = await db.Users.findOne({
       where: { email },
@@ -205,8 +208,7 @@ export const POST_SignIn = async (req: Request, res: Response) => {
     );
 
   res.json({ token: token });
-    res.json({ token });
   } catch (error) {
-    res.status(400).json({ error });
+    res.status(400).json(getErrorMessage(error));
   }
 };

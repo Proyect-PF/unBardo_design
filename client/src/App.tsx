@@ -11,6 +11,7 @@ import Home from "./Pages/Home/Home";
 import Searchbar from "./layouts/Searchbar/Searchbar";
 import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 import AdminPanel from "./Admin";
+import Payment from "./Pages/Checkout/Payment";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -41,6 +42,7 @@ function App() {
           <Route path="/product/:name" element={<Details />} />
           <Route path="/account/login" element={<UserSignPage />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout/payment" element={<Payment />} />
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/admin/*" element={<AdminPanel />} />
         </Routes>

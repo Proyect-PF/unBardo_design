@@ -1,3 +1,4 @@
+
 import { Formik } from 'formik';
 import Input from '../Inputs/Input';
 import Button from '../Buttons/Button/Button';
@@ -17,6 +18,7 @@ export const FormCheckout = (): JSX.Element => {
     street_number: 12,
     id: 2,
     title: 'Remera blanca',
+
     price: 35,
     quantity: 2,
   });
@@ -32,6 +34,7 @@ export const FormCheckout = (): JSX.Element => {
   return (
     <form
       onSubmit={() => {}}
+
       className='mx-8 my-4 flex flex-col gap-6 justify-center align-middle'
     >
       <div>
@@ -44,10 +47,12 @@ export const FormCheckout = (): JSX.Element => {
           value={userDataPayment.name}
           onChange={(e: any) => handleChange(e)}
           className=' font-poppins'
+
           onBlur={() => {}}
         />
       </div>
       <div>
+
         <label htmlFor='surname'>Apellido</label>
         <Input
           type='text'
@@ -57,51 +62,55 @@ export const FormCheckout = (): JSX.Element => {
           value={userDataPayment.surname}
           onChange={(e: any) => handleChange(e)}
           className=' font-poppins'
+
           onBlur={() => {}}
         />
       </div>
       <div>
-        <label htmlFor='email'>email</label>
+
+        <label htmlFor="email">email</label>
         <Input
-          type='text'
-          id='email'
-          name='email'
-          placeholder=''
+          type="text"
+          id="email"
+          name="email"
+          placeholder=""
           value={userDataPayment.email}
           onChange={(e: any) => handleChange(e)}
-          className=' font-poppins'
+          className=" font-poppins"
           onBlur={() => {}}
         />
       </div>
-      <div className='flex flex-row pt-5 gap-5'>
-        <div className='flex flex-col'>
-          <label htmlFor='area_code'>Codigo de Area</label>
+      <div className="flex flex-row gap-5 pt-5">
+        <div className="flex flex-col">
+          <label htmlFor="area_code">Codigo de Area</label>
           <Input
-            type='number'
-            id='area_code'
-            name='area_code'
-            placeholder='2954'
+            type="number"
+            id="area_code"
+            name="area_code"
+            placeholder="2954"
             value={userDataPayment.area_code}
             onChange={(e: any) => handleChange(e)}
-            className=' font-poppins'
+            className=" font-poppins"
             onBlur={() => {}}
           />
         </div>
-        <div className='flex flex-col'>
-          <label htmlFor='phone'>Telefono</label>
+        <div className="flex flex-col">
+          <label htmlFor="phone">Telefono</label>
           <Input
-            type='number'
-            id='phone'
-            name='phone'
-            placeholder='432234454'
+            type="number"
+            id="phone"
+            name="phone"
+            placeholder="432234454"
             value={userDataPayment.number}
             onChange={(e: any) => handleChange(e)}
-            className=' font-poppins'
+            className=" font-poppins"
+
             onBlur={() => {}}
           />
         </div>
       </div>
       <div>
+
         <label htmlFor='street_name'>Direccion</label>
         <Input
           type='text'
@@ -137,6 +146,7 @@ export const FormCheckout = (): JSX.Element => {
               value={userDataPayment.zip_code}
               onChange={(e: any) => handleChange(e)}
               className=' font-poppins'
+
               onBlur={() => {}}
             />
           </div>
@@ -155,18 +165,22 @@ export const FormCheckout = (): JSX.Element => {
       {/* Pagar */}
       {/* </button> */}
       <Button
+
         text='Pagar'
         name='pagar'
         onClick={async () => {
           const checkout = await axios
             .post('http://localhost:3700/orders/payment', userDataPayment)
+
             .then(
               // (res) => console.log(res.data.res.body.payer.email)
               (res) => (window.location.href = res.data.res.body.init_point)
             );
         }}
         disabled={false}
+
         type='button'
+
       />
     </form>
   );

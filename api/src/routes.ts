@@ -41,7 +41,9 @@ routes.use("/Cart", cartRoutes);
 
 // routes.use("/categories", categoryRoutes);
 
-
+// Esta ruta es para probar las validaciones (Luego se borrara)
+import validationsRoutes from "./validations/routes";
+routes.use("/validations", validationsRoutes);
 
 
 export default routes;

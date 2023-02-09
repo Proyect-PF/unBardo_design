@@ -2,11 +2,14 @@ import { Express, Request, Response } from "express";
 import dotenv from 'dotenv'
 import { Op } from "sequelize";
 import db from "../../database";
+import dotenv from "dotenv";
 const mercadopago = require('mercadopago');
-dotenv.config()
+dotenv.config();
+
 //MERCADOPAGO
 mercadopago.configure({
   access_token: process.env.MERCADOPAGO_KEY,
+  //access_token: "APP_USR-4964430421416242-020813-c46f247ea7b1f91937c722b8ea7b4134-1305644016",
 });
 
 interface RequestParams {}
@@ -14,8 +17,8 @@ interface RequestParams {}
 interface ResponseBody {}
 
 interface RequestBody {
-  id: number;     //id del producto
-  title: string;  //Este es el name del producto
+  id: number;         //id del producto
+  title: string;      //Este es el name del producto
   price: number;
   quantity: number;
   area_code: number;  //Telefono
@@ -51,12 +54,13 @@ export const POST_GeneratePayment =async (
       }
     ],
     back_urls: {
-      "success": "http://localhost:3700/orders/feedback",
-			"failure": "http://localhost:3700/orders/feedback",
+      "success": "http://localhost:3700",
+			"failure": "http://localhost:3700",
 			"pending": ""
     },
-    auto_return: "approved",
+    //auto_return: "approved",
     binary_mode: true,
+    external_reference: "Compra realizada por Diego",
     payer: {
       phone: {
         area_code: prod.area_code.toString(),
@@ -73,6 +77,12 @@ export const POST_GeneratePayment =async (
     },
   }
 
+  // await db.Orders.create({
+  //   prod.id_user,
+  //   prod.status,
+  //   prod.shipping_address,
+  // });
+
   //TODO: se crea el proceso de pago
   mercadopago.preferences.create(preference)
 		.then(function (res: any) {
@@ -86,7 +96,7 @@ export const POST_GeneratePayment =async (
 		});
 }
 
-//ruta de respuesta cuando el pago se realiza correctamente y cuando falla
+//ruta de respuesta de mercadopago cuando el pago se realiza exitosamente y cuando falla
 export const GET_FeedbackPayment =async (
   request: Request,
   response: Response
@@ -97,7 +107,48 @@ export const GET_FeedbackPayment =async (
   response.status(200).json({
 		Payment: feedback.payment_id,
 		Status: feedback.status,
-		MerchantOrder: feedback.merchant_order_id
+		MerchantOrder: feedback.merchant_order_id,
+    external_reference: feedback.external_reference
 	});
 }
 
+//Obtener todas las ordenes
+export const GET_AllOrders = async (req: Request, res: Response) => {
+  try {
+      const orders = await db.Orders.findAll({
+          include: [
+              {
+                  model: db.Users,
+                  as: "users"
+              }
+          ]
+      });
+      return res.status(200).json(orders);
+    } catch (error: any) {
+      return res.status(400).json({message: error.message});
+    }
+  };
+
+// Obtener oden por ID
+export const GET_OrderById = async (req: Request, res: Response) => {
+  try {
+      const {id} = req.params;
+      const order = await db.Orders.findOne({
+          where: {id},
+          include: [
+            {
+                  model: db.Users,
+                  as: "user"
+                }
+              ]
+            });        if (!order) {
+              return res.status(404).json({message: "Orden no encontrada"});
+            }
+            return res.status(200).json(order);
+          } catch (error: any) {
+            return res.status(400).json({
+              message: error.message
+            });
+          }
+        };
+        

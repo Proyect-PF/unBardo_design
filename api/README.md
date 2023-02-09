@@ -11,6 +11,12 @@ USER_EMAIL=admin@admin.com
 USER_PASSWORD=admin
 USER_ROLE=admin
 MERCADOPAGO_KEY=APP_USR-4964430421416242-020813-c46f247ea7b1f91937c722b8ea7b4134-1305644016
+email="unbardodesign2023@gmail.com"
+password="jlvmoatfefqrsgnt\n"
+CLOUDINARY_NAME=drt1pzx1x
+CLOUDINARY_API_KEY=185432381513669
+CLOUDINARY_API_SECRET=ddhUhnhLRNuwsoV1Qn4IW-EjWJg	
+
 ```
 
 
@@ -54,7 +60,7 @@ Nombre de la funcion = DELETE_DeleteProduct
     Recibe por params el id del producto a eliminar y ejecuta un destroy en la db
 ```
 
-#### PUT -> localhost:3700/products/delete/:id
+#### PUT -> localhost:3700/products/
 ```env
 Nombre de la funcion = UPDATE_UpdateProduct 
     Recibe por params el id del producto a actualizar, recibe por body lo que se debe actualizar
@@ -144,3 +150,31 @@ Nombre de funcion = GET_FeedbackPayment.
     Esta es la ruta a la que deriva mercadopago al finalizar el pago, ya sea que se realizo exitosamente, como si fallo el pago.
     El request se realiza por body
 ```
+
+#### GET -> localhost:3700/orders
+
+```env
+Nombre de funcion = GET_AllOrders.
+    Se obtienen todas las ordenes.
+```
+
+#### GET -> localhost:3700/orders/:id
+
+```env
+Nombre de funcion = GET_OrderById.
+    Si se recibe por param el id, busca la orden relacionada a ese id
+```
+
+# Endpoints para Cart
+## localhost:3700/cart
+
+#### POST -> localhost:3700/cart/
+
+```env
+Nombre de funcion = POST_AddToCart
+    Esta ruta agrega un producto al carrito de compras en el Back en la tabla "Cart".
+    - Recibe el id y un flag "eliminar"
+    - Si eliminar es "false" agrega un producto, si existe -> suma un contador y su precio.
+    - Si flag es "true" lo elimina y resta la cantidad.
+```
+

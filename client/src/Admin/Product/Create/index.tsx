@@ -6,8 +6,11 @@ import {
   NumberInput,
   SelectInput,
   required,
+  ImageInput,
+  ImageField,
 } from "react-admin";
 import CloudinaryInput from "../Inputs/Cloudinary";
+import UploadImage from "../Inputs/ImgInput/ImgInput";
 
 const colors = [
   { id: "white", name: "Blanco" },
@@ -43,7 +46,7 @@ export const ProductCreate = () => (
         choices={show_in_shop}
         validate={[required()]}
       />
-      <CloudinaryInput source="image" label="Cargar imagen" />
+      <UploadImage source="image" label="Subir imagen" />
     </SimpleForm>
   </Create>
 );

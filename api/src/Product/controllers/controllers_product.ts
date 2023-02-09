@@ -2,6 +2,7 @@ import { Express, Request, Response, response } from "express";
 import { request } from "http";
 import { Op } from "sequelize";
 import db from "../../database";
+import cloudinary from "../../utils/cloudinary";
 
 // LOS PRODUCT EN LA BASE DE DATOS TIENEN ESTA INFO TAMBIEN, Y NO QUEREMOS TOMARLA. ASIQUE USAMOS ...TO_EXCLUDE en la query, para todos
 // los endpoint
@@ -39,10 +40,14 @@ export const GET_ProductById = async (request: Request, response: Response) => {
 };
 
 export const POST_NewProduct = async (req: Request, res: Response) => {
+  const { image } = req.body
   try {
+      const uploadRes = await cloudinary.uploader.upload(image, {
+        upload_preset: 'unbardo'
+      })
+      req.body.image = uploadRes.url
     const newProduct = await db.Product.create(req.body);
     return res.status(201).json(newProduct);
-
     } catch (error: any) {
 
     return res.status(400).json({ error: error.message });
@@ -143,10 +148,15 @@ export const UPDATE_UpdateProduct = async (
   response: Response 
 ) => {
   try{
-  const product = request.body;
-
-      const { id } = request.params;
+    let product = request.body;
+    const { id } = request.params;
   
+
+    const uploadRes = await cloudinary.uploader.upload(product.image, {
+      upload_preset: 'unbardo'
+    })
+    product.image = uploadRes.url
+   
         // const existingProduct = await db.Product.findByPk(product.id);
         // if (!existingProduct) { 
           

@@ -4,7 +4,6 @@ import categoryRoutes from "./Category/routes";
 import ordersRoutes from "./Orders/routes/index";
 import productRoutes from "./Product/routes";
 import userRoutes from "./User/routes";
-feature/Orders
 import emailRoutes from "./Email/routes";
 
 
@@ -12,7 +11,6 @@ import authRouter from "./User/routes/auth";
 
 import cartRoutes from "./Cart/routes";
 
-dev
 const routes = Router();
 
 //END POINTS
@@ -29,7 +27,6 @@ routes.use("/orders", ordersRoutes);
 feature/Orders
 // Ruta de email
 routes.use("/email", emailRoutes);
-=======
 
 //Ruta de Autorizacion
 routes.use("/auth", authRouter)
@@ -38,7 +35,7 @@ routes.use("/auth", authRouter)
 //Ruta para el Carrito
 routes.use("/Cart", cartRoutes);
 
-dev
+
 
 // COMENTADA POR JOAQUIN
 // NO SE SABE SI SE VAN A IMPLEMENTAR CATEGORIAS

@@ -6,7 +6,6 @@ import productRoutes from "./Product/routes";
 import userRoutes from "./User/routes";
 feature/Orders
 import emailRoutes from "./Email/routes";
-=======
 
 
 import authRouter from "./User/routes/auth";

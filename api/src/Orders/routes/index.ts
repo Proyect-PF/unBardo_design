@@ -4,7 +4,7 @@ const ordersRoutes = Router();
 import {
     POST_GeneratePayment,
     GET_FeedbackPayment    
-} from "../controllers/controlles_order";
+} from "../controllers/controllers_order";
 
 //MERCADOPAGO
 ordersRoutes.post("/payment/", POST_GeneratePayment);

@@ -10,6 +10,7 @@ USER_NAME=admin
 USER_EMAIL=admin@admin.com
 USER_PASSWORD=admin
 USER_ROLE=admin
+MERCADOPAGO_KEY=APP_USR-4964430421416242-020813-c46f247ea7b1f91937c722b8ea7b4134-1305644016
 ```
 
 
@@ -109,4 +110,37 @@ Si el usuario ya existe en la base de datos, devuleve el token definido para el 
 Nombre de funcion = POST_SignUp.
     Posee dos funcionalidades, Matchea la password del usuario que quiere ingresar y devulve el token del usuario para ingresar como admin o user.
     en el caso de no matchear las password se envia un mensaje de contraseña incorrecta
+```
+
+# Endpoints para ordenes
+## localhost:3700/orders
+
+
+#### POST -> localhost:3700/orders/payment
+
+```env
+Nombre de funcion = POST_GeneratePayment.
+    Esta funcion crea el proceso de pago y te deriva a la pagina de pago de mercadopago.
+    El request se realiza por body.
+
+    id: number;     //id del producto
+    title: string;  //Este es el name del producto
+    price: number;
+    quantity: number;
+    area_code: number;  //Telefono
+    number: number;     //Telefono
+    zip_code: number;       //direccion
+    street_name: string;    //direccion
+    street_number: number;  //direccion
+    email: string;
+    name: string;
+    surname: string;
+```
+
+#### GET -> localhost:3700/orders/feedback
+
+```env
+Nombre de funcion = GET_FeedbackPayment.
+    Esta es la ruta a la que deriva mercadopago al finalizar el pago, ya sea que se realizo exitosamente, como si fallo el pago.
+    El request se realiza por body
 ```

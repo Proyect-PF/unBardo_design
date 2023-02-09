@@ -145,6 +145,19 @@ Nombre de funcion = GET_FeedbackPayment.
     El request se realiza por body
 ```
 
+#### GET -> localhost:3700/orders
+
+```env
+Nombre de funcion = GET_AllOrders.
+    Se obtienen todas las ordenes.
+```
+
+#### GET -> localhost:3700/orders/:id
+
+```env
+Nombre de funcion = GET_OrderById.
+    Si se recibe por param el id, busca la orden relacionada a ese id
+```
 
 # Endpoints para Cart
 ## localhost:3700/cart

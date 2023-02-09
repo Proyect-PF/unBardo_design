@@ -5,8 +5,7 @@ const mercadopago = require('mercadopago');
 
 //MERCADOPAGO
 mercadopago.configure({
-  //access_token: process.env.MERCADOPAGO_KEY,
-  access_token: "TEST-6048539528179925-020714-f42fb626d9eccb6ec0e04d307f902464-1207110990",
+  access_token: process.env.MERCADOPAGO_KEY,
 });
 
 interface RequestParams {}
@@ -35,6 +34,11 @@ export const POST_GeneratePayment =async (
   response: Response
 ) => {
   const prod = request.body;
+
+  //TODO: items => información relacionada al producto
+  //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
+  //TODO: binary_mode => al estar en true no adopta la ruta "pending"
+  //TODO: payer => información del comprador
   let preference = {
     items: [
       {
@@ -68,8 +72,7 @@ export const POST_GeneratePayment =async (
     },
   }
 
-  
-
+  //TODO: se crea el proceso de pago
   mercadopago.preferences.create(preference)
 		.then(function (res: any) {
 			return response.status(201).json({
@@ -82,6 +85,7 @@ export const POST_GeneratePayment =async (
 		});
 }
 
+//ruta de respuesta cuando el pago se realiza correctamente y cuando falla
 export const GET_FeedbackPayment =async (
   request: Request,
   response: Response

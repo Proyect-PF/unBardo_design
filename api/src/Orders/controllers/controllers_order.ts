@@ -53,12 +53,13 @@ export const POST_GeneratePayment =async (
       }
     ],
     back_urls: {
-      "success": "http://localhost:3700/orders/feedback",
-			"failure": "http://localhost:3700/orders/feedback",
+      "success": "http://localhost:3700",
+			"failure": "http://localhost:3700",
 			"pending": ""
     },
-    auto_return: "approved",
+    //auto_return: "approved",
     binary_mode: true,
+    external_reference: "Compra realizada por Diego",
     payer: {
       phone: {
         area_code: prod.area_code.toString(),
@@ -74,6 +75,12 @@ export const POST_GeneratePayment =async (
       surname: prod.surname,
     },
   }
+
+  // await db.Orders.create({
+  //   prod.id_user,
+  //   prod.status,
+  //   prod.shipping_address,
+  // });
 
   //TODO: se crea el proceso de pago
   mercadopago.preferences.create(preference)
@@ -99,7 +106,8 @@ export const GET_FeedbackPayment =async (
   response.status(200).json({
 		Payment: feedback.payment_id,
 		Status: feedback.status,
-		MerchantOrder: feedback.merchant_order_id
+		MerchantOrder: feedback.merchant_order_id,
+    external_reference: feedback.external_reference
 	});
 }
 
@@ -143,14 +151,3 @@ export const GET_OrderById = async (req: Request, res: Response) => {
           }
         };
         
-        
-// Create a new order
-export const createOrder = async (req: Request, res: Response) => {
-  try {
-      const order = req.body;
-      const newOrder = await db.Orders.create(order);
-      return res.status(201).json(newOrder);
-  } catch (error: any) {
-      return res.status(400).json({message: error.message});
-  }
-};

@@ -2,7 +2,6 @@ import { Express, Request, Response } from "express";
 import dotenv from 'dotenv'
 import { Op } from "sequelize";
 import db from "../../database";
-import dotenv from "dotenv";
 const mercadopago = require('mercadopago');
 dotenv.config();
 

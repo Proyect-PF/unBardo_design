@@ -11,10 +11,13 @@ const initialState: ProductState = {
     id: 0,
     name: "",
     description: "",
-    size: "",
+    S: 0,
+    M: 0,
+    L: 0,
+    XL: 0,
     price: 0,
     color: "",
-    show_in_shop: "",
+    show_in_shop: true,
     image: "",
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
@@ -35,7 +38,6 @@ const productReducer = (
       };
     case ActionType.SEARCH_PRODUCTS:
       let productSearch: ProductState["productList"] = action.payload;
-      if (productSearch.length === 0) productSearch = state.productTotal;
       return {
         ...state,
         productList: productSearch,

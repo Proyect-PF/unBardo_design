@@ -13,25 +13,31 @@ import Product from "../../components/Cards/Product/Product";
 import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
+import Button from "../../components/Buttons/Button/Button";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { fetch_products } = bindActionCreators(actionCreators, dispatch);
+  const { updateRender } = bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
   const { productList } = useSelector((state: State) => state.products);
-  
+  const { productTotal } = useSelector((state: State) => state.products);
+  const { render } = useSelector((state: State) => state.products);
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
   useEffect(() => {
-    setLoading(true);
-    fetch_products();
-  }, [dispatch]);
+    if(render){
+      setLoading(true);
+      fetch_products();
+      updateRender(false)
+    }
+  }, [fetch_products, render, updateRender]);
 
   //AL: Set loading state to false when data has been retrieved
   useEffect(() => {
-    if (productList.length > 0) setLoading(false);
-  }, [productList]);
+    if (productTotal.length > 0) setLoading(false);
+  }, [productTotal]);
 
   return (
     <div>
@@ -49,19 +55,33 @@ const Home = () => {
         </p>
         <Dropdown />
         <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
-          {productList.length > 0 &&
-            productList.map(
-              (e): JSX.Element => (
-                <Product
-                  imageB={imageB}
-                  imageF={e.image}
-                  key={e.id}
-                  name={e.name}
-                  price={e.price.toString()}
-                  id={Number(e.id)}
-                />
-              )
-            )}
+          {productList.length > 0 ?
+            productList.map((e) => {
+              if (e.show_in_shop) {
+                return (
+                  <Product
+                    imageB={imageB}
+                    imageF={e.image}
+                    key={e.id}
+                    name={e.name}
+                    price={e.price.toString()}
+                    id={Number(e.id)}
+                  />
+                );
+              }
+            }):
+            <div>
+              <h4 className="p-5 text-lg font-bold text-center border-b-2">No se encontraron coicidencias</h4>
+              <Button
+              type="button"
+              text="Volver atras"
+              onClick={fetch_products}
+              name="volver"
+              disabled={false}
+            />
+            </div>
+            
+            }
         </div>
         <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
           <p className="mt-5 text-2xl font-semibold text-center">

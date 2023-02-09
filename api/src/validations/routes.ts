@@ -7,4 +7,5 @@ import validateOrder from "./validateOrder";
 
 validationsRoutes.post("/stock", validateOrder);
 
+
 export default validateOrder;

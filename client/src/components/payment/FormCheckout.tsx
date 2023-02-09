@@ -1,3 +1,4 @@
+
 import { useFormik } from 'formik';
 import { Formik } from 'formik';
 import Button from '../Buttons/Button/Button';
@@ -7,7 +8,25 @@ import Input from '../Inputs/Input';
 import { useState } from 'react';
 
 export const FormCheckout = (): JSX.Element => {
+
   const [showModal, setShowModal] = useState(false);
+
+  const [userDataPayment, setUserDataPayment] = useState({
+    name: 'Diego',
+    surname: 'Maidana',
+    email: 'diegoshhh@gmail.com',
+    area_code: '2954',
+    number: 23341232,
+    street_name: 'San Martin',
+    zip_code: '3200',
+    street_number: 12,
+    id: 2,
+    title: 'Remera blanca',
+
+    price: 35,
+    quantity: 2,
+  });
+
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -37,6 +56,7 @@ export const FormCheckout = (): JSX.Element => {
   });
 
   return (
+
     <Formik
       initialValues={{
         id: 2,
@@ -90,6 +110,7 @@ export const FormCheckout = (): JSX.Element => {
           </div>
           <div>
             <label htmlFor='surname'>Apellido</label>
+
             <Input
               type='text'
               id='surname'
@@ -114,12 +135,14 @@ export const FormCheckout = (): JSX.Element => {
               onChange={handleChange}
               value={values.email}
               className=' font-poppins'
+
               onBlur={() => {}}
             />
             {errors.email && touched.email && (
               <p className='text-red-600'>{errors.email}</p>
             )}
           </div>
+
           <div className='flex flex-row gap-3 sm:flex-row sm:pt-5 sm:gap-5'>
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='area_code'>Codigo de Area</label>
@@ -216,5 +239,6 @@ export const FormCheckout = (): JSX.Element => {
         </form>
       )}
     </Formik>
+
   );
 };

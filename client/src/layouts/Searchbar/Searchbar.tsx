@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router";
 import { bindActionCreators } from "redux";
 import comeBack from "../../assets/svg/come-back.svg";
 import searchIcon from "../../assets/svg/search.svg";
@@ -13,6 +14,8 @@ interface Props {
 
 const Searchbar = ({ openClose, handleSearch }: Props) => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const { fetch_product_byname } = bindActionCreators(actionCreators, dispatch);
 
   const [input, setInput] = useState("");
@@ -34,6 +37,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if(location.pathname !== "/") navigate("/")
     fetch_product_byname(input);
     handleSearch()
     setInput("");

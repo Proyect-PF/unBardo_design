@@ -1,5 +1,5 @@
 export type Product = {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   S: number;
@@ -35,3 +35,16 @@ export type ProductState = {
 export type UserState = {
   adminLogin: boolean;
 };
+
+export type Checkout = {
+  id: string
+  name: string;
+  size: string;
+  price: number;
+  ammount: number;
+  imgF: string;
+}
+
+export type CheckoutState = {
+  checkoutList: Checkout[]
+}

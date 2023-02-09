@@ -31,14 +31,15 @@ export const initialStateUser = {
   title: 'Remera blanca',
   price: 35,
   quantity: 2,
-  area_code: 11,
-  number: 153666987,
-  zip_code: 0,
-  street_name: 'calle Ever Ludueña',
-  street_number: 0,
-  email: 'dsagsdag@gmail.com',
-  name: 'Maria Catalina Rosalia',
-  surname: 'La Yoli',
+
+  area_code: '',
+  number: '',
+  zip_code: '',
+  street_name: '',
+  street_number: '',
+  email: '',
+  name: '',
+  surname: '',
 };
 
 // export const initialStateUser = {

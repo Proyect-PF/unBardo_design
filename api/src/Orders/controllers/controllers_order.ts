@@ -12,7 +12,6 @@ dotenv.config();
 //MERCADOPAGO
 mercadopago.configure({
     access_token: process.env.MERCADOPAGO_KEY,
-    //access_token: "APP_USR-4964430421416242-020813-c46f247ea7b1f91937c722b8ea7b4134-1305644016",
 });
 
 interface RequestParams {
@@ -22,24 +21,18 @@ interface ResponseBody {
 }
 
 interface RequestBody {
-    id: number;         //id del producto
-    title: string;      //Este es el name del producto
-    price: number;
-    quantity: number;
     area_code: number;  //Telefono
     number: number;     //Telefono
     zip_code: number;       //direccion
     street_name: string;    //direccion
     street_number: number;  //direccion
-    email: string;
-    name: string;
-    surname: string;
     id_user: number;    //id de usuario
 }
 
 interface RequestQuery {
 }
 
+//Ruta POST para la creacion de la orden de compra
 export const POST_Order = async (request: Request, response: Response) => {
     try {
         const { id_user, products } = request.body;
@@ -126,6 +119,7 @@ export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
 }
 
 
+//-------------------------------- MERCADOPAGO --------------------------------
 //Obtiene la ultima orden generada por el usuario => para usar en MERCADOPAGO
 const GET_OrderLast = async (id_user: number) => {
     try {
@@ -157,19 +151,44 @@ const GET_OrderUser = async (id: number) => {
     }
 }
 
-//Obtiene la informacion de los productos de la orden
+//Obtiene la informacion de los productos de la orden en un array de objetos, donde cada objeto contiene la informacion del producto => para usar en MERCADOPAGO
 const GET_OrderDescription = async (id_order: number) => {
     try {
-        const orderUser = await db.OrderProducts.findOne({
+        let items = [];
+        const orderUser = await db.OrderProducts.findAll({
             where: {id_order}
         });
-        return orderUser;
+
+        for (const element of orderUser) {
+            const prod = await db.Product.findOne({
+                where: {id: element.id_product}
+            });
+            let quantity: number = 0;
+            for (const key in element.sizes) {
+                if (element.sizes[key]) {
+                    quantity = quantity + element.sizes[key];
+                    
+                }
+            }
+            const product = {
+                id: element.id_product,
+                currency_id: "ARS",
+                description: prod.description,
+                title: prod.name,
+                quantity: quantity,
+                unit_price: prod.price
+            }
+            items.push(product);
+        }
+
+        return items;
+
     } catch (error: any) {
         throw new Error(error.message);
     }
 }
 
-//MERCADOPAGO
+//ruta POST MERCADOPAGO
 export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
     response: Response
@@ -177,38 +196,23 @@ export const POST_GeneratePayment = async (
     const prod = request.body;
 
     //TODO: Se utiliza el id del usuario que se obtiene por body para obtener la información de la ultima orden del usuario
-    const last = await GET_OrderLast(prod.id_user)
-    console.log(last.id);
+    const last = await GET_OrderLast(prod.id_user) //last.id => id de la orden de compra del usuario
+
     //TODO: Se utiliza el id de la orden de compra como referencia externa para mercado pago. Esta referencia externa es la que permite conectar la información que se utiliza en el POST de mercadopago con la recibida al finalizar la compra y así poder obtener el estado de la compra
     const external_reference = last.id.toString();
-    console.log(external_reference);
 
-    const userInfo = await GET_OrderUser(last.id);
-    console.log(userInfo.users.fullname);
-    console.log(userInfo.users.email);
+    //Obtiene la informacion del usuario relacionada a la orden de compra
+    const userInfo = await GET_OrderUser(last.id); //userInfo.users.fullname; userInfo.users.email
 
-    const prodInfo = await GET_OrderDescription(last.id);
-    console.log(prodInfo.sizes);
-    console.log(prodInfo.id_product);
-    
-    
-    
-    
+    //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
+    const prodInfo = await GET_OrderDescription(last.id);    
 
     //TODO: items => información relacionada al producto
     //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
     //TODO: binary_mode => al estar en true no adopta la ruta "pending"
     //TODO: payer => información del comprador
     let preference = {
-        items: [
-            {
-                id: prod.id,
-                currency_id: "ARS",
-                title: prod.title,
-                unit_price: prod.price,
-                quantity: prod.quantity,
-            }
-        ],
+        items: prodInfo,
         back_urls: {
             "success": "http://localhost:3700/payment",
             "failure": "http://localhost:3700/payment",

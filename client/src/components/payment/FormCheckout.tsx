@@ -12,14 +12,12 @@ export const FormCheckout = (): JSX.Element => {
 
   const products =
     checkoutList && checkoutList.length > 0
-      ? checkoutList.map((product: any) => {
-          if (typeof product.id === 'string') {
-            return {
-              id_product: parseInt(product.id.split('-')[0], 10) || 0,
-            };
-          }
-          return {};
-        })
+      ? checkoutList.map((product: any) => ({
+          id_product:
+            typeof product.id === 'string'
+              ? parseInt(product.id.split('-')[0], 10) || 0
+              : 0,
+        }))
       : [];
 
   const initialValues = {

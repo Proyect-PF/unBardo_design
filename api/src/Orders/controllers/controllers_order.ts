@@ -90,7 +90,7 @@ export const GET_OrderById = async (req: Request, res: Response) => {
             include: [
                 {
                     model: db.Users,
-                    as: "user"
+                    as: "users"
                 }
             ]
         });
@@ -105,7 +105,28 @@ export const GET_OrderById = async (req: Request, res: Response) => {
     }
 };
 
-//Obtiene la ultima orden generada por el usuario
+//Update el estado de la orden
+export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
+    try {
+        const {id, status} = req.query;
+        const orderUpdate = await db.Orders.update({
+            status: status,
+        },{
+            where: {
+                id
+            }
+        });
+        console.log(orderUpdate);
+        
+        if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+        return res.status(200).json(orderUpdate);
+    } catch (error: any) {
+        return res.status(400).json({message: error.message});
+    }
+}
+
+
+//Obtiene la ultima orden generada por el usuario => para usar en MERCADOPAGO
 const GET_OrderLast = async (id_user: number) => {
     try {
         const lastOrder = await db.Orders.findOne({
@@ -117,7 +138,37 @@ const GET_OrderLast = async (id_user: number) => {
         throw new Error(error.message);
     }
 }
-        
+
+//Obtiene la informacion del usuario relacionada a la orden de compra => para usar en MERCADOPAGO
+const GET_OrderUser = async (id: number) => {
+    try {
+        const orderUser = await db.Orders.findOne({
+            where: {id},
+            include: [
+                {
+                    model: db.Users,
+                    as: "users",
+                }
+            ]
+        });
+        return orderUser;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+//Obtiene la informacion de los productos de la orden
+const GET_OrderDescription = async (id_order: number) => {
+    try {
+        const orderUser = await db.OrderProducts.findOne({
+            where: {id_order}
+        });
+        return orderUser;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 //MERCADOPAGO
 export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
@@ -131,6 +182,17 @@ export const POST_GeneratePayment = async (
     //TODO: Se utiliza el id de la orden de compra como referencia externa para mercado pago. Esta referencia externa es la que permite conectar la información que se utiliza en el POST de mercadopago con la recibida al finalizar la compra y así poder obtener el estado de la compra
     const external_reference = last.id.toString();
     console.log(external_reference);
+
+    const userInfo = await GET_OrderUser(last.id);
+    console.log(userInfo.users.fullname);
+    console.log(userInfo.users.email);
+
+    const prodInfo = await GET_OrderDescription(last.id);
+    console.log(prodInfo.sizes);
+    console.log(prodInfo.id_product);
+    
+    
+    
     
 
     //TODO: items => información relacionada al producto
@@ -148,8 +210,8 @@ export const POST_GeneratePayment = async (
             }
         ],
         back_urls: {
-            "success": "http://localhost:3700",
-            "failure": "http://localhost:3700",
+            "success": "http://localhost:3700/payment",
+            "failure": "http://localhost:3700/payment",
             "pending": ""
         },
         //auto_return: "approved",
@@ -165,9 +227,9 @@ export const POST_GeneratePayment = async (
                 street_name: prod.street_name,
                 street_number: prod.street_number
             },
-            email: prod.email,
-            name: prod.name,
-            surname: prod.surname,
+            email: userInfo.users.email,
+            name: userInfo.users.fullname,
+            surname: '',
         },
     }
 

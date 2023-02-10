@@ -4,7 +4,9 @@ import { ActionCheckout } from '../actions';
 import { Checkout, CheckoutState } from '../types';
 
 const initialState: CheckoutState = {
-  checkoutList: getItem('shoppingBag') || [],
+  checkoutList: Array.isArray(getItem('shoppingBag'))
+    ? getItem('shoppingBag')
+    : [],
 };
 
 const checkoutReducer = (state = initialState, action: ActionCheckout) => {

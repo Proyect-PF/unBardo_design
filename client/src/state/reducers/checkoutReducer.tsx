@@ -1,3 +1,4 @@
+
 import { getItem, setItem } from "../../utils/localStorage";
 import { ActionType } from "../action-types";
 import { ActionCheckout } from "../actions";
@@ -37,5 +38,6 @@ const checkoutReducer = (
             return {...state}
         }
     }
+
 
 export default checkoutReducer;

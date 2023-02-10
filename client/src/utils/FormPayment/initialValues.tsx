@@ -9,7 +9,7 @@ export const initialValues = {
   zip_code: '',
   street_name: '',
   street_number: '',
-  email: '',
-  name: '',
-  surname: '',
+  email: 'correo@correo.com',
+  name: 'cliente',
+  surname: 'Falso',
 };

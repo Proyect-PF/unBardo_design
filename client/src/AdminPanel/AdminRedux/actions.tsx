@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Dispatch } from "redux";
+import { Product } from "../../types/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
-
 axios.defaults.headers.common[
   "x-access-token"
 ] = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MDI4NDI5LCJleHAiOjE2NzYxMTQ4Mjl9.92JhKvWFk6gi0M41zsyxGkxpuHs_xicYpHKvXEbRraM`;

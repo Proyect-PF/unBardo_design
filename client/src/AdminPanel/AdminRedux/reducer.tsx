@@ -1,5 +1,5 @@
+import { Order, Product, User } from "../../types/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
-
 export type AdminState = {
   allProducts: Product[];
   productDetails: Product;

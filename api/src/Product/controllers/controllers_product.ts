@@ -149,7 +149,6 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
     let product = request.body;
-    
     if(product.image.length>100){
       const uploadRes = await cloudinary.uploader.upload(product.image, {
         upload_preset: 'unbardo'
@@ -165,7 +164,10 @@ export const UPDATE_UpdateProduct = async (
           name: product.name,
           image: product.image,
           description: product.description,
-          size: product.size,
+          S: product.S,
+          M: product.M,
+          L: product.L,
+          XL: product.XL,
           price: product.price,
           show_in_shop: product.show_in_shop,
           color: product.color,

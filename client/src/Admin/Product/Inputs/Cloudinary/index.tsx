@@ -56,6 +56,7 @@ const CloudinaryInput = ({ source, label }: Props) => {
         name="uploadWidget"
         disabled={false}
         onClick={() => widgetRef.current.open()}
+        className={"justify-center"}
       />
       <div className="flex gap-8">
         {images.length > 0 &&

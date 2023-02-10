@@ -43,7 +43,7 @@ export const LogIn = (): JSX.Element => {
       }}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
-        <form onSubmit={handleSubmit} className="mx-8 my-4 flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 mx-8 my-4">
           <div>
             <label htmlFor="emailLogIn">email</label>
             <Input
@@ -58,7 +58,7 @@ export const LogIn = (): JSX.Element => {
             />
 
             {errors.emailLogIn && (
-              <p className=" text-red-600">{errors.emailLogIn}</p>
+              <p className="text-red-600 ">{errors.emailLogIn}</p>
             )}
           </div>
           <div>
@@ -74,10 +74,11 @@ export const LogIn = (): JSX.Element => {
               onBlur={handleBlur}
             />
             {errors.pwLogIn && (
-              <p className=" text-red-600">{errors.pwLogIn}</p>
+              <p className="text-red-600 ">{errors.pwLogIn}</p>
             )}
           </div>
           <Button
+            className={"justify-center"}
             text="Iniciar sesion"
             name="LogIn"
             onClick={handleSubmit}

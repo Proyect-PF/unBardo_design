@@ -1,10 +1,10 @@
-import app from "./src/app";
-import db from "./src/database";
+import app from './src/app';
+import db from './src/database';
 import {
   POST_rolesInitials,
   POST_usersInitials,
-} from "./src/helpers/initialSetup";
-import dotenv from "dotenv";
+} from './src/helpers/initialSetup';
+import dotenv from 'dotenv';
 
 dotenv.config();
 const { USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ROLE } = process.env;
@@ -21,5 +21,5 @@ db.sequelize
   //Iniciamos roles por defecto
   .then(() => {
     POST_rolesInitials();
-    POST_usersInitials(USER_NAME, USER_EMAIL,USER_PASSWORD, USER_ROLE);
+    POST_usersInitials(USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ROLE);
   });

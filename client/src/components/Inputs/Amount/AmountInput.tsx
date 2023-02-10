@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface Props {
   stock: (size: string) => number;
   size: string
@@ -21,6 +23,10 @@ const AmountInput = ({ stock, size, amount, setter }: Props): JSX.Element => {
       setter(amount - 1);
     }
   };
+
+  useEffect(() => {
+    setter(1)
+  }, [size])
 
   return (
     <div className="flex content-center gap-0 self-center px-4 ml-3 font-bold">

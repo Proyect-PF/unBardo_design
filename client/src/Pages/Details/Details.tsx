@@ -9,6 +9,7 @@ import AmountInput from '../../components/Inputs/Amount/AmountInput';
 import SizeSelector from '../../components/Inputs/SizeSelector/SizeSelector';
 import { actionCreators } from '../../state';
 import { State } from '../../state/reducers';
+import { getItem } from '../../utils/localStorage';
 
 const Details = (): JSX.Element => {
   const location = useLocation();
@@ -66,10 +67,43 @@ const Details = (): JSX.Element => {
   };
 
   const stockSize = (size: string) => {
-    if(size === "S") return productDetails.S
-    if(size === "L") return productDetails.L
-    if(size === "M") return productDetails.M
-    if(size === "XL") return productDetails.XL
+    let checkoutList = getItem("shoppingBag")
+    if(size === "S") {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === productDetails.id + "-S")
+        if(findCard) {
+          return productDetails.S - findCard.ammount
+        }
+      }
+      return productDetails.S
+    }
+    if(size === "L") {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === productDetails.id + "-L")
+        if(findCard) {
+          return productDetails.L - findCard.ammount
+        }
+      }
+      return productDetails.L
+    }
+    if(size === "M") {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === productDetails.id + "-M")
+        if(findCard) {
+          return productDetails.M - findCard.ammount
+        }
+      }
+      return productDetails.M
+    }
+    if(size === "XL") {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === productDetails.id + "-XL")
+        if(findCard) {
+          return productDetails.XL - findCard.ammount
+        }
+      }
+      return productDetails.XL
+    }
     else {
       return 1
     }
@@ -112,6 +146,7 @@ const Details = (): JSX.Element => {
           <div>
             <div className='flex justify-around my-8 text-lg text-center'>
               <SizeSelector
+                detailId={productDetails.id}
                 selected={size}
                 sizes={[
                   productDetails.S,

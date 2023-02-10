@@ -67,6 +67,7 @@ export const POST_Order = async (request: Request, response: Response) => {
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
         const orders = await db.Orders.findAll({
+            where: { status: { [Op.ne]: 'cart' } },
             include: [
                 {
                     model: db.Users,

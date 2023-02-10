@@ -14,7 +14,7 @@ const Checkout = (): JSX.Element => {
   return (
     <div className='flex flex-col items-center'>
       {checkoutList?.length > 0 &&
-        checkoutList.map((e) => (
+        checkoutList.map((e: any) => (
           <CheckoutCard
             key={e.id}
             id={e.id}
@@ -25,12 +25,14 @@ const Checkout = (): JSX.Element => {
             imgF={e.imgF}
           />
         ))}
-      <p className='mx-6 font-bold text-right'>{`Total: $ ${checkoutList.reduce(
-        (acc, e) => {
+
+      <p className="mx-6 font-bold text-right">{`Total: $ ${checkoutList.reduce(
+        (acc:number, e:any) => {
           return acc + e.price * e.ammount;
         },
         0
       )}`}</p>
+
       <Link to='/checkout/payment'>
         <Button
           className={'justify-center'}
@@ -43,6 +45,7 @@ const Checkout = (): JSX.Element => {
           disabled={checkoutList.length === 0}
         />
       </Link>
+
     </div>
   );
 };

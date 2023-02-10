@@ -1,5 +1,5 @@
 import { ActionType } from "../action-types";
-import { AddProductPayload, Product, Checkout } from "../types";
+import { AddProductPayload, Product, Checkout, User } from "../types";
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -54,20 +54,23 @@ interface AdminLogin {
   type: ActionType.ADMIN_LOGIN;
 }
 
-export type ActionUser = AdminLogin;
+interface GetAllUsers {
+  type: ActionType.GET_ALL_USERS;
+  payload: User[];
+}
+
+export type ActionUser = AdminLogin | GetAllUsers;
 
 //LG: Interfaces & types for CHECKOUT STATE
 
 interface AddCheckout {
-  type: ActionType.ADD_CHECKOUT
-  payload: Checkout
+  type: ActionType.ADD_CHECKOUT;
+  payload: Checkout;
 }
 
 interface RemoveCheckout {
-  type: ActionType.REMOVE_CHECKOUT
-  payload: string
+  type: ActionType.REMOVE_CHECKOUT;
+  payload: string;
 }
 
-export type ActionCheckout = 
-  | AddCheckout
-  | RemoveCheckout;
+export type ActionCheckout = AddCheckout | RemoveCheckout;

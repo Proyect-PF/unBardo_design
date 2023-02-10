@@ -41,13 +41,16 @@ const Products = (): JSX.Element => {
         }
         className="justify-end pr-12"
       />
-      <ListProducts
-        className={selected === "list" ? "visible" : "hidden"}
-        setSelected={setSelected}
-        setId={setId}
-      />
-      <Create className={selected === "create" ? "visible" : "hidden"} />
-      <Edit className={selected === "edit" ? "visible" : "hidden"} />
+
+      {selected === "list" && (
+        <ListProducts
+          className={" font-semibold text-lg"}
+          setSelected={setSelected}
+          setId={setId}
+        />
+      )}
+      {selected === "create" && <Create className={""} />}
+      {selected === "edit" && <Edit className={""} />}
     </div>
   );
 };

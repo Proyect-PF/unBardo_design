@@ -66,4 +66,5 @@ export type Orders = {
 
 export type OrderState = {
   allOrders: Orders[];
+  order: Orders;
 };

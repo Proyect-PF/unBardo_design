@@ -91,7 +91,7 @@ export const GET_OrderById = async (req: Request, res: Response) => {
             include: [
                 {
                     model: db.Users,
-                    as: "user"
+                    as: "users"
                 }
             ]
         });

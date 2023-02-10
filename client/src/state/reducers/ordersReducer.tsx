@@ -4,6 +4,7 @@ import { OrderState } from "../types";
 
 const initialState: OrderState = {
   allOrders: [],
+  order: { id: 0, fullname: "", email: "", createdAt: "", status: "" },
 };
 
 const ordersReducer = (
@@ -16,6 +17,12 @@ const ordersReducer = (
         ...state,
         allOrders: action.payload,
       };
+    case ActionType.GET_ORDER_BY_ID:
+      return {
+        ...state,
+        order: action.payload,
+      };
+
     default:
       return {
         ...state,

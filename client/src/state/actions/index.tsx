@@ -82,4 +82,9 @@ interface GetAllOrders {
   payload: Orders[];
 }
 
-export type ActionOrders = GetAllOrders;
+interface GetOrderById {
+  type: ActionType.GET_ORDER_BY_ID;
+  payload: Orders;
+}
+
+export type ActionOrders = GetAllOrders | GetOrderById;

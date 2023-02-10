@@ -44,7 +44,7 @@ const Products = (): JSX.Element => {
 
       {selected === "list" && (
         <ListProducts
-          className={" font-semibold text-lg"}
+          className={"font-semibold text-lg"}
           setSelected={setSelected}
           setId={setId}
         />

@@ -52,6 +52,28 @@ export const fetch_orders = () => {
   };
 };
 
+export const fetch_order_id = (id: number) => {
+  return (dispatch: Dispatch<ActionOrders>) => {
+    axios
+      .get(`http://localhost:3700/orders/${id}`)
+      .then((res) =>
+        res.data
+          ? dispatch({
+              type: ActionType.GET_ORDER_BY_ID,
+              payload: {
+                id: res.data.id,
+                fullname: res.data.users.fullname,
+                email: res.data.users.email,
+                createdAt: res.data.createdAt,
+                status: res.data.status,
+              },
+            })
+          : console.log("Id Not Found")
+      )
+      .catch((error) => console.log(error));
+  };
+};
+
 export const fetch_users = () => {
   return (dispatch: Dispatch<ActionUser>) => {
     axios

@@ -39,24 +39,6 @@ interface RequestBody {
 interface RequestQuery {
 }
 
-// export const POST_Order = async (request: Request, response: Response) => {
-//     try {
-//         const { id_user, id_product, sizes } = request.body;
-//         const createdOrder = await db.Orders.create({
-//             id_user,
-//             status: "cart",
-//         });
-//         const createdOrderProduct = await db.OrderProducts.create({
-//             id_order: createdOrder.id,
-//             id_product,
-//             sizes
-//         });
-//         return response.status(201).json({ createdOrder, createdOrderProduct });
-//     } catch (error:any) {
-//         console.error(error);
-//         return response.status(400).json({ error: error.message });
-//     }
-// };
 export const POST_Order = async (request: Request, response: Response) => {
     try {
         const { id_user, products } = request.body;
@@ -81,8 +63,48 @@ export const POST_Order = async (request: Request, response: Response) => {
     }
 };
 
+//Obtener todas las ordenes
+export const GET_AllOrders = async (req: Request, res: Response) => {
+    try {
+        const orders = await db.Orders.findAll({
+            include: [
+                {
+                    model: db.Users,
+                    as: "users"
+                }
+            ]
+        });
+        return res.status(200).json(orders);
+    } catch (error: any) {
+        return res.status(400).json({message: error.message});
+    }
+};
 
-
+// Obtener oden por ID
+export const GET_OrderById = async (req: Request, res: Response) => {
+    try {
+        const {id} = req.params;
+        const order = await db.Orders.findOne({
+            where: {id},
+            include: [
+                {
+                    model: db.Users,
+                    as: "user"
+                }
+            ]
+        });
+        if (!order) {
+            return res.status(404).json({message: "Orden no encontrada"});
+        }
+        return res.status(200).json(order);
+    } catch (error: any) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+};
+        
+//MERCADOPAGO
 export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
     response: Response
@@ -127,12 +149,6 @@ export const POST_GeneratePayment = async (
         },
     }
 
-    // await db.Orders.create({
-    //   prod.id_user,
-    //   prod.status,
-    //   prod.shipping_address,
-    // });
-
     //TODO: se crea el proceso de pago
     mercadopago.preferences.create(preference)
         .then(function (res: any) {
@@ -162,44 +178,3 @@ export const GET_FeedbackPayment = async (
     });
 }
 
-//Obtener todas las ordenes
-export const GET_AllOrders = async (req: Request, res: Response) => {
-    try {
-        const orders = await db.Orders.findAll({
-            include: [
-                {
-                    model: db.Users,
-                    as: "users"
-                }
-            ]
-        });
-        return res.status(200).json(orders);
-    } catch (error: any) {
-        return res.status(400).json({message: error.message});
-    }
-};
-
-// Obtener oden por ID
-export const GET_OrderById = async (req: Request, res: Response) => {
-    try {
-        const {id} = req.params;
-        const order = await db.Orders.findOne({
-            where: {id},
-            include: [
-                {
-                    model: db.Users,
-                    as: "user"
-                }
-            ]
-        });
-        if (!order) {
-            return res.status(404).json({message: "Orden no encontrada"});
-        }
-        return res.status(200).json(order);
-    } catch (error: any) {
-        return res.status(400).json({
-            message: error.message
-        });
-    }
-};
-        

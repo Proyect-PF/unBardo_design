@@ -26,15 +26,15 @@ const Checkout = (): JSX.Element => {
           />
         ))}
 
-      <p className="mx-6 font-bold text-right">{`Total: $ ${checkoutList.reduce(
-        (acc:number, e:any) => {
+      <p className='mx-6 font-bold text-right'>{`Total: $ ${checkoutList.reduce(
+        (acc: number, e: any) => {
           return acc + e.price * e.ammount;
         },
         0
       )}`}</p>
 
       <Link to='/checkout/payment'>
-        <Button
+        {/* <Button
           className={'justify-center'}
           type='button'
           name='Checkout'
@@ -43,9 +43,8 @@ const Checkout = (): JSX.Element => {
           }, 0)})`}
           onClick={() => {}}
           disabled={checkoutList.length === 0}
-        />
+        /> */}
       </Link>
-
     </div>
   );
 };

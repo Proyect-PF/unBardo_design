@@ -4,6 +4,7 @@ import InformationPanel from "./Information";
 import { actionCreators } from "../state";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
+import Orders from "./Orders";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
@@ -23,7 +24,7 @@ const AdminP = (): JSX.Element => {
       </div>
       <div className="w-full ">
         {panel === "products" && <Products />}
-        {panel === "orders" && <div>Orders</div>}
+        {panel === "orders" && <Orders />}
         {panel == "info" && <InformationPanel />}
       </div>
     </div>

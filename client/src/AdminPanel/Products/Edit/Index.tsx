@@ -1,35 +1,45 @@
 import { Formik } from "formik";
+import { useSelector } from "react-redux";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
-import { create_product } from "../../HttpRequests/Products";
-import FileUpload from "./FileUploader";
+import { State } from "../../../state/reducers";
+import {
+  create_product,
+  delete_product,
+  update_product,
+} from "../../HttpRequests/Products";
+import FileUpload from "../Create/FileUploader";
 
 type Props = {
   className: string;
 };
 
-const Create = ({ className }: Props): JSX.Element => {
+const Edit = ({ className }: Props): JSX.Element => {
+  const { productDetails } = useSelector((state: State) => state.products);
+
   return (
     <div className={className}>
       <Formik
+        enableReinitialize={true}
         initialValues={{
-          name: "",
-          description: "",
-          color: "",
-          S: 0,
-          M: 0,
-          L: 0,
-          XL: 0,
-          price: 0,
-          show_in_shop: "true",
-          image: "",
+          name: productDetails.name,
+          description: productDetails.description,
+          color: productDetails.color,
+          S: productDetails.S,
+          M: productDetails.M,
+          L: productDetails.L,
+          XL: productDetails.XL,
+          price: productDetails.price,
+          show_in_shop: productDetails.show_in_shop ? "true" : "false",
+          image: productDetails.image,
         }}
-        onSubmit={(values, { resetForm }) => {
-          create_product({
+        onSubmit={(values) => {
+          console.log(values);
+          update_product({
             ...values,
+            id: productDetails.id,
             show_in_shop: values.show_in_shop === "true" ? true : false,
           });
-          resetForm();
         }}
       >
         {({
@@ -41,6 +51,7 @@ const Create = ({ className }: Props): JSX.Element => {
           setFieldValue,
         }) => (
           <form onSubmit={handleSubmit}>
+            <p>{`Producto: ${productDetails.id}`}</p>
             <label>Nombre:</label>
             <Input
               type="text"
@@ -161,14 +172,24 @@ const Create = ({ className }: Props): JSX.Element => {
               </select>
             </div>
             <FileUpload setFieldValue={setFieldValue} fieldName="image" />
-            <Button
-              text="Crear"
-              name="createProd"
-              onClick={handleSubmit}
-              disabled={false}
-              type="button"
-              className={"justify-center"}
-            />
+            <div>
+              <Button
+                text="Guardar"
+                name="updateProd"
+                onClick={handleSubmit}
+                disabled={false}
+                type="button"
+                className={"justify-center"}
+              />
+              <Button
+                text="Eliminar Producto"
+                name="deleteProd"
+                onClick={() => delete_product(productDetails.id)}
+                disabled={false}
+                type="button"
+                className={"justify-center"}
+              />
+            </div>
           </form>
         )}
       </Formik>
@@ -176,4 +197,4 @@ const Create = ({ className }: Props): JSX.Element => {
   );
 };
 
-export default Create;
+export default Edit;

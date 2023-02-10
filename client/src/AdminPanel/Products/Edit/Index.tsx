@@ -7,7 +7,7 @@ import {
   create_product,
   delete_product,
   update_product,
-} from "../../HttpRequests/Products";
+} from "../../HttpRequests/actions";
 import FileUpload from "../Create/FileUploader";
 
 type Props = {

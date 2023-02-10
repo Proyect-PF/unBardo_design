@@ -184,3 +184,6 @@ export const removeCheckout = (payload: string) => {
   };
 };
 
+export const userRegister = () => {
+
+}

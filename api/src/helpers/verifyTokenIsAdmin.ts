@@ -15,7 +15,7 @@ interface IDecoded {
 export const verifyTokenIsAdmin = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.header("x-access-token")
-        console.log("el token es:",token)
+        console.log(token)
         //Comprobamos si existe el token
         if(!token) return res.status(401).json({message: "no token provide"})
     

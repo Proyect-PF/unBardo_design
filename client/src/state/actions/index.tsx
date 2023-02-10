@@ -54,6 +54,11 @@ interface AdminLogin {
   type: ActionType.ADMIN_LOGIN;
 }
 
+interface IUserRegister {
+  type: ActionType
+}
+
+
 export type ActionUser = AdminLogin;
 
 //LG: Interfaces & types for CHECKOUT STATE

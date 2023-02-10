@@ -32,9 +32,9 @@ export default (sequelize:any, DataTypes:any) => {
      * @param password Password actual que el usuario tiene guardado en la base de datos
      * @param receibedPasswor Contraseña actual que el usuario intenta comparar
      */
-    public static async comparePassword (password:string, receibedPasswor:string) {
+    public static async comparePassword (password:string, receibedPassword:string) {
       //retorna true si coinciden las contraseñas o false si no coinciden 
-      return await bcrypt.compare(password, receibedPasswor)
+      return await bcrypt.compare(password, receibedPassword)
     }
 
 

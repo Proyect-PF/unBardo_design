@@ -13,7 +13,7 @@ const userRoutes = Router();
 
 userRoutes.delete("/", DELETE_User);
 
-userRoutes.put("/", UPDATE_User);
+userRoutes.put("/:id", UPDATE_User);
 
 userRoutes.get("/", GET_User);
 

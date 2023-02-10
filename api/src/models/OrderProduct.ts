@@ -40,6 +40,9 @@ export default (sequelize: any, DataTypes: any) => {
                     key: "id",
                 },
             },
+            sizes: {
+                type: DataTypes.JSON,
+            }
         },
         {
             sequelize,

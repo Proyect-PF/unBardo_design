@@ -2,7 +2,14 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types";
 import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
-import { Checkout, Product, ProductState } from "../types";
+import {
+  Checkout,
+  Product,
+  ProductState,
+  User,
+  UserLog,
+  UserRegister,
+} from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -153,7 +160,7 @@ export const updateRender = (payload: boolean) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     dispatch({
       type: ActionType.UPDATE_RENDER,
-      payload
+      payload,
     });
   };
 };
@@ -170,7 +177,7 @@ export const addCheckout = (payload: Checkout) => {
   return (dispatch: Dispatch<ActionCheckout>) => {
     dispatch({
       type: ActionType.ADD_CHECKOUT,
-      payload
+      payload,
     });
   };
 };
@@ -179,8 +186,42 @@ export const removeCheckout = (payload: string) => {
   return (dispatch: Dispatch<ActionCheckout>) => {
     dispatch({
       type: ActionType.REMOVE_CHECKOUT,
-      payload
+      payload,
     });
   };
 };
 
+export const userRegister = (user: UserRegister) => {
+  console.log("a");
+  // return (dispatch: Dispatch<ActionUser>)=> {
+  axios
+    .post(`http://localhost:3700/auth/signup`, user)
+    .then((response) => {
+      const data = response.data;
+      console.log(data);
+      alert("registrado");
+      // dispatch({
+      //   type: ActionType.GET_TOKEN_USER_LOG,
+      //   payload: ""
+      // })
+    })
+    .catch((err) => alert(err.response.data.message));
+  // }
+};
+
+export const userLog = (user: UserLog) => {
+  // return (dispatch: Dispatch<ActionUser>)=> {
+  axios
+    .post(`http://localhost:3700/auth/signin`, user)
+    .then((response) => {
+      console.log(response.data);
+      alert("logueado");
+      //   dispatch({
+      //     type: ActionType.GET_TOKEN_USER_LOG,
+      //     payload: ""
+      //   })
+    })
+    .catch((err) => alert(err.response.data.message));
+
+  // }
+};

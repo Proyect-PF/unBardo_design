@@ -2,12 +2,8 @@ import { Formik } from "formik";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
-import { State } from "../../../state/reducers";
-import {
-  create_product,
-  delete_product,
-  update_product,
-} from "../../HttpRequests/actions";
+import { adminActions } from "../../AdminRedux";
+import { AdminState } from "../../AdminRedux/reducer";
 import FileUpload from "../Create/FileUploader";
 
 type Props = {
@@ -15,7 +11,7 @@ type Props = {
 };
 
 const Edit = ({ className }: Props): JSX.Element => {
-  const { productDetails } = useSelector((state: State) => state.products);
+  const { productDetails } = useSelector((state: AdminState) => state);
 
   return (
     <div className={className}>
@@ -35,7 +31,7 @@ const Edit = ({ className }: Props): JSX.Element => {
         }}
         onSubmit={(values) => {
           console.log(values);
-          update_product({
+          adminActions.ADMupdate_product({
             ...values,
             id: productDetails.id,
             show_in_shop: values.show_in_shop === "true" ? true : false,
@@ -192,7 +188,9 @@ const Edit = ({ className }: Props): JSX.Element => {
               <Button
                 text="Eliminar Producto"
                 name="deleteProd"
-                onClick={() => delete_product(productDetails.id)}
+                onClick={() =>
+                  adminActions.ADMdelete_product(productDetails.id)
+                }
                 disabled={false}
                 type="button"
                 className={"justify-center"}

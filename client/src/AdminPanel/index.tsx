@@ -1,18 +1,18 @@
 import Products from "./Products";
 import { useState, useEffect } from "react";
 import InformationPanel from "./Information";
-import { actionCreators } from "../state";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import Orders from "./Orders";
+import { adminActions } from "./AdminRedux";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
   const dispatch = useDispatch();
-  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
+  const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
 
   useEffect(() => {
-    fetch_products();
+    ADMfetch_products();
   }, []);
 
   return (

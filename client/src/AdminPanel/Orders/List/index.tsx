@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { State } from "../../../state/reducers";
+import { AdminState } from "../../AdminRedux/reducer";
 
 type Props = {
   className: string;
@@ -8,7 +9,7 @@ type Props = {
 };
 
 const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
-  const { allOrders } = useSelector((state: State) => state.orders);
+  const { allOrders } = useSelector((state: AdminState) => state);
 
   return (
     <div className={`${className}`}>

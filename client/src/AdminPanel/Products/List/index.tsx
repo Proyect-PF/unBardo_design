@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { State } from "../../../state/reducers";
+import { AdminState } from "../../AdminRedux/reducer";
 
 type Props = {
   className: string;
@@ -11,7 +11,7 @@ const ListProducts = ({
   setSelected,
   setId,
 }: Props): JSX.Element => {
-  const { productTotal } = useSelector((state: State) => state.products);
+  const { allProducts } = useSelector((state: AdminState) => state);
 
   return (
     <div className={`${className}`}>
@@ -28,8 +28,8 @@ const ListProducts = ({
         <p className="w-20 ">Preview</p>
         <p className="w-14"></p>
       </div>
-      {productTotal &&
-        productTotal.map((e) => (
+      {allProducts &&
+        allProducts.map((e) => (
           <div className="flex items-center justify-around w-full text-center border-t">
             <p className="w-8 border-r border-black">{e.id}</p>
             <p className="w-40">{e.name}</p>

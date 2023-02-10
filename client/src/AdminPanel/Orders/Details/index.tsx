@@ -2,17 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "../../../components/Buttons/Button/Button";
 import { State } from "../../../state/reducers";
-import { adminActionCreators } from "../../HttpRequests";
-import { update_order } from "../../HttpRequests/actions";
+import { adminActions } from "../../AdminRedux";
+import { AdminState } from "../../AdminRedux/reducer";
 
 type Props = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
 const OrderDetails = ({ setSelected }: Props) => {
-  const { order } = useSelector((state: State) => state.orders);
+  const { orderDetails } = useSelector((state: AdminState) => state);
   const dispatch = useDispatch();
-  const { fetch_order_id, fetch_orders } = bindActionCreators(
-    adminActionCreators,
+  const { ADMfetch_order_id, ADMfetch_orders } = bindActionCreators(
+    adminActions,
     dispatch
   );
 
@@ -24,24 +24,24 @@ const OrderDetails = ({ setSelected }: Props) => {
         name="back"
         onClick={() => {
           setSelected("list");
-          fetch_orders();
+          ADMfetch_orders();
         }}
         disabled={false}
         className="justify-end pr-12"
       />
       <div className="flex flex-col gap-10 mx-12">
-        <p className="text-2xl ">{`Order: ${order.id}`}</p>
+        <p className="text-2xl ">{`Order: ${orderDetails.id}`}</p>
         <div className="flex flex-col gap-2">
-          <label className="text-xl">{`Nombre: ${order.fullname}`}</label>
+          <label className="text-xl">{`Nombre: ${orderDetails.fullname}`}</label>
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-xl">{`Email: ${order.email}`}</label>
+          <label className="text-xl">{`Email: ${orderDetails.email}`}</label>
         </div>
         <div className="flex gap-8">
-          <p className="text-xl">{`Fecha: ${order.createdAt}`}</p>
+          <p className="text-xl">{`Fecha: ${orderDetails.createdAt}`}</p>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-xl">{`Status: ${order.status}`}</p>
+          <p className="text-xl">{`Status: ${orderDetails.status}`}</p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         text="Marcar como Despachado"
         name="deleteProd"
         onClick={() => {
-          update_order(order.id, "dispatched");
+          adminActions.ADMupdate_order(orderDetails.id, "dispatched");
         }}
         disabled={false}
         type="button"

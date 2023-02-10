@@ -5,7 +5,8 @@ import {
     POST_GeneratePayment,
     GET_FeedbackPayment,
     GET_AllOrders,
-    GET_OrderById  
+    GET_OrderById,
+    POST_Order,
 } from "../controllers/controllers_order";
 
 //MERCADOPAGO
@@ -18,6 +19,9 @@ ordersRoutes.get("/", GET_AllOrders);
 
 //GET orden por ID
 ordersRoutes.get("/:id", GET_OrderById);
+
+//POST orden
+ordersRoutes.post("/", POST_Order);
 
 export default ordersRoutes;
 

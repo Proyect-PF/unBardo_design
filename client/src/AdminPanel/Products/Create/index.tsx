@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
-import { create_product } from "../../HttpRequests/Products";
+import { create_product } from "../../HttpRequests/actions";
 import FileUpload from "./FileUploader";
 
 type Props = {

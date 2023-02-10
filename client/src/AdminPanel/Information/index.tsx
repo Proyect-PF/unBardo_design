@@ -7,10 +7,16 @@ import { adminActionCreators } from "../HttpRequests";
 const InformationPanel = () => {
   const { productTotal } = useSelector((state: State) => state.products);
   const { allUsers } = useSelector((state: State) => state.user);
+  const { allOrders } = useSelector((state: State) => state.orders);
   const dispatch = useDispatch();
-  const { fetch_users } = bindActionCreators(adminActionCreators, dispatch);
+  const { fetch_users, fetch_orders } = bindActionCreators(
+    adminActionCreators,
+    dispatch
+  );
+
   useEffect(() => {
     fetch_users();
+    fetch_orders();
   }, []);
 
   return (
@@ -40,12 +46,14 @@ const InformationPanel = () => {
       </div>
       <div className="flex flex-row gap-20 mx-8 ">
         <div className="w-40">
-          <p className="text-lg font-medium">Ordenes Completadas:</p>
-          <p className="text-2xl font-semibold">X</p>
+          <p className="text-lg font-medium">Ordenes Totales:</p>
+          <p className="text-2xl font-semibold">{allOrders.length}</p>
         </div>
         <div className="w-40">
-          <p className="text-lg font-medium">Ordenes Activas:</p>
-          <p className="text-2xl font-semibold">X</p>
+          <p className="text-lg font-medium">Ordenes por Despachar:</p>
+          <p className="text-2xl font-semibold">
+            {allOrders.filter((e) => e.status !== "completado").length}
+          </p>
         </div>
       </div>
       <div className="mx-8 ">

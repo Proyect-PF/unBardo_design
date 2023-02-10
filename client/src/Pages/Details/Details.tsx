@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+
+import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import imageB from '../../assets/images/remeras/unbardo-07B.png';
 import imageF from '../../assets/images/remeras/unbardo-07F.png';
@@ -9,6 +10,7 @@ import AmountInput from '../../components/Inputs/Amount/AmountInput';
 import SizeSelector from '../../components/Inputs/SizeSelector/SizeSelector';
 import { actionCreators } from '../../state';
 import { State } from '../../state/reducers';
+
 import { getItem } from '../../utils/localStorage';
 
 const Details = (): JSX.Element => {
@@ -25,10 +27,10 @@ const Details = (): JSX.Element => {
   const [show, setShow] = useState(false);
   //AL: size / amount state retrieve the selection for future add to cart implementation
   const [ammount, setAmmount] = useState(1);
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState('');
 
   //AL:retrieve the id from the url & transform to number to match type
-  const idS = location.pathname.split("/")[2];
+  const idS = location.pathname.split('/')[2];
   const id = Number(idS);
 
   //AL:Same loading implementation as HOME page
@@ -41,8 +43,8 @@ const Details = (): JSX.Element => {
   //  but functional for now.
   useEffect(() => {
     setLoading(true);
-    !productDetails.show_in_shop && navigate("/");
-    if (productDetails.name !== "") setLoading(false);
+    !productDetails.show_in_shop && navigate('/');
+    if (productDetails.name !== '') setLoading(false);
   }, [productDetails]);
 
   //AL: this function controll the  show state (see states for context)
@@ -54,7 +56,7 @@ const Details = (): JSX.Element => {
   const handleCart = (e: any) => {
     e.preventDefault();
     const payload = {
-      id: productDetails.id + "-" + size,
+      id: productDetails.id + '-' + size,
       name: productDetails.name,
       size: size,
       price: productDetails.price,
@@ -62,11 +64,12 @@ const Details = (): JSX.Element => {
       imgF: productDetails.image,
     };
     addCheckout(payload);
-    setSize("");
+    setSize('');
     setAmmount(1);
   };
 
   const stockSize = (size: string) => {
+
     let checkoutList = getItem("shoppingBag")
     if(size === "S") {
       if(checkoutList?.length > 0) {
@@ -104,6 +107,7 @@ const Details = (): JSX.Element => {
       }
       return productDetails.XL
     }
+
     else {
       return 1;
     }
@@ -113,23 +117,23 @@ const Details = (): JSX.Element => {
     <div>
       <div
         className={`my-8 flex justify-center ${
-          !loading ? "hidden" : "visible"
+          !loading ? 'hidden' : 'visible'
         }`}
       >
-        <div className="border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin"></div>
+        <div className='border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin'></div>
       </div>
       <div
         className={`flex flex-col md:flex-row md:gap-5 ${
-          loading ? "hidden" : "visible"
+          loading ? 'hidden' : 'visible'
         }`}
       >
-        <div className="relative">
+        <div className='relative'>
           <img
-            className={`absolute ${show ? "opacity-100" : "opacity-0"}`}
-            alt="black tshirt"
+            className={`absolute ${show ? 'opacity-100' : 'opacity-0'}`}
+            alt='black tshirt'
             src={imageB}
           />
-          <img className="" alt="black tshirt" src={productDetails.image} />
+          <img className='' alt='black tshirt' src={productDetails.image} />
           {/* <img
             className="absolute w-16 border-2 border-black left-4 top-4 z-1"
             alt="black tshirt"
@@ -137,14 +141,14 @@ const Details = (): JSX.Element => {
             onClick={handleShow}
           /> */}
         </div>
-        <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8">
+        <div className='w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8'>
           <div>
-            <p className="mt-4 text-4xl font-bold ">{productDetails.name}</p>
-            <p className="my-2 text-3xl font-bold ">{`$ ${productDetails.price}`}</p>
-            <p className="my-2 text-lg italic font-medium font-poppins">{`${productDetails.description}`}</p>
+            <p className='mt-4 text-4xl font-bold '>{productDetails.name}</p>
+            <p className='my-2 text-3xl font-bold '>{`$ ${productDetails.price}`}</p>
+            <p className='my-2 text-lg italic font-medium font-poppins'>{`${productDetails.description}`}</p>
           </div>
           <div>
-            <div className="flex justify-around my-8 text-lg text-center">
+            <div className='flex justify-around my-8 text-lg text-center'>
               <SizeSelector
                 detailId={productDetails.id}
                 selected={size}
@@ -164,25 +168,15 @@ const Details = (): JSX.Element => {
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className='flex flex-col'>
               <Button
-                className={"justify-center"}
-                type="button"
-                text="Añadir al carrito"
+                className={'justify-center'}
+                type='button'
+                text='Añadir al carrito'
                 onClick={handleCart}
-                name="Carrito"
-                disabled={size === ""}
+                name='Carrito'
+                disabled={size === ''}
               />
-              <Link to={"/checkout/payment"}>
-                <Button
-                  className={"justify-center"}
-                  type="button"
-                  text="Comprar Ahora"
-                  onClick={() => {}}
-                  name="mercadopago"
-                  disabled={false}
-                />
-              </Link>
             </div>
           </div>
         </div>

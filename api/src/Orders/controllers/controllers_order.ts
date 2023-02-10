@@ -34,6 +34,7 @@ interface RequestBody {
     email: string;
     name: string;
     surname: string;
+    id_user: number;    //id de usuario
 }
 
 interface RequestQuery {
@@ -67,6 +68,7 @@ export const POST_Order = async (request: Request, response: Response) => {
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
         const orders = await db.Orders.findAll({
+            where: { status: { [Op.ne]: 'cart' } },
             include: [
                 {
                     model: db.Users,
@@ -89,7 +91,7 @@ export const GET_OrderById = async (req: Request, res: Response) => {
             include: [
                 {
                     model: db.Users,
-                    as: "user"
+                    as: "users"
                 }
             ]
         });
@@ -103,13 +105,98 @@ export const GET_OrderById = async (req: Request, res: Response) => {
         });
     }
 };
+
+//Update el estado de la orden
+export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
+    try {
         
+        const {id, status} = req.query;
+        
+        const orderUpdate = await db.Orders.update({
+            status: status,
+        },{
+            where: {
+                id
+            }
+        });
+        console.log(orderUpdate);
+        
+        if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+        return res.status(200).json(orderUpdate);
+    } catch (error: any) {
+        return res.status(400).json({message: error.message});
+    }
+}
+
+
+//Obtiene la ultima orden generada por el usuario => para usar en MERCADOPAGO
+const GET_OrderLast = async (id_user: number) => {
+    try {
+        const lastOrder = await db.Orders.findOne({
+            where: {id_user},
+            order: [ [ 'id', 'DESC' ]],
+            });
+        return lastOrder;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+//Obtiene la informacion del usuario relacionada a la orden de compra => para usar en MERCADOPAGO
+const GET_OrderUser = async (id: number) => {
+    try {
+        const orderUser = await db.Orders.findOne({
+            where: {id},
+            include: [
+                {
+                    model: db.Users,
+                    as: "users",
+                }
+            ]
+        });
+        return orderUser;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
+//Obtiene la informacion de los productos de la orden
+const GET_OrderDescription = async (id_order: number) => {
+    try {
+        const orderUser = await db.OrderProducts.findOne({
+            where: {id_order}
+        });
+        return orderUser;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 //MERCADOPAGO
 export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
     response: Response
 ) => {
     const prod = request.body;
+
+    //TODO: Se utiliza el id del usuario que se obtiene por body para obtener la información de la ultima orden del usuario
+    const last = await GET_OrderLast(prod.id_user)
+    console.log(last.id);
+    //TODO: Se utiliza el id de la orden de compra como referencia externa para mercado pago. Esta referencia externa es la que permite conectar la información que se utiliza en el POST de mercadopago con la recibida al finalizar la compra y así poder obtener el estado de la compra
+    const external_reference = last.id.toString();
+    console.log(external_reference);
+
+    const userInfo = await GET_OrderUser(last.id);
+    console.log(userInfo.users.fullname);
+    console.log(userInfo.users.email);
+
+    const prodInfo = await GET_OrderDescription(last.id);
+    console.log(prodInfo.sizes);
+    console.log(prodInfo.id_product);
+    
+    
+    
+    
 
     //TODO: items => información relacionada al producto
     //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
@@ -126,13 +213,13 @@ export const POST_GeneratePayment = async (
             }
         ],
         back_urls: {
-            "success": "http://localhost:3700",
-            "failure": "http://localhost:3700",
+            "success": "http://localhost:3700/payment",
+            "failure": "http://localhost:3700/payment",
             "pending": ""
         },
         //auto_return: "approved",
         binary_mode: true,
-        external_reference: "Compra realizada por Diego",
+        external_reference: external_reference,
         payer: {
             phone: {
                 area_code: prod.area_code.toString(),
@@ -143,9 +230,9 @@ export const POST_GeneratePayment = async (
                 street_name: prod.street_name,
                 street_number: prod.street_number
             },
-            email: prod.email,
-            name: prod.name,
-            surname: prod.surname,
+            email: userInfo.users.email,
+            name: userInfo.users.fullname,
+            surname: '',
         },
     }
 
@@ -169,8 +256,16 @@ export const GET_FeedbackPayment = async (
 ) => {
     const feedback = request.query;
     console.log(feedback);
+    const orderUpdate = await db.Orders.update({
+        status: feedback.status,
+    },{
+        where: {
+            id: feedback.external_reference
+        }
+    })
 
     response.status(200).json({
+        orderUpdate,
         Payment: feedback.payment_id,
         Status: feedback.status,
         MerchantOrder: feedback.merchant_order_id,

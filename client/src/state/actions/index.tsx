@@ -1,5 +1,5 @@
 import { ActionType } from "../action-types";
-import { AddProductPayload, Product, Checkout, User } from "../types";
+import { AddProductPayload, Product, Checkout, User, Orders } from "../types";
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -85,3 +85,17 @@ interface RemoveCheckout {
 }
 
 export type ActionCheckout = AddCheckout | RemoveCheckout;
+
+//Interfaces & types for ORDERS STATE
+
+interface GetAllOrders {
+  type: ActionType.GET_ALL_ORDERS;
+  payload: Orders[];
+}
+
+interface GetOrderById {
+  type: ActionType.GET_ORDER_BY_ID;
+  payload: Orders;
+}
+
+export type ActionOrders = GetAllOrders | GetOrderById;

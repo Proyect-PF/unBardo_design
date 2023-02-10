@@ -73,3 +73,16 @@ export type Checkout = {
 export type CheckoutState = {
   checkoutList: Checkout[];
 };
+
+export type Orders = {
+  id: number;
+  fullname: string;
+  email: string;
+  createdAt: string;
+  status: string;
+};
+
+export type OrderState = {
+  allOrders: Orders[];
+  order: Orders;
+};

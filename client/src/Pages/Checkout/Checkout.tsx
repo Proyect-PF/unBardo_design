@@ -1,17 +1,18 @@
-import CheckoutCard from "../../components/Cards/Checkout/CheckoutCard";
-import Button from "../../components/Buttons/Button/Button";
-import { useSelector } from "react-redux";
-import { State } from "../../state/reducers";
+import CheckoutCard from '../../components/Cards/Checkout/CheckoutCard';
+import Button from '../../components/Buttons/Button/Button';
+import { useSelector } from 'react-redux';
+import { State } from '../../state/reducers';
+import { Link } from 'react-router-dom';
 
 const Checkout = (): JSX.Element => {
   const { checkoutList } = useSelector((state: State) => state.checkout);
 
   const handleCheckout = () => {
-    alert("pagadovich");
+    console.log(checkoutList);
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className='flex flex-col items-center'>
       {checkoutList?.length > 0 &&
         checkoutList.map((e: any) => (
           <CheckoutCard
@@ -24,22 +25,31 @@ const Checkout = (): JSX.Element => {
             imgF={e.imgF}
           />
         ))}
-      <p className="mx-6 font-bold text-right">{`Total: $ ${checkoutList.reduce(
-        (acc:number, e:any) => {
-          return acc + e.price * e.ammount;
-        },
-        0
-      )}`}</p>
-      <Button
-        className={"justify-center"}
-        type="button"
-        name="Checkout"
-        text={`Pagar ahora (${checkoutList.reduce((acc:number, e:any) => {
-          return acc + e.ammount;
-        }, 0)})`}
-        onClick={handleCheckout}
-        disabled={checkoutList.length === 0}
-      />
+
+      <p className='mx-6 font-bold text-right'>{`Total: $ ${
+        checkoutList.length > 0
+          ? checkoutList.reduce((acc: number, e: any) => {
+              return acc + e.price * e.ammount;
+            }, 0)
+          : 0
+      }`}</p>
+
+      <Link to='/checkout/payment'>
+        <Button
+          className={'justify-center'}
+          type='button'
+          name='Checkout'
+          text={`Pagar ahora (${
+            checkoutList.length > 0
+              ? checkoutList.reduce((acc: number, e: any) => {
+                  return acc + e.ammount;
+                }, 0)
+              : 0
+          })`}
+          onClick={() => {}}
+          disabled={checkoutList.length === 0}
+        />
+      </Link>
     </div>
   );
 };

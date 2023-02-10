@@ -165,6 +165,13 @@ Nombre de funcion = GET_OrderById.
     Si se recibe por param el id, busca la orden relacionada a ese id
 ```
 
+#### UPDATE -> localhost:3700/orders/
+
+```env
+Nombre de funcion = UPDATE_OrderStatus.
+    Actualiza el status de la orden. Recibie id y status por query
+```
+
 # Endpoints para Cart
 ## localhost:3700/cart
 

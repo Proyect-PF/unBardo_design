@@ -7,6 +7,7 @@ import {
     GET_AllOrders,
     GET_OrderById,
     POST_Order,
+    UPDATE_OrderStatus
 } from "../controllers/controllers_order";
 
 //MERCADOPAGO
@@ -22,6 +23,9 @@ ordersRoutes.get("/:id", GET_OrderById);
 
 //POST orden
 ordersRoutes.post("/", POST_Order);
+
+//UPDATE estado de la orden
+ordersRoutes.put("/", UPDATE_OrderStatus);
 
 export default ordersRoutes;
 

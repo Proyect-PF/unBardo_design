@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 const Checkout = (): JSX.Element => {
   const { checkoutList } = useSelector((state: State) => state.checkout);
 
-  // const handleCheckout = () => {
-  //   console.log(checkoutList);
-  // };
+  const handleCheckout = () => {
+    console.log(checkoutList);
+  };
 
   return (
     <div className='flex flex-col items-center'>

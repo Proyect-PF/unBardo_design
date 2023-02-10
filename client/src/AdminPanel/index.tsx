@@ -6,13 +6,15 @@ const AdminP = (): JSX.Element => {
 
   return (
     <div className="flex flex-row justify-between">
-      <div className="w-1/12 ">
+      <div className="flex flex-col w-2/12 gap-8 py-12 text-2xl font-bold border-r">
         <button onClick={() => setPanel("products")}>Products</button>
+        <button onClick={() => setPanel("orders")}>Ordenes</button>
+        <button onClick={() => setPanel("users")}>Usuarios</button>
       </div>
-      <div className="w-11/12">
-        <div className={panel === "products" ? "visible" : "hidden"}>
-          <Products />
-        </div>
+      <div className="w-full ">
+        {panel === "products" && <Products />}
+        {panel === "orders" && <div>Orders</div>}
+        {panel == "users" && <div>Usuarios</div>}
       </div>
     </div>
   );

@@ -15,15 +15,27 @@ const ListProducts = ({
 
   return (
     <div className={`${className}`}>
+      <div className="flex items-center justify-around w-full text-center border-t">
+        <p className="w-8 border-r border-black">Id</p>
+        <p className="w-40 ">Nombre</p>
+        <p className="w-16 ">Color</p>
+        <p className="w-16 ">Precio</p>
+        <p className=" w-28">Mostrar en Web</p>
+        <p className="w-8 ">S</p>
+        <p className="w-8 ">M</p>
+        <p className="w-8 ">L</p>
+        <p className="w-8 ">XL</p>
+        <p className="w-20 ">Preview</p>
+        <p className="w-14"></p>
+      </div>
       {productTotal &&
         productTotal.map((e) => (
           <div className="flex items-center justify-around w-full text-center border-t">
             <p className="w-8 border-r border-black">{e.id}</p>
-            <p className="w-8">{e.name}</p>
-            <p className="w-8">{e.description}</p>
-            <p className="w-8">{e.color}</p>
-            <p className="w-8">{e.price}</p>
-            <p className="w-8">{e.show_in_shop ? "Si" : "No"}</p>
+            <p className="w-40">{e.name}</p>
+            <p className="w-16">{e.color}</p>
+            <p className="w-16">{e.price}</p>
+            <p className="w-24">{e.show_in_shop ? "Si" : "No"}</p>
             <p className="w-8">{e.S}</p>
             <p className="w-8">{e.M}</p>
             <p className="w-8">{e.L}</p>
@@ -34,7 +46,7 @@ const ListProducts = ({
                 setId(e.id);
                 setSelected("edit");
               }}
-              className="w-10 py-2 border border-black"
+              className="py-2 border border-black w-14"
             >
               Edit
             </button>

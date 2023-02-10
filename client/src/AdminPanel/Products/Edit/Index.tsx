@@ -50,103 +50,110 @@ const Edit = ({ className }: Props): JSX.Element => {
           errors,
           setFieldValue,
         }) => (
-          <form onSubmit={handleSubmit}>
-            <p>{`Producto: ${productDetails.id}`}</p>
-            <label>Nombre:</label>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              placeholder=""
-              value={values.name}
-              onChange={handleChange}
-              className=" font-poppins"
-              onBlur={handleBlur}
-            />
-            {errors.name && <p className="text-red-600 ">{errors.name}</p>}
-            <label>Description:</label>
-            <textarea
-              id="description"
-              name="description"
-              placeholder=""
-              value={values.description}
-              onChange={handleChange}
-              className="w-full h-12 pl-3 border border-gray-300 rounded-md font-poppins text-align: first bg-gray-50"
-              onBlur={handleBlur}
-            />
-            {errors.description && (
-              <p className="text-red-600 ">{errors.description}</p>
-            )}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-8 mx-12">
+            <p className="text-2xl ">{`Producto: ${productDetails.id}`}</p>
+            <div className="flex flex-col gap-2">
+              <label className="text-xl">Nombre:</label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                placeholder=""
+                value={values.name}
+                onChange={handleChange}
+                className="font-mono "
+                onBlur={handleBlur}
+              />
+              {errors.name && <p className="text-red-600 ">{errors.name}</p>}
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-xl">Description:</label>
+              <textarea
+                id="description"
+                name="description"
+                placeholder=""
+                value={values.description}
+                onChange={handleChange}
+                className="w-full h-40 pt-2 pl-3 font-mono border border-gray-300 rounded-md bg-gray-50"
+                onBlur={handleBlur}
+              />
+              {errors.description && (
+                <p className="text-red-600 ">{errors.description}</p>
+              )}
+            </div>
             <div className="flex gap-8">
-              <p>Color:</p>
+              <p className="text-xl">Color:</p>
               <select
                 id="color"
                 name="color"
                 value={values.color}
                 onChange={handleChange}
+                className="text-xl border-b border-black"
               >
                 <option value="" disabled></option>
                 <option value="white">Blanco</option>
                 <option value="black">Negro</option>
               </select>
             </div>
-            <p>Stock:</p>
-            <div className="flex gap-8">
+            <div className="flex flex-col gap-2">
+              <p className="text-xl">Stock:</p>
               <div className="flex gap-8">
-                <label className="w-2">S:</label>
-                <Input
-                  type="number"
-                  id="S"
-                  name="S"
-                  placeholder=""
-                  value={values.S}
-                  onChange={handleChange}
-                  className="w-14 font-poppins"
-                  onBlur={handleBlur}
-                />
-              </div>
-              <div className="flex gap-8">
-                <label className="w-2">M:</label>
-                <Input
-                  type="number"
-                  id="M"
-                  name="M"
-                  placeholder=""
-                  value={values.M}
-                  onChange={handleChange}
-                  className="w-14 font-poppins"
-                  onBlur={handleBlur}
-                />
-              </div>
-              <div className="flex gap-8">
-                <label className="w-2">L:</label>
-                <Input
-                  type="number"
-                  id="L"
-                  name="L"
-                  placeholder=""
-                  value={values.L}
-                  onChange={handleChange}
-                  className="w-14 font-poppins"
-                  onBlur={handleBlur}
-                />
-              </div>
-              <div className="flex gap-8">
-                <label className="w-2">XL:</label>
-                <Input
-                  type="number"
-                  id="XL"
-                  name="XL"
-                  placeholder=""
-                  value={values.XL}
-                  onChange={handleChange}
-                  className="w-14 font-poppins"
-                  onBlur={handleBlur}
-                />
+                <div className="flex gap-8">
+                  <label className="w-2 text-xl">S:</label>
+                  <Input
+                    type="number"
+                    id="S"
+                    name="S"
+                    placeholder=""
+                    value={values.S}
+                    onChange={handleChange}
+                    className="font-mono w-14"
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div className="flex gap-8">
+                  <label className="w-2 text-xl">M:</label>
+                  <Input
+                    type="number"
+                    id="M"
+                    name="M"
+                    placeholder=""
+                    value={values.M}
+                    onChange={handleChange}
+                    className="font-mono w-14"
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div className="flex gap-8">
+                  <label className="w-2 text-xl">L:</label>
+                  <Input
+                    type="number"
+                    id="L"
+                    name="L"
+                    placeholder=""
+                    value={values.L}
+                    onChange={handleChange}
+                    className="font-mono w-14"
+                    onBlur={handleBlur}
+                  />
+                </div>
+                <div className="flex gap-8">
+                  <label className="w-2 text-xl ">XL:</label>
+                  <Input
+                    type="number"
+                    id="XL"
+                    name="XL"
+                    placeholder=""
+                    value={values.XL}
+                    onChange={handleChange}
+                    className="font-mono w-14"
+                    onBlur={handleBlur}
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex gap-8">
-              <label className="w-4">Precio:</label>
+            <div className="flex gap-16">
+              <label className="w-4 text-xl">Precio:</label>
               <Input
                 type="number"
                 id="price"
@@ -154,17 +161,18 @@ const Edit = ({ className }: Props): JSX.Element => {
                 placeholder=""
                 value={values.price}
                 onChange={handleChange}
-                className="w-14 font-poppins"
+                className="font-mono w-14"
                 onBlur={handleBlur}
               />
             </div>
             <div className="flex gap-8">
-              <p>Mostrar en tienda:</p>
+              <p className="text-xl">Mostrar en tienda:</p>
               <select
                 id="show_in_shop"
                 name="show_in_shop"
                 value={values.show_in_shop}
                 onChange={handleChange}
+                className="text-xl border-b border-black"
               >
                 <option value="" disabled></option>
                 <option value="true">Si</option>

@@ -31,6 +31,7 @@ const Checkout = (): JSX.Element => {
         0
       )}`}</p>
       <Button
+        className={"justify-center"}
         type="button"
         name="Checkout"
         text={`Pagar ahora (${checkoutList.reduce((acc, e) => {

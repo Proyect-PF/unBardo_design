@@ -149,14 +149,13 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
     let product = request.body;
-    const { id } = request.params;
-  
-
-    const uploadRes = await cloudinary.uploader.upload(product.image, {
-      upload_preset: 'unbardo'
-    })
-    product.image = uploadRes.url
-   
+    
+    if(product.image.length>100){
+      const uploadRes = await cloudinary.uploader.upload(product.image, {
+        upload_preset: 'unbardo'
+      })
+      product.image = uploadRes.url
+   }
         // const existingProduct = await db.Product.findByPk(product.id);
         // if (!existingProduct) { 
           
@@ -172,7 +171,7 @@ export const UPDATE_UpdateProduct = async (
           color: product.color,
           //"id_category": product.id_category,
       }, {
-          where: { id: id },
+          where: { id: product.id },
           returning: true
       });
       if (numberOfAffectedRows === 0) {

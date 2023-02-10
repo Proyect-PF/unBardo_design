@@ -37,7 +37,7 @@ export const Register = (): JSX.Element => {
       onSubmit={(values) => {}}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
-        <form onSubmit={handleSubmit} className="mx-8 my-4 flex flex-col gap-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 mx-8 my-4">
           <div>
             <label htmlFor="nameRg">Nombre y Apellido</label>
             <Input
@@ -51,7 +51,7 @@ export const Register = (): JSX.Element => {
               onBlur={handleBlur}
             />
 
-            {errors.nameRg && <p className=" text-red-600">{errors.nameRg}</p>}
+            {errors.nameRg && <p className="text-red-600 ">{errors.nameRg}</p>}
           </div>
           <div>
             <label htmlFor="emailRg">email</label>
@@ -67,7 +67,7 @@ export const Register = (): JSX.Element => {
             />
 
             {errors.emailRg && (
-              <p className=" text-red-600">{errors.emailRg}</p>
+              <p className="text-red-600 ">{errors.emailRg}</p>
             )}
           </div>
           <div>
@@ -82,9 +82,10 @@ export const Register = (): JSX.Element => {
               className=" font-poppins"
               onBlur={handleBlur}
             />
-            {errors.pwRg && <p className=" text-red-600">{errors.pwRg}</p>}
+            {errors.pwRg && <p className="text-red-600 ">{errors.pwRg}</p>}
           </div>
           <Button
+            className={"justify-center"}
             text="Registrarme"
             name="Register"
             onClick={handleSubmit}

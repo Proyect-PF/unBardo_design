@@ -7,10 +7,10 @@ const AdminP = (): JSX.Element => {
   return (
     <div className="flex flex-row justify-between">
       <div className="w-1/12 ">
-        <button>Products</button>
+        <button onClick={() => setPanel("products")}>Products</button>
       </div>
       <div className="w-11/12">
-        <div>
+        <div className={panel === "products" ? "visible" : "hidden"}>
           <Products />
         </div>
       </div>

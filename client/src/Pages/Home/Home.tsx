@@ -27,10 +27,10 @@ const Home = () => {
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
   useEffect(() => {
-    if(render){
+    if (render) {
       setLoading(true);
       fetch_products();
-      updateRender(false)
+      updateRender(false);
     }
   }, [fetch_products, render, updateRender]);
 
@@ -55,7 +55,7 @@ const Home = () => {
         </p>
         <Dropdown />
         <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
-          {productList.length > 0 ?
+          {productList.length > 0 ? (
             productList.map((e) => {
               if (e.show_in_shop) {
                 return (
@@ -69,19 +69,22 @@ const Home = () => {
                   />
                 );
               }
-            }):
+            })
+          ) : (
             <div>
-              <h4 className="p-5 text-lg font-bold text-center border-b-2">No se encontraron coicidencias</h4>
+              <h4 className="p-5 text-lg font-bold text-center border-b-2">
+                No se encontraron coicidencias
+              </h4>
               <Button
-              type="button"
-              text="Volver atras"
-              onClick={fetch_products}
-              name="volver"
-              disabled={false}
-            />
+                className={"justify-center"}
+                type="button"
+                text="Volver atras"
+                onClick={fetch_products}
+                name="volver"
+                disabled={false}
+              />
             </div>
-            
-            }
+          )}
         </div>
         <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
           <p className="mt-5 text-2xl font-semibold text-center">

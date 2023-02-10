@@ -5,7 +5,7 @@ import {
     POST_GeneratePayment,
     GET_FeedbackPayment,
     GET_AllOrders,
-    GET_OrderById,
+    GET_DetailsByOrderId,
     POST_Order,
     UPDATE_OrderStatus
 } from "../controllers/controllers_order";
@@ -19,7 +19,7 @@ ordersRoutes.get("/feedback/", GET_FeedbackPayment);
 ordersRoutes.get("/", GET_AllOrders);
 
 //GET orden por ID
-ordersRoutes.get("/:id", GET_OrderById);
+ordersRoutes.get("/:orderId", GET_DetailsByOrderId);
 
 //POST orden
 ordersRoutes.post("/", POST_Order);

@@ -76,22 +76,40 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
 };
 
 // Obtener oden por ID
-export const GET_OrderById = async (req: Request, res: Response) => {
+export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
     try {
-        const {id} = req.params;
+        const {orderId} = req.params;
+
+        // Ejecutar la primera consulta
         const order = await db.Orders.findOne({
-            where: {id},
-            include: [
-                {
-                    model: db.Users,
-                    as: "users"
-                }
-            ]
+            where: {id: orderId},
+            attributes: ["id", "updatedAt", "status"],
+            include: [{model: db.Users, as: "users", attributes: ["fullname", "email"]}],
+            order: [['updatedAt', 'DESC']]
         });
-        if (!order) {
-            return res.status(404).json({message: "Orden no encontrada"});
-        }
-        return res.status(200).json(order);
+
+        // Ejecutar la segunda consulta
+        const orderProducts = await db.OrderProducts.findAll({
+            where: {id_order: orderId},
+            attributes: {exclude: ["createdAt", "updatedAt", "id_order"]}
+        });
+
+        // Extraer los valores de order y users
+        const {id, updatedAt, status} = order.dataValues;
+        const {fullname, email} = order.users;
+        // Combinar solo los valores necesarios
+        const response = {
+            id,
+            updatedAt,
+            status,
+            fullname,
+            email
+            ,
+            orderProducts
+        };
+
+        // Enviar la respuesta
+        res.json(response);
     } catch (error: any) {
         return res.status(400).json({
             message: error.message

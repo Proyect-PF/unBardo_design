@@ -3,6 +3,7 @@ import { ActionUser } from "../actions";
 import { UserState } from "../types";
 
 const initialState: UserState = {
+  allUsers: [],
   adminLogin: false,
 };
 
@@ -12,6 +13,11 @@ const userReducer = (state: UserState = initialState, action: ActionUser) => {
       return {
         ...state,
         adminLogin: state.adminLogin ? false : true,
+      };
+    case ActionType.GET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload,
       };
     default:
       return {

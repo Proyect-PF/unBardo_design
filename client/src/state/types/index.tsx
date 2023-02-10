@@ -32,19 +32,26 @@ export type ProductState = {
   render: boolean;
 };
 
+export type User = {
+  email: string;
+  id: number;
+  id_role: number;
+};
+
 export type UserState = {
+  allUsers: User[];
   adminLogin: boolean;
 };
 
 export type Checkout = {
-  id: string
+  id: string;
   name: string;
   size: string;
   price: number;
   ammount: number;
   imgF: string;
-}
+};
 
 export type CheckoutState = {
-  checkoutList: Checkout[]
-}
+  checkoutList: Checkout[];
+};

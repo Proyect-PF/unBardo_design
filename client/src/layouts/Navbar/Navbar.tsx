@@ -11,7 +11,7 @@ const Navbar = ({ handleChange, handleSearch }: any) => {
   const location = useLocation()
   const { checkoutList } = useSelector((state: State) => state.checkout);
   return (
-    <div className="flex items-center justify-between h-16 px-3 bg-white border-b-2 border-gray-200">
+    <div className="flex relative items-center justify-between h-16 px-3 bg-white border-b-2 border-gray-200">
       <div>
         <img
           onClick={handleChange}
@@ -38,7 +38,7 @@ const Navbar = ({ handleChange, handleSearch }: any) => {
           <img src={shoppingIcon} alt="shopping-bag-icon" className="h-7" />
         </Link>
       </div>
-      <div className={`fixed right-1 top-2 bg-red-600 h-5 w-5 rounded-full ${checkoutList.length? null: "hidden"} ${location.pathname === "/checkout"? "hidden": null}`}>
+      <div className={`absolute right-1 top-2 bg-red-600 h-5 w-5 rounded-full ${checkoutList.length? null: "hidden"} ${location.pathname === "/checkout"? "hidden": null}`}>
         <Link to="/checkout">
           <p className="text-center text-xs font-bold text-white pt-0.5">{checkoutList.length}</p>
         </Link>

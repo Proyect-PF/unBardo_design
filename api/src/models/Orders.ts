@@ -4,14 +4,14 @@ import {Model} from "sequelize";
 
 interface OrdersAttributes {
   id: number;
-  total_amount: number;
+  id_user: number;
   status: string;
 }
 
 export default (sequelize: any, DataTypes: any) => {
     class Orders extends Model {
         id!: number;
-        total_amount!: number;
+        id_user!: number;
         status!: string;
 
         static associate(models: any) {
@@ -57,18 +57,10 @@ export default (sequelize: any, DataTypes: any) => {
                     key: "id",
                 },
             },
-            total_amount: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,
-            },
-            shipping_address: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
+            }
         },
         {
             sequelize,

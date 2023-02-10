@@ -21,32 +21,12 @@ export const FormCheckout = (): JSX.Element => {
       : [];
 
   const initialValues = {
-    products,
-
     area_code: '',
     number: '',
     zip_code: '',
     street_name: '',
     street_number: '',
-    email: 'correo@correo.com',
-    name: 'cliente',
-    surname: 'Falso',
-  };
-
-  const handleCheckout = async () => {
-    try {
-      checkoutList.forEach(async (product: any) => {
-        await axios.post('http://localhost:3700/orders/payment/', {
-          id: product.id,
-        });
-      });
-      console.log(checkoutList);
-    } catch (error) {
-      console.error(error);
-      console.log(
-        "La ruta '/api/checkout/' AUN NO EXISTE. Por favor, inténtelo más tarde."
-      );
-    }
+    id_user: 1,
   };
 
   return (
@@ -58,7 +38,7 @@ export const FormCheckout = (): JSX.Element => {
           method: 'post',
           url: 'http://localhost:3700/orders/payment',
           data: values,
-        }).then();
+        }).then((res) => (window.location.href = res.data.res.body.init_point));
         console.log(values);
         //(res) => (window.location.href = res.data.res.body.init_point)
       }}

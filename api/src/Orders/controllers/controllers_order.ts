@@ -109,7 +109,9 @@ export const GET_OrderById = async (req: Request, res: Response) => {
 //Update el estado de la orden
 export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
     try {
+        
         const {id, status} = req.query;
+        
         const orderUpdate = await db.Orders.update({
             status: status,
         },{

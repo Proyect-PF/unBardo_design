@@ -88,3 +88,7 @@ export const fetch_users = () => {
       .catch((error) => console.log(error));
   };
 };
+
+export const update_order = (id: number, status: string) => {
+  axios.put(`http://localhost:3700/orders/?id=${id}&status=${status}`);
+};

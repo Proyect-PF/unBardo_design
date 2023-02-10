@@ -5,76 +5,74 @@ import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
 import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router-dom";
+import { UserLog } from "../../state/types";
+import { userLog } from "../../state/action-creators";
 
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { adminLog } = bindActionCreators(actionCreators, dispatch);
+  const initialValues:UserLog = {
+    email: "",
+    password: "",
+  }
   return (
     <Formik
-      initialValues={{
-        emailLogIn: "",
-        pwLogIn: "",
-      }}
+      initialValues={initialValues}
       validate={(values) => {
         let errors: any = {};
-        if (!values.emailLogIn) {
-          errors.emailLogIn = "Ingrese un email";
+        if (!values.email) {
+          errors.email = "Ingrese un email";
         } else if (
           !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
-            values.emailLogIn
+            values.email
           )
         ) {
-          errors.emailLogIn = "Ingrese un email valido";
+          errors.email = "Ingrese un email valido";
         }
-        if (!values.pwLogIn) errors.pwLogIn = "Ingrese una contraseña";
+        if (!values.password) errors.password = "Ingrese una contraseña";
         return errors;
       }}
       onSubmit={(values) => {
-        if (
-          values.emailLogIn === "admin@admin.com" &&
-          values.pwLogIn === "admin"
-        ) {
+          userLog(values)
           adminLog();
           navigate("/");
-        } else {
-          alert("credenciales invalidas");
-        }
+ 
       }}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 mx-8 my-4">
           <div>
-            <label htmlFor="emailLogIn">email</label>
+            <label htmlFor="email">email</label>
             <Input
               type="text"
-              id="emailLogIn"
-              name="emailLogIn"
+              id="email"
+              name="email"
               placeholder=""
-              value={values.emailLogIn}
+              value={values.email}
               onChange={handleChange}
               className=" font-poppins"
               onBlur={handleBlur}
             />
 
-            {errors.emailLogIn && (
-              <p className="text-red-600 ">{errors.emailLogIn}</p>
+            {errors.email && (
+              <p className="text-red-600 ">{errors.email}</p>
             )}
           </div>
           <div>
             <label htmlFor="passwordLogIn">Contraseña</label>
             <Input
               type="password"
-              id="pwLogIn"
-              name="pwLogIn"
+              id="password"
+              name="password"
               placeholder=""
-              value={values.pwLogIn}
+              value={values.password}
               onChange={handleChange}
               className=" font-poppins"
               onBlur={handleBlur}
             />
-            {errors.pwLogIn && (
-              <p className="text-red-600 ">{errors.pwLogIn}</p>
+            {errors.password && (
+              <p className="text-red-600 ">{errors.password}</p>
             )}
           </div>
           <Button

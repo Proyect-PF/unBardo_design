@@ -23,7 +23,7 @@ export default (sequelize:any, DataTypes:any) => {
      * @param password que se va a encriptar
      */
     public static async encryptPassword (password:string) {
-      const salt = await bcrypt.genSalt(15)
+      const salt = await bcrypt.genSalt(5)
       return await bcrypt.hash(password, salt)
 
     }

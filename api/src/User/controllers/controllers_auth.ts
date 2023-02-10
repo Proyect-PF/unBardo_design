@@ -117,6 +117,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
         );
         return res
           .header("auth-token", tokenFound)
+          .status(400)
           .json({ message: "usuario ya creado" });
       }
 
@@ -155,6 +156,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
       );
       return res
         .header("auth-token", tokenFound)
+        .status(400)
         .json({ message: "usuario ya creado" });
     }
 
@@ -194,7 +196,7 @@ export const POST_SignIn = async (req: Request, res: Response) => {
       userFound.password
     );
     if (!matchPassword)
-      return res
+    throw res
         .status(401)
         .json({ token: null, messaage: "Invalid Password" });
 
@@ -206,8 +208,8 @@ export const POST_SignIn = async (req: Request, res: Response) => {
         expiresIn: 86400,
       }
     );
-
-  res.json({ token: token });
+      const roleA = userFound["Role.name"]
+  return res.json({ token: token , roleA});
   } catch (error) {
     res.status(400).json(getErrorMessage(error));
   }

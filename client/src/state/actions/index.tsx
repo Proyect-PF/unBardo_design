@@ -55,7 +55,14 @@ interface AdminLogin {
 }
 
 interface IUserRegister {
-  type: ActionType
+  type: ActionType.GET_TOKEN_USER_LOG;
+  //Token
+  payload: object | string;
+}
+interface IUserLog {
+  type: ActionType.GET_TOKEN_USER_LOG;
+  //Token
+  payload: string | object;
 }
 
 interface GetAllUsers {
@@ -63,7 +70,7 @@ interface GetAllUsers {
   payload: User[];
 }
 
-export type ActionUser = AdminLogin | GetAllUsers;
+export type ActionUser = AdminLogin | GetAllUsers | IUserLog | IUserRegister;
 
 //LG: Interfaces & types for CHECKOUT STATE
 

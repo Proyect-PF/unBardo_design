@@ -6,83 +6,89 @@ import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
 import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router-dom";
+import { userRegister } from "../../state/action-creators";
+import { UserRegister } from "../../state/types";
 
 export const Register = (): JSX.Element => {
+  const initialvalues: UserRegister = {
+    fullname: "",
+    email: "",
+    password: "",
+    role: undefined
+  }
   return (
     <Formik
-      initialValues={{
-        nameRg: "",
-        emailRg: "",
-        pwRg: "",
-      }}
+      initialValues={initialvalues}
       validate={(values) => {
         let errors: any = {};
-        if (!values.nameRg) {
-          errors.nameRg = "Ingrese su nombre";
-        } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.nameRg)) {
-          errors.nameRg = "Su nombre no puede contener numeros";
+        if (!values.fullname) {
+          errors.fullname = "Ingrese su nombre";
+        } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.fullname)) {
+          errors.fullname = "Su nombre no puede contener numeros";
         }
-        if (!values.emailRg) {
-          errors.emailRg = "Ingrese un email";
+        if (!values.email) {
+          errors.email = "Ingrese un email";
         } else if (
           !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
-            values.emailRg
+            values.email
           )
         ) {
-          errors.emailRg = "Ingrese un email valido";
+          errors.email = "Ingrese un email valido";
         }
-        if (!values.pwRg) errors.pwRg = "Ingrese una contraseña";
+        if (!values.password) errors.password = "Ingrese una contraseña";
         return errors;
       }}
-      onSubmit={(values) => {}}
+      onSubmit={(values) => {
+        userRegister(values)
+      }}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 mx-8 my-4">
           <div>
-            <label htmlFor="nameRg">Nombre y Apellido</label>
+            <label htmlFor="fullname">Nombre y Apellido</label>
             <Input
               type="text"
-              id="nameRg"
-              name="nameRg"
+              id="fullname"
+              name="fullname"
               placeholder=""
-              value={values.nameRg}
+              value={values.fullname}
               onChange={handleChange}
               className=" font-poppins"
               onBlur={handleBlur}
             />
 
-            {errors.nameRg && <p className="text-red-600 ">{errors.nameRg}</p>}
+            {errors.fullname && <p className="text-red-600 ">{errors.fullname}</p>}
           </div>
           <div>
-            <label htmlFor="emailRg">email</label>
+            <label htmlFor="email">email</label>
             <Input
               type="text"
-              id="emailRg"
-              name="emailRg"
+              id="email"
+              name="email"
               placeholder=""
-              value={values.emailRg}
+              value={values.email}
               onChange={handleChange}
               className=" font-poppins"
               onBlur={handleBlur}
             />
 
-            {errors.emailRg && (
-              <p className="text-red-600 ">{errors.emailRg}</p>
+            {errors.email && (
+              <p className="text-red-600 ">{errors.email}</p>
             )}
           </div>
           <div>
             <label htmlFor="passwordRg">Contraseña</label>
             <Input
               type="password"
-              id="pwRg"
-              name="pwRg"
+              id="password"
+              name="password"
               placeholder=""
-              value={values.pwRg}
+              value={values.password}
               onChange={handleChange}
               className=" font-poppins"
               onBlur={handleBlur}
             />
-            {errors.pwRg && <p className="text-red-600 ">{errors.pwRg}</p>}
+            {errors.password && <p className="text-red-600 ">{errors.password}</p>}
           </div>
           <Button
             className={"justify-center"}

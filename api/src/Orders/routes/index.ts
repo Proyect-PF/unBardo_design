@@ -7,6 +7,8 @@ import {
     GET_AllOrders,
     GET_OrderById,
     POST_Order,
+    getLastOrder,
+    GET_DetailsByOrderId
 } from "../controllers/controllers_order";
 
 //MERCADOPAGO
@@ -22,6 +24,10 @@ ordersRoutes.get("/:id", GET_OrderById);
 
 //POST orden
 ordersRoutes.post("/", POST_Order);
+
+ordersRoutes.get("/:userId", getLastOrder);
+
+ordersRoutes.get("/order/:orderId", GET_DetailsByOrderId);
 
 export default ordersRoutes;
 

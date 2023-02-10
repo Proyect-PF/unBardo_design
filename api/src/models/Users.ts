@@ -4,8 +4,9 @@ import bcrypt from "bcryptjs"
 
 
 interface interUser {
-  firstName: string,
-    lastName:string,
+  // firstName: string,
+  //   lastName:string,
+    fullname: string,
     email: string,
     color:string
 }

@@ -1,4 +1,4 @@
-import {Express, Request, Response} from "express";
+import {Express, Request, Response, NextFunction} from "express";
 import dotenv from 'dotenv'
 import {Op} from "sequelize";
 import db from "../../database";
@@ -41,14 +41,14 @@ interface RequestQuery {
 
 export const POST_Order = async (request: Request, response: Response) => {
     try {
-        const { id_user, products } = request.body;
+        const {id_user, products} = request.body;
         const createdOrder = await db.Orders.create({
             id_user,
-            status: "cart",
+            status: "carta",
         });
         const createdOrderProducts = [];
         for (const product of products) {
-            const { id_product, sizes } = product;
+            const {id_product, sizes} = product;
             const createdOrderProduct = await db.OrderProducts.create({
                 id_order: createdOrder.id,
                 id_product,
@@ -56,10 +56,10 @@ export const POST_Order = async (request: Request, response: Response) => {
             });
             createdOrderProducts.push(createdOrderProduct);
         }
-        return response.status(201).json({ createdOrder, createdOrderProducts });
-    } catch (error:any) {
+        return response.status(201).json({createdOrder, createdOrderProducts});
+    } catch (error: any) {
         console.error(error);
-        return response.status(400).json({ error: error.message });
+        return response.status(400).json({error: error.message});
     }
 };
 
@@ -67,6 +67,7 @@ export const POST_Order = async (request: Request, response: Response) => {
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
         const orders = await db.Orders.findAll({
+            where: {status: {[Op.ne]: 'cart'}},
             include: [
                 {
                     model: db.Users,
@@ -74,13 +75,13 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
                 }
             ]
         });
+
         return res.status(200).json(orders);
     } catch (error: any) {
         return res.status(400).json({message: error.message});
     }
 };
 
-// Obtener oden por ID
 export const GET_OrderById = async (req: Request, res: Response) => {
     try {
         const {id} = req.params;
@@ -89,7 +90,7 @@ export const GET_OrderById = async (req: Request, res: Response) => {
             include: [
                 {
                     model: db.Users,
-                    as: "user"
+                    as: "users"
                 }
             ]
         });
@@ -103,7 +104,48 @@ export const GET_OrderById = async (req: Request, res: Response) => {
         });
     }
 };
-        
+export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
+    try {
+        const {orderId} = req.params;
+
+        // Ejecutar la primera consulta
+        const order = await db.Orders.findOne({
+            where: {id: orderId},
+            attributes: ["id", "updatedAt", "status"],
+            include: [{model: db.Users, as: "users", attributes: ["fullname", "email"]}],
+            order: [['updatedAt', 'DESC']]
+        });
+
+        // Ejecutar la segunda consulta
+        const orderProducts = await db.OrderProducts.findAll({
+            where: {id_order: orderId},
+            attributes: {exclude: ["createdAt", "updatedAt", "id_order"]}
+        });
+
+        // Extraer los valores de order y users
+        const {id, updatedAt, status} = order.dataValues;
+        const {fullname, email} = order.users;
+        // Combinar solo los valores necesarios
+        const response = {
+            id,
+            updatedAt,
+            status,
+            fullname,
+            email
+            ,
+            orderProducts
+        };
+
+        // Enviar la respuesta
+        res.json(response);
+    } catch (error: any) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+};
+
+
 //MERCADOPAGO
 export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
@@ -178,3 +220,41 @@ export const GET_FeedbackPayment = async (
     });
 }
 
+export const getLastOrder = async (
+    request: Request,
+    response: Response,
+    next: NextFunction
+) => {
+    try {
+        const userId = request.params.userId;
+        const order = await db.Orders.findOne({
+            where: {id_user: userId},
+            order: [["createdAt", "DESC"]],
+            include: [
+                {
+                    model: db.Product,
+                    as: "products",
+                    through: db.OrderProducts,
+                },
+                {
+                    model: db.Users,
+                    as: "users",
+                },
+            ],
+        });
+
+        const items = order.db.Product.map((product: any) => ({
+            id: product.id,
+            category_id: product.category_id,
+            currency_id: "ARS",
+            description: product.description,
+            title: product.title,
+            quantity: product.OrderProducts.quantity,
+            unit_price: product.price,
+        }));
+
+        response.json({items});
+    } catch (error: any) {
+        response.status(500).json({error: error.message});
+    }
+};

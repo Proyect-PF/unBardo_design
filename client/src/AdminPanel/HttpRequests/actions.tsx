@@ -2,7 +2,7 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { actionCreators } from "../../state";
 import { ActionType } from "../../state/action-types";
-import { ActionUser } from "../../state/actions";
+import { ActionOrders, ActionUser } from "../../state/actions";
 import { AddProductPayload, Product } from "../../state/types";
 
 // axios.defaults.headers.post["x-access-token"] = `hola`;
@@ -28,7 +28,28 @@ export const delete_product = (payload: number) => {
 
 //Orders Routes
 export const fetch_orders = () => {
-  axios.get(`http://localhost:3700/orders`);
+  return (dispatch: Dispatch<ActionOrders>) => {
+    axios
+      .get(`http://localhost:3700/orders`)
+      .then((res) =>
+        res.data.map((e: any) => {
+          return {
+            id: e.id,
+            fullname: e.users.fullname,
+            email: e.users.email,
+            createdAt: e.createdAt,
+            status: e.status,
+          };
+        })
+      )
+      .then((payload) =>
+        dispatch({
+          type: ActionType.GET_ALL_ORDERS,
+          payload,
+        })
+      )
+      .catch((error) => console.log(error));
+  };
 };
 
 export const fetch_users = () => {
@@ -36,7 +57,6 @@ export const fetch_users = () => {
     axios
       .get(`http://localhost:3700/users`)
       .then((res) => {
-        console.log(res.data);
         const payload = res.data;
         dispatch({
           type: ActionType.GET_ALL_USERS,

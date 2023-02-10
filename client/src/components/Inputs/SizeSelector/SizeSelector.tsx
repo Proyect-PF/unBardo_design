@@ -1,14 +1,56 @@
 import { useState } from "react";
+import { getItem } from "../../../utils/localStorage";
 
 interface Props {
+  detailId: number;
   selected: string;
   sizes: number[];
   setter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SizeSelector = ({ selected, sizes, setter }: Props): JSX.Element => {
+const SizeSelector = ({ detailId, selected, sizes, setter }: Props): JSX.Element => {
   //AL: selected state for visual changes in the component, the value passed
   //to the invoking is manneged by the "setter" function
+  const checkoutList = getItem("shoppingBag")
+
+  const sizesStock = (x:number) => {
+    if(x === 0) {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === detailId + "-S")
+        if(findCard) {
+          return sizes[0] - findCard.ammount
+        }
+      }
+      return sizes[0]
+    }
+    if(x === 1) {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === detailId + "-M")
+        if(findCard) {
+          return sizes[1] - findCard.ammount
+        }
+      }
+      return sizes[1]
+    }
+    if(x === 2) {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === detailId + "-L")
+        if(findCard) {
+          return sizes[2] - findCard.ammount
+        }
+      }
+      return sizes[2]
+    }
+    if(x === 3) {
+      if(checkoutList?.length > 0) {
+        let findCard = checkoutList.find((x:any) => x.id === detailId + "-XL")
+        if(findCard) {
+          return sizes[3] - findCard.ammount
+        }
+      }
+      return sizes[3]
+    }
+  }
 
   //AL: this functions manages the selected state & setting the value for the invoking page
   const handleSize = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,8 +66,8 @@ const SizeSelector = ({ selected, sizes, setter }: Props): JSX.Element => {
         key="sizeS"
         className={`w-8 h-8 border border-black ${
           selected === "S" ? "bg-black text-white" : "bg-white text-black"
-        } ${sizes[0] === 0 ? " text-gray-400" : ""}`}
-        disabled={sizes[0] === 0}
+        } ${sizesStock(0) === 0 ? " text-gray-400" : ""}`}
+        disabled={sizesStock(0) === 0}
       >
         S
       </button>
@@ -34,8 +76,8 @@ const SizeSelector = ({ selected, sizes, setter }: Props): JSX.Element => {
         key="sizeM"
         className={`w-8 h-8 border border-black ${
           selected === "M" ? "bg-black text-white" : "bg-white text-black"
-        } ${sizes[1] === 0 ? " text-gray-400" : ""}`}
-        disabled={sizes[1] === 0}
+        } ${sizesStock(1) === 0 ? " text-gray-400" : ""}`}
+        disabled={sizesStock(1) === 0}
       >
         M
       </button>
@@ -44,8 +86,8 @@ const SizeSelector = ({ selected, sizes, setter }: Props): JSX.Element => {
         key="sizeL"
         className={`w-8 h-8 border border-black ${
           selected === "L" ? "bg-black text-white" : "bg-white text-black"
-        } ${sizes[2] === 0 ? " text-gray-400" : ""}`}
-        disabled={sizes[2] === 0}
+        } ${sizesStock(2) === 0 ? " text-gray-400" : ""}`}
+        disabled={sizesStock(2) === 0}
       >
         L
       </button>
@@ -54,8 +96,8 @@ const SizeSelector = ({ selected, sizes, setter }: Props): JSX.Element => {
         key="sizeXL"
         className={`w-8 h-8 border border-black ${
           selected === "XL" ? "bg-black text-white" : "bg-white text-black"
-        } ${sizes[3] === 0 ? " text-gray-400" : ""}`}
-        disabled={sizes[3] === 0}
+        } ${sizesStock(3) === 0 ? " text-gray-400" : ""}`}
+        disabled={sizesStock(3) === 0}
       >
         XL
       </button>

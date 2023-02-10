@@ -34,6 +34,7 @@ interface RequestBody {
     email: string;
     name: string;
     surname: string;
+    id_user: number;    //id de usuario
 }
 
 interface RequestQuery {
@@ -104,6 +105,19 @@ export const GET_OrderById = async (req: Request, res: Response) => {
         });
     }
 };
+
+//Obtiene la ultima orden generada por el usuario
+const GET_OrderLast = async (id_user: number) => {
+    try {
+        const lastOrder = await db.Orders.findOne({
+            where: {id_user},
+            order: [ [ 'id', 'DESC' ]],
+            });
+        return lastOrder;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
         
 //MERCADOPAGO
 export const POST_GeneratePayment = async (
@@ -111,6 +125,14 @@ export const POST_GeneratePayment = async (
     response: Response
 ) => {
     const prod = request.body;
+
+    //TODO: Se utiliza el id del usuario que se obtiene por body para obtener la información de la ultima orden del usuario
+    const last = await GET_OrderLast(prod.id_user)
+    console.log(last.id);
+    //TODO: Se utiliza el id de la orden de compra como referencia externa para mercado pago. Esta referencia externa es la que permite conectar la información que se utiliza en el POST de mercadopago con la recibida al finalizar la compra y así poder obtener el estado de la compra
+    const external_reference = last.id.toString();
+    console.log(external_reference);
+    
 
     //TODO: items => información relacionada al producto
     //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
@@ -133,7 +155,7 @@ export const POST_GeneratePayment = async (
         },
         //auto_return: "approved",
         binary_mode: true,
-        external_reference: "Compra realizada por Diego",
+        external_reference: external_reference,
         payer: {
             phone: {
                 area_code: prod.area_code.toString(),
@@ -170,8 +192,16 @@ export const GET_FeedbackPayment = async (
 ) => {
     const feedback = request.query;
     console.log(feedback);
+    const orderUpdate = await db.Orders.update({
+        status: feedback.status,
+    },{
+        where: {
+            id: feedback.external_reference
+        }
+    })
 
     response.status(200).json({
+        orderUpdate,
         Payment: feedback.payment_id,
         Status: feedback.status,
         MerchantOrder: feedback.merchant_order_id,

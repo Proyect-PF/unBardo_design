@@ -4,14 +4,14 @@ import { State } from "../../../state/reducers";
 type Props = {
   className: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
-  setId: React.Dispatch<React.SetStateAction<number>>;
+  setId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 const ListProducts = ({
   className,
   setSelected,
   setId,
 }: Props): JSX.Element => {
-  const { productTotal } = useSelector((state: State) => state.products);
+  const { allProducts } = useSelector((state: State) => state.admin);
 
   return (
     <div className={`${className}`}>
@@ -28,8 +28,8 @@ const ListProducts = ({
         <p className="w-20 ">Preview</p>
         <p className="w-14"></p>
       </div>
-      {productTotal &&
-        productTotal.map((e) => (
+      {allProducts &&
+        allProducts.map((e: any) => (
           <div className="flex items-center justify-around w-full text-center border-t">
             <p className="w-8 border-r border-black">{e.id}</p>
             <p className="w-40">{e.name}</p>

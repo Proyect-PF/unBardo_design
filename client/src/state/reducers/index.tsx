@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import adminReducer from "../../AdminPanel/AdminRedux/reducer";
 import checkoutReducer from "./checkoutReducer";
 import ordersReducer from "./ordersReducer";
 import productReducer from "./productReducer";
@@ -10,6 +11,7 @@ const reducers = combineReducers({
   user: userReducer,
   checkout: checkoutReducer,
   orders: ordersReducer,
+  admin: adminReducer,
 });
 
 export default reducers;

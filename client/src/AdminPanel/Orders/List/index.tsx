@@ -9,7 +9,7 @@ type Props = {
 
 const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
   const { allOrders } = useSelector((state: State) => state.admin);
-
+  console.log(allOrders);
   return (
     <div className={`${className}`}>
       <div className="flex items-center justify-around w-full text-center border-t">
@@ -24,8 +24,8 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         allOrders.map((e: any) => (
           <div className="flex items-center justify-around w-full text-center border-t">
             <p className="w-8 border-r border-black">{e.id}</p>
-            <p className=" w-60">{e.fullname}</p>
-            <p className=" w-60">{e.email}</p>
+            <p className=" w-60">{e.users.fullname}</p>
+            <p className=" w-60">{e.users.email}</p>
             <p className="w-40 ">{e.createdAt}</p>
             <p className="w-24 ">{e.status}</p>
             <button

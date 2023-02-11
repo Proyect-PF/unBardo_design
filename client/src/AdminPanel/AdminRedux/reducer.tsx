@@ -23,7 +23,6 @@ const adminReducer = (
 ) => {
   switch (action.type) {
     case AdminActionType.GET_ALL_PRODUCTS:
-      console.log(action.payload);
       return {
         ...state,
         allProducts: action.payload,

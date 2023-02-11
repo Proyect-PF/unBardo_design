@@ -10,7 +10,6 @@ export const ADMfetch_products = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get("http://localhost:3700/products/").then((res) => {
       const payload = res.data;
-      console.log(payload);
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
         payload: payload,

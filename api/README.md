@@ -129,18 +129,13 @@ Nombre de funcion = POST_GeneratePayment.
     Esta funcion crea el proceso de pago y te deriva a la pagina de pago de mercadopago.
     El request se realiza por body.
 
-    id: number;     //id del producto
-    title: string;  //Este es el name del producto
-    price: number;
-    quantity: number;
     area_code: number;  //Telefono
     number: number;     //Telefono
     zip_code: number;       //direccion
     street_name: string;    //direccion
     street_number: number;  //direccion
-    email: string;
-    name: string;
-    surname: string;
+    id_user: number;    //id de usuario
+    id_order: number;    //id de la orden => Se envia solamente si el usuario accede a una orden que no se finalizo y se desea proceder con esa orden
 ```
 
 #### GET -> localhost:3700/orders/feedback
@@ -148,7 +143,9 @@ Nombre de funcion = POST_GeneratePayment.
 ```env
 Nombre de funcion = GET_FeedbackPayment.
     Esta es la ruta a la que deriva mercadopago al finalizar el pago, ya sea que se realizo exitosamente, como si fallo el pago.
-    El request se realiza por body
+    Se realiza un update del estado de la orden, de acuerdo al estado que responde mercadopago.
+    El request se realiza por body.
+    En este punto si el pago fue exitoso, actualiza el stock de los talles correspondientes del producto.
 ```
 
 #### GET -> localhost:3700/orders

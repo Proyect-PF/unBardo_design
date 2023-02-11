@@ -1,12 +1,12 @@
 import { Order, Product, User } from "../../types/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 export type AdminState = {
-  allProducts: Product[];
-  productDetails: Product;
-  allOrders: Order[];
-  orderDetails: Order;
-  allUsers: User[];
-  userDetails: User;
+  allProducts: any;
+  productDetails: any;
+  allOrders: any;
+  orderDetails: any;
+  allUsers: any;
+  userDetails: any;
 };
 
 const initialState = {
@@ -24,6 +24,7 @@ const adminReducer = (
 ) => {
   switch (action.type) {
     case AdminActionType.GET_ALL_PRODUCTS:
+      console.log(action.payload);
       return {
         ...state,
         allProducts: action.payload,
@@ -54,7 +55,7 @@ const adminReducer = (
         userDetails: action.payload,
       };
     default:
-      return initialState;
+      return { ...state };
   }
 };
 

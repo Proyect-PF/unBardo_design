@@ -11,15 +11,16 @@ export const ADMfetch_products = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get("http://localhost:3700/products/").then((res) => {
       const payload = res.data;
+      console.log(payload);
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
-        payload,
+        payload: payload,
       });
     });
   };
 };
 
-export const ADMfetch_products_id = (id: number) => {
+export const ADMfetch_products_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get(`http://localhost:3700/products/${id}`).then((res) => {
       const payload = res.data;
@@ -45,7 +46,7 @@ export const ADMupdate_product = (payload: Product) => {
     .catch((err) => alert(err.response.data.message));
 };
 
-export const ADMdelete_product = (payload: number) => {
+export const ADMdelete_product = (payload: number | undefined) => {
   axios
     .delete(`http://localhost:3700/products/${payload}`)
     .then(() => alert("OK"))
@@ -59,6 +60,7 @@ export const ADMfetch_orders = () => {
       .get(`http://localhost:3700/orders`)
       .then((res) => {
         const payload = res.data;
+
         dispatch({
           type: AdminActionType.GET_ALL_ORDERS,
           payload,
@@ -68,7 +70,7 @@ export const ADMfetch_orders = () => {
   };
 };
 
-export const ADMfetch_order_id = (id: number) => {
+export const ADMfetch_order_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
       .get(`http://localhost:3700/orders/${id}`)
@@ -83,7 +85,7 @@ export const ADMfetch_order_id = (id: number) => {
   };
 };
 
-export const ADMupdate_order = (id: number, status: string) => {
+export const ADMupdate_order = (id: number | undefined, status: string) => {
   axios
     .put(`http://localhost:3700/orders/?id=${id}&status=${status}`)
     .then(() => alert("OK"));
@@ -105,7 +107,7 @@ export const ADMfetch_users = () => {
   };
 };
 
-export const ADMfetch_users_id = (id: number) => {
+export const ADMfetch_users_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
       .get(`http://localhost:3700/users/${id}`)

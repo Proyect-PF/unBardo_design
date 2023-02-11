@@ -2,8 +2,8 @@ import { Formik } from "formik";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
+import { State } from "../../../state/reducers";
 import { adminActions } from "../../AdminRedux";
-import { AdminState } from "../../AdminRedux/reducer";
 import FileUpload from "../Create/FileUploader";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const Edit = ({ className }: Props): JSX.Element => {
-  const { productDetails } = useSelector((state: AdminState) => state);
+  const { productDetails } = useSelector((state: State) => state.admin);
 
   return (
     <div className={className}>
@@ -60,7 +60,6 @@ const Edit = ({ className }: Props): JSX.Element => {
                 className="font-mono "
                 onBlur={handleBlur}
               />
-              {errors.name && <p className="text-red-600 ">{errors.name}</p>}
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xl">Description:</label>
@@ -73,9 +72,6 @@ const Edit = ({ className }: Props): JSX.Element => {
                 className="w-full h-40 pt-2 pl-3 font-mono border border-gray-300 rounded-md bg-gray-50"
                 onBlur={handleBlur}
               />
-              {errors.description && (
-                <p className="text-red-600 ">{errors.description}</p>
-              )}
             </div>
             <div className="flex gap-8">
               <p className="text-xl">Color:</p>

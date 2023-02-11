@@ -1,3 +1,5 @@
+import { Order, Product, User } from "../../types/types";
+
 export enum AdminActionType {
   GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS",
   GET_ALL_ORDERS = "GET_ALL_ORDERS",
@@ -9,27 +11,27 @@ export enum AdminActionType {
 
 interface IGetAllProducts {
   type: AdminActionType.GET_ALL_PRODUCTS;
-  payload: Product[];
+  payload: any;
 }
 interface IGetAllOrder {
   type: AdminActionType.GET_ALL_ORDERS;
-  payload: Order[];
+  payload: any;
 }
 interface IGetAllUsers {
   type: AdminActionType.GET_ALL_USERS;
-  payload: User[];
+  payload: any;
 }
 interface IGetProductById {
   type: AdminActionType.GET_PRODUCT_BY_ID;
-  payload: Product;
+  payload: any;
 }
 interface IGetOrderById {
   type: AdminActionType.GET_ORDER_BY_ID;
-  payload: Order;
+  payload: any;
 }
 interface IGetUserById {
   type: AdminActionType.GET_USER_BY_ID;
-  payload: User;
+  payload: any;
 }
 
 export type AdminAction =

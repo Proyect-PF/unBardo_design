@@ -3,13 +3,12 @@ import { bindActionCreators } from "redux";
 import Button from "../../../components/Buttons/Button/Button";
 import { State } from "../../../state/reducers";
 import { adminActions } from "../../AdminRedux";
-import { AdminState } from "../../AdminRedux/reducer";
 
 type Props = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
 const OrderDetails = ({ setSelected }: Props) => {
-  const { orderDetails } = useSelector((state: AdminState) => state);
+  const { orderDetails } = useSelector((state: State) => state.admin);
   const dispatch = useDispatch();
   const { ADMfetch_order_id, ADMfetch_orders } = bindActionCreators(
     adminActions,

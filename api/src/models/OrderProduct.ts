@@ -6,6 +6,7 @@ interface OrderProductsAttributes {
     id_order: number;
     id_product: number;
     sizes: { [size: string]: number };
+    price_per_unit_at_purchase_time: number;
 }
 
 
@@ -26,6 +27,7 @@ export default (sequelize: Sequelize.Sequelize) => {
         public id_order!: number;
         public id_product!: number;
         public sizes!: { [size: string]: number };
+        public price_per_unit_at_purchase_time!: number;
     }
 
     OrderProducts.init(
@@ -54,6 +56,9 @@ export default (sequelize: Sequelize.Sequelize) => {
             },
             sizes: {
                 type: DataTypes.JSON
+            },
+            price_per_unit_at_purchase_time: {
+                type: DataTypes.DECIMAL(10, 2)
             }
         },
         {

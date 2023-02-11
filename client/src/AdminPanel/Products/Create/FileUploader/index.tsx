@@ -29,6 +29,7 @@ const FileUpload = ({ setFieldValue, fieldName, force }: Props) => {
   useEffect(() => {
     setImage("");
   }, [force]);
+
   return (
     <div className="flex flex-col gap-8">
       <input type="file" accept="image/" onChange={handleUpload} />

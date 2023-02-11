@@ -35,7 +35,7 @@ export const LogIn = (): JSX.Element => {
       }}
       onSubmit={(values) => {
           userLogin(values)
-          //navigate("/");
+          navigate("/");
       }}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (

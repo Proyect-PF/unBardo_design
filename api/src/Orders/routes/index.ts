@@ -5,9 +5,10 @@ import {
     POST_GeneratePayment,
     GET_FeedbackPayment,
     GET_AllOrders,
-    GET_OrderById,
+    GET_DetailsByOrderId,
     POST_Order,
-    UPDATE_OrderStatus
+    UPDATE_OrderStatus,
+    DELETE_Order,
 } from "../controllers/controllers_order";
 
 //MERCADOPAGO
@@ -19,13 +20,15 @@ ordersRoutes.get("/feedback/", GET_FeedbackPayment);
 ordersRoutes.get("/", GET_AllOrders);
 
 //GET orden por ID
-ordersRoutes.get("/:id", GET_OrderById);
+ordersRoutes.get("/:orderId", GET_DetailsByOrderId);
 
 //POST orden
 ordersRoutes.post("/", POST_Order);
 
 //UPDATE estado de la orden
 ordersRoutes.put("/", UPDATE_OrderStatus);
+
+ordersRoutes.delete("/:id", DELETE_Order);
 
 export default ordersRoutes;
 

@@ -4,24 +4,24 @@ import { useState, useEffect } from "react";
 import Create from "./Create";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
-import { actionCreators } from "../../state";
 import Edit from "./Edit/Index";
+import { adminActions } from "../AdminRedux";
 
 const Products = (): JSX.Element => {
   const [selected, setSelected] = useState("list");
   const dispatch = useDispatch();
-  const [id, setId] = useState(1);
-  const { fetch_products, fetch_product_detail } = bindActionCreators(
-    actionCreators,
+  const [id, setId] = useState<number | undefined>(1);
+  const { ADMfetch_products, ADMfetch_products_id } = bindActionCreators(
+    adminActions,
     dispatch
   );
 
   useEffect(() => {
-    fetch_products();
+    ADMfetch_products();
   }, []);
 
   useEffect(() => {
-    fetch_product_detail(id);
+    ADMfetch_products_id(id);
   }, [id]);
 
   return (
@@ -36,7 +36,7 @@ const Products = (): JSX.Element => {
             ? () => setSelected("create")
             : () => {
                 setSelected("list");
-                fetch_products();
+                ADMfetch_products();
               }
         }
         className="justify-end pr-12"

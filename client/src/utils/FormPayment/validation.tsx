@@ -1,15 +1,6 @@
 import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .required('Nombre es requerido')
-    .min(2, 'Debe tener al menos 2 caracteres'),
-  surname: Yup.string()
-    .required('Apellido es requerido')
-    .min(2, 'Debe tener al menos 2 caracteres'),
-  email: Yup.string()
-    .email('Ingrese un email válido')
-    .required('Email es requerido'),
   area_code: Yup.string()
     .required('Código de área es requerido')
     .min(2, 'Debe tener al menos 2 caracteres'),

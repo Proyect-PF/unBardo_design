@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   setFieldValue: any;
   fieldName: string;
+  force: boolean;
 };
-const FileUpload = ({ setFieldValue, fieldName }: Props) => {
+const FileUpload = ({ setFieldValue, fieldName, force }: Props) => {
   const [image, setImage] = useState("");
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +25,10 @@ const FileUpload = ({ setFieldValue, fieldName }: Props) => {
       };
     }
   };
+
+  useEffect(() => {
+    setImage("");
+  }, [force]);
 
   return (
     <div className="flex flex-col gap-8">

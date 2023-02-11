@@ -1,18 +1,19 @@
 import Products from "./Products";
 import { useState, useEffect } from "react";
 import InformationPanel from "./Information";
-import { actionCreators } from "../state";
 import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import Orders from "./Orders";
+import { adminActions } from "./AdminRedux";
+// import EmailCreation from "./Email";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
   const dispatch = useDispatch();
-  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
+  const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
 
   useEffect(() => {
-    fetch_products();
+    ADMfetch_products();
   }, []);
 
   return (
@@ -21,11 +22,15 @@ const AdminP = (): JSX.Element => {
         <button onClick={() => setPanel("info")}>Resumen</button>
         <button onClick={() => setPanel("products")}>Productos</button>
         <button onClick={() => setPanel("orders")}>Ordenes</button>
+        {/* <button onClick={() => setPanel("sales")}>Promociones</button>*/}
+        {/* <button onClick={() => setPanel("email")}>Redactar Email</button> */}
       </div>
       <div className="w-full ">
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
         {panel == "info" && <InformationPanel />}
+        {/* {panel == "sales" && <div>Sales</div>}*/}
+        {/* {panel == "email" && <EmailCreation />} */}
       </div>
     </div>
   );

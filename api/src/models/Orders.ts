@@ -1,45 +1,29 @@
 "use strict";
 
-import {Model} from "sequelize";
+import Sequelize, { Model, DataTypes } from "sequelize";
 
 interface OrdersAttributes {
-  id: number;
-  id_user: number;
-  status: string;
+    id: number;
+    id_user: number;
+    status: string;
+    total_amount: number;
 }
 
-export default (sequelize: any, DataTypes: any) => {
-    class Orders extends Model {
-        id!: number;
-        id_user!: number;
-        status!: string;
+export default (sequelize: Sequelize.Sequelize) => {
+    class Orders extends Model<OrdersAttributes> {
+        public id!: number;
+        public id_user!: number;
+        public status!: string;
 
-        static associate(models: any) {
-            // define association here
-            //TODO Un pedido pertenece a un solo usuario (Order belongs to User)
-            // Un pedido tiene muchos detalles de pedido (Order has many Order Details)
-            // Un pedido tiene un solo pago (Order has one Payment)
-            // models.Orders.hasMany(models.Payment, { foreignKey: 'orderId' });
-            // models.Orders.hasMany(models.OrderDetail, { foreignKey: 'orderId' });
+        public static associate(models: any) {
             Orders.belongsToMany(models.Product, {
                 through: models.OrderProducts,
-                foreignKey: 'id_order',
-                as: 'products'
+                foreignKey: "id_order",
+                as: "products",
             });
-            Orders.belongsTo(models.Users, {foreignKey: 'id_user', as: 'users'});
-
+            Orders.belongsTo(models.Users, { foreignKey: "id_user", as: "users" });
         }
     }
-
-    //implements Model<OrdersAttributes>{
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    // id!: number;
-    // total_amount!: number;
-    // status!: string;
 
     Orders.init(
         {
@@ -60,13 +44,16 @@ export default (sequelize: any, DataTypes: any) => {
             status: {
                 type: DataTypes.STRING,
                 allowNull: false,
-            }
+            },
+            total_amount: {
+                type: DataTypes.INTEGER,
+            },
         },
         {
             sequelize,
             modelName: "Orders",
         }
     );
+
     return Orders;
 };
-

@@ -1,17 +1,17 @@
 import { Formik } from "formik";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { bindActionCreators } from "redux";
 import { actionCreators } from "../../state";
+import { userLogin } from "../../state/action-creators";
+import { UserLog } from "../../state/types";
 import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
-import { bindActionCreators } from "redux";
-import { useNavigate } from "react-router-dom";
-import { UserLog } from "../../state/types";
-import { userLog } from "../../state/action-creators";
 
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { adminLog } = bindActionCreators(actionCreators, dispatch);
+  const { userLogin } = bindActionCreators(actionCreators, dispatch);
   const initialValues:UserLog = {
     email: "",
     password: "",
@@ -34,10 +34,8 @@ export const LogIn = (): JSX.Element => {
         return errors;
       }}
       onSubmit={(values) => {
-          userLog(values)
-          adminLog();
-          navigate("/");
- 
+          userLogin(values)
+          //navigate("/");
       }}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (

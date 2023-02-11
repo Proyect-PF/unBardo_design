@@ -9,11 +9,11 @@ import ig1 from "../../assets/images/ig1.jpg";
 import ig2 from "../../assets/images/ig2.jpg";
 import imageB from "../../assets/images/remeras/unbardo-07B.png";
 // import imageF from "../../assets/images/remeras/unbardo-07F.png";
+import Button from "../../components/Buttons/Button/Button";
 import Product from "../../components/Cards/Product/Product";
 import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
-import Button from "../../components/Buttons/Button/Button";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -26,13 +26,16 @@ const Home = () => {
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
-  useEffect(() => {
-    if (render) {
-      setLoading(true);
-      fetch_products();
-      updateRender(false);
-    }
-  }, [fetch_products, render, updateRender]);
+
+  // Quitamos este effect para evitar dos llamadas adicionales
+
+  // useEffect(() => {
+  //   if (render) {
+  //     setLoading(true);
+  //     fetch_products();
+  //     updateRender(false);
+  //   }
+  // }, [fetch_products, render, updateRender]);
 
   //AL: Set loading state to false when data has been retrieved
   useEffect(() => {
@@ -86,7 +89,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
+        {/* <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
           <p className="mt-5 text-2xl font-semibold text-center">
             ETIQUETANOS EN INSTAGRAM @UNBARDO
           </p>
@@ -99,7 +102,7 @@ const Home = () => {
               src={ig2}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

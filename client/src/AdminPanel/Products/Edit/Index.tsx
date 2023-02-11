@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
@@ -12,6 +13,7 @@ type Props = {
 
 const Edit = ({ className }: Props): JSX.Element => {
   const { productDetails } = useSelector((state: State) => state.admin);
+  const [img, setImg] = useState(true);
 
   return (
     <div className={className}>
@@ -30,7 +32,7 @@ const Edit = ({ className }: Props): JSX.Element => {
           image: productDetails.image,
         }}
         onSubmit={(values) => {
-          console.log(values);
+          img ? setImg(false) : setImg(true);
           adminActions.ADMupdate_product({
             ...values,
             id: productDetails.id,
@@ -171,7 +173,11 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-            <FileUpload setFieldValue={setFieldValue} fieldName="image" />
+            <FileUpload
+              setFieldValue={setFieldValue}
+              fieldName="image"
+              force={img}
+            />
             <div>
               <Button
                 text="Guardar"

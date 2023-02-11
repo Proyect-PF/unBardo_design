@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Dispatch } from "redux";
+import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 axios.defaults.headers.common[
   "x-access-token"
@@ -9,7 +10,7 @@ axios.defaults.headers.common[
 export const ADMfetch_products = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get("http://localhost:3700/products/").then((res) => {
-      const payload = res.data;
+      const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
         payload: payload,

@@ -1,3 +1,5 @@
+import { Product, User } from "../../state/types";
+
 export enum AdminActionType {
   GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS",
   GET_ALL_ORDERS = "GET_ALL_ORDERS",
@@ -9,27 +11,27 @@ export enum AdminActionType {
 
 interface IGetAllProducts {
   type: AdminActionType.GET_ALL_PRODUCTS;
-  payload: any;
+  payload: Product[];
 }
 interface IGetAllOrder {
   type: AdminActionType.GET_ALL_ORDERS;
-  payload: any;
+  payload: OrdersAdmin[];
 }
 interface IGetAllUsers {
   type: AdminActionType.GET_ALL_USERS;
-  payload: any;
+  payload: User[];
 }
 interface IGetProductById {
   type: AdminActionType.GET_PRODUCT_BY_ID;
-  payload: any;
+  payload: Product;
 }
 interface IGetOrderById {
   type: AdminActionType.GET_ORDER_BY_ID;
-  payload: any;
+  payload: OrderAdmin;
 }
 interface IGetUserById {
   type: AdminActionType.GET_USER_BY_ID;
-  payload: any;
+  payload: User;
 }
 
 export type AdminAction =
@@ -39,3 +41,25 @@ export type AdminAction =
   | IGetProductById
   | IGetOrderById
   | IGetUserById;
+
+export type OrdersAdmin = {
+  id: number;
+  id_user: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  users: User[];
+};
+
+export type OrderAdmin = {
+  id: number;
+  status: string;
+  updatedAt: string;
+  fullname: string;
+  email: string;
+  orderProducts: {
+    id: number;
+    id_product: number;
+    sizes: { S?: number; M?: number; L?: number; XL?: number };
+  }[];
+};

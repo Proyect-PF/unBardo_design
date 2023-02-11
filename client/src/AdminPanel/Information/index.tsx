@@ -5,7 +5,7 @@ import { State } from "../../state/reducers";
 import { adminActions } from "../AdminRedux";
 
 const InformationPanel = () => {
-  const { allProducts, allUsers, allOrders } = useSelector(
+  const { allProducts, allOrders, allUsers } = useSelector(
     (state: State) => state.admin
   );
   const dispatch = useDispatch();

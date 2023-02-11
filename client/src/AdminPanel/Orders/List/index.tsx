@@ -9,7 +9,6 @@ type Props = {
 
 const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
   const { allOrders } = useSelector((state: State) => state.admin);
-  console.log(allOrders);
   return (
     <div className={`${className}`}>
       <div className="flex items-center justify-around w-full text-center border-t">

@@ -5,7 +5,7 @@ import db from "../../database";
 import OrderProduct from "../../models/OrderProduct";
 import Product from "../../models/Product";
 import cloudinary from "../../utils/cloudinary";
-import axios from "axios";
+//import axios from "axios";
 
 const mercadopago = require('mercadopago');
 dotenv.config();

@@ -1,5 +1,6 @@
 import nodemailer = require("nodemailer");
 import dotenv = require("dotenv");
+import fs = require("fs");
 dotenv.config();
 export const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -9,6 +10,12 @@ export const transporter = nodemailer.createTransport({
     user: process.env.email, // generated ethereal user
     pass: process.env.password, // generated ethereal password
   },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+  }
 });
 
 transporter.verify().then(() => {

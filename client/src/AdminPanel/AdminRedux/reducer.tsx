@@ -84,6 +84,11 @@ const adminReducer = (
         ...state,
         userDetails: action.payload,
       };
+    case AdminActionType.GET_PRODUCT_BY_NAME:
+      return {
+        ...state,
+        allProducts: action.payload,
+      };
     default:
       return { ...state };
   }

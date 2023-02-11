@@ -19,6 +19,19 @@ export const ADMfetch_products = () => {
   };
 };
 
+export const ADMfetch_products_name = (name: string) => {
+  return (dispatch: Dispatch<AdminAction>) => {
+    axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
+      const payload = res.data;
+      console.log(res.data);
+      dispatch({
+        type: AdminActionType.GET_PRODUCT_BY_NAME,
+        payload,
+      });
+    });
+  };
+};
+
 export const ADMfetch_products_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get(`http://localhost:3700/products/${id}`).then((res) => {

@@ -39,13 +39,14 @@ function App() {
         <Sidebar openClose={openClose} handleChange={handleChange} />
         <Navbar handleChange={handleChange} handleSearch={handleSearch} />
         <Routes>
-          <Route path="*" element={<div>404</div>} />
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:name" element={<Details />} />
-          <Route path="/account/login" element={<UserSignPage />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/checkout/payment" element={<Payment />} />
-          <Route path="/checkout/order/details" element={<OrderDetails />} />
+          <Route path='*' element={<div>404</div>} />
+          <Route path='/' element={<Home />} />
+          <Route path='/product/:name' element={<Details />} />
+          <Route path='/account/login' element={<UserSignPage />} />
+          <Route path='/checkout' element={<Checkout />} />
+          <Route path='/checkout/payment' element={<Payment />} />
+          <Route path='/orders/feedback' element={<OrderDetails />} />
+
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/panel" element={<AdminP />} />
         </Routes>

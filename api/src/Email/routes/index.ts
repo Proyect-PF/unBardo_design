@@ -1,8 +1,8 @@
 import express from 'express';
-import sendConfirmationEmailController from '../controllers';
+import sendEmailController from '../controllers';
 
 const emailRoutes = express.Router();
 
-emailRoutes.post('/confirmation', sendConfirmationEmailController);
+emailRoutes.post('/', sendEmailController);
 
 export default emailRoutes;

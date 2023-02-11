@@ -140,9 +140,9 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
 //Update el estado de la orden
 export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
     try {
-        
+
         const {id, status} = req.query;
-        
+
         const orderUpdate = await db.Orders.update({
             status: status,
         },{
@@ -151,7 +151,7 @@ export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
             }
         });
         console.log(orderUpdate);
-        
+
         if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
         return res.status(200).json(orderUpdate);
     } catch (error: any) {
@@ -208,7 +208,7 @@ const GET_OrderDescription = async (id_order: number) => {
             for (const key in element.sizes) {
                 if (element.sizes[key]) {
                     quantity = quantity + element.sizes[key];
-                    
+
                 }
             }
             const product = {
@@ -246,7 +246,7 @@ export const POST_GeneratePayment = async (
     const userInfo = await GET_OrderUser(last.id); //userInfo.users.fullname; userInfo.users.email
 
     //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
-    const prodInfo = await GET_OrderDescription(last.id);    
+    const prodInfo = await GET_OrderDescription(last.id);
 
     //TODO: items => información relacionada al producto
     //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
@@ -315,3 +315,27 @@ export const GET_FeedbackPayment = async (
     });
 }
 
+export const DELETE_Order = async (request: Request, response: Response) => {
+    try {
+        const { id } = request.params;
+        const order = await db.Orders.findByPk(id);
+        if (!order) {
+            throw new Error(`Orden con el ${id} no encontrada`);
+        }
+        const orderProducts = await db.OrderProducts.findAll({
+            where: {
+                id_order: id
+            }
+        });
+        await db.OrderProducts.destroy({
+            where: {
+                id_order: id
+            }
+        });
+        await order.destroy();
+        return response.status(200).json({ message: 'Order y order products eliminados correctamente' });
+    } catch (error: any) {
+        console.error(error);
+        return response.status(400).json({ error: error.message });
+    }
+};

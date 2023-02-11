@@ -5,6 +5,9 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./state/index";
+import axios from 'axios';
+
+axios.defaults.baseURL = 'https://unbardodesign-production.up.railway.app/';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

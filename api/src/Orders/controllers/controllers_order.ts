@@ -35,45 +35,25 @@ interface RequestQuery {
 //Ruta POST para la creacion de la orden de compra
 export const POST_Order = async (request: Request, response: Response) => {
     try {
-        const { id_user, products } = request.body;
-        let totalAmount = 0;
-        for (const product of products) {
-            const { id_product, sizes } = product;
-            const foundProduct = await db.Product.findByPk(id_product);
-            if (!foundProduct) {
-                throw new Error(`Product with id ${id_product} not found`);
-            }
-            let productAmount = 0;
-            for (const size of Object.keys(sizes)) {
-                productAmount += foundProduct.price * sizes[size];
-            }
-            totalAmount += productAmount;
-        }
+        const {id_user, products} = request.body;
         const createdOrder = await db.Orders.create({
             id_user,
             status: "cart",
-            total_amount: totalAmount
         });
         const createdOrderProducts = [];
         for (const product of products) {
-            const { id_product, sizes } = product;
-            const foundProduct = await db.Product.findOne({
-                where: {
-                    id: id_product
-                }
-            });
+            const {id_product, sizes} = product;
             const createdOrderProduct = await db.OrderProducts.create({
                 id_order: createdOrder.id,
                 id_product,
-                sizes,
-                price_per_unit_at_purchase_time: foundProduct.price
+                sizes
             });
             createdOrderProducts.push(createdOrderProduct);
         }
-        return response.status(201).json({ createdOrder, createdOrderProducts });
-    } catch (error:any) {
+        return response.status(201).json({createdOrder, createdOrderProducts});
+    } catch (error: any) {
         console.error(error);
-        return response.status(400).json({ error: error.message });
+        return response.status(400).json({error: error.message});
     }
 };
 
@@ -81,7 +61,7 @@ export const POST_Order = async (request: Request, response: Response) => {
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
         const orders = await db.Orders.findAll({
-            where: { status: { [Op.ne]: 'cart' } },
+            where: {status: {[Op.ne]: 'cart'}},
             include: [
                 {
                     model: db.Users,
@@ -138,14 +118,14 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
 };
 
 //Update el estado de la orden
-export const UPDATE_OrderStatus =async (req: Request, res: Response) => {
+export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
     try {
 
         const {id, status} = req.query;
 
         const orderUpdate = await db.Orders.update({
             status: status,
-        },{
+        }, {
             where: {
                 id
             }
@@ -166,8 +146,8 @@ const GET_OrderLast = async (id_user: number) => {
     try {
         const lastOrder = await db.Orders.findOne({
             where: {id_user},
-            order: [ [ 'id', 'DESC' ]],
-            });
+            order: [['id', 'DESC']],
+        });
         return lastOrder;
     } catch (error: any) {
         throw new Error(error.message);
@@ -300,7 +280,7 @@ export const GET_FeedbackPayment = async (
     console.log(feedback);
     const orderUpdate = await db.Orders.update({
         status: feedback.status,
-    },{
+    }, {
         where: {
             id: feedback.external_reference
         }
@@ -317,7 +297,7 @@ export const GET_FeedbackPayment = async (
 
 export const DELETE_Order = async (request: Request, response: Response) => {
     try {
-        const { id } = request.params;
+        const {id} = request.params;
         const order = await db.Orders.findByPk(id);
         if (!order) {
             throw new Error(`Orden con el ${id} no encontrada`);
@@ -333,9 +313,9 @@ export const DELETE_Order = async (request: Request, response: Response) => {
             }
         });
         await order.destroy();
-        return response.status(200).json({ message: 'Order y order products eliminados correctamente' });
+        return response.status(200).json({message: 'Order y order products eliminados correctamente'});
     } catch (error: any) {
         console.error(error);
-        return response.status(400).json({ error: error.message });
+        return response.status(400).json({error: error.message});
     }
 };

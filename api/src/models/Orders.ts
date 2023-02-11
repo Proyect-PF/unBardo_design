@@ -14,7 +14,6 @@ export default (sequelize: Sequelize.Sequelize) => {
         public id!: number;
         public id_user!: number;
         public status!: string;
-        public total_amount!: number;
 
         public static associate(models: any) {
             Orders.belongsToMany(models.Product, {
@@ -47,7 +46,7 @@ export default (sequelize: Sequelize.Sequelize) => {
                 allowNull: false,
             },
             total_amount: {
-                type: DataTypes.DECIMAL(10, 2),
+                type: DataTypes.INTEGER,
             },
         },
         {

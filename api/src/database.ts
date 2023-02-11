@@ -20,7 +20,7 @@ sequelize.authenticate()
 .catch((err:any)=> console.error("Unable to connect to the database:", err))
 
 fs
-  .readdirSync(`${__dirname}/../../api/src/models`)
+  .readdirSync(`${__dirname}/api/src/models`)
   .filter((file:string) => {
     return (
       file.indexOf('.') !== 0 &&
@@ -33,10 +33,11 @@ fs
     console.log(file, i)
     //TODO: require(path.join(__dirname, file)) => devuelve un objeto con la propiedad default y es un array de funciones de todos los modelos en la carpeta models    
 
-      const model = require(path.join(`${__dirname}/../../api/src/models`, file)).default(sequelize, Sequelize.DataTypes);
+      const model = require(path.join(`${__dirname}/api/src/models`, file)).default(sequelize, Sequelize.DataTypes);
       db[model.name] = model;
     
   });
+  ///../../api/src/models
 
 // Esto es para hacer el associate de los modelos que lo necesiten
 // Opcion 1

@@ -19,8 +19,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userLogout } = bindActionCreators(actionCreators, dispatch);
-  const { adminLogin } = useSelector((state: State) => state.user);
-  const { userLogin } = useSelector((state: State) => state.user);
+  const { success , userType } = useSelector((state: State) => state.user);
 
   let style: string;
   if (openClose) style = "left-full";
@@ -61,7 +60,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
           <div className="flex items-center justify-center h-16 border-b-2 border-gray-300">
             <img src={logo} alt="logo" className="h-7" />
           </div>
-          <div className={!adminLogin || !userLogin ? "visible" : "hidden"}>
+          <div className={!success ? "visible" : "hidden"}>
             <div
               onClick={handleClick}
               id="login"
@@ -71,14 +70,16 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               <p className="pl-4">Iniciar Sesión</p>
             </div>
           </div>
-          <div className={adminLogin || userLogin ? "visible" : "hidden"}>
+          <div className={success || success ? "visible" : "hidden"}>
             <div
               onClick={handleClick}
               id="panel"
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
               <img src={userIcon} alt="user" className="h-6" />
-              <p className="pl-4">{adminLogin? "Panel Admin" : "Mi Perfil"}</p>
+              <p className="pl-4">
+                {success&&userType==="admin"? "Panel Admin" : success&&userType==="user"? "Mi perfil": ""}
+                </p>
             </div>
 
             <div

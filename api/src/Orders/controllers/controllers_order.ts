@@ -36,17 +36,37 @@ interface RequestQuery {
 export const POST_Order = async (request: Request, response: Response) => {
     try {
         const { id_user, products } = request.body;
+        let totalAmount = 0;
+        for (const product of products) {
+            const { id_product, sizes } = product;
+            const foundProduct = await db.Product.findByPk(id_product);
+            if (!foundProduct) {
+                throw new Error(`Product with id ${id_product} not found`);
+            }
+            let productAmount = 0;
+            for (const size of Object.keys(sizes)) {
+                productAmount += foundProduct.price * sizes[size];
+            }
+            totalAmount += productAmount;
+        }
         const createdOrder = await db.Orders.create({
             id_user,
             status: "cart",
+            total_amount: totalAmount
         });
         const createdOrderProducts = [];
         for (const product of products) {
             const { id_product, sizes } = product;
+            const foundProduct = await db.Product.findOne({
+                where: {
+                    id: id_product
+                }
+            });
             const createdOrderProduct = await db.OrderProducts.create({
                 id_order: createdOrder.id,
                 id_product,
-                sizes
+                sizes,
+                price_per_unit_at_purchase_time: foundProduct.price
             });
             createdOrderProducts.push(createdOrderProduct);
         }

@@ -2,14 +2,17 @@ import { Router } from "express";
 const ordersRoutes = Router();
 
 import {
-    POST_GeneratePayment,
-    GET_FeedbackPayment,
     GET_AllOrders,
     GET_DetailsByOrderId,
     POST_Order,
     UPDATE_OrderStatus,
     DELETE_Order,
 } from "../controllers/controllers_order";
+
+import {
+    POST_GeneratePayment,
+    GET_FeedbackPayment,
+} from "../controllers/controllers_mercadopago";
 
 //MERCADOPAGO
 ordersRoutes.post("/payment/", POST_GeneratePayment);
@@ -31,16 +34,3 @@ ordersRoutes.put("/", UPDATE_OrderStatus);
 ordersRoutes.delete("/:id", DELETE_Order);
 
 export default ordersRoutes;
-
-/*
-import * as ordersController from "../controllers/index";
-import * as authMiddleware from "../middlewares/index";
-
-
-// Get all orders
-router.get("/", authMiddleware.verifyToken, ordersController.getAllOrders);
-	@@ -34,4 +21,4 @@ router.get("/:id", authMiddleware.verifyToken, ordersController.getOrderById);
-// router.delete("/:id", authMiddleware.verifyToken, ordersController.deleteOrder);
-
-export default router;
-*/

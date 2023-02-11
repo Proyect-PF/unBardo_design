@@ -36,7 +36,12 @@ export default (sequelize:any, DataTypes:any) => {
       //retorna true si coinciden las contraseñas o false si no coinciden 
       return await bcrypt.compare(password, receibedPassword)
     }
-
+    public static async getUserById(id: number) {
+      return await this.findByPk(id);
+    }
+    public static async getAllUsers() {
+      return await Users.findAll();
+    }
 
     static associate(models: any) {
       Users.hasMany(models.Orders, {

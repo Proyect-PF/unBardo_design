@@ -36,19 +36,28 @@ interface RequestQuery {
 
 //-------------------------------- MERCADOPAGO --------------------------------
 //Obtiene la ultima orden generada por el usuario => para usar en MERCADOPAGO
-const GET_OrderLast = async (id_user: number, id_order: number) => { //TODO: SI TIENE UN ID DE ORDEN BUSCA ESA ORDEN, SINO, BUSCA LA ULTIMA DEL USUARIO
+//const GET_OrderLast = async (id_user: number, id_order: number) => { //TODO: SI TIENE UN ID DE ORDEN BUSCA ESA ORDEN, SINO, BUSCA LA ULTIMA DEL USUARIO
+const GET_OrderLast = async (id_user: number) => {
     try {
-        if(id_order) {
-            const idOrder = await db.Orders.findOne({
-                where: {id_order},
-                });
-            return idOrder;
-        }
+        // if(id_order) {
+        //     const idOrder = await db.Orders.findOne({
+        //         where: {
+        //             id_order,
+        //             status: "cart"
+        //         },
+        //         });
+        //     return idOrder;
+        // }
         const lastOrder = await db.Orders.findOne({
-            where: {id_user},
+            where: {
+                id_user,
+                status: "cart",
+            },
             order: [ [ 'id', 'DESC' ]],
             });
+        //console.log(lastOrder);
         return lastOrder;
+        
     } catch (error: any) {
         throw new Error(error.message);
     }
@@ -178,14 +187,11 @@ const UPDATE_QuantitySizes = async (id_order: number) => {
             });
             if(element.sizes.S) {
                 const S:number = prod.S - element.sizes.S;
-                await UPDATE_ProductSizeS(element.id_product, S)    
-                console.log(prod.S);   
+                await UPDATE_ProductSizeS(element.id_product, S)      
             }
             if(element.sizes.M) {
                 const M:number = prod.M - element.sizes.M;
-                await UPDATE_ProductSizeM(element.id_product, M) 
-                console.log(prod.M);
-                       
+                await UPDATE_ProductSizeM(element.id_product, M)      
             }
             if(element.sizes.L) {
                 const L:number = prod.L - element.sizes.L;
@@ -207,10 +213,11 @@ export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
     response: Response
 ) => {
-    const prod = request.body; //se recibe por body => id_user, area_code, number, zip_code, street_name, street_number
+    const prod = request.body; //se recibe por body => id_user, area_code, number, zip_code, street_name, street_number    
 
     //TODO: Se utiliza el id del usuario que se obtiene por body para obtener la información de la ultima orden del usuario
-    const last = await GET_OrderLast(prod.id_user, prod.id_order) //last.id => id de la orden de compra del usuario
+    //const last = await GET_OrderLast(prod.id_user, prod.id_order) //last.id => id de la orden de compra del usuario
+    const last = await GET_OrderLast(prod.id_user)    
 
     //TODO: Se utiliza el id de la orden de compra como referencia externa para mercado pago. Esta referencia externa es la que permite conectar la información que se utiliza en el POST de mercadopago con la recibida al finalizar la compra y así poder obtener el estado de la compra
     const external_reference = last.id.toString();
@@ -220,6 +227,8 @@ export const POST_GeneratePayment = async (
 
     //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
     const prodInfo = await GET_OrderDescription(last.id);    
+    console.log(prodInfo);
+    
 
     //TODO: items => información relacionada al producto
     //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago

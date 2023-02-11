@@ -18,6 +18,25 @@ interface RequestQuery {}
 export const POST_Order = async (request: Request, response: Response) => {
     try {
         const {id_user, products} = request.body;
+
+        //----------------------------------------------------
+        //TODO: Analiza si existe otra orden de compra con estado status "cart", y si existe la elimina, antes de crear la nueva orden con status "cart". De esta forma siempre va a existir solo un carrito por usuario
+        const order = await db.Orders.findOne({
+            where: {
+                id_user,
+                status: 'cart'
+            }
+        });
+        if (order!) {
+            await db.OrderProducts.destroy({
+                where: {
+                    id_order: order.id
+                }
+            });
+            await order.destroy();
+        }
+        //----------------------------------------------------
+
         const createdOrder = await db.Orders.create({
             id_user,
             status: "cart",

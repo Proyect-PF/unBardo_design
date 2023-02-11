@@ -3,11 +3,7 @@ import { useSelector } from "react-redux";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
 import { State } from "../../../state/reducers";
-import {
-  create_product,
-  delete_product,
-  update_product,
-} from "../../HttpRequests/actions";
+import { adminActions } from "../../AdminRedux";
 import FileUpload from "../Create/FileUploader";
 
 type Props = {
@@ -15,7 +11,7 @@ type Props = {
 };
 
 const Edit = ({ className }: Props): JSX.Element => {
-  const { productDetails } = useSelector((state: State) => state.products);
+  const { productDetails } = useSelector((state: State) => state.admin);
 
   return (
     <div className={className}>
@@ -35,7 +31,7 @@ const Edit = ({ className }: Props): JSX.Element => {
         }}
         onSubmit={(values) => {
           console.log(values);
-          update_product({
+          adminActions.ADMupdate_product({
             ...values,
             id: productDetails.id,
             show_in_shop: values.show_in_shop === "true" ? true : false,
@@ -64,7 +60,6 @@ const Edit = ({ className }: Props): JSX.Element => {
                 className="font-mono "
                 onBlur={handleBlur}
               />
-              {errors.name && <p className="text-red-600 ">{errors.name}</p>}
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-xl">Description:</label>
@@ -77,9 +72,6 @@ const Edit = ({ className }: Props): JSX.Element => {
                 className="w-full h-40 pt-2 pl-3 font-mono border border-gray-300 rounded-md bg-gray-50"
                 onBlur={handleBlur}
               />
-              {errors.description && (
-                <p className="text-red-600 ">{errors.description}</p>
-              )}
             </div>
             <div className="flex gap-8">
               <p className="text-xl">Color:</p>
@@ -192,7 +184,9 @@ const Edit = ({ className }: Props): JSX.Element => {
               <Button
                 text="Eliminar Producto"
                 name="deleteProd"
-                onClick={() => delete_product(productDetails.id)}
+                onClick={() =>
+                  adminActions.ADMdelete_product(productDetails.id)
+                }
                 disabled={false}
                 type="button"
                 className={"justify-center"}

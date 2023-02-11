@@ -8,7 +8,7 @@ type Props = {
 };
 
 const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
-  const { allOrders } = useSelector((state: State) => state.orders);
+  const { allOrders } = useSelector((state: State) => state.admin);
 
   return (
     <div className={`${className}`}>
@@ -21,7 +21,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         <p className="w-20"></p>
       </div>
       {allOrders &&
-        allOrders.map((e) => (
+        allOrders.map((e: any) => (
           <div className="flex items-center justify-around w-full text-center border-t">
             <p className="w-8 border-r border-black">{e.id}</p>
             <p className=" w-60">{e.fullname}</p>

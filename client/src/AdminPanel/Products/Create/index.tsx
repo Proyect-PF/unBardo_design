@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
-import { create_product } from "../../HttpRequests/actions";
+import { adminActions } from "../../AdminRedux";
 import FileUpload from "./FileUploader";
 
 type Props = {
@@ -25,7 +25,7 @@ const Create = ({ className }: Props): JSX.Element => {
           image: "",
         }}
         onSubmit={(values, { resetForm }) => {
-          create_product({
+          adminActions.ADMcreate_product({
             ...values,
             show_in_shop: values.show_in_shop === "true" ? true : false,
           });

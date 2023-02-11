@@ -55,8 +55,15 @@ export type UserLog = {
 }
 
 export type UserState = {
-  allUsers: User[];
-  adminLogin: boolean;
+  //allUsers: User[];
+  //adminLogin: boolean;
+  //userLogin: boolean;
+  userId: null;
+  userInfo: null;
+  userToken: null;
+  userType: null;
+  error: null;
+  success: boolean;
 };
 
 

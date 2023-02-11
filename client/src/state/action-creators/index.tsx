@@ -8,7 +8,7 @@ import {
   ProductState,
   User,
   UserLog,
-  UserRegister,
+  UserRegister
 } from "../types";
 
 //AL: Here we're defining the actions to be consumed in the components
@@ -165,13 +165,7 @@ export const updateRender = (payload: boolean) => {
   };
 };
 
-export const adminLog = () => {
-  return (dispatch: Dispatch<ActionUser>) => {
-    dispatch({
-      type: ActionType.ADMIN_LOGIN,
-    });
-  };
-};
+
 
 export const addCheckout = (payload: Checkout) => {
   return (dispatch: Dispatch<ActionCheckout>) => {
@@ -209,19 +203,32 @@ export const userRegister = (user: UserRegister) => {
   // }
 };
 
-export const userLog = (user: UserLog) => {
-  // return (dispatch: Dispatch<ActionUser>)=> {
+
+// SESIONES
+
+// Recibimos en la response token y role
+export const userLogin =  (user: UserLog) => {
+  return (dispatch: Dispatch<ActionUser>)=> {
   axios
     .post(`http://localhost:3700/auth/signin`, user)
     .then((response) => {
       console.log(response.data);
-      alert("logueado");
-      //   dispatch({
-      //     type: ActionType.GET_TOKEN_USER_LOG,
-      //     payload: ""
-      //   })
+       alert(`Bienvenido! Tu token es: " ${response.data.token} tu rol es: ${response.data.role}`); 
+       dispatch({
+             type: ActionType.USER_LOGIN,
+             payload: response.data,
+         })
     })
     .catch((err) => alert(err.response.data.message));
 
-  // }
+  }
 };
+
+export const userLogout = () => {
+  return (dispatch: Dispatch<ActionUser>) => {
+    dispatch({
+      type: ActionType.USER_LOGOUT,
+    });
+  };
+};
+

@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import db from "../../database";
-import { POST_AddToCart } from "./../../Cart/controllers/controllers_cart";
 import getErrorMessage from "../../helpers/handleErrorCatch";
+import { POST_AddToCart } from "./../../Cart/controllers/controllers_cart";
 dotenv.config();
 
 
@@ -209,7 +209,7 @@ export const POST_SignIn = async (req: Request, res: Response) => {
       }
     );
       const roleA = userFound["Role.name"]
-  return res.json({ token: token , roleA});
+  return res.json({ id: userFound["id"], token: token , role: roleA, fullname: userFound["fullname"]});
   } catch (error) {
     res.status(400).json(getErrorMessage(error));
   }

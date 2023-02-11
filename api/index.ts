@@ -7,6 +7,7 @@ import {
 import dotenv from 'dotenv';
 
 dotenv.config();
+//const { USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ROLE } = process.env;
 const { USER_NAME, USER_EMAIL, USER_PASSWORD, USER_ROLE } = process.env;
 const port = process.env.PORT || 3700;
 

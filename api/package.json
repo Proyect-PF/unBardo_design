@@ -4,7 +4,7 @@
   "description": "Lado del servidor de la aplicacion para la empresa UnBardo design",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon",
+    "start": "ts-node ./index.ts",
     "dev": "tsnd --respawn index.ts",
     "start:prod": "tsc && nodemon ../dist/api/src/index.js"
   },

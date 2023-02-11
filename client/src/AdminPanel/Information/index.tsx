@@ -5,7 +5,7 @@ import { State } from "../../state/reducers";
 import { adminActions } from "../AdminRedux";
 
 const InformationPanel = () => {
-  const { allProducts, allUsers, allOrders } = useSelector(
+  const { allProducts, allOrders, allUsers } = useSelector(
     (state: State) => state.admin
   );
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const InformationPanel = () => {
     <div>
       {allProducts && allOrders && allUsers && (
         <div className="flex flex-col gap-8 m-10">
-          <p className="text-2xl font-bold">Analiticas:</p>
+          <p className="text-2xl font-bold">Estadisticas:</p>
           <div className="flex flex-row gap-20 mx-8">
             <div className="w-40">
               <p className="text-lg font-medium ">Total de productos:</p>

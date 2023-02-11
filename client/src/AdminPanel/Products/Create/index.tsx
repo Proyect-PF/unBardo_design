@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import { useState } from "react";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
 import { adminActions } from "../../AdminRedux";
@@ -9,6 +10,8 @@ type Props = {
 };
 
 const Create = ({ className }: Props): JSX.Element => {
+  const [img, setImg] = useState(true);
+
   return (
     <div className={className}>
       <Formik
@@ -25,6 +28,7 @@ const Create = ({ className }: Props): JSX.Element => {
           image: "",
         }}
         onSubmit={(values, { resetForm }) => {
+          img ? setImg(false) : setImg(true);
           adminActions.ADMcreate_product({
             ...values,
             show_in_shop: values.show_in_shop === "true" ? true : false,
@@ -168,7 +172,11 @@ const Create = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-            <FileUpload setFieldValue={setFieldValue} fieldName="image" />
+            <FileUpload
+              setFieldValue={setFieldValue}
+              fieldName="image"
+              force={img}
+            />
             <Button
               text="Crear"
               name="createProd"

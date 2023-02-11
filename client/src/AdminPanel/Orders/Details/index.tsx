@@ -37,7 +37,7 @@ const OrderDetails = ({ setSelected }: Props) => {
           <label className="text-xl">{`Email: ${orderDetails.email}`}</label>
         </div>
         <div className="flex gap-8">
-          <p className="text-xl">{`Fecha: ${orderDetails.createdAt}`}</p>
+          <p className="text-xl">{`Fecha: ${orderDetails.updatedAt}`}</p>
         </div>
         <div className="flex flex-col gap-2">
           <p className="text-xl">{`Status: ${orderDetails.status}`}</p>

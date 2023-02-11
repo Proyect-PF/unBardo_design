@@ -199,7 +199,12 @@ export const userRegister = (user: UserRegister) => {
     .then((response) => {
       const data = response.data;
       console.log(data);
-      Swal.fire("Gracias por registrarte", "", "success");
+      Swal.fire({
+        title: "Gracias por Registrarte",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       // dispatch({
       //   type: ActionType.GET_TOKEN_USER_LOG,
       //   payload: ""
@@ -215,7 +220,12 @@ export const userLog = (user: UserLog) => {
     .post(`http://localhost:3700/auth/signin`, user)
     .then((response) => {
       console.log(response.data);
-      Swal.fire("Bienvenido", "", "success");
+      Swal.fire({
+        title: "Bienvenido",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       //   dispatch({
       //     type: ActionType.GET_TOKEN_USER_LOG,
       //     payload: ""

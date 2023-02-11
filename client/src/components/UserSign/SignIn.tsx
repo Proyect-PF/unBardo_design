@@ -12,10 +12,10 @@ export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { adminLog } = bindActionCreators(actionCreators, dispatch);
-  const initialValues:UserLog = {
+  const initialValues: UserLog = {
     email: "",
     password: "",
-  }
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -24,9 +24,7 @@ export const LogIn = (): JSX.Element => {
         if (!values.email) {
           errors.email = "Ingrese un email";
         } else if (
-          !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
-            values.email
-          )
+          !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(values.email)
         ) {
           errors.email = "Ingrese un email valido";
         }
@@ -34,10 +32,9 @@ export const LogIn = (): JSX.Element => {
         return errors;
       }}
       onSubmit={(values) => {
-          userLog(values)
-          adminLog();
-          navigate("/");
- 
+        userLog(values);
+        adminLog();
+        navigate("/");
       }}
     >
       {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
@@ -55,9 +52,7 @@ export const LogIn = (): JSX.Element => {
               onBlur={handleBlur}
             />
 
-            {errors.email && (
-              <p className="text-red-600 ">{errors.email}</p>
-            )}
+            {errors.email && <p className="text-red-600 ">{errors.email}</p>}
           </div>
           <div>
             <label htmlFor="passwordLogIn">Contraseña</label>

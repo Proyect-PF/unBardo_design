@@ -165,8 +165,6 @@ export const updateRender = (payload: boolean) => {
   };
 };
 
-
-
 export const addCheckout = (payload: Checkout) => {
   return (dispatch: Dispatch<ActionCheckout>) => {
     dispatch({
@@ -202,9 +200,6 @@ export const userRegister = (user: UserRegister) => {
     .catch((err) => alert(err.response.data.message));
   // }
 };
-
-
-// SESIONES
 
 // Recibimos en la response token y role
 export const userLogin =  (user: UserLog) => {

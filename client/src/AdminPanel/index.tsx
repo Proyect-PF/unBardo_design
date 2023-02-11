@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import Orders from "./Orders";
 import { adminActions } from "./AdminRedux";
-import EmailCreation from "./Email";
+// import EmailCreation from "./Email";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");

@@ -55,7 +55,7 @@ const InformationPanel = () => {
             <div className="w-40">
               <p className="text-lg font-medium">Ordenes por Despachar:</p>
               <p className="text-2xl font-semibold">
-                {allOrders.filter((e: any) => e.status !== "completado").length}
+                {allOrders.filter((e: any) => e.status !== "dispatched").length}
               </p>
             </div>
           </div>

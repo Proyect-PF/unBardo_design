@@ -6,6 +6,7 @@ import Input from "../../../components/Inputs/Input";
 import { State } from "../../../state/reducers";
 import { adminActions } from "../../AdminRedux";
 import FileUpload from "../Create/FileUploader";
+import Swal from "sweetalert2";
 
 type Props = {
   className: string;
@@ -33,10 +34,18 @@ const Edit = ({ className }: Props): JSX.Element => {
         }}
         onSubmit={(values) => {
           img ? setImg(false) : setImg(true);
-          adminActions.ADMupdate_product({
-            ...values,
-            id: productDetails.id,
-            show_in_shop: values.show_in_shop === "true" ? true : false,
+          Swal.fire({
+            title: "Quieres guardar los cambios?",
+            showCancelButton: true,
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed)
+              adminActions.ADMupdate_product({
+                ...values,
+                id: productDetails.id,
+                show_in_shop: values.show_in_shop === "true" ? true : false,
+              });
           });
         }}
       >
@@ -191,7 +200,15 @@ const Edit = ({ className }: Props): JSX.Element => {
                 text="Eliminar Producto"
                 name="deleteProd"
                 onClick={() =>
-                  adminActions.ADMdelete_product(productDetails.id)
+                  Swal.fire({
+                    title: "Quieres eliminar el producto?",
+                    showCancelButton: true,
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                  }).then((result) => {
+                    if (result.isConfirmed)
+                      adminActions.ADMdelete_product(productDetails.id);
+                  })
                 }
                 disabled={false}
                 type="button"

@@ -36,7 +36,7 @@ export const FormCheckout = (): JSX.Element => {
       onSubmit={(values) => {
         axios({
           method: 'post',
-          url: 'http://localhost:3700/orders/payment',
+          url: '/orders/payment',
           data: values,
         }).then((res) => (window.location.href = res.data.res.body.init_point));
         console.log(values);

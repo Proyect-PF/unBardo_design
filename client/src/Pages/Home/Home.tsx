@@ -86,7 +86,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
+        {/* <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
           <p className="mt-5 text-2xl font-semibold text-center">
             ETIQUETANOS EN INSTAGRAM @UNBARDO
           </p>
@@ -99,7 +99,7 @@ const Home = () => {
               src={ig2}
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

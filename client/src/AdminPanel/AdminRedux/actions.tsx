@@ -2,6 +2,8 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
+import Swal from "sweetalert2";
+
 axios.defaults.headers.common[
   "x-access-token"
 ] = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MDI4NDI5LCJleHAiOjE2NzYxMTQ4Mjl9.92JhKvWFk6gi0M41zsyxGkxpuHs_xicYpHKvXEbRraM`;
@@ -9,7 +11,7 @@ axios.defaults.headers.common[
 //Product actions
 export const ADMfetch_products = () => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get("http://localhost:3700/products/").then((res) => {
+    axios.get("/products/").then((res) => {
       const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
@@ -21,9 +23,8 @@ export const ADMfetch_products = () => {
 
 export const ADMfetch_products_name = (name: string) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
+    axios.get(`/products/search/${name}`).then((res) => {
       const payload = res.data;
-      console.log(res.data);
       dispatch({
         type: AdminActionType.GET_PRODUCT_BY_NAME,
         payload,
@@ -34,7 +35,7 @@ export const ADMfetch_products_name = (name: string) => {
 
 export const ADMfetch_products_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`http://localhost:3700/products/${id}`).then((res) => {
+    axios.get(`/products/${id}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_PRODUCT_BY_ID,
@@ -46,30 +47,78 @@ export const ADMfetch_products_id = (id: number | undefined) => {
 
 export const ADMcreate_product = (payload: any) => {
   axios
-    .post("http://localhost:3700/products/", payload)
+<<<<<<< HEAD
+    .post("/products/", payload)
     .then((res) => alert("OK"))
     .catch((err) => alert(err.response.data.message));
+=======
+    .post("http://localhost:3700/products/", payload)
+    .then((res) => {
+      Swal.fire({
+        title: "Se creo el producto con exito",
+        confirmButtonText: "OK",
+      });
+    })
+    .catch((err) => {
+      Swal.fire({
+        title: err.response.data.message,
+        cancelButtonText: "OK",
+      });
+    });
+>>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 export const ADMupdate_product = (payload: any) => {
   axios
-    .put(`http://localhost:3700/products`, payload)
+<<<<<<< HEAD
+    .put(`/products`, payload)
     .then(() => alert("OK"))
     .catch((err) => alert(err.response.data.message));
+=======
+    .put(`http://localhost:3700/products`, payload)
+    .then(() =>
+      Swal.fire({
+        title: "Se edito el producto con exito",
+        confirmButtonText: "OK",
+      })
+    )
+    .catch((err) =>
+      Swal.fire({
+        title: err.response.data.message,
+        cancelButtonText: "OK",
+      })
+    );
+>>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 export const ADMdelete_product = (payload: number | undefined) => {
   axios
-    .delete(`http://localhost:3700/products/${payload}`)
+<<<<<<< HEAD
+    .delete(`/products/${payload}`)
     .then(() => alert("OK"))
     .catch((err) => alert(err.response.data.message));
+=======
+    .delete(`http://localhost:3700/products/${payload}`)
+    .then(() =>
+      Swal.fire({
+        title: "Se elimino el producto con exito",
+        confirmButtonText: "OK",
+      })
+    )
+    .catch((err) =>
+      Swal.fire({
+        title: err.response.data.message,
+        cancelButtonText: "OK",
+      })
+    );
+>>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 //Orders Actions
 export const ADMfetch_orders = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/orders`)
+      .get(`/orders`)
       .then((res) => {
         const payload = res.data;
 
@@ -85,7 +134,7 @@ export const ADMfetch_orders = () => {
 export const ADMfetch_order_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/orders/${id}`)
+      .get(`/orders/${id}`)
       .then((res) => {
         const payload = res.data;
         dispatch({
@@ -99,7 +148,7 @@ export const ADMfetch_order_id = (id: number | undefined) => {
 
 export const ADMupdate_order = (id: number | undefined, status: string) => {
   axios
-    .put(`http://localhost:3700/orders/?id=${id}&status=${status}`)
+    .put(`/orders/?id=${id}&status=${status}`)
     .then(() => alert("OK"));
 };
 
@@ -107,7 +156,7 @@ export const ADMupdate_order = (id: number | undefined, status: string) => {
 export const ADMfetch_users = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/users`)
+      .get(`/users`)
       .then((res) => {
         const payload = res.data;
         dispatch({
@@ -122,7 +171,7 @@ export const ADMfetch_users = () => {
 export const ADMfetch_users_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/users/${id}`)
+      .get(`/users/${id}`)
       .then((res) => {
         const payload = res.data;
         dispatch({

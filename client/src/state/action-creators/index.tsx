@@ -8,9 +8,9 @@ import {
   ProductState,
   User,
   UserLog,
-  UserRegister,
+  UserRegister
 } from "../types";
-import Swal from "sweetalert2";
+
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
@@ -165,14 +165,6 @@ export const updateRender = (payload: boolean) => {
   };
 };
 
-export const adminLog = () => {
-  return (dispatch: Dispatch<ActionUser>) => {
-    dispatch({
-      type: ActionType.ADMIN_LOGIN,
-    });
-  };
-};
-
 export const addCheckout = (payload: Checkout) => {
   return (dispatch: Dispatch<ActionCheckout>) => {
     dispatch({
@@ -199,12 +191,7 @@ export const userRegister = (user: UserRegister) => {
     .then((response) => {
       const data = response.data;
       console.log(data);
-      Swal.fire({
-        title: "Gracias por Registrarte",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      alert("registrado");
       // dispatch({
       //   type: ActionType.GET_TOKEN_USER_LOG,
       //   payload: ""
@@ -214,24 +201,29 @@ export const userRegister = (user: UserRegister) => {
   // }
 };
 
-export const userLog = (user: UserLog) => {
-  // return (dispatch: Dispatch<ActionUser>)=> {
+// Recibimos en la response token y role
+export const userLogin =  (user: UserLog) => {
+  return (dispatch: Dispatch<ActionUser>)=> {
   axios
     .post(`http://localhost:3700/auth/signin`, user)
     .then((response) => {
       console.log(response.data);
-      Swal.fire({
-        title: "Bienvenido",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      //   dispatch({
-      //     type: ActionType.GET_TOKEN_USER_LOG,
-      //     payload: ""
-      //   })
+       alert(`Bienvenido! Tu token es: " ${response.data.token} tu rol es: ${response.data.role}`); 
+       dispatch({
+             type: ActionType.USER_LOGIN,
+             payload: response.data,
+         })
     })
     .catch((err) => alert(err.response.data.message));
 
-  // }
+  }
 };
+
+export const userLogout = () => {
+  return (dispatch: Dispatch<ActionUser>) => {
+    dispatch({
+      type: ActionType.USER_LOGOUT,
+    });
+  };
+};
+

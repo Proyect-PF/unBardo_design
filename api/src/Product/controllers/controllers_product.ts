@@ -149,7 +149,6 @@ export const UPDATE_UpdateProduct = async (
 ) => {
   try{
     let product = request.body;
-    
     if(product.image.length>100){
       const uploadRes = await cloudinary.uploader.upload(product.image, {
         upload_preset: 'unbardo'

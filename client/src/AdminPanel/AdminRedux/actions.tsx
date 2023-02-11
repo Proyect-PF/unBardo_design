@@ -2,6 +2,8 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
+import Swal from "sweetalert2";
+
 axios.defaults.headers.common[
   "x-access-token"
 ] = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MDI4NDI5LCJleHAiOjE2NzYxMTQ4Mjl9.92JhKvWFk6gi0M41zsyxGkxpuHs_xicYpHKvXEbRraM`;
@@ -23,7 +25,6 @@ export const ADMfetch_products_name = (name: string) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get(`/products/search/${name}`).then((res) => {
       const payload = res.data;
-      console.log(res.data);
       dispatch({
         type: AdminActionType.GET_PRODUCT_BY_NAME,
         payload,
@@ -46,23 +47,71 @@ export const ADMfetch_products_id = (id: number | undefined) => {
 
 export const ADMcreate_product = (payload: any) => {
   axios
+<<<<<<< HEAD
     .post("/products/", payload)
     .then((res) => alert("OK"))
     .catch((err) => alert(err.response.data.message));
+=======
+    .post("http://localhost:3700/products/", payload)
+    .then((res) => {
+      Swal.fire({
+        title: "Se creo el producto con exito",
+        confirmButtonText: "OK",
+      });
+    })
+    .catch((err) => {
+      Swal.fire({
+        title: err.response.data.message,
+        cancelButtonText: "OK",
+      });
+    });
+>>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 export const ADMupdate_product = (payload: any) => {
   axios
+<<<<<<< HEAD
     .put(`/products`, payload)
     .then(() => alert("OK"))
     .catch((err) => alert(err.response.data.message));
+=======
+    .put(`http://localhost:3700/products`, payload)
+    .then(() =>
+      Swal.fire({
+        title: "Se edito el producto con exito",
+        confirmButtonText: "OK",
+      })
+    )
+    .catch((err) =>
+      Swal.fire({
+        title: err.response.data.message,
+        cancelButtonText: "OK",
+      })
+    );
+>>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 export const ADMdelete_product = (payload: number | undefined) => {
   axios
+<<<<<<< HEAD
     .delete(`/products/${payload}`)
     .then(() => alert("OK"))
     .catch((err) => alert(err.response.data.message));
+=======
+    .delete(`http://localhost:3700/products/${payload}`)
+    .then(() =>
+      Swal.fire({
+        title: "Se elimino el producto con exito",
+        confirmButtonText: "OK",
+      })
+    )
+    .catch((err) =>
+      Swal.fire({
+        title: err.response.data.message,
+        cancelButtonText: "OK",
+      })
+    );
+>>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 //Orders Actions

@@ -10,7 +10,7 @@ import {
   UserLog,
   UserRegister,
 } from "../types";
-
+import Swal from "sweetalert2";
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
@@ -199,7 +199,7 @@ export const userRegister = (user: UserRegister) => {
     .then((response) => {
       const data = response.data;
       console.log(data);
-      alert("registrado");
+      Swal.fire("Gracias por registrarte", "", "success");
       // dispatch({
       //   type: ActionType.GET_TOKEN_USER_LOG,
       //   payload: ""
@@ -215,7 +215,7 @@ export const userLog = (user: UserLog) => {
     .post(`/auth/signin`, user)
     .then((response) => {
       console.log(response.data);
-      alert("logueado");
+      Swal.fire("Bienvenido", "", "success");
       //   dispatch({
       //     type: ActionType.GET_TOKEN_USER_LOG,
       //     payload: ""

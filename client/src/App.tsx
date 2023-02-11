@@ -45,7 +45,7 @@ function App() {
           <Route path='/account/login' element={<UserSignPage />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/checkout/payment' element={<Payment />} />
-          <Route path='/checkout/order/details' element={<OrderDetails />} />
+          <Route path='/orders/feedback' element={<OrderDetails />} />
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path='/admin/*' element={<AdminPanel />} />
           <Route path='/panel' element={<AdminP />} />

@@ -10,11 +10,13 @@ import { userLogin } from "../../state/action-creators";
 import { UserLog } from "../../state/types";
 import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
+import Swal from "sweetalert2";
 
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userLogin } = bindActionCreators(actionCreators, dispatch);
+
   const initialValues: UserLog = {
     email: "",
     password: "",
@@ -38,7 +40,7 @@ export const LogIn = (): JSX.Element => {
           return errors;
         }}
         onSubmit={(values) => {
-          userLogin(values, toast, navigate);
+          userLogin(values, navigate);
         }}
       >
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (

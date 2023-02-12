@@ -3,7 +3,7 @@ import app from './src/app';
 import db from './src/database';
 import {
   POST_rolesInitials,
-  POST_usersInitials
+  POST_usersInitials,
 } from './src/helpers/initialSetup';
 
 dotenv.config();

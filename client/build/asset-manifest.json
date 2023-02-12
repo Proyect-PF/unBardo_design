@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.fa09aeeb.css",
+    "main.js": "/static/js/main.d0e35d36.js",
+    "static/js/787.b39005a6.chunk.js": "/static/js/787.b39005a6.chunk.js",
+    "static/media/homep.jpg": "/static/media/homep.7a4a0900ec9345e5d1ac.jpg",
+    "static/media/unbardo-07B.png": "/static/media/unbardo-07B.04ee262fa59ec841d888.png",
+    "static/media/principal-logo.svg": "/static/media/principal-logo.6f54102bc597a516c5a290f497d9b408.svg",
+    "static/media/out-session.svg": "/static/media/out-session.e83f6a2b2f41aa063932c5e7d09d78c4.svg",
+    "static/media/user-icon.svg": "/static/media/user-icon.3e4d8e8c4218fad86e109b8a383c2c98.svg",
+    "static/media/log-in.svg": "/static/media/log-in.e32c162d26ce220ddb84163b208f7b5e.svg",
+    "static/media/search.svg": "/static/media/search.a4de6fd4b50dd465861e756ed294200f.svg",
+    "static/media/menu-alt-2.svg": "/static/media/menu-alt-2.c79a02ec07025f92c2975eb11c696da7.svg",
+    "static/media/come-back.svg": "/static/media/come-back.d192c34ed2ad2506aa049962ec28de2f.svg",
+    "index.html": "/index.html",
+    "static/media/shopping-bag.svg": "/static/media/shopping-bag.59b04f84d1ad82ae116c4c8911ebea63.svg",
+    "main.fa09aeeb.css.map": "/static/css/main.fa09aeeb.css.map",
+    "main.d0e35d36.js.map": "/static/js/main.d0e35d36.js.map",
+    "787.b39005a6.chunk.js.map": "/static/js/787.b39005a6.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fa09aeeb.css",
+    "static/js/main.d0e35d36.js"
+  ]
+}

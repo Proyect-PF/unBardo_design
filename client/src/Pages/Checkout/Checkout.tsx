@@ -1,10 +1,11 @@
 import axios from 'axios';
-import CircularJSON from 'circular-json';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Buttons/Button/Button';
 import CheckoutCard from '../../components/Cards/Checkout/CheckoutCard';
 import { State } from '../../state/reducers';
+import { useEffect } from 'react';
+import { clearCheckoutList } from '../../state/action-creators';
 
 interface ProductSize {
   [size: string]: number;
@@ -24,21 +25,19 @@ const Checkout = (): JSX.Element => {
   const { checkoutList } = useSelector((state: State) => state.checkout);
   const { userId } = useSelector((state: State) => state.user);
 
-  
-  const checkoutData = localStorage.getItem('shoppingBag');
-
+  // const checkoutData = localStorage.getItem('shoppingBag');
 
   const userProducts: UserProducts = {
     id_user: userId,
     products: checkoutList.reduce((acc: Product[], item: any) => {
       const foundItem = acc.find((p) => p.id_product === item.id);
       if (foundItem) {
-        foundItem.sizes[item.sizes] = (foundItem.sizes[item.sizes] || 0) + 1;
+        foundItem.sizes[item.size] = (foundItem.sizes[item.size] || 0) + 1;
       } else {
         acc.push({
           id_product: parseInt(item.id.split('-')[0]),
           sizes: {
-            [item.sizes]: item.ammount,
+            [item.size]: item.ammount,
           },
         });
       }
@@ -46,21 +45,18 @@ const Checkout = (): JSX.Element => {
     }, []),
   };
 
-  console.log(userProducts);
-
-  
-  
-
-    console.log("EJECUTANDO AXIOS")
+  useEffect(() => {
     axios
       .post('http://localhost:3700/orders', userProducts)
       .then((response) => {
         console.log('DESPUES DEL POST', response);
+        return response;
       })
       .catch((error) => {
         console.error('ERROR ENVIANDO LA DATA AL SERVER:', error);
       });
-  
+  }, []);
+
   return (
     <div className='flex flex-col items-center'>
       {checkoutList?.length > 0 &&

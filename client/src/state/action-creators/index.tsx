@@ -1,7 +1,7 @@
-import axios from "axios";
-import { Dispatch } from "redux";
-import { ActionType } from "../action-types";
-import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
+import axios from 'axios';
+import { Dispatch } from 'redux';
+import { ActionType } from '../action-types';
+import { ActionCheckout, ActionProducts, ActionUser } from '../actions';
 import {
   Checkout,
   Product,
@@ -9,7 +9,7 @@ import {
   User,
   UserLog,
   UserRegister,
-} from "../types";
+} from '../types';
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -17,7 +17,7 @@ import {
 
 export const fetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
+    let payload: ProductState['productList'] = [];
     axios.get(`http://localhost:3700/products/?${query}`).then((res) => {
       payload = res.data;
       // ENVIAMOS PAYLOAD A REDUX
@@ -55,7 +55,7 @@ export const fetch_products = (color: string | null = null) => {
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
+    let payload: ProductState['productList'] = [];
     axios
       .get(`http://localhost:3700/products/search/${name}`)
       .then((res) => {
@@ -75,6 +75,7 @@ export const fetch_product_byname = (name: string) => {
 
 // Funcion que envia un Producto a la API para ser creado.
 // Requiere Payload:Product
+
 // export const create_product = (payload: Product) => {
 //   return (dispatch: Dispatch<ActionProducts>) => {
 //     axios({
@@ -91,22 +92,23 @@ export const fetch_product_byname = (name: string) => {
 //   };
 // };
 
+
 // Funcion que retorna un Producto desde la API segun id
 // Requiere un Number como parametro
 export const fetch_product_detail = (id: number) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let product: Product = {
       id: 0,
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       S: 0,
       M: 0,
       L: 0,
       XL: 0,
       price: 0,
-      color: "",
+      color: '',
       show_in_shop: true,
-      image: "",
+      image: '',
     };
     axios.get(`http://localhost:3700/products/${id}`).then((res) => {
       if (res.data?.id) {
@@ -138,7 +140,7 @@ export const fetch_product_detail = (id: number) => {
 // Requiere una query String como parametro. A EXTENDER !
 export const fetch_filtered_products = (query: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
+    let payload: ProductState['productList'] = [];
     axios
       .get(`http://localhost:3700/products/filtered/?${query}`)
       .then((response) => {
@@ -181,9 +183,17 @@ export const removeCheckout = (payload: string) => {
     });
   };
 };
+export const clearCheckoutList = () => {
+  return (dispatch: Dispatch<ActionCheckout>) => {
+    dispatch({
+      type: ActionType.CLEAR_CHECKOUT_LIST,
+    });
+  };
+};
 
 export const userRegister = (user: UserRegister, navigate: any) => {
   // return (dispatch: Dispatch<ActionUser>)=> {
+
   axios
     .post(`http://localhost:3700/auth/signup`, user)
     .then((response) => {
@@ -204,6 +214,7 @@ export const userRegister = (user: UserRegister, navigate: any) => {
 // Recibimos en la response token y role
 export const userLogin = (user: UserLog, navigate: any) => {
   return (dispatch: Dispatch<ActionUser>) => {
+
     axios
       .post(`http://localhost:3700/auth/signin`, user)
       .then((response) => {
@@ -217,6 +228,7 @@ export const userLogin = (user: UserLog, navigate: any) => {
         navigate("/");
       })
       .catch((err) => alert(err.response.data.message));
+
   };
 };
 

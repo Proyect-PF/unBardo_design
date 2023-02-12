@@ -175,3 +175,27 @@ export const DELETE_AllOrders = async (request: Request, response: Response) => 
         return response.status(500).json({ error: error.message });
     }
 };
+
+export const GET_OrderByUser = async (request: Request, response: Response) => {
+    try {
+        const {id_user} = request.params;
+        let array = [];
+        const orderUser = await db.Orders.findAll({
+            where: {
+                id_user,
+                status: {[Op.ne]: 'cart'}
+             },
+        });
+        
+        for (const ele of orderUser) {
+            const prodOrder = await db.OrderProducts.findAll({
+                where: {id_order: ele.id}
+            })
+            array.push({ele, product: prodOrder});
+        }
+        
+        return response.status(200).json(array);
+    } catch (error: any) {
+        return response.status(500).json({ error: error.message });
+    }
+}

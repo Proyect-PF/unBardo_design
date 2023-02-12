@@ -7,7 +7,8 @@ import {
     POST_Order,
     UPDATE_OrderStatus,
     DELETE_Order,
-    DELETE_AllOrders
+    DELETE_AllOrders,
+    GET_OrderByUser
 } from "../controllers/controllers_order";
 
 import {
@@ -25,6 +26,9 @@ ordersRoutes.get("/", GET_AllOrders);
 
 //GET orden por ID
 ordersRoutes.get("/:orderId", GET_DetailsByOrderId);
+
+//GET orden por ID de usuario
+ordersRoutes.get("/users/:id_user", GET_OrderByUser);
 
 //POST orden
 ordersRoutes.post("/", POST_Order);

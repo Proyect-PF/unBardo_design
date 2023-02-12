@@ -197,7 +197,7 @@ export const userRegister = (user: UserRegister, navigate: any) => {
       alert("Bienvenido! Por favor inicia sesion.");
       navigate("/account/login");
     })
-    .catch((err) => console.log(err.response.data.message));
+    .catch((err) => alert(err.response.data.message));
   // }
 };
 

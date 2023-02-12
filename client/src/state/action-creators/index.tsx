@@ -207,6 +207,9 @@ export const userLogin =  (user: UserLog) => {
   axios
     .post(`http://localhost:3700/auth/signin`, user)
     .then((response) => {
+      axios.defaults.headers.common[
+        "x-access-token"
+      ] = `${response.data.token}`;
       console.log(response.data);
        alert(`Bienvenido! Tu token es: " ${response.data.token} tu rol es: ${response.data.role}`); 
        dispatch({

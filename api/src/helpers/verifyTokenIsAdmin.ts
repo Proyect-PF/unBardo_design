@@ -32,7 +32,7 @@ export const verifyTokenIsAdmin = async (req: Request, res: Response, next: Next
             },
         })
         if(!userFound) return res.status(404).json({message: "user not found"})
-        if(userFound["Role.name"]=== "admin") next()
+        if(userFound["Role.name"] === "admin") next()
         else return res.status(400).json({message: `not permissions for role ${userFound["Role.name"]}`})
     } catch (error) {
         return res.status(500).json({message: "unauthorized"})

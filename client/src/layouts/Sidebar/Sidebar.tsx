@@ -46,6 +46,10 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         handleChange();
         navigate("/");
         break;
+      case "profile":
+        handleChange();
+        navigate("/profile")
+        break;
       case "help":
         break;
     }
@@ -73,7 +77,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
           <div className={success || success ? "visible" : "hidden"}>
             <div
               onClick={handleClick}
-              id="panel"
+              id={success&&userType==="admin"? "panel" : success&&userType==="user"? "profile": ""}
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
               <img src={userIcon} alt="user" className="h-6" />

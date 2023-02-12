@@ -1,16 +1,16 @@
 // IMPORTS
-import {Router} from "express";
+import { Router } from "express";
 
 const productRoutes = Router();
 
 import {
-    DELETE_DeleteProduct, DELETE_DeleteAllProducts, GET_AllProducts, GET_ProductById, GET_SearchByName, POST_NewProduct,
+    DELETE_DeleteAllProducts, DELETE_DeleteProduct, GET_AllProducts, GET_ProductById, GET_SearchByName, POST_NewProduct,
     UPDATE_UpdateProduct
 } from "../controllers/controllers_product";
 
 
+import { verifyTokenIsAdmin } from "../../helpers/verifyTokenIsAdmin";
 import getVariants from "../controllers/getVariants";
-import {verifyTokenIsAdmin} from "../../helpers/verifyTokenIsAdmin";
 
 //productRoutes.get("/:id", GET_AllProducts);
 
@@ -25,16 +25,16 @@ productRoutes.get("/", GET_AllProducts);
 productRoutes.get("/:id", GET_ProductById);
 productRoutes.put("/", UPDATE_UpdateProduct);
 
-productRoutes.delete("/delete/:id", verifyTokenIsAdmin, DELETE_DeleteProduct);
-productRoutes.delete("/deleteAll", verifyTokenIsAdmin, DELETE_DeleteAllProducts);
+productRoutes.delete("/delete/:id", DELETE_DeleteProduct);
+productRoutes.delete("/deleteAll",  DELETE_DeleteAllProducts);
 
 
 productRoutes.get("/search/:name", GET_SearchByName);
 
-productRoutes.delete("/:id", verifyTokenIsAdmin, DELETE_DeleteProduct);
+productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 
-productRoutes.post("/", verifyTokenIsAdmin, POST_NewProduct);
+productRoutes.post("/", POST_NewProduct);
 
 
 //   ALEJANDRO EN REVISION POR JOAQUIN CARRERA

@@ -4,9 +4,6 @@ import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 import Swal from "sweetalert2";
 
-axios.defaults.headers.common[
-  "x-access-token"
-] = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2MDI4NDI5LCJleHAiOjE2NzYxMTQ4Mjl9.92JhKvWFk6gi0M41zsyxGkxpuHs_xicYpHKvXEbRraM`;
 
 //Product actions
 export const ADMfetch_products = () => {

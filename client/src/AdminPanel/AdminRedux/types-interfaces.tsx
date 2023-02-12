@@ -51,6 +51,7 @@ export type OrdersAdmin = {
   id: number;
   id_user: number;
   status: string;
+  dispatched: boolean;
   createdAt: string;
   updatedAt: string;
   users: User[];
@@ -59,6 +60,7 @@ export type OrdersAdmin = {
 export type OrderAdmin = {
   id: number;
   status: string;
+  dispatched: boolean;
   updatedAt: string;
   fullname: string;
   email: string;

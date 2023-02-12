@@ -45,13 +45,18 @@ const OrderDetails = ({ setSelected }: Props) => {
         <div className="flex flex-col gap-2">
           <p className="text-xl">{`Status: ${orderDetails.status}`}</p>
         </div>
+        <div className="flex flex-col gap-2">
+          <p className="text-xl">{`Despachado: ${
+            orderDetails.dispatched ? "Si" : "No"
+          }`}</p>
+        </div>
       </div>
 
       <Button
         text="Marcar como Despachado"
         name="deleteProd"
         onClick={() => {
-          adminActions.ADMupdate_order(orderDetails.id, "dispatched", toast);
+          adminActions.ADMupdate_order(orderDetails.id, "true", toast);
         }}
         disabled={false}
         type="button"

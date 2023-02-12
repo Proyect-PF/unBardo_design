@@ -20,6 +20,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         <p className="w-60 ">Email</p>
         <p className="w-40 ">Fecha</p>
         <p className="w-24 ">Status</p>
+        <p className="w-24 ">Despachada</p>
         <p className="w-20"></p>
       </div>
       {allOrders &&
@@ -30,6 +31,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             <p className=" w-60">{e.users.email}</p>
             <p className="w-40 ">{e.updatedAt.split("T")[0]}</p>
             <p className="w-24 ">{e.status}</p>
+            <p className="w-24 ">{e.dispatched ? "Si" : "No"}</p>
             <button
               onClick={() => {
                 setId(e.id);

@@ -25,8 +25,8 @@ const filterByCategories = async (request: Request<RequestParams, ResponseBody, 
         console.log(id_category)
         const arrProducts = await productsByCategories(id_category)
         response.status(200).send(arrProducts)
-    } catch ({ message }: any) {
-        response.status(400).json(message)
+    } catch ({ message: any }) {
+        response.status(400).json(onmessage)
     }
 
 }

@@ -75,21 +75,23 @@ export const fetch_product_byname = (name: string) => {
 
 // Funcion que envia un Producto a la API para ser creado.
 // Requiere Payload:Product
-export const create_product = (payload: Product) => {
-  return (dispatch: Dispatch<ActionProducts>) => {
-    axios({
-      method: 'post',
-      url: 'http://localhost:3700/products/new',
-      data: payload,
-    }).then(() =>
-      // ENVIAMOS PAYLOAD A REDUX
-      dispatch({
-        type: ActionType.ADD_PRODUCT,
-        payload,
-      })
-    );
-  };
-};
+
+// export const create_product = (payload: Product) => {
+//   return (dispatch: Dispatch<ActionProducts>) => {
+//     axios({
+//       method: "post",
+//       url: "http://localhost:3700/products/new",
+//       data: payload,
+//     }).then(() =>
+//       // ENVIAMOS PAYLOAD A REDUX
+//       dispatch({
+//         type: ActionType.ADD_PRODUCT,
+//         payload,
+//       })
+//     );
+//   };
+// };
+
 
 // Funcion que retorna un Producto desde la API segun id
 // Requiere un Number como parametro
@@ -189,66 +191,44 @@ export const clearCheckoutList = () => {
   };
 };
 
-export const userRegister = (user: UserRegister, toast: any) => {
+export const userRegister = (user: UserRegister, navigate: any) => {
   // return (dispatch: Dispatch<ActionUser>)=> {
-  toast.promise(
-    axios
-      .post(`http://localhost:3700/auth/signup`, user)
-      .then((response) => {
-        // const data = response.data;
-        // console.log(data);
-        // alert("registrado");
-        // dispatch({
-        //   type: ActionType.GET_TOKEN_USER_LOG,
-        //   payload: ""
-        // })
-      })
-      .catch((err) => console.log(err.response.data.message)),
-    {
-      pending: 'Registrandose...',
-      success: {
-        render() {
-          return 'Bienvenido!';
-        },
-        autoClose: 1500,
-      },
-      error: ' Algo salio mal',
-    },
-    { position: toast.POSITION.BOTTOM_RIGHT }
-  );
+
+  axios
+    .post(`http://localhost:3700/auth/signup`, user)
+    .then((response) => {
+      // const data = response.data;
+      // console.log(data);
+      // alert("registrado");
+      // dispatch({
+      //   type: ActionType.GET_TOKEN_USER_LOG,
+      //   payload: ""
+      // })
+      alert("Bienvenido! Por favor inicia sesion.");
+      navigate("/account/login");
+    })
+    .catch((err) => alert(err.response.data.message));
   // }
 };
 
 // Recibimos en la response token y role
-export const userLogin = (user: UserLog, toast: any, navigate: any) => {
+export const userLogin = (user: UserLog, navigate: any) => {
   return (dispatch: Dispatch<ActionUser>) => {
-    toast.promise(
-      axios
-        .post(`http://localhost:3700/auth/signin`, user)
-        .then((response) => {
-          axios.defaults.headers.common[
-            'x-access-token'
-          ] = `${response.data.token}`;
-          console.log(response.data);
-          dispatch({
-            type: ActionType.USER_LOGIN,
-            payload: response.data,
-          });
-        })
-        .catch((err) => console.log(err.response.data.message)),
-      {
-        pending: 'Iniciando sesion...',
-        success: {
-          render() {
-            return 'Bienvenido!';
-          },
-          onClose: () => navigate('/'),
-          autoClose: 1500,
-        },
-        error: ' Algo salio mal',
-      },
-      { position: toast.POSITION.BOTTOM_RIGHT }
-    );
+
+    axios
+      .post(`http://localhost:3700/auth/signin`, user)
+      .then((response) => {
+        axios.defaults.headers.common[
+          "x-access-token"
+        ] = `${response.data.token}`;
+        dispatch({
+          type: ActionType.USER_LOGIN,
+          payload: response.data,
+        });
+        navigate("/");
+      })
+      .catch((err) => alert(err.response.data.message));
+
   };
 };
 

@@ -11,6 +11,7 @@ import SizeSelector from '../../components/Inputs/SizeSelector/SizeSelector';
 import { actionCreators } from '../../state';
 import { State } from '../../state/reducers';
 
+
 import { getItem } from '../../utils/localStorage';
 
 const Details = (): JSX.Element => {
@@ -22,6 +23,7 @@ const Details = (): JSX.Element => {
     dispatch
   );
   const { productDetails } = useSelector((state: State) => state.products);
+  const { success } = useSelector((state: State) => state.user);
   //AL: loading state for loading implementation (done)
   const [loading, setLoading] = useState(true);
   //AL: size / amount state retrieve the selection for future add to cart implementation
@@ -49,17 +51,52 @@ const Details = (): JSX.Element => {
   //AL: this function manages the add to cart functionality, needs to be implemented
   const handleCart = (e: any) => {
     e.preventDefault();
-    const payload = {
-      id: productDetails.id + '-' + size,
-      name: productDetails.name,
-      size: size,
-      price: productDetails.price,
-      ammount: ammount,
-      imgF: productDetails.image,
-    };
-    addCheckout(payload);
-    setSize('');
-    setAmmount(1);
+
+    if(success){
+      const payload = {
+        id: productDetails.id + "-" + size,
+        name: productDetails.name,
+        size: size,
+        price: productDetails.price,
+        ammount: ammount,
+        imgF: productDetails.image,
+      };
+      addCheckout(payload);
+      setSize("");
+      setAmmount(1);
+      toast.success('Se añadió correctamente!', {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+    }
+    else {
+      Swal.fire({
+        imageUrl: logged,
+        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: "#000",
+        cancelButtonColor: "#e5e7eb",
+        cancelButtonText: "<p class='font-rift text-lg text-black'>Por ahora no</p>",
+        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
+        reverseButtons: true,
+        html: 
+        '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder agregar productos a la bolsa de compra</p>',
+        //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/account/login')
+        }
+      })
+      setSize("");
+      setAmmount(1);
+    }
   };
 
   const stock =
@@ -180,6 +217,7 @@ const Details = (): JSX.Element => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

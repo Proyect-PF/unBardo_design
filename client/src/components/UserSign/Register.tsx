@@ -12,6 +12,8 @@ import { userRegister } from "../../state/action-creators";
 import { UserRegister } from "../../state/types";
 
 export const Register = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const initialvalues: UserRegister = {
     fullname: "",
     email: "",
@@ -42,7 +44,7 @@ export const Register = (): JSX.Element => {
           return errors;
         }}
         onSubmit={(values) => {
-          userRegister(values, toast);
+          userRegister(values, navigate);
         }}
       >
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (

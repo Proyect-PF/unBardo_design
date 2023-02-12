@@ -269,10 +269,7 @@ export const POST_GeneratePayment = async (
             });
         }).catch(function (error: any) {
         console.log(error);
-        console.log("El id: ", last)
-        console.log("El userinfo: ", userInfo)
-        console.log("El prodinfo: ", prodInfo)
-        return response.status(402).json(error)
+        return response.status(400).json(error)
     });
 }
 

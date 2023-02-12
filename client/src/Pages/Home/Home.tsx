@@ -18,11 +18,10 @@ import { State } from "../../state/reducers";
 const Home = () => {
   const dispatch = useDispatch();
   const { fetch_products } = bindActionCreators(actionCreators, dispatch);
-  const { updateRender } = bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
-  const { productList } = useSelector((state: State) => state.products);
-  const { productTotal } = useSelector((state: State) => state.products);
-  const { render } = useSelector((state: State) => state.products);
+  const { productList, productTotal } = useSelector(
+    (state: State) => state.products
+  );
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
@@ -57,26 +56,28 @@ const Home = () => {
           WELCOME TO THE JUNGLE
         </p>
         <Dropdown />
-        <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
+        <div>
           {productList.length > 0 ? (
-            productList.map((e) => {
-              if (e.show_in_shop) {
-                return (
-                  <Product
-                    imageB={imageB}
-                    imageF={e.image}
-                    key={e.id}
-                    name={e.name}
-                    price={e.price.toString()}
-                    id={Number(e.id)}
-                  />
-                );
-              }
-            })
+            <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
+              {productList.map((e) => {
+                if (e.show_in_shop) {
+                  return (
+                    <Product
+                      imageB={imageB}
+                      imageF={e.image}
+                      key={e.id}
+                      name={e.name}
+                      price={e.price.toString()}
+                      id={Number(e.id)}
+                    />
+                  );
+                }
+              })}
+            </div>
           ) : (
-            <div>
-              <h4 className="p-5 text-lg font-bold text-center border-b-2">
-                No se encontraron coicidencias
+            <div className="justify-center">
+              <h4 className="p-5 text-lg font-bold text-center">
+                No se encontraron resultados
               </h4>
               <Button
                 className={"justify-center"}
@@ -89,6 +90,7 @@ const Home = () => {
             </div>
           )}
         </div>
+
         {/* <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">
           <p className="mt-5 text-2xl font-semibold text-center">
             ETIQUETANOS EN INSTAGRAM @UNBARDO

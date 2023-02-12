@@ -1,6 +1,6 @@
-import { ActionType } from "../action-types";
-import { ActionProducts } from "../actions";
-import { Product, ProductState } from "../types";
+import { ActionType } from '../action-types';
+import { ActionProducts } from '../actions';
+import { Product, ProductState } from '../types';
 
 //AL: initialState first defining, needs to match the type defined.
 const initialState: ProductState = {
@@ -9,16 +9,16 @@ const initialState: ProductState = {
   //AL: this state is for information rendered in the details page of specific items
   productDetails: {
     id: 0,
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     S: 0,
     M: 0,
     L: 0,
     XL: 0,
     price: 0,
-    color: "",
+    color: '',
     show_in_shop: true,
-    image: "",
+    image: '',
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
   render: true,
@@ -30,20 +30,20 @@ const productReducer = (
 ) => {
   switch (action.type) {
     case ActionType.GET_ALL_PRODUCTS:
-      let products: ProductState["productList"] = action.payload;
+      let products: ProductState['productList'] = action.payload;
       return {
         ...state,
         productTotal: products,
         productList: products,
       };
     case ActionType.SEARCH_PRODUCTS:
-      let productSearch: ProductState["productList"] = action.payload;
+      let productSearch: ProductState['productList'] = action.payload;
       return {
         ...state,
         productList: productSearch,
       };
     case ActionType.FILTER_PRODUCTS:
-      let filteredProducts: ProductState["productList"] = action.payload;
+      let filteredProducts: ProductState['productList'] = action.payload;
       if (filteredProducts.length === 0) filteredProducts = state.productTotal;
       return {
         ...state,

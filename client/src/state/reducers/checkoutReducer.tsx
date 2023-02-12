@@ -37,6 +37,12 @@ const checkoutReducer = (state = initialState, action: ActionCheckout) => {
         ...state,
         checkoutList: getItem('shoppingBag'),
       };
+    case ActionType.CLEAR_CHECKOUT_LIST:
+      setItem('shoppingBag', []);
+      return {
+        ...state,
+        checkoutList: [],
+      };
     default:
       return { ...state };
   }

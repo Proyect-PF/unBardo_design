@@ -4,11 +4,15 @@ import axios from 'axios';
 import Input from '../Inputs/Input';
 import { validationSchema } from '../../utils/FormPayment/validation';
 import { initialValues } from '../../utils/FormPayment/initialValues';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../state/reducers';
+import { actionCreators } from '../../state';
+import { bindActionCreators } from 'redux';
 
 export const FormCheckout = (): JSX.Element => {
   const { userId } = useSelector((state: State) => state.user);
+  const dispatch = useDispatch();
+  const { clearCheckoutList } = bindActionCreators(actionCreators, dispatch);
 
   const initialValues = {
     area_code: '',
@@ -28,9 +32,11 @@ export const FormCheckout = (): JSX.Element => {
           method: 'post',
           url: 'http://localhost:3700/orders/payment',
           data: values,
-        }).then((res) => (window.location.href = res.data.res.body.init_point));
+        }).then((res) => {
+          window.location.href = res.data.res.body.init_point;
+          clearCheckoutList(); // Llamada a checkoutlist() después de la redirección
+        });
         console.log(values);
-        //(res) => (window.location.href = res.data.res.body.init_point)
       }}
     >
       {({

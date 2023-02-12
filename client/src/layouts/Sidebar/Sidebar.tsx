@@ -19,7 +19,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userLogout } = bindActionCreators(actionCreators, dispatch);
-  const { success , userType } = useSelector((state: State) => state.user);
+  const { success, userType } = useSelector((state: State) => state.user);
 
   let style: string;
   if (openClose) style = "left-full";
@@ -48,7 +48,11 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         break;
       case "profile":
         handleChange();
-        navigate("/profile")
+        navigate(`/profile/${id}`);
+        break;
+      case "orders":
+        handleChange();
+        navigate(`/profile/${id}`);
         break;
       case "help":
         break;
@@ -64,6 +68,8 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
           <div className="flex items-center justify-center h-16 border-b-2 border-gray-300">
             <img src={logo} alt="logo" className="h-7" />
           </div>
+
+          {/** INICIAR SESION */}
           <div className={!success ? "visible" : "hidden"}>
             <div
               onClick={handleClick}
@@ -74,18 +80,47 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               <p className="pl-4">Iniciar Sesión</p>
             </div>
           </div>
+
+          {/** OPCIONES */}
           <div className={success || success ? "visible" : "hidden"}>
             <div
               onClick={handleClick}
-              id={success&&userType==="admin"? "panel" : success&&userType==="user"? "profile": ""}
+              id={
+                success && userType === "admin"
+                  ? "panel"
+                  : success && userType === "user"
+                  ? "profile"
+                  : ""
+              }
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
               <img src={userIcon} alt="user" className="h-6" />
               <p className="pl-4">
-                {success&&userType==="admin"? "Panel Admin" : success&&userType==="user"? "Mi perfil": ""}
-                </p>
+                {success && userType === "admin"
+                  ? "Panel Admin"
+                  : success && userType === "user"
+                  ? "Mi perfil"
+                  : ""}
+              </p>
             </div>
+              <div className={success && userType === "user"? "visible" : "hidden"}>
+            <div 
+              onClick={handleClick}
+              id="orders"
+              className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
+            >
+              <img src={userIcon} alt="orders" className="h-6" />
+              <p className="pl-4">
+                {success && userType === "user"
+                  ? "Mis Ordenes"
+                  : ""}
+              </p>
+            </div>
+            </div>
+            
+            
 
+            {/** CERRAR SESION */}
             <div
               onClick={handleClick}
               id="logout"

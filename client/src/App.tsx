@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 // import NewProductForm from "./components/NewProduct/NewProductForm";
 import AdminP from "./AdminPanel";
+import Orders from "./AdminPanel/Orders";
 import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Searchbar from "./layouts/Searchbar/Searchbar";
@@ -13,7 +14,9 @@ import Payment from "./Pages/Checkout/Payment";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
 import Profile from "./Pages/Profile/Profile";
-import UserSignPage from "./Pages/UserSignPage/UserSignPage";
+import LogInPage from "./Pages/SignIn";
+import RegisterPage from "./Pages/SignUp";
+// import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -39,14 +42,17 @@ function App() {
         <Sidebar openClose={openClose} handleChange={handleChange} />
         <Navbar handleChange={handleChange} handleSearch={handleSearch} />
         <Routes>
-          <Route path='*' element={<div>404</div>} />
-          <Route path='/' element={<Home />} />
-          <Route path='/product/:name' element={<Details />} />
-          <Route path='/account/login' element={<UserSignPage />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='/checkout/payment' element={<Payment />} />
-          <Route path='/orders/feedback' element={<OrderDetails />} />
-          <Route path="/profile" element={<Profile />} />
+
+          <Route path="*" element={<div>404</div>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:name" element={<Details />} />
+          <Route path="/account/login" element={<LogInPage />} />
+          <Route path="/account/register" element={<RegisterPage />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout/payment" element={<Payment />} />
+          <Route path="/orders/feedback" element={<OrderDetails />} />
+          <Route path="/profile/:panel" element={<Profile />} />
+          {/*<Route path="/profile/orders" element={<Orders />} />*/}
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/panel" element={<AdminP />} />
         </Routes>

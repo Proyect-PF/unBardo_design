@@ -1,5 +1,5 @@
-import { ActionType } from "../action-types";
-import { AddProductPayload, Checkout, Orders, Product, User } from "../types";
+import { ActionType } from '../action-types';
+import { AddProductPayload, Checkout, Orders, Product, User } from '../types';
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -48,10 +48,9 @@ export type ActionProducts =
   | SortProducts
   | FilterProducts;
 
-
 interface UserLogin {
   type: ActionType.USER_LOGIN;
-  payload: { token: string, role: string, fullname: string, id: string};
+  payload: { token: string; role: string; fullname: string; id: string };
 }
 interface UserRegister {
   type: ActionType.USER_REGISTER;
@@ -80,8 +79,11 @@ interface RemoveCheckout {
   type: ActionType.REMOVE_CHECKOUT;
   payload: string;
 }
+interface ClearCheckoutList {
+  type: ActionType.CLEAR_CHECKOUT_LIST;
+}
 
-export type ActionCheckout = AddCheckout | RemoveCheckout;
+export type ActionCheckout = AddCheckout | RemoveCheckout | ClearCheckoutList;
 
 //Interfaces & types for ORDERS STATE
 

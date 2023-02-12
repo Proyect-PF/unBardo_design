@@ -51,8 +51,8 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/payment" element={<Payment />} />
           <Route path="/orders/feedback" element={<OrderDetails />} />
-          <Route path="/profile/info" element={<Profile />} />
-          <Route path="/profile/orders" element={<Orders />} />
+          <Route path="/profile/:panel" element={<Profile />} />
+          {/*<Route path="/profile/orders" element={<Orders />} />*/}
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/panel" element={<AdminP />} />
         </Routes>

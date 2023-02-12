@@ -48,11 +48,11 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         break;
       case "profile":
         handleChange();
-        navigate("/profile/info");
+        navigate(`/profile/${id}`);
         break;
-        case "orders":
+      case "orders":
         handleChange();
-        navigate("/profile/orders");
+        navigate(`/profile/${id}`);
         break;
       case "help":
         break;

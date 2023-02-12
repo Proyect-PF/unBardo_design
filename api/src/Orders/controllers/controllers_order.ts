@@ -125,7 +125,7 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
         const {id, status} = req.query;
 
         const orderUpdate = await db.Orders.update({
-            status: status,
+            dispatched: status,
         }, {
             where: {
                 id

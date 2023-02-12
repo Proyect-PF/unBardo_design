@@ -54,6 +54,34 @@ export const UPDATE_User = async (req: Request, res: Response) => {
   }
 };
 
-export const DELETE_User = async (req: Request, res: Response) => {
-  res.send("Borra un usuario");
+export const DELETE_UserById = async (req: Request, res: Response) => {
+    try {
+        const {id} = req.params;
+
+        if (!id) {
+            return res.status(400).json({message: 'EL ID del usuario es requerido'});
+        }
+
+        const user = await db.Users.findOne({where: {id: id}});
+
+        if (!user) {
+            return res.status(404).json({message: 'Usuario no encontrado'});
+        }
+
+        const orders = await db.Orders.findAll({where: {id}});
+
+        if (!orders.length) {
+            await user.destroy();
+            return res.status(200).json({message: 'El usuario ha sido eliminado'});
+        }
+
+        const orderProductIds = orders.map((Orders: any) => Orders.id);
+        await db.OrderProducts.destroy({where: {id_order: orderProductIds}});
+        await db.Orders.destroy({where: {id}});
+        await user.destroy();
+
+        return res.status(200).json({message: 'El usuario y los pedidos asociados han sido eliminados'});
+    } catch (error) {
+        return res.status(400).json(getErrorMessage(error));
+    }
 };

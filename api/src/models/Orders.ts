@@ -6,7 +6,8 @@ interface OrdersAttributes {
     id: number;
     id_user: number;
     status: string;
-    total_amount: number;
+    payment_id: number;
+    dispatched: boolean;
 }
 
 export default (sequelize: Sequelize.Sequelize) => {
@@ -45,8 +46,13 @@ export default (sequelize: Sequelize.Sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            total_amount: {
+            payment_id: {
                 type: DataTypes.INTEGER,
+                defaultValue: 0,
+            },
+            dispatched: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false,
             },
         },
         {

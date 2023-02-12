@@ -217,7 +217,7 @@ export const POST_GeneratePayment = async (
 
     //TODO: Se utiliza el id del usuario que se obtiene por body para obtener la información de la ultima orden del usuario
     //const last = await GET_OrderLast(prod.id_user, prod.id_order) //last.id => id de la orden de compra del usuario
-    const last = await GET_OrderLast(prod.id_user)    
+    const last = await GET_OrderLast(prod.id_user)      
 
     //TODO: Se utiliza el id de la orden de compra como referencia externa para mercado pago. Esta referencia externa es la que permite conectar la información que se utiliza en el POST de mercadopago con la recibida al finalizar la compra y así poder obtener el estado de la compra
     const external_reference = last.id.toString();
@@ -278,35 +278,44 @@ export const GET_FeedbackPayment = async (
     request: Request,
     response: Response
 ) => {
-    const feedback = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-    console.log(feedback);
-
-    //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago.
-    await db.Orders.update({
-        status: feedback.status,
-    },{
-        where: {
-            id: feedback.external_reference
-        }
-    })
-   
-    if (feedback.status === 'approved') {
-        var orderAproved = await UPDATE_QuantitySizes(Number(feedback.external_reference))
-    }
-    // const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
-    // {
-    //     headers: {
-    //         "Content-types": "application/json",
-    //         Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
-    //     },
-    // });
-    // console.log(payment_detail);
+    try {
+        const feedback = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
     
-    response.status(200).json({
-        orderAproved,
-        Payment: feedback.payment_id,
-        Status: feedback.status,
-        MerchantOrder: feedback.merchant_order_id,
-        external_reference: feedback.external_reference
-    });
+        const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+        {
+            headers: {
+                "Content-types": "application/json",
+                Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
+            },
+        });
+    
+        //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
+        await db.Orders.update({
+            status: feedback.status,
+            payment_id: Number(feedback.payment_id),
+        },{
+            where: {
+                id: feedback.external_reference
+            }
+        })
+       
+        if (feedback.status === 'approved') {
+            var orderAproved = await UPDATE_QuantitySizes(Number(feedback.external_reference))
+        }
+        
+        return response.status(200).json({
+            payment_id: feedback.payment_id,
+            status: feedback.status,
+            external_reference: feedback.external_reference,
+            items: payment_detail.data.additional_info.items,
+            payment_method: payment_detail.data.payment_method_id,
+            payment_type: payment_detail.data.payment_type_id,
+            total_amount: payment_detail.data.transaction_amount,
+            cuotes: payment_detail.data.installments,
+            total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+            orderAproved,
+        });
+    } catch (error: any) {
+        return response.status(400).json({message: error.message});
+    }
 }

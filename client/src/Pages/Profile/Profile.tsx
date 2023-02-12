@@ -18,9 +18,6 @@ const Profile = (): JSX.Element => {
     settings: false,
   });
 
-  const { userId, userToken, userInfo, userType } = useSelector(
-    (state: State) => state.user
-  );
   //AL: loading state for loading implementation (done)
   //AL: size / amount state retrieve the selection for future add to cart implementation
 

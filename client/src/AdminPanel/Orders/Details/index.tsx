@@ -10,7 +10,7 @@ type Props = {
 const OrderDetails = ({ setSelected }: Props) => {
   const { orderDetails } = useSelector((state: State) => state.admin);
   const dispatch = useDispatch();
-  const { ADMfetch_order_id, ADMfetch_orders } = bindActionCreators(
+  const { ADMfetch_orders } = bindActionCreators(
     adminActions,
     dispatch
   );

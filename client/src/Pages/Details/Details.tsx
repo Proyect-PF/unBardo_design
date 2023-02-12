@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import imageB from '../../assets/images/remeras/unbardo-07B.png';
-import imageF from '../../assets/images/remeras/unbardo-07F.png';
+//import imageF from '../../assets/images/remeras/unbardo-07F.png';
 import Button from '../../components/Buttons/Button/Button';
 import AmountInput from '../../components/Inputs/Amount/AmountInput';
 import SizeSelector from '../../components/Inputs/SizeSelector/SizeSelector';

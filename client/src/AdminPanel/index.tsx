@@ -28,7 +28,7 @@ const AdminP = (): JSX.Element => {
       <div className="w-full ">
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
-        {panel == "info" && <InformationPanel />}
+        {panel === "info" && <InformationPanel />}
         {/* {panel == "sales" && <div>Sales</div>}*/}
         {/* {panel == "email" && <EmailCreation />} */}
       </div>

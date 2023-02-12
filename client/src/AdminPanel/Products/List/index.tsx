@@ -82,7 +82,7 @@ const ListProducts = ({
             <p className="w-8">{e.M}</p>
             <p className="w-8">{e.L}</p>
             <p className="w-8">{e.XL}</p>
-            <img src={e.image} className="w-20" />
+            <img src={e.image} className="w-20" alt=""/>
             <button
               onClick={() => {
                 setId(e.id);

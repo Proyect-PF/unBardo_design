@@ -35,6 +35,7 @@ const initialState: AdminState = {
     id: 0,
     fullname: "",
     status: "",
+    dispatched: false,
     updatedAt: "",
     email: "",
     orderProducts: [

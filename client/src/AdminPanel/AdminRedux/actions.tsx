@@ -47,12 +47,7 @@ export const ADMfetch_products_id = (id: number | undefined) => {
 
 export const ADMcreate_product = (payload: any) => {
   axios
-<<<<<<< HEAD
     .post("/products/", payload)
-    .then((res) => alert("OK"))
-    .catch((err) => alert(err.response.data.message));
-=======
-    .post("http://localhost:3700/products/", payload)
     .then((res) => {
       Swal.fire({
         title: "Se creo el producto con exito",
@@ -65,17 +60,11 @@ export const ADMcreate_product = (payload: any) => {
         cancelButtonText: "OK",
       });
     });
->>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 export const ADMupdate_product = (payload: any) => {
   axios
-<<<<<<< HEAD
     .put(`/products`, payload)
-    .then(() => alert("OK"))
-    .catch((err) => alert(err.response.data.message));
-=======
-    .put(`http://localhost:3700/products`, payload)
     .then(() =>
       Swal.fire({
         title: "Se edito el producto con exito",
@@ -88,17 +77,11 @@ export const ADMupdate_product = (payload: any) => {
         cancelButtonText: "OK",
       })
     );
->>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 export const ADMdelete_product = (payload: number | undefined) => {
   axios
-<<<<<<< HEAD
     .delete(`/products/${payload}`)
-    .then(() => alert("OK"))
-    .catch((err) => alert(err.response.data.message));
-=======
-    .delete(`http://localhost:3700/products/${payload}`)
     .then(() =>
       Swal.fire({
         title: "Se elimino el producto con exito",
@@ -111,7 +94,6 @@ export const ADMdelete_product = (payload: number | undefined) => {
         cancelButtonText: "OK",
       })
     );
->>>>>>> bda8a4b257d87241bf1de0eae593e1bb4d4879de
 };
 
 //Orders Actions

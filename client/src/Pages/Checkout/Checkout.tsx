@@ -22,9 +22,12 @@ interface UserProducts {
 
 const Checkout = (): JSX.Element => {
   const { checkoutList } = useSelector((state: State) => state.checkout);
+  const { userId } = useSelector((state: State) => state.user);
+
+  console.log(userId);
 
   const userProducts: UserProducts = {
-    id_user: 1,
+    id_user: userId,
     products: checkoutList.reduce((acc: Product[], item: any) => {
       const foundItem = acc.find((p) => p.id_product === item.id);
       if (foundItem) {
@@ -101,112 +104,3 @@ const Checkout = (): JSX.Element => {
 };
 
 export default Checkout;
-
-// {
-//   "id_user": 1,
-//   "products": [
-//       {
-//           "id_product": 1,
-//           "size": {
-//               "S": 2,
-//               "M": 1
-//           }
-//       },
-//       {
-//           "id_product": 2,
-//           "size": {
-//               "L": 1,
-//               "XL": 2
-//           }
-//       }
-//   ]
-// }
-
-// / const handleCheckout = async () => {
-//     try {
-//       checkoutList.forEach(async (product) => {
-//         await axios.post('/api/checkout', {
-//           id: product.id,
-//           title: product.name,
-//           price: product.price,
-//           quantity: product.ammount,
-//         });
-//       });
-//       console.log(checkoutList);
-//     } catch (error) {
-//       console.error(error);
-//       console.log(
-//         "La ruta '/api/checkout/' AUN NO EXISTE. Por favor, inténtelo más tarde."
-//       );
-//     }
-//   };
-
-// const products = checkoutList.map((product) => ({
-//   id_product: product.id || 0,
-//   title: product.name || '',
-//   price: product.price || 0,
-//   quantity: product.ammount || 0,
-//   size: {
-//     s: product.size === 's' ? product.ammount : 0,
-//     m: product.size === 'm' ? product.ammount : 0,
-//     L: product.size === 'L' ? product.ammount : 0,
-//     XL: product.size === 'XL' ? product.ammount : 0,
-//   },
-// }));
-
-///
-///
-// const { checkoutList } = useSelector((state: State) => state.checkout);
-
-// const userProducts = {
-//   id_user: 1,
-//   products: [
-//     {
-//       id_product: 1,
-//       size: {
-//         S: 2,
-//         M: 1,
-//       },
-//     },
-//     {
-//       id_product: 2,
-//       size: {
-//         L: 1,
-//         XL: 2,
-//       },
-//     },
-//   ],
-// };
-
-//   const handleCheckout = async () => {
-//     try {
-//       const promises = userProducts.products.map(async (product) => {
-//         await axios.post('http://localhost:3700/orders', {
-//           product: [
-//             {
-//               id_product: product.id_product,
-//               size: {
-//                 S: product.size.S,
-//                 M: product.size.M,
-//               },
-//             },
-//             {
-//               id_product: 2,
-//               size: {
-//                 L: product.size.L,
-//                 XL: product.size.XL,
-//               },
-//             },
-//           ],
-//         });
-//         console.log(promises);
-//       });
-//       await Promise.all(promises);
-//       console.log(checkoutList);
-//     } catch (error) {
-//       console.error(error);
-//       console.log(
-//         "La ruta '/orders' AUN NO EXISTE. Por favor, inténtelo más tarde."
-//       );
-//     }
-//   };

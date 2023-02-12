@@ -8,17 +8,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../state/reducers';
 
 export const FormCheckout = (): JSX.Element => {
-  const { checkoutList } = useSelector((state: State) => state.checkout);
-
-  const products =
-    checkoutList && checkoutList.length > 0
-      ? checkoutList.map((product: any) => ({
-          id_product:
-            typeof product.id === 'string'
-              ? parseInt(product.id.split('-')[0], 10) || 0
-              : 0,
-        }))
-      : [];
+  const { userId } = useSelector((state: State) => state.user);
 
   const initialValues = {
     area_code: '',
@@ -26,7 +16,7 @@ export const FormCheckout = (): JSX.Element => {
     zip_code: '',
     street_name: '',
     street_number: '',
-    id_user: 1,
+    id_user: userId,
   };
 
   return (

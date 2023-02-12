@@ -8,12 +8,8 @@ import {
     UPDATE_UpdateProduct
 } from "../controllers/controllers_product";
 
-import deleteImage from "../controllers/deleteImage";
-import getImages from "../controllers/getImages";
+
 import getVariants from "../controllers/getVariants";
-import postImage from "../controllers/postImage";
-import updateImage from "../controllers/updateImage";
-import validateImageId from "../middleware/validateImageId";
 import {verifyTokenIsAdmin} from "../../helpers/verifyTokenIsAdmin";
 
 //productRoutes.get("/:id", GET_AllProducts);
@@ -43,11 +39,6 @@ productRoutes.post("/", verifyTokenIsAdmin, POST_NewProduct);
 
 //   ALEJANDRO EN REVISION POR JOAQUIN CARRERA
 
-// IMAGES FOR PRODUCTS BY ID
-productRoutes.delete("/images/:id", validateImageId, deleteImage);
-productRoutes.post("/images", postImage);
-productRoutes.put("/images/:id", updateImage);
-productRoutes.get("/images/:id", getImages);
 
 // EXPERIMENTAL ROUTE ....
 productRoutes.get("/variants/:id", getVariants);

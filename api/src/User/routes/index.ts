@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  DELETE_User,
+  DELETE_UserById,
   GET_User,
   POST_User,
   UPDATE_User,
@@ -11,7 +11,7 @@ import { verifyTokenIsAdmin } from "../../helpers/verifyTokenIsAdmin";
 const userRoutes = Router();
 
 
-userRoutes.delete("/", DELETE_User);
+userRoutes.delete("/:id", DELETE_UserById);
 
 userRoutes.put("/:id", UPDATE_User);
 

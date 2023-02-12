@@ -1,4 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { bindActionCreators } from "redux";
 import Button from "../../../components/Buttons/Button/Button";
 import { State } from "../../../state/reducers";
@@ -17,6 +19,7 @@ const OrderDetails = ({ setSelected }: Props) => {
 
   return (
     <div>
+      <ToastContainer />
       <Button
         type="button"
         text="atras"
@@ -48,7 +51,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         text="Marcar como Despachado"
         name="deleteProd"
         onClick={() => {
-          adminActions.ADMupdate_order(orderDetails.id, "dispatched");
+          adminActions.ADMupdate_order(orderDetails.id, "dispatched", toast);
         }}
         disabled={false}
         type="button"

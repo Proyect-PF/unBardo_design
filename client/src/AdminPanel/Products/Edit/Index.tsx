@@ -7,6 +7,7 @@ import { State } from "../../../state/reducers";
 import { adminActions } from "../../AdminRedux";
 import FileUpload from "../Create/FileUploader";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from "react-toastify";
 
 type Props = {
   className: string;
@@ -18,6 +19,7 @@ const Edit = ({ className }: Props): JSX.Element => {
 
   return (
     <div className={className}>
+      <ToastContainer />
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -41,11 +43,14 @@ const Edit = ({ className }: Props): JSX.Element => {
             cancelButtonText: "No",
           }).then((result) => {
             if (result.isConfirmed)
-              adminActions.ADMupdate_product({
-                ...values,
-                id: productDetails.id,
-                show_in_shop: values.show_in_shop === "true" ? true : false,
-              });
+              adminActions.ADMupdate_product(
+                {
+                  ...values,
+                  id: productDetails.id,
+                  show_in_shop: values.show_in_shop === "true" ? true : false,
+                },
+                toast
+              );
           });
         }}
       >
@@ -207,7 +212,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                     cancelButtonText: "No",
                   }).then((result) => {
                     if (result.isConfirmed)
-                      adminActions.ADMdelete_product(productDetails.id);
+                      adminActions.ADMdelete_product(productDetails.id, toast);
                   })
                 }
                 disabled={false}

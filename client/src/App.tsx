@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 // import NewProductForm from "./components/NewProduct/NewProductForm";
 import AdminP from "./AdminPanel";
+import Orders from "./AdminPanel/Orders";
 import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Searchbar from "./layouts/Searchbar/Searchbar";
@@ -46,7 +47,8 @@ function App() {
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/checkout/payment' element={<Payment />} />
           <Route path='/orders/feedback' element={<OrderDetails />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/info" element={<Profile />} />
+          <Route path="/profile/orders" element={<Orders />} />
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/panel" element={<AdminP />} />
         </Routes>

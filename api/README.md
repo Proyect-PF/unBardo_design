@@ -162,6 +162,13 @@ Nombre de funcion = GET_OrderById.
     Si se recibe por param el id, busca la orden relacionada a ese id
 ```
 
+#### GET -> localhost:3700/orders/users/:id_user
+
+```env
+Nombre de funcion = GET_OrderByUser.
+    Si se recibe por param el id del usuario, busca todas las ordenes relacionadas a ese usuario que no esten con status "cart"
+```
+
 #### UPDATE -> localhost:3700/orders/
 
 ```env

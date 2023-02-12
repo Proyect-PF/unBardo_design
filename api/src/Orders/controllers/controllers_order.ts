@@ -164,3 +164,14 @@ export const DELETE_Order = async (request: Request, response: Response) => {
         return response.status(400).json({error: error.message});
     }
 };
+
+export const DELETE_AllOrders = async (request: Request, response: Response) => {
+    try {
+        const deletedOrders = await db.Orders.destroy({ where: {} });
+        await db.OrderProducts.destroy({ where: {} });
+        return response.status(200).json({ message: 'Todas las órdenes y sus productos asociados han sido eliminados correctamente.' });
+    } catch (error: any) {
+        console.error(error);
+        return response.status(500).json({ error: error.message });
+    }
+};

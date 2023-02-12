@@ -7,6 +7,7 @@ import {
     POST_Order,
     UPDATE_OrderStatus,
     DELETE_Order,
+    DELETE_AllOrders
 } from "../controllers/controllers_order";
 
 import {
@@ -32,5 +33,7 @@ ordersRoutes.post("/", POST_Order);
 ordersRoutes.put("/", UPDATE_OrderStatus);
 
 ordersRoutes.delete("/:id", DELETE_Order);
+
+ordersRoutes.delete("/", DELETE_AllOrders);
 
 export default ordersRoutes;

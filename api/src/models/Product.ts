@@ -52,10 +52,10 @@ export default (sequelize:any, DataTypes:any) => {
 
 
       static associate(models: any) {
-        // Product.hasMany(models.Image, {
-        //   foreignKey: 'productId',
-        //   as: 'images',
-        // })
+        Product.hasMany(models.Image, {
+          foreignKey: 'productId',
+          as: 'images',
+        })
         
         Product.belongsTo(models.Category, {
             foreignKey: 'id_category',

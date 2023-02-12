@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import getImagesInfo from "../middleware/getImagesInfo";
+import getImagesInfo from "../middlewares/getImagesInfo";
 
 interface RequestParams {}
 

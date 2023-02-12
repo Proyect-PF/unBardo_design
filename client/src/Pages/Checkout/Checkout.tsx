@@ -1,10 +1,10 @@
-import CheckoutCard from '../../components/Cards/Checkout/CheckoutCard';
-import Button from '../../components/Buttons/Button/Button';
-import { useSelector } from 'react-redux';
-import { State } from '../../state/reducers';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import CircularJSON from 'circular-json';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Button from '../../components/Buttons/Button/Button';
+import CheckoutCard from '../../components/Cards/Checkout/CheckoutCard';
+import { State } from '../../state/reducers';
 
 interface ProductSize {
   [size: string]: number;
@@ -12,7 +12,7 @@ interface ProductSize {
 
 interface Product {
   id_product: number;
-  size: ProductSize;
+  sizes: ProductSize;
 }
 
 interface UserProducts {
@@ -24,19 +24,21 @@ const Checkout = (): JSX.Element => {
   const { checkoutList } = useSelector((state: State) => state.checkout);
   const { userId } = useSelector((state: State) => state.user);
 
-  console.log(userId);
+  
+  const checkoutData = localStorage.getItem('shoppingBag');
+
 
   const userProducts: UserProducts = {
     id_user: userId,
     products: checkoutList.reduce((acc: Product[], item: any) => {
       const foundItem = acc.find((p) => p.id_product === item.id);
       if (foundItem) {
-        foundItem.size[item.size] = (foundItem.size[item.size] || 0) + 1;
+        foundItem.sizes[item.sizes] = (foundItem.sizes[item.sizes] || 0) + 1;
       } else {
         acc.push({
           id_product: parseInt(item.id.split('-')[0]),
-          size: {
-            [item.size]: item.ammount,
+          sizes: {
+            [item.sizes]: item.ammount,
           },
         });
       }
@@ -46,19 +48,19 @@ const Checkout = (): JSX.Element => {
 
   console.log(userProducts);
 
-  function handleCheckout(userProducts: JSON) {
-    const data = CircularJSON.stringify(userProducts);
-    // console.log(data);
+  
+  
+
+    console.log("EJECUTANDO AXIOS")
     axios
-      .post('http://localhost:3700/orders', data)
+      .post('http://localhost:3700/orders', userProducts)
       .then((response) => {
-        console.log('Order placed successfully!', response);
+        console.log('DESPUES DEL POST', response);
       })
       .catch((error) => {
-        console.error('Error placing order', error);
+        console.error('ERROR ENVIANDO LA DATA AL SERVER:', error);
       });
-  }
-
+  
   return (
     <div className='flex flex-col items-center'>
       {checkoutList?.length > 0 &&
@@ -94,7 +96,7 @@ const Checkout = (): JSX.Element => {
                 }, 0)
               : 0
           })`}
-          onClick={handleCheckout}
+          onClick={() => {}}
           // onClick={() => {}}
           disabled={checkoutList.length === 0}
         />

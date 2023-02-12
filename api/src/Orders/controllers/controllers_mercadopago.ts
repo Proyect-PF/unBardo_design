@@ -1,11 +1,11 @@
-import {Express, Request, Response} from "express";
-import dotenv from 'dotenv'
-import {Op} from "sequelize";
+import axios from "axios";
+import dotenv from 'dotenv';
+import { Express, Request, Response } from "express";
+import { Op } from "sequelize";
 import db from "../../database";
 import OrderProduct from "../../models/OrderProduct";
 import Product from "../../models/Product";
 import cloudinary from "../../utils/cloudinary";
-import axios from "axios";
 
 const mercadopago = require('mercadopago');
 dotenv.config();
@@ -227,7 +227,7 @@ export const POST_GeneratePayment = async (
 
     //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
     const prodInfo = await GET_OrderDescription(last.id);    
-    console.log(prodInfo);
+    
     
 
     //TODO: items => información relacionada al producto
@@ -269,7 +269,10 @@ export const POST_GeneratePayment = async (
             });
         }).catch(function (error: any) {
         console.log(error);
-        return response.status(400).json(error)
+        console.log("El id: ", last)
+        console.log("El userinfo: ", userInfo)
+        console.log("El prodinfo: ", prodInfo)
+        return response.status(402).json(error)
     });
 }
 

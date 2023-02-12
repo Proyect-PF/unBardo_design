@@ -5,7 +5,7 @@ import ordersRoutes from "./Orders/routes/index";
 import productRoutes from "./Product/routes";
 import userRoutes from "./User/routes";
 import emailRoutes from "./Email/routes";
-
+import imageRoutes from "./Image/routes";
 
 import authRouter from "./User/routes/auth";
 
@@ -34,6 +34,8 @@ routes.use("/auth", authRouter)
 //Ruta para el Carrito
 routes.use("/Cart", cartRoutes);
 
+//Ruta de imagenes
+routes.use("/images", imageRoutes);
 
 
 // COMENTADA POR JOAQUIN

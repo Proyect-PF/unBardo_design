@@ -69,7 +69,6 @@ export const fetch_product_byname = (name: string) => {
       })
       .catch((err) => {
         console.log(err);
-        window.alert(err.message);
       });
   };
 };

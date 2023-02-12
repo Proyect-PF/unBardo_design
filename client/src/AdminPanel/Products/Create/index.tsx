@@ -1,5 +1,6 @@
 import { Formik } from "formik";
 import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
 import { adminActions } from "../../AdminRedux";
@@ -14,6 +15,7 @@ const Create = ({ className }: Props): JSX.Element => {
 
   return (
     <div className={className}>
+      <ToastContainer />
       <Formik
         initialValues={{
           name: "",
@@ -29,10 +31,13 @@ const Create = ({ className }: Props): JSX.Element => {
         }}
         onSubmit={(values, { resetForm }) => {
           img ? setImg(false) : setImg(true);
-          adminActions.ADMcreate_product({
-            ...values,
-            show_in_shop: values.show_in_shop === "true" ? true : false,
-          });
+          adminActions.ADMcreate_product(
+            {
+              ...values,
+              show_in_shop: values.show_in_shop === "true" ? true : false,
+            },
+            toast
+          );
           resetForm();
         }}
       >

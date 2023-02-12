@@ -4,7 +4,6 @@ import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 import Swal from "sweetalert2";
 
-
 //Product actions
 export const ADMfetch_products = () => {
   return (dispatch: Dispatch<AdminAction>) => {
@@ -42,55 +41,28 @@ export const ADMfetch_products_id = (id: number | undefined) => {
   };
 };
 
-export const ADMcreate_product = (payload: any) => {
-  axios
-    .post("http://localhost:3700/products/", payload)
-    .then((res) => {
-      Swal.fire({
-        title: "Se creo el producto con exito",
-        confirmButtonText: "OK",
-      });
-    })
-    .catch((err) => {
-      Swal.fire({
-        title: err.response.data.message,
-        cancelButtonText: "OK",
-      });
-    });
+export const ADMcreate_product = (payload: any, toast: any) => {
+  toast.promise(axios.post("http://localhost:3700/products/", payload), {
+    pending: "Creando...",
+    success: "Se creo el producto con exito.",
+    error: "Algo salio mal...",
+  });
 };
 
-export const ADMupdate_product = (payload: any) => {
-  axios
-    .put(`http://localhost:3700/products`, payload)
-    .then(() =>
-      Swal.fire({
-        title: "Se edito el producto con exito",
-        confirmButtonText: "OK",
-      })
-    )
-    .catch((err) =>
-      Swal.fire({
-        title: err.response.data.message,
-        cancelButtonText: "OK",
-      })
-    );
+export const ADMupdate_product = (payload: any, toast: any) => {
+  toast.promise(axios.put(`http://localhost:3700/products`, payload), {
+    pending: "Editando...",
+    success: "Se edito el producto con exito.",
+    error: "Algo salio mal...",
+  });
 };
 
-export const ADMdelete_product = (payload: number | undefined) => {
-  axios
-    .delete(`http://localhost:3700/products/${payload}`)
-    .then(() =>
-      Swal.fire({
-        title: "Se elimino el producto con exito",
-        confirmButtonText: "OK",
-      })
-    )
-    .catch((err) =>
-      Swal.fire({
-        title: err.response.data.message,
-        cancelButtonText: "OK",
-      })
-    );
+export const ADMdelete_product = (payload: number | undefined, toast: any) => {
+  toast.promise(axios.delete(`http://localhost:3700/products/${payload}`), {
+    pending: "Eliminando...",
+    success: "Se elimino el producto con exito.",
+    error: "Algo salio mal...",
+  });
 };
 
 //Orders Actions
@@ -125,10 +97,19 @@ export const ADMfetch_order_id = (id: number | undefined) => {
   };
 };
 
-export const ADMupdate_order = (id: number | undefined, status: string) => {
-  axios
-    .put(`http://localhost:3700/orders/?id=${id}&status=${status}`)
-    .then(() => alert("OK"));
+export const ADMupdate_order = (
+  id: number | undefined,
+  status: string,
+  toast: any
+) => {
+  toast.promise(
+    axios.put(`http://localhost:3700/orders/?id=${id}&status=${status}`),
+    {
+      pending: "Actualizando...",
+      success: "Se actualizo el producto con exito",
+      error: "Algo salio mal...",
+    }
+  );
 };
 
 //Users Actions

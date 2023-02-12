@@ -14,7 +14,9 @@ import Payment from "./Pages/Checkout/Payment";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
 import Profile from "./Pages/Profile/Profile";
-import UserSignPage from "./Pages/UserSignPage/UserSignPage";
+import LogInPage from "./Pages/SignIn";
+import RegisterPage from "./Pages/SignUp";
+// import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -40,13 +42,15 @@ function App() {
         <Sidebar openClose={openClose} handleChange={handleChange} />
         <Navbar handleChange={handleChange} handleSearch={handleSearch} />
         <Routes>
-          <Route path='*' element={<div>404</div>} />
-          <Route path='/' element={<Home />} />
-          <Route path='/product/:name' element={<Details />} />
-          <Route path='/account/login' element={<UserSignPage />} />
-          <Route path='/checkout' element={<Checkout />} />
-          <Route path='/checkout/payment' element={<Payment />} />
-          <Route path='/orders/feedback' element={<OrderDetails />} />
+
+          <Route path="*" element={<div>404</div>} />
+          <Route path="/" element={<Home />} />
+          <Route path="/product/:name" element={<Details />} />
+          <Route path="/account/login" element={<LogInPage />} />
+          <Route path="/account/register" element={<RegisterPage />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout/payment" element={<Payment />} />
+          <Route path="/orders/feedback" element={<OrderDetails />} />
           <Route path="/profile/info" element={<Profile />} />
           <Route path="/profile/orders" element={<Orders />} />
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}

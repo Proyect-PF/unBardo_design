@@ -2,11 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
+import arrow from "../../assets/svg/come-back.svg";
 import { State } from "../../state/reducers";
 
 const Profile = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
   const dispatch = useDispatch();
+  const { userId, userToken, userInfo, userType } = useSelector(
+    (state: State) => state.user
+  );
+  const [show, setShow] = useState({
+    data: false,
+    orders: false,
+    favs: false,
+    settings: false,
+  });
 
   const { userId, userToken, userInfo, userType } = useSelector(
     (state: State) => state.user

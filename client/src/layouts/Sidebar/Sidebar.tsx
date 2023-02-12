@@ -50,9 +50,9 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         handleChange();
         navigate(`/profile/${id}`);
         break;
-        case "orders":
+      case "orders":
         handleChange();
-        navigate("/profile/:panel=orders");
+        navigate(`/profile/${id}`);
         break;
       case "help":
         break;

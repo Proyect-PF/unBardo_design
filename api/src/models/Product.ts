@@ -61,6 +61,7 @@ export default (sequelize:any, DataTypes:any) => {
             foreignKey: 'id_category',
         } )
         Product.belongsToMany(models.Orders, {
+          onDelete: "SET NULL",
           through: models.OrderProducts,
           foreignKey: 'id_product',
           as: 'orders'

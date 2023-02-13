@@ -24,7 +24,6 @@ export default (sequelize: Sequelize.Sequelize) => {
 
         public id!: number;
         public id_order!: number;
-        public id_product!: number;
         public sizes!: { [size: string]: number };
     }
 
@@ -46,11 +45,12 @@ export default (sequelize: Sequelize.Sequelize) => {
             },
             id_product: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: 'Product',
                     key: 'id'
-                }
+                },
+                onDelete: 'SET NULL',
             },
             sizes: {
                 type: DataTypes.JSON

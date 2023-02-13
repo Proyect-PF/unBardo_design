@@ -10,6 +10,7 @@ import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router-dom";
 import { userRegister } from "../../state/action-creators";
 import { UserRegister } from "../../state/types";
+import { validateRegister } from "./validates";
 
 export const Register = (): JSX.Element => {
   const navigate = useNavigate();
@@ -24,25 +25,7 @@ export const Register = (): JSX.Element => {
     <div>
       <Formik
         initialValues={initialvalues}
-        validate={(values) => {
-          let errors: any = {};
-          if (!values.fullname) {
-            errors.fullname = "Ingrese su nombre";
-          } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.fullname)) {
-            errors.fullname = "Su nombre no puede contener numeros";
-          }
-          if (!values.email) {
-            errors.email = "Ingrese un email";
-          } else if (
-            !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
-              values.email
-            )
-          ) {
-            errors.email = "Ingrese un email valido";
-          }
-          if (!values.password) errors.password = "Ingrese una contraseña";
-          return errors;
-        }}
+        validate={validateRegister}
         onSubmit={(values) => {
           userRegister(values, navigate);
         }}
@@ -105,7 +88,7 @@ export const Register = (): JSX.Element => {
               text="Registrarme"
               name="Register"
               onClick={handleSubmit}
-              disabled={false}
+              disabled={Object.values(values).some(e => e === "") || Object.values(errors).some(e => e !== "")}
               type="button"
             />
           </form>

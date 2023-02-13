@@ -24,7 +24,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         <p className="w-20"></p>
       </div>
       {allOrders &&
-        allOrders.map((e: any) => (
+        allOrders.map((e) => (
           <div className="flex items-center justify-around w-full text-center border-t">
             <p className="w-8 border-r border-black">{e.id}</p>
             <p className=" w-60">{e.users.fullname}</p>

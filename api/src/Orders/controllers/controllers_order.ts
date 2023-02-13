@@ -84,7 +84,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Ejecutar la primera consulta
         const order = await db.Orders.findOne({
             where: {id: orderId},
-            attributes: ["id", "updatedAt", "status"],
+            attributes: ["id", "updatedAt", "status", "dispatched"],
             include: [{model: db.Users, as: "users", attributes: ["fullname", "email"]}],
             order: [['updatedAt', 'DESC']]
         });
@@ -96,13 +96,14 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         });
 
         // Extraer los valores de order y users
-        const {id, updatedAt, status} = order.dataValues;
+        const {id, updatedAt, status, dispatched} = order.dataValues;
         const {fullname, email} = order.users;
         // Combinar solo los valores necesarios
         const response = {
             id,
             updatedAt,
             status,
+            dispatched,
             fullname,
             email
             ,

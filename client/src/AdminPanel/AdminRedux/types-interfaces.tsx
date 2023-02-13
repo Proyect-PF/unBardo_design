@@ -54,7 +54,7 @@ export type OrdersAdmin = {
   dispatched: boolean;
   createdAt: string;
   updatedAt: string;
-  users: User[];
+  users: User;
 };
 
 export type OrderAdmin = {

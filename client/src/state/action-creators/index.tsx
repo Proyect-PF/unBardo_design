@@ -135,6 +135,15 @@ export const fetch_product_detail = (id: number) => {
   };
 };
 
+//Funcion para limpiar la pag details y que no se vea el producto anteriormente cargado
+export const clear_product_detail = () => {
+  return (dispatch: Dispatch<ActionProducts>) => {
+    dispatch({
+      type: ActionType.CLEAR_PRODUCT_DETAILS,
+    });
+  };
+};
+
 // Funcion que retorna Productos desde la API de manera filtrada
 // Requiere una query String como parametro. A EXTENDER !
 export const fetch_filtered_products = (query: string) => {

@@ -39,7 +39,7 @@ const Navbar = ({ handleChange, handleSearch }: any) => {
         </Link>
       </div>
       <div
-        className={`absolute right-1 top-2 bg-red-600 h-5 w-5 rounded-full ${
+        className={`absolute right-1 top-8 bg-red-600 h-5 w-5 rounded-full ${
           checkoutList.length ? null : "hidden"
         } ${location.pathname === "/checkout" ? "hidden" : null}`}
       >

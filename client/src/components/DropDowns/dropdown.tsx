@@ -33,7 +33,7 @@ const Dropdown = (): JSX.Element => {
   }, [Query]);
 
   return (
-    <div className="flex justify-around my-2">
+    <div className="flex justify-around">
       <select
         className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
           show ? "visible" : "hidden"

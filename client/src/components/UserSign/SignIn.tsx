@@ -11,6 +11,7 @@ import { UserLog } from "../../state/types";
 import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
 import Swal from "sweetalert2";
+import { validateLogin } from "./validates";
 
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -25,20 +26,7 @@ export const LogIn = (): JSX.Element => {
     <div>
       <Formik
         initialValues={initialValues}
-        validate={(values) => {
-          let errors: any = {};
-          if (!values.email) {
-            errors.email = "Ingrese un email";
-          } else if (
-            !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
-              values.email
-            )
-          ) {
-            errors.email = "Ingrese un email valido";
-          }
-          if (!values.password) errors.password = "Ingrese una contraseña";
-          return errors;
-        }}
+        validate={validateLogin}
         onSubmit={(values) => {
           userLogin(values, navigate);
         }}

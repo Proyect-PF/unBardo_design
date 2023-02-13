@@ -1,7 +1,10 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types";
+import Swal from "sweetalert2";
 import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
+import userIcon from "../../assets/svg/user-icon.svg"
+import alertIcon from "../../assets/svg/alert.svg"
 import {
   Checkout,
   Product,
@@ -212,10 +215,31 @@ export const userRegister = (user: UserRegister, navigate: any) => {
       //   type: ActionType.GET_TOKEN_USER_LOG,
       //   payload: ""
       // })
-      alert("Bienvenido! Por favor inicia sesion.");
-      navigate("/account/login");
+      Swal.fire({
+        imageUrl: userIcon,
+        imageHeight: 80,
+        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
+        showConfirmButton: true,
+        confirmButtonColor: "#000",
+        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
+        html: '<p class="font-poppins font-medium text-black italic" >Bienvenido! Por favor inicia sesion.</p>',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/account/login')
+        }
+      })
     })
-    .catch((err) => alert(err.response.data.message));
+    .catch((err) => {
+      Swal.fire({
+        imageUrl: alertIcon,
+        imageHeight: 80,
+        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
+        showConfirmButton: true,
+        confirmButtonColor: "#000",
+        confirmButtonText: "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
+        html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
+      })
+    });
   // }
 };
 
@@ -234,7 +258,17 @@ export const userLogin = (user: UserLog, navigate: any) => {
         });
         navigate("/");
       })
-      .catch((err) => alert(err.response.data.message));
+      .catch((err) => {
+        Swal.fire({
+        imageUrl: alertIcon,
+        imageHeight: 80,
+        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
+        showConfirmButton: true,
+        confirmButtonColor: "#000",
+        confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
+        html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
+        })
+      });
   };
 };
 

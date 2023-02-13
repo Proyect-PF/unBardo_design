@@ -1,5 +1,5 @@
-import { ActionType } from '../action-types';
-import { AddProductPayload, Checkout, Orders, Product, User } from '../types';
+import { ActionType } from "../action-types";
+import { AddProductPayload, Checkout, Orders, Product, User } from "../types";
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -38,6 +38,10 @@ interface FilterProducts {
   payload: Product[];
 }
 
+interface ClearProductDetails {
+  type: ActionType.CLEAR_PRODUCT_DETAILS;
+}
+
 //AL: once you created the needed interface add it here with |
 export type ActionProducts =
   | GetAllAction
@@ -46,7 +50,8 @@ export type ActionProducts =
   | GetProductDetails
   | SearchProducts
   | SortProducts
-  | FilterProducts;
+  | FilterProducts
+  | ClearProductDetails;
 
 interface UserLogin {
   type: ActionType.USER_LOGIN;

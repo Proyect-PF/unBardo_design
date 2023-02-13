@@ -17,7 +17,10 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
+  const { fetch_products, clear_product_detail } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
   const [loading, setLoading] = useState(true);
   const { productList, productTotal } = useSelector(
     (state: State) => state.products
@@ -39,6 +42,7 @@ const Home = () => {
   //AL: Set loading state to false when data has been retrieved
   useEffect(() => {
     if (productTotal.length > 0) setLoading(false);
+    clear_product_detail();
   }, [productTotal]);
 
   return (

@@ -8,6 +8,7 @@ import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Searchbar from "./layouts/Searchbar/Searchbar";
 import Sidebar from "./layouts/Sidebar/Sidebar";
+import Page404 from "./Pages/404";
 import Checkout from "./Pages/Checkout/Checkout";
 import OrderDetails from "./Pages/Checkout/OrdersDetails";
 import Payment from "./Pages/Checkout/Payment";
@@ -42,8 +43,7 @@ function App() {
         <Sidebar openClose={openClose} handleChange={handleChange} />
         <Navbar handleChange={handleChange} handleSearch={handleSearch} />
         <Routes>
-
-          <Route path="*" element={<div>404</div>} />
+          <Route path="*" element={<Page404 />} />
           <Route path="/" element={<Home />} />
           <Route path="/product/:name" element={<Details />} />
           <Route path="/account/login" element={<LogInPage />} />

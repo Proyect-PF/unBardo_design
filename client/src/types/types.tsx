@@ -16,6 +16,7 @@ export type User = {
   fullname: string;
   password: string;
   email: string;
+  news_letter?: boolean;
   //
   id?: number;
   id_role?: number | undefined;

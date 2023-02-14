@@ -3,11 +3,23 @@
 import {Request, Response, response} from "express";
 import db from "../database/database";
 import getErrorMessage from "../helpers/handleErrorCatch";
+import { User } from "../types";
 
 
 export const GET_User = async (req: Request, res: Response) => {
-    const users = await db.Users.findAll();
-    res.send(users);
+    try {
+        let {emails} = req.query        
+        //true o false, me indica si quiero filtrar y obtener solo los usuarios
+        if(emails === "true") {
+            const usersEmails:User[] = await db.Users.findAll({attributes: {exclude: ["password", "id", "createdAt", "updatedAt", "id_role"]}});
+    
+            return res.send(usersEmails)
+        }
+        const users:User[] = await db.Users.findAll();
+        return res.send(users);
+    } catch (error) {
+        return res.status(400).json(getErrorMessage(error))
+    }
 };
 
 export const POST_User = async (req: Request, res: Response) => {
@@ -23,29 +35,21 @@ export const POST_User = async (req: Request, res: Response) => {
 
 export const UPDATE_User = async (req: Request, res: Response) => {
     try {
-        const user = req.body;
+        const user:User = req.body;
         const {id} = req.params;
-        console.log("id:", id);
-        console.log("USER:", user);
 
         const [numberOfAffectedRows, affectedRows] = await db.Users.update(
             {
-                fullname: user.fullname,
-                email: user.email,
-                password: user.password,
-
+            ...user
             },
             {
                 where: {id: id},
                 returning: true,
             }
         );
-        console.log("AFECTED ROWS:", affectedRows[0]);
-        console.log("AFECTED ROWS:", numberOfAffectedRows);
-
-        // if (numberOfAffectedRows === 0) {
-        //   throw new Error(`No user updated with id ${user.id}`);
-        // }
+        if (numberOfAffectedRows === 0) {
+          throw new Error(`No user updated with id ${user.id}`);
+        }
         return res.status(200).json(affectedRows[0]);
 
         //TODO: STATUS => 201: Created, 204: No Content

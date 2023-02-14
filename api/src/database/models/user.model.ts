@@ -1,22 +1,18 @@
 'use strict';
 import { Model } from "sequelize";
 import bcrypt from "bcryptjs"
+import { User } from "../../types";
 
-
-interface interUser {
-  firstName: string,
-    lastName:string,
-    email: string,
-    color:string
-}
 
 export default (sequelize:any, DataTypes:any) => {
-  class Users extends Model{
+  class Users extends Model implements Model<User>{
 
+    fullname!:string
     firstName!: string
     lastName!:string
     email!:string
-    color!:string
+    password!:string
+
 
     /**
      * Method encryptPassword
@@ -66,6 +62,11 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
+    news_letter: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Users',

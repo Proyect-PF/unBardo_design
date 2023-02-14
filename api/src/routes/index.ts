@@ -1,35 +1,23 @@
-import { Router } from "express";
-import ordersRoutes from "./order.routes";
-import productRoutes from "./product.routes";
-import userRoutes from "./user.routes";
-import emailRoutes from "./email.routes";
+import { Router } from 'express';
 
-import authRouter from "./auth.routes";
+// Importa los enrutadores del módulo 'routes'.
+import authRouter from './auth.routes';
+import cartRoutes from './cart.routes';
+import emailRoutes from './email.routes';
+import ordersRoutes from './order.routes';
+import productRoutes from './product.routes';
+import userRoutes from './user.routes';
 
-import cartRoutes from "./cart.routes";
-
+// Crea una instancia de un enrutador de Express.
 const index = Router();
 
-//END POINTS
+// Define las rutas para cada enrutador.
+index.use('/auth', authRouter);
+index.use('/cart', cartRoutes);
+index.use('/email', emailRoutes);
+index.use('/orders', ordersRoutes);
+index.use('/products', productRoutes);
+index.use('/users', userRoutes);
 
-//Ruta de usuarios
-index.use("/users", userRoutes);
-
-//Ruta de productos
-index.use("/products", productRoutes);
-
-//Ruta de Ordenes
-index.use("/orders", ordersRoutes);
-
-// Ruta de email
-index.use("/email", emailRoutes);
-
-//Ruta de Autorizacion
-index.use("/auth", authRouter)
-
-
-//Ruta para el Carrito
-index.use("/Cart", cartRoutes);
-
-
+// Exporta el enrutador de índice para que pueda ser utilizado por otros módulos.
 export default index;

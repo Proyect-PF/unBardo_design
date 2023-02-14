@@ -14,6 +14,7 @@ import OrderDetails from "./Pages/Checkout/OrdersDetails";
 import Payment from "./Pages/Checkout/Payment";
 import Details from "./Pages/Details/Details";
 import Home from "./Pages/Home/Home";
+import Newsletter from "./Pages/NewsLetter";
 import Profile from "./Pages/Profile/Profile";
 import LogInPage from "./Pages/SignIn";
 import RegisterPage from "./Pages/SignUp";
@@ -52,6 +53,7 @@ function App() {
           <Route path="/checkout/payment" element={<Payment />} />
           <Route path="/orders/feedback" element={<OrderDetails />} />
           <Route path="/profile/:panel" element={<Profile />} />
+          <Route path="/newsletter" element={<Newsletter />} />
           {/*<Route path="/profile/orders" element={<Orders />} />*/}
           {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
           <Route path="/panel" element={<AdminP />} />

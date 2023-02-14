@@ -64,7 +64,8 @@ export default (sequelize:any, DataTypes:any) => {
     },
     news_letter: {
       type: DataTypes.BOOLEAN,
-      allowNull: true
+      allowNull: true,
+      defaultValue: true,
     }
   }, {
     sequelize,

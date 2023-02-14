@@ -1,18 +1,23 @@
 import Products from "./Products";
 import { useState, useEffect } from "react";
 import InformationPanel from "./Information";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Orders from "./Orders";
 import { adminActions } from "./AdminRedux";
+import { State } from "../state/reducers";
+import { useNavigate } from "react-router-dom";
 // import EmailCreation from "./Email";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
+  const { userType } = useSelector((state: State) => state.user);
 
   useEffect(() => {
+    if (userType !== "admin") navigate("/");
     ADMfetch_products();
   }, []);
 

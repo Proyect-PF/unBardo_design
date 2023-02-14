@@ -7,6 +7,8 @@ import { State } from "../../../state/reducers";
 import { adminActions } from "../../AdminRedux";
 import FileUpload from "../Create/FileUploader";
 import Swal from "sweetalert2";
+import trash from "../../../assets/svg/trash.svg";
+import edit from "../../../assets/svg/pencil-alt.svg";
 import { ToastContainer, toast } from "react-toastify";
 
 type Props = {
@@ -16,6 +18,35 @@ type Props = {
 const Edit = ({ className }: Props): JSX.Element => {
   const { productDetails } = useSelector((state: State) => state.admin);
   const [img, setImg] = useState(true);
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "bg-white border-black rounded-none",
+      cancelButton: "btn btn-danger",
+    },
+  });
+
+  const handleDelete = () => {
+    swalWithBootstrapButtons
+      .fire({
+        title:
+          '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+        imageUrl: trash,
+        html: '<p class="font-poppins font-medium text-black italic" >Eliminaras este producto definitivamente</p>',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: "#e5e7eb",
+        cancelButtonColor: "#000",
+        confirmButtonText:
+          '<p class="font-rift text-lg text-black">Si, Remover!</p>',
+        cancelButtonText: '<p class="font-rift text-lg">No, cancelar!</p>',
+        focusConfirm: false,
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          adminActions.ADMdelete_product(productDetails.id, toast);
+        }
+      });
+  };
 
   return (
     <div className={className}>
@@ -35,23 +66,35 @@ const Edit = ({ className }: Props): JSX.Element => {
           image: productDetails.image,
         }}
         onSubmit={(values) => {
-          img ? setImg(false) : setImg(true);
-          Swal.fire({
-            title: "Quieres guardar los cambios?",
-            showCancelButton: true,
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed)
-              adminActions.ADMupdate_product(
-                {
-                  ...values,
-                  id: productDetails.id,
-                  show_in_shop: values.show_in_shop === "true" ? true : false,
-                },
-                toast
-              );
-          });
+          swalWithBootstrapButtons
+            .fire({
+              title:
+                '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+              imageUrl: edit,
+              html: '<p class="font-poppins font-medium text-black italic" >Editaras este producto definitivamente</p>',
+              showCancelButton: true,
+              showConfirmButton: true,
+              confirmButtonColor: "#e5e7eb",
+              cancelButtonColor: "#000",
+              confirmButtonText:
+                '<p class="font-rift text-lg text-black">Si, Editar!</p>',
+              cancelButtonText:
+                '<p class="font-rift text-lg">No, cancelar!</p>',
+              focusConfirm: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                img ? setImg(false) : setImg(true);
+                adminActions.ADMupdate_product(
+                  {
+                    ...values,
+                    id: productDetails.id,
+                    show_in_shop: values.show_in_shop === "true" ? true : false,
+                  },
+                  toast
+                );
+              }
+            });
         }}
       >
         {({
@@ -204,17 +247,7 @@ const Edit = ({ className }: Props): JSX.Element => {
               <Button
                 text="Eliminar Producto"
                 name="deleteProd"
-                onClick={() =>
-                  Swal.fire({
-                    title: "Quieres eliminar el producto?",
-                    showCancelButton: true,
-                    confirmButtonText: "Si",
-                    cancelButtonText: "No",
-                  }).then((result) => {
-                    if (result.isConfirmed)
-                      adminActions.ADMdelete_product(productDetails.id, toast);
-                  })
-                }
+                onClick={handleDelete}
                 disabled={false}
                 type="button"
                 className={"justify-center"}

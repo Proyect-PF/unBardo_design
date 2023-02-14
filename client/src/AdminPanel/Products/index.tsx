@@ -10,7 +10,7 @@ import { adminActions } from "../AdminRedux";
 const Products = (): JSX.Element => {
   const [selected, setSelected] = useState("list");
   const dispatch = useDispatch();
-  const [id, setId] = useState<number | undefined>(1);
+  const [id, setId] = useState<number>(1);
   const { ADMfetch_products, ADMfetch_products_id } = bindActionCreators(
     adminActions,
     dispatch

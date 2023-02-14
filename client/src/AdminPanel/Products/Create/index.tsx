@@ -1,10 +1,12 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import Swal from "sweetalert2";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
 import { adminActions } from "../../AdminRedux";
 import FileUpload from "./FileUploader";
+import check from "../../../assets/svg/check.svg";
 
 type Props = {
   className: string;
@@ -12,6 +14,12 @@ type Props = {
 
 const Create = ({ className }: Props): JSX.Element => {
   const [img, setImg] = useState(true);
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "bg-white border-black rounded-none",
+      cancelButton: "btn btn-danger",
+    },
+  });
 
   return (
     <div className={className}>
@@ -30,15 +38,35 @@ const Create = ({ className }: Props): JSX.Element => {
           image: "",
         }}
         onSubmit={(values, { resetForm }) => {
-          img ? setImg(false) : setImg(true);
-          adminActions.ADMcreate_product(
-            {
-              ...values,
-              show_in_shop: values.show_in_shop === "true" ? true : false,
-            },
-            toast
-          );
-          resetForm();
+          swalWithBootstrapButtons
+            .fire({
+              title:
+                '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+              imageUrl: check,
+              html: '<p class="font-poppins font-medium text-black italic" >Quieres crear el producto?</p>',
+              showCancelButton: true,
+              showConfirmButton: true,
+              confirmButtonColor: "#e5e7eb",
+              cancelButtonColor: "#000",
+              confirmButtonText:
+                '<p class="font-rift text-lg text-black">Si, Crear!</p>',
+              cancelButtonText:
+                '<p class="font-rift text-lg">No, cancelar!</p>',
+              focusConfirm: false,
+            })
+            .then((result) => {
+              if (result.isConfirmed) {
+                img ? setImg(false) : setImg(true);
+                adminActions.ADMcreate_product(
+                  {
+                    ...values,
+                    show_in_shop: values.show_in_shop === "true" ? true : false,
+                  },
+                  toast
+                );
+                resetForm();
+              }
+            });
         }}
       >
         {({

@@ -29,7 +29,7 @@ export const ADMfetch_products_name = (name: string) => {
   };
 };
 
-export const ADMfetch_products_id = (id: number | undefined) => {
+export const ADMfetch_products_id = (id: number) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get(`http://localhost:3700/products/${id}`).then((res) => {
       const payload = res.data;
@@ -57,7 +57,7 @@ export const ADMupdate_product = (payload: any, toast: any) => {
   });
 };
 
-export const ADMdelete_product = (payload: number | undefined, toast: any) => {
+export const ADMdelete_product = (payload: number, toast: any) => {
   toast.promise(axios.delete(`http://localhost:3700/products/${payload}`), {
     pending: "Eliminando...",
     success: "Se elimino el producto con exito.",

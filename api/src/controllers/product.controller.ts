@@ -87,7 +87,7 @@ export const DELETE_DeleteProduct = async (
         const deletedProduct = await db.Product.destroy({where: {id}});
         return response.status(200).json(deletedProduct);
     } catch (error: any) {
-        return response.status(500).json({error: error.message,}).send("No se elimino");
+        return response.status(500).json({error: error.message});
 
     }
 };

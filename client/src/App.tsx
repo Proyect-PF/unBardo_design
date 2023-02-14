@@ -43,21 +43,23 @@ function App() {
         <Searchbar openClose={search} handleSearch={handleSearch} />
         <Sidebar openClose={openClose} handleChange={handleChange} />
         <Navbar handleChange={handleChange} handleSearch={handleSearch} />
-        <Routes>
-          <Route path="*" element={<Page404 />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/product/:name" element={<Details />} />
-          <Route path="/account/login" element={<LogInPage />} />
-          <Route path="/account/register" element={<RegisterPage />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/checkout/payment" element={<Payment />} />
-          <Route path="/orders/feedback" element={<OrderDetails />} />
-          <Route path="/profile/:panel" element={<Profile />} />
-          <Route path="/newsletter" element={<Newsletter />} />
-          {/*<Route path="/profile/orders" element={<Orders />} />*/}
-          {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
-          <Route path="/panel" element={<AdminP />} />
-        </Routes>
+        <div className="pt-28">
+          <Routes>
+            <Route path="*" element={<Page404 />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:name" element={<Details />} />
+            <Route path="/account/login" element={<LogInPage />} />
+            <Route path="/account/register" element={<RegisterPage />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/payment" element={<Payment />} />
+            <Route path="/orders/feedback" element={<OrderDetails />} />
+            <Route path="/profile/:panel" element={<Profile />} />
+            <Route path="/newsletter" element={<Newsletter />} />
+            {/*<Route path="/profile/orders" element={<Orders />} />*/}
+            {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
+            <Route path="/panel" element={<AdminP />} />
+          </Routes>
+        </div>
         <Footer />
       </BrowserRouter>
     </div>

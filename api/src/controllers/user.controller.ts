@@ -10,8 +10,13 @@ export const GET_User = async (req: Request, res: Response) => {
     try {
         let {emails} = req.query        
         //true o false, me indica si quiero filtrar y obtener solo los usuarios
-        if(emails === "true") {
-            const usersEmails:User[] = await db.Users.findAll({attributes: {exclude: ["password", "id", "createdAt", "updatedAt", "id_role"]}});
+        if (emails === "true") {
+            const usersEmails: User[] = await db.Users.findAll({
+              where: { news_letter: true },
+              attributes: {
+                exclude: ["password", "id", "createdAt", "updatedAt", "id_role","news_letter"],
+              },
+            });
     
             return res.send(usersEmails)
         }

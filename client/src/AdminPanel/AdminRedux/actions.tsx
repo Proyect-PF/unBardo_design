@@ -3,11 +3,12 @@ import { Dispatch } from "redux";
 import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 import Swal from "sweetalert2";
+import { PORT, baseURL } from "../../utils/url&port";
 
 //Product actions
 export const ADMfetch_products = () => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get("http://localhost:3700/products/").then((res) => {
+    axios.get(`${baseURL}:${PORT}/products/`).then((res) => {
       const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
@@ -19,7 +20,7 @@ export const ADMfetch_products = () => {
 
 export const ADMfetch_products_name = (name: string) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`http://localhost:3700/products/search/${name}`).then((res) => {
+    axios.get(`${baseURL}:${PORT}/products/search/${name}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_PRODUCT_BY_NAME,
@@ -31,7 +32,7 @@ export const ADMfetch_products_name = (name: string) => {
 
 export const ADMfetch_products_id = (id: number) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`http://localhost:3700/products/${id}`).then((res) => {
+    axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_PRODUCT_BY_ID,
@@ -42,7 +43,7 @@ export const ADMfetch_products_id = (id: number) => {
 };
 
 export const ADMcreate_product = (payload: any, toast: any) => {
-  toast.promise(axios.post("http://localhost:3700/products/", payload), {
+  toast.promise(axios.post(`${baseURL}:${PORT}/products/`, payload), {
     pending: "Creando...",
     success: "Se creo el producto con exito.",
     error: "Algo salio mal...",
@@ -50,7 +51,7 @@ export const ADMcreate_product = (payload: any, toast: any) => {
 };
 
 export const ADMupdate_product = (payload: any, toast: any) => {
-  toast.promise(axios.put(`http://localhost:3700/products`, payload), {
+  toast.promise(axios.put(`${baseURL}:${PORT}/products`, payload), {
     pending: "Editando...",
     success: "Se edito el producto con exito.",
     error: "Algo salio mal...",
@@ -58,7 +59,7 @@ export const ADMupdate_product = (payload: any, toast: any) => {
 };
 
 export const ADMdelete_product = (payload: number, toast: any) => {
-  toast.promise(axios.delete(`http://localhost:3700/products/${payload}`), {
+  toast.promise(axios.delete(`${baseURL}:${PORT}/products/${payload}`), {
     pending: "Eliminando...",
     success: "Se elimino el producto con exito.",
     error: "Algo salio mal...",
@@ -69,7 +70,7 @@ export const ADMdelete_product = (payload: number, toast: any) => {
 export const ADMfetch_orders = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/orders`)
+      .get(`${baseURL}:${PORT}/orders`)
       .then((res) => {
         const payload = res.data;
 
@@ -85,7 +86,7 @@ export const ADMfetch_orders = () => {
 export const ADMfetch_order_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/orders/${id}`)
+      .get(`${baseURL}:${PORT}/orders/${id}`)
       .then((res) => {
         const payload = res.data;
         dispatch({
@@ -103,7 +104,7 @@ export const ADMupdate_order = (
   toast: any
 ) => {
   toast.promise(
-    axios.put(`http://localhost:3700/orders/?id=${id}&status=${status}`),
+    axios.put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`),
     {
       pending: "Actualizando...",
       success: "Se actualizo el producto con exito",
@@ -116,7 +117,7 @@ export const ADMupdate_order = (
 export const ADMfetch_users = () => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/users`)
+      .get(`${baseURL}:${PORT}/users`)
       .then((res) => {
         const payload = res.data;
         dispatch({
@@ -131,7 +132,7 @@ export const ADMfetch_users = () => {
 export const ADMfetch_users_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`http://localhost:3700/users/${id}`)
+      .get(`${baseURL}:${PORT}/users/${id}`)
       .then((res) => {
         const payload = res.data;
         dispatch({

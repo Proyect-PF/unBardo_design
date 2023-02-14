@@ -3,8 +3,8 @@ import { Dispatch } from "redux";
 import { ActionType } from "../action-types";
 import Swal from "sweetalert2";
 import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
-import userIcon from "../../assets/svg/user-icon.svg"
-import alertIcon from "../../assets/svg/alert.svg"
+import userIcon from "../../assets/svg/user-icon.svg";
+import alertIcon from "../../assets/svg/alert.svg";
 import {
   Checkout,
   Product,
@@ -13,7 +13,7 @@ import {
   UserLog,
   UserRegister,
 } from "../types";
-
+import { PORT, baseURL } from "../../utils/url&port";
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
@@ -21,7 +21,7 @@ import {
 export const fetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get(`http://localhost:3700/products/?${query}`).then((res) => {
+    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
       payload = res.data;
       // ENVIAMOS PAYLOAD A REDUX
       dispatch({
@@ -60,7 +60,7 @@ export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
-      .get(`http://localhost:3700/products/search/${name}`)
+      .get(`${baseURL}:${PORT}/products/search/${name}`)
       .then((res) => {
         payload = res.data;
 
@@ -112,7 +112,7 @@ export const fetch_product_detail = (id: number) => {
       show_in_shop: true,
       image: "",
     };
-    axios.get(`http://localhost:3700/products/${id}`).then((res) => {
+    axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
       if (res.data?.id) {
         product = {
           id: res.data.id,
@@ -153,7 +153,7 @@ export const fetch_filtered_products = (query: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
-      .get(`http://localhost:3700/products/filtered/?${query}`)
+      .get(`${baseURL}:${PORT}/products/filtered/?${query}`)
       .then((response) => {
         if (response.data) {
           payload = response.data;
@@ -206,7 +206,7 @@ export const userRegister = (user: UserRegister, navigate: any) => {
   // return (dispatch: Dispatch<ActionUser>)=> {
 
   axios
-    .post(`http://localhost:3700/auth/signup`, user)
+    .post(`${baseURL}:${PORT}/auth/signup`, user)
     .then((response) => {
       // const data = response.data;
       // console.log(data);
@@ -218,27 +218,30 @@ export const userRegister = (user: UserRegister, navigate: any) => {
       Swal.fire({
         imageUrl: userIcon,
         imageHeight: 80,
-        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
+        title:
+          "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
         showConfirmButton: true,
         confirmButtonColor: "#000",
         confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
         html: '<p class="font-poppins font-medium text-black italic" >Bienvenido! Por favor inicia sesion.</p>',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/account/login')
+          navigate("/account/login");
         }
-      })
+      });
     })
     .catch((err) => {
       Swal.fire({
         imageUrl: alertIcon,
         imageHeight: 80,
-        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
+        title:
+          "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
         showConfirmButton: true,
         confirmButtonColor: "#000",
-        confirmButtonText: "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
+        confirmButtonText:
+          "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
         html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
-      })
+      });
     });
   // }
 };
@@ -247,7 +250,7 @@ export const userRegister = (user: UserRegister, navigate: any) => {
 export const userLogin = (user: UserLog, navigate: any) => {
   return (dispatch: Dispatch<ActionUser>) => {
     axios
-      .post(`http://localhost:3700/auth/signin`, user)
+      .post(`${baseURL}:${PORT}/auth/signin`, user)
       .then((response) => {
         axios.defaults.headers.common[
           "x-access-token"
@@ -259,31 +262,33 @@ export const userLogin = (user: UserLog, navigate: any) => {
         navigate("/");
         const Toast = Swal.mixin({
           toast: true,
-          position: 'bottom',
+          position: "bottom",
           showConfirmButton: false,
           timer: 3000,
           timerProgressBar: true,
           didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
-        
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
         Toast.fire({
-          icon: 'success',
-          title: "<p class='font-bold font-rift text-black'>Se inició sesión correctamente</p>"
-        })
+          icon: "success",
+          title:
+            "<p class='font-bold font-rift text-black'>Se inició sesión correctamente</p>",
+        });
       })
       .catch((err) => {
         Swal.fire({
-        imageUrl: alertIcon,
-        imageHeight: 80,
-        title: "<p class='text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
-        showConfirmButton: true,
-        confirmButtonColor: "#000",
-        confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
-        html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
-        })
+          imageUrl: alertIcon,
+          imageHeight: 80,
+          title:
+            "<p class='text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
+          showConfirmButton: true,
+          confirmButtonColor: "#000",
+          confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
+          html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
+        });
       });
   };
 };

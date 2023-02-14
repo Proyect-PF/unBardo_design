@@ -90,7 +90,7 @@ export const POST_SignIn = async (req: Request, res: Response) => {
 export const POST_SignUp = async (req: Request, res: Response) => {
 
   try {
-    const { fullname, email, password, role } = req.body;
+    const { fullname, email, password, role, news_letter } = req.body;
     //Comprobar si el usuario ya existe
     if(!fullname || !email || !password) throw new Error("Datos incompletos")
     if (role) {
@@ -103,6 +103,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           fullname,
           password: await db.Users.encryptPassword(password),
           id_role: foundRole.dataValues.id,
+          news_letter
         },
       });
 
@@ -143,6 +144,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
         fullname,
         password: await db.Users.encryptPassword(password),
         id_role: foundRole.dataValues.id,
+        news_letter
       },
     });
     //Si ya esta creado devuelve un {message} y su token

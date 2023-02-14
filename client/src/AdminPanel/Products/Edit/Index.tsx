@@ -60,7 +60,7 @@ const Edit = ({ className }: Props): JSX.Element => {
           S: productDetails.S,
           M: productDetails.M,
           L: productDetails.L,
-          XL: productDetails.XL,
+          // XL: productDetails.XL,
           price: productDetails.price,
           show_in_shop: productDetails.show_in_shop ? "true" : "false",
           image: productDetails.image,
@@ -150,7 +150,7 @@ const Edit = ({ className }: Props): JSX.Element => {
               <p className="text-xl">Stock:</p>
               <div className="flex gap-8">
                 <div className="flex gap-8">
-                  <label className="w-2 text-xl">S:</label>
+                  <label className="w-2 text-xl">1:</label>
                   <Input
                     type="number"
                     id="S"
@@ -163,7 +163,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                   />
                 </div>
                 <div className="flex gap-8">
-                  <label className="w-2 text-xl">M:</label>
+                  <label className="w-2 text-xl">2:</label>
                   <Input
                     type="number"
                     id="M"
@@ -176,7 +176,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                   />
                 </div>
                 <div className="flex gap-8">
-                  <label className="w-2 text-xl">L:</label>
+                  <label className="w-2 text-xl">3:</label>
                   <Input
                     type="number"
                     id="L"
@@ -188,7 +188,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                     onBlur={handleBlur}
                   />
                 </div>
-                <div className="flex gap-8">
+                {/* <div className="flex gap-8">
                   <label className="w-2 text-xl ">XL:</label>
                   <Input
                     type="number"
@@ -200,7 +200,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                     className="font-mono w-14"
                     onBlur={handleBlur}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="flex gap-16">
@@ -212,7 +212,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                 placeholder=""
                 value={values.price}
                 onChange={handleChange}
-                className="font-mono w-14"
+                className="w-24 font-mono"
                 onBlur={handleBlur}
               />
             </div>

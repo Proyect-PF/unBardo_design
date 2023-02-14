@@ -11,6 +11,7 @@ export default (sequelize:any, DataTypes:any) => {
     firstName!: string
     lastName!:string
     email!:string
+    password!:string
 
 
     /**
@@ -63,6 +64,7 @@ export default (sequelize:any, DataTypes:any) => {
     },
     news_letter: {
       type: DataTypes.BOOLEAN,
+      defaultValue: true,
       allowNull: true
     }
   }, {

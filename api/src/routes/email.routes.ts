@@ -1,10 +1,10 @@
 import express from 'express';
 
 import {
+    sendEmailByIdController,
     sendEmailToAllController,
     sendConfirmationEmailController,
-    sendEmailByIdController,
-} from '../controllers/email';
+}  from '../controllers/email/index';
 
 /**
  * Enrutador para el envío de correos electrónicos.

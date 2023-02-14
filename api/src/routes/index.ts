@@ -6,7 +6,6 @@ import emailRoutes from "./email.routes";
 
 import authRouter from "./auth.routes";
 
-import cartRoutes from "./cart.routes";
 
 const index = Router();
 
@@ -27,9 +26,6 @@ index.use("/email", emailRoutes);
 //Ruta de Autorizacion
 index.use("/auth", authRouter)
 
-
-//Ruta para el Carrito
-index.use("/Cart", cartRoutes);
 
 
 export default index;

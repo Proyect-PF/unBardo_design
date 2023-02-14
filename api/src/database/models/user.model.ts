@@ -1,16 +1,16 @@
-'use strict';
 import { Model } from "sequelize";
 import bcrypt from "bcryptjs"
-import { User } from "../../types";
+import { TypeUser } from "../../types";
 
 
 export default (sequelize:any, DataTypes:any) => {
-  class Users extends Model implements Model<User>{
-
+  class Users extends Model implements Model<TypeUser>{
+    
     fullname!:string
     firstName!: string
     lastName!:string
     email!:string
+    password!:string
 
 
     /**
@@ -63,6 +63,7 @@ export default (sequelize:any, DataTypes:any) => {
     },
     news_letter: {
       type: DataTypes.BOOLEAN,
+      defaultValue: true,
       allowNull: true
     }
   }, {

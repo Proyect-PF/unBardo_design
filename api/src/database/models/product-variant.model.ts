@@ -1,14 +1,5 @@
 import Sequelize, { Model } from "sequelize";
-interface ProductVariantAttributes {
-    id: number;
-    size: string;
-    color: string;
-    stock: number;
-    price: number;
-    quantity: number;
-    SKU: string;
-    release_date: Date;
-}
+
 export default (sequelize: any, DataTypes: any) => {
     class ProductVariant extends Model {
         id!: number;

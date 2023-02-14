@@ -11,7 +11,6 @@ export default (sequelize:any, DataTypes:any) => {
     lastName!:string
     email!:string
     password!:string
-    password!:string
 
 
     /**

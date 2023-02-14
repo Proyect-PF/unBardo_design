@@ -250,7 +250,7 @@ export const userRegister = (user: UserRegister, navigate: any) => {
 export const userLogin = (user: UserLog, navigate: any) => {
   return (dispatch: Dispatch<ActionUser>) => {
     axios
-      .post(`h${baseURL}:${PORT}/auth/signin`, user)
+      .post(`${baseURL}:${PORT}/auth/signin`, user)
       .then((response) => {
         axios.defaults.headers.common[
           "x-access-token"

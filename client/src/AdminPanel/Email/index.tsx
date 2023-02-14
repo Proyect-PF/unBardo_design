@@ -3,16 +3,24 @@ import Input from "../../components/Inputs/Input";
 import { baseURL, PORT } from "../../utils/url&port";
 import axios from "axios";
 import { CSVLink } from "react-csv";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { State } from "../../state/reducers";
 
 const EmailList = () => {
-  let data: string = "email1";
+  const [data, setData] = useState<any>([]);
   let csvLinkEl: any = React.createRef();
+  const { allUsers } = useSelector((state: State) => state.admin);
 
   const handleExport = async () => {
-    // data = await axios.get(`${baseURL}:${PORT}/....`);
-    csvLinkEl.current.link.click();
+    axios
+      .get(`${baseURL}:${PORT}/users?emails=true`)
+      .then((res: any) => setData(res.data));
   };
+
+  useEffect(() => {
+    if (data.length > 0) csvLinkEl.current.link.click();
+  }, [data]);
 
   return (
     <div className="flex flex-col gap-8 m-10">
@@ -20,7 +28,9 @@ const EmailList = () => {
       <div className="flex flex-row gap-20 mx-8">
         <div className="w-40">
           <p className="text-lg font-medium ">Usuarios suscriptos:</p>
-          <p className="text-2xl font-semibold">85</p>
+          <p className="text-2xl font-semibold">
+            {allUsers.filter((e) => e.news_letter === true).length}
+          </p>
         </div>
         <div className="w-40">
           <Button

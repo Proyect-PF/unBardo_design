@@ -22,6 +22,6 @@ userRoutes.get("/", GET_User);
 
 userRoutes.post("/", POST_User);
 
-userRoutes.put("/newsletter", updateNewsletterSubscription);
+userRoutes.put("/newsletter/subscription", updateNewsletterSubscription);
 
 export default userRoutes;

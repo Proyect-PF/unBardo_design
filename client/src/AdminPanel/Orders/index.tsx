@@ -8,11 +8,11 @@ import ListOrders from "./List";
 const Orders = (): JSX.Element => {
   const [selected, setSelected] = useState("list");
   const dispatch = useDispatch();
-  const [id, setId] = useState(1);
+  const [id, setId] = useState(0);
   const { ADMfetch_order_id } = bindActionCreators(adminActions, dispatch);
 
   useEffect(() => {
-    ADMfetch_order_id(id);
+    if (id !== 0) ADMfetch_order_id(id);
   }, [id]);
 
   return (

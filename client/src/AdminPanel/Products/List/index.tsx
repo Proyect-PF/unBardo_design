@@ -9,7 +9,7 @@ import { adminActions } from "../../AdminRedux";
 type Props = {
   className: string;
   setSelected: React.Dispatch<React.SetStateAction<string>>;
-  setId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  setId: React.Dispatch<React.SetStateAction<number>>;
 };
 const ListProducts = ({
   className,

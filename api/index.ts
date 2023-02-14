@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import app from './src/app';
-import db from './src/database';
+import db from './src/database/database';
 import {
   POST_rolesInitials,
   POST_usersInitials,

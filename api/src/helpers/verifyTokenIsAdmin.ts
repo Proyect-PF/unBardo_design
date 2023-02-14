@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express"
 import jwt, { Jwt } from "jsonwebtoken"
 import { JwtHeader } from "jsonwebtoken"
-import db from "../database"
+import db from "../database/database"
 import dotenv from "dotenv"
 dotenv.config()
 

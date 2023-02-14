@@ -1,4 +1,4 @@
-import db from "../database";
+import db from "../database/database";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 import getErrorMessage from "./handleErrorCatch";

@@ -32,13 +32,4 @@ index.use("/auth", authRouter)
 index.use("/Cart", cartRoutes);
 
 
-// COMENTADA POR JOAQUIN
-// NO SE SABE SI SE VAN A IMPLEMENTAR CATEGORIAS
-
-// index.use("/categories", categoryRoutes);
-
-// Esta ruta es para probar las validaciones (Luego se borrara)
-import validationsRoutes from "../validations/routes";
-index.use("/validations", validationsRoutes);
-
 export default index;

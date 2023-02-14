@@ -37,15 +37,15 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(location.pathname !== "/") navigate("/")
+    if (location.pathname !== "/") navigate("/");
     fetch_product_byname(input);
-    handleSearch()
+    handleSearch();
     setInput("");
   };
 
   return (
     <div
-      className={`flex flex-col fixed ${style} bg-white w-full  z-40 text-xl`}
+      className={`flex flex-col fixed z-50 top-24 ${style} bg-white w-full  z-40 text-xl border-t`}
     >
       <div className="flex justify-between w-full h-16 border-b border-gray-300">
         <button onClick={handleSearch} className="px-5">

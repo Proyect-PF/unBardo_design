@@ -62,7 +62,7 @@ const Dropdown = (): JSX.Element => {
       <img
         src={arrow}
         onClick={handleShow}
-        className={`w-3 ${show ? "rotate-90" : "-rotate-90"}`}
+        className={`w-3 z-10 ${show ? "rotate-90" : "-rotate-90"}`}
       />
     </div>
   );

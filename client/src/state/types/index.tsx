@@ -32,27 +32,27 @@ export type ProductState = {
   render: boolean;
 };
 
-
 //------------------------------------------------
 //Tipos de usuarios
 export type User = {
   fullname: string;
-  password:string;
+  password: string;
   email: string;
   id: number;
   id_role: number;
+  news_letter: boolean;
 };
 
 export type UserRegister = {
   fullname: string;
-  password:string;
+  password: string;
   email: string;
   role: string | undefined;
-}
+};
 export type UserLog = {
-  password:string;
+  password: string;
   email: string;
-}
+};
 
 export type UserState = {
   //allUsers: User[];
@@ -65,7 +65,6 @@ export type UserState = {
   error: null;
   success: boolean;
 };
-
 
 //------------------------------------------------
 export type Checkout = {

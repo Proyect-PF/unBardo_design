@@ -36,27 +36,30 @@ const ListProducts = ({
   return (
     <div className={`${className} relative`}>
       <form onSubmit={handleSubmit}>
-        <Input
-          id="searchProdAdmin"
-          type="text"
-          onChange={handleChange}
-          placeholder="Buscar un producto..."
-          name="searchProdAdmin"
-          value={search}
-          onBlur={() => {}}
-          className="absolute w-80 -top-16 left-12"
-        />
+        <div className="flex flex-row gap-4 mx-4">
+          <Input
+            id="searchProdAdmin"
+            type="text"
+            onChange={handleChange}
+            placeholder="Buscar un producto..."
+            name="searchProdAdmin"
+            value={search}
+            onBlur={() => {}}
+            className="my-4 w-80"
+          />
+          <Button
+            text="Limpiar"
+            name="clearProdSearchADM"
+            onClick={() => {
+              ADMfetch_products();
+            }}
+            disabled={false}
+            type="button"
+            className="justify-center w-32"
+          />
+        </div>
       </form>
-      <Button
-        text="Limpiar"
-        name="clearProdSearchADM"
-        onClick={() => {
-          ADMfetch_products();
-        }}
-        disabled={false}
-        type="button"
-        className="absolute w-32 -top-20 left-96"
-      />
+
       <div className="flex items-center justify-around w-full text-center border-t">
         <p className="w-8 border-r border-black">Id</p>
         <p className="w-40 ">Nombre</p>

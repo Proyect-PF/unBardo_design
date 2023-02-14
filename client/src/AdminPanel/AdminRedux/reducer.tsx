@@ -47,7 +47,14 @@ const initialState: AdminState = {
     ],
   },
   allUsers: [],
-  userDetails: { fullname: "", password: "", email: "", id: 0, id_role: 0 },
+  userDetails: {
+    fullname: "",
+    password: "",
+    email: "",
+    id: 0,
+    id_role: 0,
+    news_letter: true,
+  },
 };
 
 const adminReducer = (

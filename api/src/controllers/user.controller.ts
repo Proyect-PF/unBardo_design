@@ -129,3 +129,25 @@ export const DELETE_AllUsers = async (req: Request, res: Response) => {
     return res.status(400).json(getErrorMessage(error));
   }
 };
+
+export const updateNewsletterSubscription = async (req: Request, res: Response) => {
+    try {
+        const { email, newsletter } = req.body;
+        const newsletterBool = newsletter === 'true';
+        const user = await db.Users.findOne({ where: { email: email } });
+
+        if (user) {
+            const result = await user.update({ news_letter: newsletterBool });
+
+            if (result) {
+                res.status(200).json({ message: 'La suscripción a newsletter se actualizó correctamente.' });
+            } else {
+                res.status(500).json({ message: 'Ocurrió un error al actualizar la suscripción a newsletter.' });
+            }
+        } else {
+            res.status(404).json({ message: 'No se encontró ningún usuario con el correo electrónico especificado.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Ocurrió un error al actualizar la suscripción a newsletter.' });
+    }
+};

@@ -7,7 +7,7 @@ import Orders from "./Orders";
 import { adminActions } from "./AdminRedux";
 import { State } from "../state/reducers";
 import { useNavigate } from "react-router-dom";
-// import EmailCreation from "./Email";
+import EmailList from "./Email";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
@@ -28,14 +28,14 @@ const AdminP = (): JSX.Element => {
         <button onClick={() => setPanel("products")}>Productos</button>
         <button onClick={() => setPanel("orders")}>Ordenes</button>
         {/* <button onClick={() => setPanel("sales")}>Promociones</button>*/}
-        {/* <button onClick={() => setPanel("email")}>Redactar Email</button> */}
+        <button onClick={() => setPanel("newsletter")}>Newsletter</button>
       </div>
       <div className="w-full ">
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
         {panel == "info" && <InformationPanel />}
         {/* {panel == "sales" && <div>Sales</div>}*/}
-        {/* {panel == "email" && <EmailCreation />} */}
+        {panel == "newsletter" && <EmailList />}
       </div>
     </div>
   );

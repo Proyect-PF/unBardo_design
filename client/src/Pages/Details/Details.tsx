@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useLocation, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import { bindActionCreators } from 'redux';
-import Button from '../../components/Buttons/Button/Button';
-import AmountInput from '../../components/Inputs/Amount/AmountInput';
-import SizeSelector from '../../components/Inputs/SizeSelector/SizeSelector';
-import { actionCreators } from '../../state';
-import { State } from '../../state/reducers';
-import { getItem } from '../../utils/localStorage';
+import { useLocation, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { bindActionCreators } from "redux";
+import Button from "../../components/Buttons/Button/Button";
+import AmountInput from "../../components/Inputs/Amount/AmountInput";
+import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
+import { actionCreators } from "../../state";
+import { State } from "../../state/reducers";
+import { getItem } from "../../utils/localStorage";
 
 const Details = (): JSX.Element => {
   const location = useLocation();
@@ -46,28 +46,30 @@ const Details = (): JSX.Element => {
   //AL: this function manages the add to cart functionality, needs to be implemented
   const handleCart = (e: any) => {
     e.preventDefault();
-      const payload = {
-        id: productDetails.id + "-" + size,
-        name: productDetails.name,
-        size: size,
-        price: productDetails.price,
-        ammount: ammount,
-        imgF: productDetails.image,
-      };
-      addCheckout(payload);
-      setSize("");
-      setAmmount(1);
-      toast.success("Se añadió correctamente!", {
-        position: "bottom-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-  })
-  } ;
+    const payload = {
+      id: productDetails.id + "-" + size,
+      name: productDetails.name,
+      size: size,
+      price: productDetails.promotion
+        ? productDetails.promotional_price
+        : productDetails.price,
+      ammount: ammount,
+      imgF: productDetails.image,
+    };
+    addCheckout(payload);
+    setSize("");
+    setAmmount(1);
+    toast.success("Se añadió correctamente!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
 
   const stock =
     productDetails.S + productDetails.L + productDetails.M + productDetails.XL;
@@ -143,7 +145,14 @@ const Details = (): JSX.Element => {
             <p className="mt-4 text-4xl font-bold ">{productDetails.name}</p>
 
             {stock > 0 ? (
-              <p className="my-2 text-3xl font-bold ">{`$ ${productDetails.price}`}</p>
+              productDetails.promotion ? (
+                <div className="flex flex-row gap-4">
+                  <p className="my-2 text-3xl font-bold">{`$ ${productDetails.promotional_price}`}</p>
+                  <p className="my-2 text-xl italic font-bold text-gray-400 line-through">{`$ ${productDetails.price}`}</p>
+                </div>
+              ) : (
+                <p className="my-2 text-3xl font-bold ">{`$ ${productDetails.price}`}</p>
+              )
             ) : (
               <div className="flex flex-row gap-4">
                 <p className="my-2 text-3xl italic font-bold text-gray-500 line-through">{`$ ${productDetails.price}`}</p>

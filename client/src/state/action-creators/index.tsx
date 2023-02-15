@@ -69,6 +69,8 @@ export const fetch_product_detail = (id: number) => {
       color: "",
       show_in_shop: true,
       image: "",
+      promotion: false,
+      promotional_price: 0,
     };
     axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
       if (res.data?.id) {
@@ -84,6 +86,8 @@ export const fetch_product_detail = (id: number) => {
           color: res.data.color,
           show_in_shop: res.data.show_in_shop,
           image: res.data.image,
+          promotion: res.data.promotion,
+          promotional_price: res.data.promotional_price,
         };
       }
 
@@ -175,7 +179,7 @@ export const userRegister = (registerLogin:Function, user?: User, userGoogle?:Us
         html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
         if (result.isConfirmed) {
-          registerLogin()
+          registerLogin();
         }
       });
     })

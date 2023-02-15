@@ -22,7 +22,7 @@ productRoutes.get("/", GET_AllProducts);
 productRoutes.get("/:id", GET_ProductById);
 productRoutes.put("/", UPDATE_UpdateProduct);
 
-productRoutes.delete("/delete/:id", verifyTokenIsAdmin, DELETE_DeleteProduct);
+productRoutes.delete("/delete/:id", DELETE_DeleteProduct);
 productRoutes.delete("/deleteAll",  DELETE_DeleteAllProducts);
 
 
@@ -31,7 +31,7 @@ productRoutes.get("/search/:name", GET_SearchByName);
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 
-productRoutes.post("/",verifyTokenIsAdmin, POST_NewProduct);
+productRoutes.post("/", POST_NewProduct);
 
 
 

@@ -17,10 +17,10 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const { ADMfetch_orders } = bindActionCreators(adminActions, dispatch);
   const [search, setSearch] = useState("");
-  const [query, setQuery] = useState({ search: "" });
+  const [query, setQuery] = useState({ search: "", status: "" });
 
   useEffect(() => {
-    ADMfetch_orders(`search=${query.search}`);
+    ADMfetch_orders(`search=${query.search}&status=${query.status}`);
   }, [query]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -32,13 +32,13 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
     setQuery({ ...query, search: search });
   };
 
-  // const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-  //   const { name, value } = event.target;
-  //   setQuery({
-  //     ...query,
-  //     [name]: value,
-  //   });
-  // };
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { name, value } = event.target;
+    setQuery({
+      ...query,
+      [name]: value,
+    });
+  };
 
   return (
     <div>
@@ -55,7 +55,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             className="my-4 w-80"
           />
           <div className="my-auto">
-            {/* <select
+            <select
               className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
               id="status"
               name="status"
@@ -67,7 +67,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
               </option>
               <option value="approved">Aprobadas</option>
               <option value="rejected">Rechadazas</option>
-            </select> */}
+            </select>
           </div>
           <Button
             text="Limpiar"
@@ -75,7 +75,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             onClick={() => {
               setQuery({
                 search: "",
-                // status: "",
+                status: "",
               });
               setSearch("");
             }}

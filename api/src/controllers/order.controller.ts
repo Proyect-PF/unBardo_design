@@ -77,34 +77,34 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
         };
 
         // Verificar si status es una cadena de texto
-        if (typeof status === 'string') {
+        if (typeof status === 'string'  && status !=="") {
             options.where.status = status;
         } else {
             options.where.status = {[Op.ne]: 'cart'};
         }
 
         // Verificar si userId es una cadena de texto
-        if (typeof userId === 'string') {
+        if (typeof userId === 'string' && userId !=="") {
             options.where.id_user = userId;
         }
 
         // Verificar si id es una cadena de texto
-        if (typeof id === 'string') {
+        if (typeof id === 'string' && id !=="") {
             options.where.id = id;
         }
 
         // Verificar si paymentId es una cadena de texto
-        if (typeof paymentId === 'string') {
+        if (typeof paymentId === 'string' && paymentId !=="") {
             options.where.payment_id = paymentId;
         }
 
         // Verificar si dispatched es una cadena de texto
-        if (typeof dispatched === 'string') {
+        if (typeof dispatched === 'string' && dispatched !=="") {
             options.where.dispatched = dispatched === 'true';
         }
 
         // Verificar si startDate y endDate son cadenas de texto
-        if (typeof startDate === 'string' && typeof endDate === 'string') {
+        if (typeof startDate === 'string' && typeof endDate === 'string' ) {
             options.where.createdAt = {
                 [Op.between]: [new Date(startDate), new Date(endDate)],
             };

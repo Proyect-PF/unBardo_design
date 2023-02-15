@@ -19,18 +19,6 @@ export const ADMfetch_products = (query: string | null = null) => {
   };
 };
 
-export const ADMfetch_products_name = (name: string) => {
-  return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/search/${name}`).then((res) => {
-      const payload = res.data;
-      dispatch({
-        type: AdminActionType.GET_PRODUCT_BY_NAME,
-        payload,
-      });
-    });
-  };
-};
-
 export const ADMfetch_products_id = (id: number) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {

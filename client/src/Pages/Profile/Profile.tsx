@@ -85,6 +85,7 @@ const Profile = (): JSX.Element => {
       </li>
     ))}
         </ul>
+        <h1>**********************</h1>
       </div>
     </div>
   );

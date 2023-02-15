@@ -26,6 +26,19 @@ export const GET_User = async (req: Request, res: Response) => {
   }
 };
 
+export const GET_UserById =async (req: Request, res: Response) => {
+  try {
+    const {id_users} = req.params;
+    const userById = await db.Users.findAll({
+      where: {id: id_users}
+    })
+    if (userById.length < 1) return response.status(400).send('No existe usuario con ese id');
+    return res.status(200).json(userById);
+  } catch (error: any) {
+    return res.status(400).json({message: error.message});
+  }
+}
+
 export const POST_User = async (req: Request, res: Response) => {
   try {
     const newUser = await db.Users.create(req.body);

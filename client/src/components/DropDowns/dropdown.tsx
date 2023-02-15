@@ -37,44 +37,46 @@ const Dropdown = (): JSX.Element => {
   }, [Query]);
 
   return (
-    <div className="flex justify-around">
-      <select
-        className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
-          show ? "visible" : "hidden"
-        }`}
-        id="byColor"
-        name="byColor"
-        value={Query.byColor}
-        onChange={handleChange}
-      >
-        <option value="">Todos</option>
-        <option value="white">Blanco</option>
-        <option value="black">Negro</option>
-      </select>
-      <select
-        className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
-          show ? "visible" : "hidden"
-        }`}
-        id="byPromo"
-        name="byPromo"
-        value={Query.byPromo}
-        onChange={handleChange}
-      >
-        <option value="">Promociones:</option>
-        <option value="promo">Activas</option>
-      </select>
-      <select
-        className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
-          show ? "visible" : "hidden"
-        }`}
-        id="byOrder"
-        name="byOrder"
-        onChange={handleChange}
-        value={Query.byOrder}
-      >
-        <option value="ASC">{"Menor precio"}</option>
-        <option value="DESC">{"Mayor precio"}</option>
-      </select>{" "}
+    <div className="flex flex-col items-center">
+      <div className="flex justify-around">
+        <select
+          className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
+            show ? "visible" : "hidden"
+          }`}
+          id="byColor"
+          name="byColor"
+          value={Query.byColor}
+          onChange={handleChange}
+        >
+          <option value="">Todos</option>
+          <option value="white">Blanco</option>
+          <option value="black">Negro</option>
+        </select>
+        <select
+          className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
+            show ? "visible" : "hidden"
+          }`}
+          id="byPromo"
+          name="byPromo"
+          value={Query.byPromo}
+          onChange={handleChange}
+        >
+          <option value="">Promos:</option>
+          <option value="promo">Activas</option>
+        </select>
+        <select
+          className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
+            show ? "visible" : "hidden"
+          }`}
+          id="byOrder"
+          name="byOrder"
+          onChange={handleChange}
+          value={Query.byOrder}
+        >
+          <option value="ASC">{"Menor precio"}</option>
+          <option value="DESC">{"Mayor precio"}</option>
+        </select>{" "}
+      </div>
       <img
         src={arrow}
         onClick={handleShow}

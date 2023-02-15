@@ -13,14 +13,14 @@ import {
 
 import {
     POST_GeneratePayment,
-    GET_FeedbackPayment,
+    POST_FeedbackPayment,
 } from "../controllers/mercado-pago.controller";
 
 
 //MERCADOPAGO
 ordersRoutes.post("/payment/", POST_GeneratePayment);
 
-ordersRoutes.get("/feedback/", GET_FeedbackPayment);
+ordersRoutes.post("/feedback/", POST_FeedbackPayment);
 
 //GET todas las ordenes
 ordersRoutes.get("/", GET_AllOrders);

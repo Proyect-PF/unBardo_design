@@ -14,6 +14,12 @@ import { validateRegister } from "./validates";
 
 export const Register = (): JSX.Element => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { userLogin } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
 
   const initialvalues: UserRegister = {
     fullname: "",
@@ -27,7 +33,13 @@ export const Register = (): JSX.Element => {
         initialValues={initialvalues}
         validate={validateRegister}
         onSubmit={(values) => {
-          userRegister(values, navigate);
+          const registerLogin = () => {
+            userLogin({
+              email: values.email,
+              password: values.password
+            }, navigate)
+          }
+          userRegister(values, registerLogin);
         }}
       >
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (

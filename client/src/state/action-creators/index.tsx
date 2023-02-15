@@ -202,7 +202,7 @@ export const clearCheckoutList = () => {
   };
 };
 
-export const userRegister = (user: UserRegister, navigate: any) => {
+export const userRegister = (user: UserRegister, registerLogin:any) => {
   // return (dispatch: Dispatch<ActionUser>)=> {
 
   axios
@@ -221,11 +221,11 @@ export const userRegister = (user: UserRegister, navigate: any) => {
         title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
         showConfirmButton: true,
         confirmButtonColor: "#000",
-        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
-        html: '<p class="font-poppins font-medium text-black italic" >Bienvenido! Por favor inicia sesion.</p>',
+        confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
+        html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/account/login')
+          registerLogin()
         }
       })
     })
@@ -256,7 +256,7 @@ export const userLogin = (user: UserLog, navigate: any) => {
           type: ActionType.USER_LOGIN,
           payload: response.data,
         });
-        navigate("/");
+        window.history.back();
         const Toast = Swal.mixin({
           toast: true,
           position: 'bottom',

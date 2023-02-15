@@ -13,11 +13,12 @@ export type User = {
   firstname?: string | undefined;
   lastname?: string | undefined;
   // Registro
-  fullname: string;
-  password: string;
+  fullname?: string;
+  password?: string;
   email: string;
   news_letter?: boolean;
   //
+  google_id?: number;
   id?: number;
   id_role?: number | undefined;
 };

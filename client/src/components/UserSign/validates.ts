@@ -5,10 +5,9 @@ interface ValuesLogin {
 
 
 interface ValuesRegister {
-    fullname: string
+    fullname?: string
     email: string
     password: string
-    role: string | undefined,
 }
 interface ValuesUnsubscribe {
   email: string

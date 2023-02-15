@@ -24,6 +24,7 @@ const Dropdown = (): JSX.Element => {
       [name]: value,
     });
   };
+
   const handleShow = () => {
     show ? setShow(false) : setShow(true);
   };

@@ -46,13 +46,14 @@ const Create = ({ className }: Props): JSX.Element => {
               html: '<p class="font-poppins font-medium text-black italic" >Quieres crear el producto?</p>',
               showCancelButton: true,
               showConfirmButton: true,
-              confirmButtonColor: "#e5e7eb",
-              cancelButtonColor: "#000",
+              confirmButtonColor: "#000",
+              cancelButtonColor: "#e5e7eb",
               confirmButtonText:
-                '<p class="font-rift text-lg text-black">Si, Crear!</p>',
+                '<p class="font-rift text-lg text-white">Si, Crear!</p>',
               cancelButtonText:
-                '<p class="font-rift text-lg">No, cancelar!</p>',
+                '<p class="font-rift text-lg text-black">No, cancelar!</p>',
               focusConfirm: false,
+              reverseButtons: true,
             })
             .then((result) => {
               if (result.isConfirmed) {

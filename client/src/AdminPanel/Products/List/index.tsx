@@ -24,7 +24,12 @@ const ListProducts = ({
     dispatch
   );
   const [search, setSearch] = useState("");
-  const [query, setQuery] = useState({ byShowInShop: "", byStock: "" });
+  const [query, setQuery] = useState({
+    byShowInShop: "",
+    byStock: "",
+    page: 1,
+    perPage: 10,
+  });
 
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     const { name, value } = event.target;
@@ -34,8 +39,21 @@ const ListProducts = ({
     });
   };
 
+  const handlePag = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    const button: HTMLButtonElement = event.currentTarget;
+    if (button.id === "-" && query.page !== 1)
+      setQuery({ ...query, page: query.page - 1 });
+    if (
+      button.id === "+" &&
+      Math.ceil(allProducts.length / query.perPage) >= query.page
+    )
+      setQuery({ ...query, page: query.page + 1 });
+  };
+
   useEffect(() => {
-    ADMfetch_products(`filter=${query.byShowInShop}&filter2=${query.byStock}`);
+    ADMfetch_products(
+      `filter=${query.byShowInShop}&filter2=${query.byStock}&page=${query.page}&perPage=${query.perPage}`
+    );
   }, [query]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -49,61 +67,97 @@ const ListProducts = ({
 
   return (
     <div className={`${className} relative`}>
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-row gap-6 mx-4">
-          <Input
-            id="searchProdAdmin"
-            type="text"
-            onChange={handleChange}
-            placeholder="Buscar un producto..."
-            name="searchProdAdmin"
-            value={search}
-            onBlur={() => {}}
-            className="my-4 w-80"
-          />
-          <div className="my-auto">
-            <select
-              className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
-              id="byShowInShop"
-              name="byShowInShop"
-              onChange={handleFilter}
-              value={query.byShowInShop}
-            >
-              <option value="" selected>
-                Todos
-              </option>
-              <option value="true">Disponibles</option>
-              <option value="false">Ocultos</option>
-            </select>
+      <div className="flex flex-row justify-between mx-8">
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-row gap-6 ">
+            <Input
+              id="searchProdAdmin"
+              type="text"
+              onChange={handleChange}
+              placeholder="Buscar un producto..."
+              name="searchProdAdmin"
+              value={search}
+              onBlur={() => {}}
+              className="my-4 w-80"
+            />
+            <div className="my-auto">
+              <select
+                className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
+                id="byShowInShop"
+                name="byShowInShop"
+                onChange={handleFilter}
+                value={query.byShowInShop}
+              >
+                <option value="" selected>
+                  Todos
+                </option>
+                <option value="true">Disponibles</option>
+                <option value="false">Ocultos</option>
+              </select>
+            </div>
+            <div className="my-auto">
+              <select
+                className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
+                id="byStock"
+                name="byStock"
+                value={query.byStock}
+                onChange={handleFilter}
+              >
+                <option value="" selected>
+                  Todos
+                </option>
+                <option value="false">Sin Stock</option>
+              </select>
+            </div>
+            <Button
+              text="Limpiar"
+              name="clearProdSearchADM"
+              onClick={() => {
+                setQuery({
+                  byShowInShop: "",
+                  byStock: "",
+                  page: 1,
+                  perPage: 10,
+                });
+                setSearch("");
+              }}
+              disabled={false}
+              type="button"
+              className="justify-center w-32"
+            />
           </div>
-          <div className="my-auto">
-            <select
-              className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
-              id="byStock"
-              name="byStock"
-              value={query.byStock}
-              onChange={handleFilter}
-            >
-              <option value="" selected>
-                Todos
-              </option>
-              <option value="false">Sin Stock</option>
-            </select>
+        </form>
+        <div className="flex justify-center gap-4 mx-4 mt-8">
+          <div className="flex flex-row gap-2">
+            <button
+              className="h-fit"
+              onClick={handlePag}
+              id="-"
+              name="-"
+            >{`<`}</button>
+            <p>{query.page}</p>
+            <button
+              className="h-fit"
+              onClick={handlePag}
+              id="+"
+              name="+"
+            >{`>`}</button>
           </div>
-          <Button
-            text="Limpiar"
-            name="clearProdSearchADM"
-            onClick={() => {
-              setQuery({ byShowInShop: "", byStock: "" });
-              setSearch("");
-            }}
-            disabled={false}
-            type="button"
-            className="justify-center w-32"
-          />
+          <select
+            className="h-fit"
+            id="perPage"
+            name="perPage"
+            value={query.perPage}
+            onChange={handleFilter}
+          >
+            <option value="10" selected>
+              10
+            </option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
         </div>
-      </form>
-
+      </div>
       <div className="flex items-center justify-around w-full text-center border-t">
         <p className="w-8 border-r border-black">Id</p>
         <p className="w-40 ">Nombre</p>

@@ -2,7 +2,6 @@ import { Router } from 'express';
 
 // Importa los enrutadores del módulo 'routes'.
 import authRouter from './auth.routes';
-import cartRoutes from './cart.routes';
 import emailRoutes from './email.routes';
 import ordersRoutes from './order.routes';
 import productRoutes from './product.routes';
@@ -13,7 +12,6 @@ const index = Router();
 
 // Define las rutas para cada enrutador.
 index.use('/auth', authRouter);
-index.use('/cart', cartRoutes);
 index.use('/email', emailRoutes);
 index.use('/orders', ordersRoutes);
 index.use('/products', productRoutes);

@@ -3,11 +3,12 @@ import {request} from "http";
 import {Op} from "sequelize";
 import db from "../database/database";
 import cloudinary from "../utils/cloudinary";
+import getErrorMessage from "../helpers/handleErrorCatch";
+import { TypeProduct } from "../types";
 
 // LOS PRODUCT EN LA BASE DE DATOS TIENEN ESTA INFO TAMBIEN, Y NO QUEREMOS TOMARLA. ASIQUE USAMOS ...TO_EXCLUDE en la query, para todos
 // los endpoint
 const TO_EXCLUDE = [
-    "promotional_price",
     "video",
     "stock",
     "height",
@@ -40,17 +41,29 @@ export const GET_ProductById = async (request: Request, response: Response) => {
 };
 
 export const POST_NewProduct = async (req: Request, res: Response) => {
-    const {image} = req.body
+    let {image, promotional_price, promotion} = req.body
     try {
-        const uploadRes = await cloudinary.uploader.upload(image, {
-            upload_preset: 'unbardo'
-        })
-        req.body.image = uploadRes.url
-        const newProduct = await db.Product.create(req.body);
-        return res.status(201).json(newProduct);
-    } catch (error: any) {
+        if(image){
+            const uploadRes = await cloudinary.uploader.upload(image, {
+                upload_preset: 'unbardo'
+            })
+            req.body.image = uploadRes.url
+        }else {
+            //Si no se envia ninguna imagen dejar un string para probar postear productos y no generar errores al usar cloudinary
+            req.body.image = "image"
+        }
 
-        return res.status(400).json({error: error.message});
+        //Si no llega ningun precio promocional, se deja el estado de promocion en false, por defecto el estado es en falso
+        if(!promotional_price) {
+            req.body.promotion = false
+        }else{
+            req.body.promotion = true
+        }
+        const newProduct:TypeProduct = await db.Product.create(req.body);
+        return res.status(201).json(newProduct);
+    } catch (error) {
+        console.log(typeof error)
+        return res.status(400).json(getErrorMessage(error));
     }
 };
 
@@ -118,7 +131,7 @@ export const DELETE_DeleteAllProducts = async (
 export const GET_AllProducts = async (request: Request, response: Response) => {
     try {
         const {id} = request.params;
-        const {filter, order, page, perPage, sort} = request.query;
+        const {name, filter, filter2, order, page, perPage, sort} = request.query;
         console.log(request.query)
 
         // Seteamos el optiones BASE de consulta
@@ -128,11 +141,26 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                 exclude: TO_EXCLUDE,
             },
         };
-        // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
-        if (filter) {
+
+        // Tomamos filters y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
+        if (filter || filter2 || name) {
             let where: any = {};
-            if (filter === "black" || "white") {
+            if (filter === "black" || filter === "white") {
                 where.color = filter
+            }else if(filter === 'show' || filter === "hidden"){
+                where.show_in_shop = filter === 'show'
+            }
+            if(filter2 === 'out'){
+                where.S = 0
+                where.L = 0
+                where.M = 0
+                where.XL = 0
+            }
+            if(filter2 === 'promo'){
+                where.promotion = true;
+            }
+            if(name){
+                where.name = {[Op.iLike]: `%${name}%`}
             }
             options.where = where;
         }
@@ -170,30 +198,15 @@ export const UPDATE_UpdateProduct = async (
     response: Response
 ) => {
     try {
-        let product = request.body;
+        let product:TypeProduct = request.body;
         if (product.image.length > 100) {
             const uploadRes = await cloudinary.uploader.upload(product.image, {
                 upload_preset: 'unbardo'
             })
             product.image = uploadRes.url
         }
-        // const existingProduct = await db.Product.findByPk(product.id);
-        // if (!existingProduct) { 
-
-        //     throw new Error(` product found with id ${product.id}`);
-        // }
         const [numberOfAffectedRows, affectedRows] = await db.Product.update({
-            name: product.name,
-            image: product.image,
-            description: product.description,
-            S: product.S,
-            M: product.M,
-            L: product.L,
-            XL: product.XL,
-            price: product.price,
-            show_in_shop: product.show_in_shop,
-            color: product.color,
-            //"id_category": product.id_category,
+            ...product
         }, {
             where: {id: product.id},
             returning: true
@@ -205,7 +218,7 @@ export const UPDATE_UpdateProduct = async (
 
 
         //TODO: STATUS => 201: Created, 204: No Content
-    } catch (error: any) {
-        return response.status(400).json(error.message) //TODO: STATUS => 400: Bad Request
+    } catch (error) {
+        return response.status(400).json(getErrorMessage(error)) //TODO: STATUS => 400: Bad Request
     }
 }

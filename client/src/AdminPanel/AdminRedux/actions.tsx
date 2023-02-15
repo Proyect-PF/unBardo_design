@@ -6,25 +6,14 @@ import Swal from "sweetalert2";
 import { PORT, baseURL } from "../../utils/url&port";
 
 //Product actions
-export const ADMfetch_products = () => {
+export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/`).then((res) => {
+    console.log(query);
+    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
         payload: payload,
-      });
-    });
-  };
-};
-
-export const ADMfetch_products_name = (name: string) => {
-  return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/search/${name}`).then((res) => {
-      const payload = res.data;
-      dispatch({
-        type: AdminActionType.GET_PRODUCT_BY_NAME,
-        payload,
       });
     });
   };
@@ -72,7 +61,7 @@ export const ADMfetch_orders = () => {
     axios
       .get(`${baseURL}:${PORT}/orders`)
       .then((res) => {
-        const payload = res.data;
+        const payload = res.data.orders;
 
         dispatch({
           type: AdminActionType.GET_ALL_ORDERS,

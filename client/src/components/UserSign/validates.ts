@@ -5,10 +5,12 @@ interface ValuesLogin {
 
 
 interface ValuesRegister {
-    fullname: string
+    fullname?: string
     email: string
     password: string
-    role: string | undefined,
+}
+interface ValuesUnsubscribe {
+  email: string
 }
 
 export const validateRegister = (values: ValuesRegister) => {
@@ -46,4 +48,18 @@ export const validateLogin = (values: ValuesLogin) => {
     }
     if (!values.password) errors.password = "Ingrese una contraseña";
     return errors;
+}
+
+export const validateUnsubscribe = (values:ValuesUnsubscribe)=>{
+  let errors:any = {};
+  if (!values.email) {
+    errors.email = "Ingrese un email";
+  } else if (
+    !/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(
+      values.email
+    )
+  ) {
+    errors.email = "Ingrese un email valido";
+  }
+  return errors
 }

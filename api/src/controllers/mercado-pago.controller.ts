@@ -85,14 +85,27 @@ const GET_OrderDescription = async (id_order: number) => {
       where: { id_order },
     });
 
-    for (const element of orderUser) {
-      const prod = await db.Product.findOne({
-        where: { id: element.id_product },
-      });
-      let quantity: number = 0;
-      for (const key in element.sizes) {
-        if (element.sizes[key]) {
-          quantity = quantity + element.sizes[key];
+
+        for (const element of orderUser) {
+            const prod = await db.Product.findOne({
+                where: {id: element.id_product}
+            });
+            let quantity: number = 0;
+            for (const key in element.sizes) {
+                if (element.sizes[key]) {
+                    quantity = quantity + element.sizes[key];
+                }
+            }
+            const product = {
+                id: element.id_product,
+                currency_id: "ARS",
+                description: prod.description,
+                title: prod.name,
+                quantity: quantity,
+                unit_price: prod.promotion === true? prod.promotional_price: prod.price
+            }
+            items.push(product);
+
         }
       }
       const product = {
@@ -181,39 +194,75 @@ const UPDATE_ProductSizeXL = async (id: number, XL: number) => {
 
 //Update el stock de todos los talles segun ID de orden
 const UPDATE_QuantitySizes = async (id_order: number) => {
-  try {
-    //Se obtiene el detalle de los productos de la orden
-    const orderProd = await db.OrderProducts.findAll({
-      where: { id_order },
-    });
-    console.log(orderProd);
-    //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle fue vendido, se le descuenta al stock la cantidad
-    for (const element of orderProd) {
-      const prod = await db.Product.findOne({
-        where: { id: element.id_product },
-      });
-      if (element.sizes.S) {
-        const S: number = prod.S - element.sizes.S;
-        await UPDATE_ProductSizeS(element.id_product, S);
-      }
-      if (element.sizes.M) {
-        const M: number = prod.M - element.sizes.M;
-        await UPDATE_ProductSizeM(element.id_product, M);
-      }
-      if (element.sizes.L) {
-        const L: number = prod.L - element.sizes.L;
-        await UPDATE_ProductSizeL(element.id_product, L);
-      }
-      if (element.sizes.XL) {
-        const XL: number = prod.XL - element.sizes.XL;
-        await UPDATE_ProductSizeXL(element.id_product, XL);
-      }
+
+    try {
+        //Se obtiene el detalle de los productos de la orden
+        const orderProd = await db.OrderProducts.findAll({
+            where: {id_order},
+        });
+        //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle fue vendido, se le descuenta al stock la cantidad
+        for (const element of orderProd) {
+            const prod = await db.Product.findOne({
+                where: {id: element.id_product}
+            });
+            if(element.sizes.S) {
+                const S:number = prod.S - element.sizes.S;
+                await UPDATE_ProductSizeS(element.id_product, S)      
+            }
+            if(element.sizes.M) {
+                const M:number = prod.M - element.sizes.M;
+                await UPDATE_ProductSizeM(element.id_product, M)      
+            }
+            if(element.sizes.L) {
+                const L:number = prod.L - element.sizes.L;
+                await UPDATE_ProductSizeL(element.id_product, L)          
+            }
+            if(element.sizes.XL) {
+                const XL:number = prod.XL - element.sizes.XL;
+                await UPDATE_ProductSizeXL(element.id_product, XL)            
+            }
+        }
+        return orderProd;
+    } catch (error: any) {
+        throw new Error(error.message);
+
     }
     return orderProd;
   } catch (error: any) {
     throw new Error(error.message);
   }
 };
+
+//Verifica si hay stock disponible antes de realizar el pago
+const Verify_QuantitySizes = async (id_order: number) => {
+    try {
+        //Se obtiene el detalle de los productos de la orden
+        const orderProd = await db.OrderProducts.findAll({
+            where: {id_order},
+        });
+        //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle tiene menor stock retorna false
+        for (const element of orderProd) {
+            const prod = await db.Product.findOne({
+                where: {id: element.id_product}
+            });
+            if(element.sizes.S) {
+                if (prod.S < element.sizes.S) return false     
+            }
+            if(element.sizes.M) {
+                if (prod.M < element.sizes.M) return false    
+            }
+            if(element.sizes.L) {
+                if (prod.L < element.sizes.L) return false         
+            }
+            if(element.sizes.XL) {
+                if (prod.XL < element.sizes.XL) return false          
+            }
+        }
+        return true;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
 
 //ruta POST MERCADOPAGO
 export const POST_GeneratePayment = async (
@@ -232,38 +281,44 @@ export const POST_GeneratePayment = async (
   //Obtiene la informacion del usuario relacionada a la orden de compra
   const userInfo = await GET_OrderUser(last.id); //userInfo.users.fullname; userInfo.users.email
 
-  //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
-  const prodInfo = await GET_OrderDescription(last.id);
 
-  //TODO: items => información relacionada al producto
-  //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
-  //TODO: binary_mode => al estar en true no adopta la ruta "pending"
-  //TODO: payer => información del comprador
-  let preference = {
-    items: prodInfo,
-    back_urls: {
-      success: 'http://localhost:3000', //"http://localhost:3700/orders/feedback"
-      failure: 'http://localhost:3000', //"http://localhost:3700/orders/feedback"
-      pending: '',
-    },
-    //auto_return: "approved",
-    binary_mode: true,
-    external_reference: external_reference,
-    payer: {
-      phone: {
-        area_code: prod.area_code.toString(),
-        number: prod.number,
-      },
-      address: {
-        zip_code: prod.zip_code.toString(),
-        street_name: prod.street_name,
-        street_number: prod.street_number,
-      },
-      email: userInfo.users.email,
-      name: userInfo.users.fullname,
-      surname: '',
-    },
-  };
+    //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
+    const prodInfo = await GET_OrderDescription(last.id);
+    
+    //Verifica si hay stock disponible de los productos, en caso contrario no se puede continuar con la compra
+    const stockAvailable = await Verify_QuantitySizes(last.id);
+    if (stockAvailable === false) return response.status(400).json('EXISTE ALGUN PRODUCTO SIN STOCK NECESARIO')
+
+    //TODO: items => información relacionada al producto
+    //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
+    //TODO: binary_mode => al estar en true no adopta la ruta "pending"
+    //TODO: payer => información del comprador
+    let preference = {
+        items: prodInfo,
+        back_urls: {
+            "success": "http://localhost:3700/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+            "failure": "http://localhost:3700/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+            "pending": ""
+        },
+        auto_return: "approved",
+        binary_mode: true,
+        external_reference: external_reference,
+        payer: {
+            phone: {
+                area_code: prod.area_code.toString(),
+                number: prod.number
+            },
+            address: {
+                zip_code: prod.zip_code.toString(),
+                street_name: prod.street_name,
+                street_number: prod.street_number
+            },
+            email: userInfo.users.email,
+            name: userInfo.users.fullname,
+            surname: '',
+        },
+    }
+
 
   //TODO: se crea el proceso de pago
   mercadopago.preferences

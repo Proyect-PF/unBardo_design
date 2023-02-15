@@ -13,7 +13,7 @@ export type User = {
   firstname?: string | undefined;
   lastname?: string | undefined;
   // Registro
-  fullname: string;
+  fullname?: string;
   password: string;
   email: string;
   news_letter?: boolean;

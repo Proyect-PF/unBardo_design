@@ -1,20 +1,13 @@
-"use strict";
-
-import Product from "./product.model";
-
 import { Model } from "sequelize";
-
 
 export default (sequelize: any, DataTypes: any) => {
   class Image extends Model {
-
     static associate(models: any) {
       Image.belongsTo(models.Product, {
-        foreignKey: 'productId',
-        as: 'product',
+        foreignKey: "productId",
+        as: "product",
       });
     }
-
   }
   Image.init(
     {

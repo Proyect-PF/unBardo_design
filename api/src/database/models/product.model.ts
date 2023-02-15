@@ -1,75 +1,24 @@
-//'use strict';
-
 import Sequelize, { Model } from "sequelize";
+import { TypeProduct } from "../../types";
 
 
-interface PorductAttributes {
-  id: number;
-  name: string;
-  description: Text;
-  S: number;
-  M: number;
-  L: number;
-  XL: number;
-  price: number;
-  promotional_price: number;
-  video: string;
-  show_in_shop: boolean;
-  stock: number;
-  weight: number;
-  width: number;
-  height: number;
-  length: number;
-  SKU: string;
-  barcode: string;
-}
 //TODO: show_in_shop se utiliza para el borrado lógico, toma valores true y false
 //TODO: stock es la cantidad disponible del producto, si el valor es cero debe mostrar OUT OF STOCK
 export default (sequelize:any, DataTypes:any) => {
   //class Product extends Model implements Model<PorductAttributes>{
-    class Product extends Model {
-
-    id!: number;
-    name!: string;
-    description!: Text;
-    S!: number;
-    M!: number;
-    L!: number;
-    XL!: number;
-    price!: number;
-    promotional_price!: number;
-    video!: string;
-    show_in_shop!: boolean;
-    stock!: number;
-    weight!: number;
-    width!: number;
-    height!: number;
-    length!: number;
-    SKU!: string;
-    barcode!: string;
-    id_category!:number;
-    image!:string;
-
-
+    class Product extends Model implements Model<TypeProduct> {
       static associate(models: any) {
+
         Product.hasMany(models.Image, {
           foreignKey: 'productId',
           as: 'images',
         })
-        
-        Product.belongsTo(models.Category, {
-            foreignKey: 'id_category',
-        } )
         Product.belongsToMany(models.Orders, {
           onDelete: "SET NULL",
           through: models.OrderProducts,
           foreignKey: 'id_product',
           as: 'orders'
         });
-        // Product.hasMany(models.ProductVariant, {
-        //   foreignKey: 'productId',
-        //   as: 'variants',
-        // });
 
       }
 
@@ -87,7 +36,8 @@ export default (sequelize:any, DataTypes:any) => {
       // allowNull: false
     },
     image: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+       allowNull: true
     },
     name: {
       type: DataTypes.STRING,
@@ -97,13 +47,6 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.TEXT,
       // allowNull: false
     },
-    // size: {
-      //type: Sequelize.ENUM("XS", "S", "M", "L", "XL"),
-      // type: DataTypes.STRING,
-      
-      // allowNull: false,
-      //defaultValue: "XS"
-    // },
     S:{
       type:DataTypes.INTEGER,
       defaultValue: 0
@@ -130,42 +73,15 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.INTEGER,
       // allowNull: false
     },
-    promotional_price: {
+    promotional_price: { // Se va a usar
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    video: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    stock: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    weight: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    width: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    height: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    length: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    SKU: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
-    barcode: {
-      type: DataTypes.STRING,
-      allowNull: true
-    },
+    promotion: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Product',

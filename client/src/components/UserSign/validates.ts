@@ -1,13 +1,13 @@
 interface ValuesLogin {
     email: string
-    password: string
+    password?: string
 }
 
 
 interface ValuesRegister {
     fullname?: string
     email: string
-    password: string
+    password?: string
 }
 interface ValuesUnsubscribe {
   email: string

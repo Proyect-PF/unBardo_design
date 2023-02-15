@@ -36,7 +36,7 @@ export const LogIn = (): JSX.Element => {
   const onSuccess = (res:any)=> {
     const logUser: User = {
       email: res.profileObj.email,
-      password: res.googleId
+      google_id: res.googleId
     }
      userLogin(logUser, navigate);
   }

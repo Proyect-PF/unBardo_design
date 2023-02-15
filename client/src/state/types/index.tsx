@@ -81,7 +81,7 @@ export type Checkout = {
 export type CheckoutState = {
   checkoutList: Checkout[];
 };
-
+//---------Agus------------
 export type Orders = {
   id: number;
   fullname: string;
@@ -93,4 +93,23 @@ export type Orders = {
 export type OrderState = {
   allOrders: Orders[];
   order: Orders;
+};
+
+//-------Diego--------
+//--------------------------------------------------
+export type Item = {
+  quantity: number;
+  title: string;
+  unit_price: number;
+};
+
+export type Order = {
+  status: string;
+  external_reference: number;
+  items: Item[];
+  payment_method: string;
+  payment_type: string;
+  total_amount: number;
+  cuotes: number;
+  total_paid_amount: number;
 };

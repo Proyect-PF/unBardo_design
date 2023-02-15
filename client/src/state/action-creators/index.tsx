@@ -1,24 +1,31 @@
-import axios from "axios";
-import { Dispatch } from "redux";
-import { ActionType } from "../action-types";
-import Swal from "sweetalert2";
-import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
-import userIcon from "../../assets/svg/user-icon.svg";
-import alertIcon from "../../assets/svg/alert.svg";
+import axios from 'axios';
+import { Dispatch } from 'redux';
+import { ActionType } from '../action-types';
+import Swal from 'sweetalert2';
+import {
+  ActionCheckout,
+  ActionOrderCheckout,
+  ActionProducts,
+  ActionUser,
+} from '../actions';
+import userIcon from '../../assets/svg/user-icon.svg';
+import alertIcon from '../../assets/svg/alert.svg';
 import {
   Checkout,
   Product,
   ProductState,
+
 } from "../types";
 import {User} from '../../types/types'
 import { PORT, baseURL } from "../../utils/url&port";
+
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
 
 export const fetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
+    let payload: ProductState['productList'] = [];
     axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
       payload = res.data;
       // ENVIAMOS PAYLOAD A REDUX
@@ -34,7 +41,7 @@ export const fetch_products = (query: string | null = null) => {
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
+    let payload: ProductState['productList'] = [];
     axios
       .get(`${baseURL}:${PORT}/products/search/${name}`)
       .then((res) => {
@@ -59,18 +66,20 @@ export const fetch_product_detail = (id: number) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let product: Product = {
       id: 0,
-      name: "",
-      description: "",
+      name: '',
+      description: '',
       S: 0,
       M: 0,
       L: 0,
       XL: 0,
       price: 0,
-      color: "",
+      color: '',
       show_in_shop: true,
+
       image: "",
       promotion: false,
       promotional_price: 0,
+
     };
     axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
       if (res.data?.id) {
@@ -113,7 +122,7 @@ export const clear_product_detail = () => {
 // Requiere una query String como parametro. A EXTENDER !
 export const fetch_filtered_products = (query: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
+    let payload: ProductState['productList'] = [];
     axios
       .get(`${baseURL}:${PORT}/products/filtered/?${query}`)
       .then((response) => {
@@ -174,12 +183,14 @@ export const userRegister = (registerLogin:Function, user?: User) => {
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
         showConfirmButton: true,
+
         confirmButtonColor: "#000",
         confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
         html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
         if (result.isConfirmed) {
           registerLogin();
+
         }
       });
     })
@@ -190,7 +201,7 @@ export const userRegister = (registerLogin:Function, user?: User) => {
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
         showConfirmButton: true,
-        confirmButtonColor: "#000",
+        confirmButtonColor: '#000',
         confirmButtonText:
           "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
         html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
@@ -206,27 +217,29 @@ export const userLogin = (user: User, navigate: any) => {
       .post(`${baseURL}:${PORT}/auth/signin`, user)
       .then((response) => {
         axios.defaults.headers.common[
-          "x-access-token"
+          'x-access-token'
         ] = `${response.data.token}`;
         dispatch({
           type: ActionType.USER_LOGIN,
           payload: response.data,
         });
+
         window.history.back();
+
         const Toast = Swal.mixin({
           toast: true,
-          position: "bottom",
+          position: 'bottom',
           showConfirmButton: false,
           timer: 3000,
           timerProgressBar: true,
           didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
           },
         });
 
         Toast.fire({
-          icon: "success",
+          icon: 'success',
           title:
             "<p class='font-bold font-rift text-black'>Se inició sesión correctamente</p>",
         });
@@ -238,7 +251,7 @@ export const userLogin = (user: User, navigate: any) => {
           title:
             "<p class='text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
           showConfirmButton: true,
-          confirmButtonColor: "#000",
+          confirmButtonColor: '#000',
           confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
           html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
         });
@@ -250,6 +263,26 @@ export const userLogout = () => {
   return (dispatch: Dispatch<ActionUser>) => {
     dispatch({
       type: ActionType.USER_LOGOUT,
+    });
+  };
+};
+
+export const getOrderDetails = (paymentId: string) => {
+  return async (dispatch: Dispatch<ActionOrderCheckout>) => {
+    const response = await axios.get(
+      `https://api.mercadopago.com/v1/payments/?${paymentId}`,
+      {
+        headers: {
+          'Content-types': 'application/json',
+          Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
+        },
+      }
+    );
+    console.log(response);
+    // Si la respuesta fue exitosa, envíe los detalles de pago al store
+    dispatch({
+      type: ActionType.GET_ORDER_CHECKOUT,
+      payload: response.data,
     });
   };
 };

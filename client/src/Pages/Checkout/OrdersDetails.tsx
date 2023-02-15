@@ -1,12 +1,21 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Buttons/Button/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../state';
+import { State } from '../../state/reducers';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const orders = [
   {
     id: 1,
     date: '2022-01-01',
     total: 100,
+    cuotes: 18,
+    precio_final: 300,
     status: 'approved',
     items: [
       {
@@ -23,81 +32,36 @@ const orders = [
       },
     ],
   },
-  {
-    id: 2,
-    date: '2022-02-01',
-    total: 200,
-    items: [
-      {
-        id: 3,
-        name: 'Product 3',
-        price: 100,
-        quantity: 2,
-      },
-      {
-        id: 4,
-        name: 'Product 4',
-        price: 50,
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: 3,
-    date: '2022-03-01',
-    total: 150,
-    status: 'pending',
-    items: [
-      {
-        id: 5,
-        name: 'Product 5',
-        price: 75,
-        quantity: 2,
-      },
-    ],
-  },
-  {
-    id: 4,
-    date: '2022-04-01',
-    total: 300,
-    items: [
-      {
-        id: 6,
-        name: 'Product 6',
-        price: 150,
-        quantity: 2,
-      },
-    ],
-  },
-  {
-    id: 5,
-    date: '2022-05-01',
-    total: 175,
-    items: [
-      {
-        id: 7,
-        name: 'Product 7',
-        price: 75,
-        quantity: 1,
-      },
-      {
-        id: 8,
-        name: 'Product 8',
-        price: 50,
-        quantity: 1,
-      },
-      {
-        id: 9,
-        name: 'Product 9',
-        price: 50,
-        quantity: 1,
-      },
-    ],
-  },
 ];
 
-const OrderDetails = (props: any) => {
-  //   const order = order || {};
+const OrderDetails = (): JSX.Element => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { getOrderDetails } = bindActionCreators(actionCreators, dispatch);
+
+  const searchParams = new URLSearchParams(location.search);
+  const payment_id = searchParams.get('payment_id'); // 1
+  const external_reference = searchParams.get('external_reference'); // 1 . /payment/feedback
+  const status = searchParams.get('status');
+  const paymentType = searchParams.get('payment_type');
+
+  useEffect(() => {
+    const sendDataOrder = async () => {
+      axios
+        .post('http://localhost:3700/payment/feedback', {
+          payment_id,
+          external_reference,
+        })
+        .then((response) => {
+          console.log(response.data);
+          return response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+    sendDataOrder();
+  }, [payment_id, external_reference]);
 
   return (
     <div className='flex flex-col items-center p-1 mt-10'>
@@ -107,11 +71,15 @@ const OrderDetails = (props: any) => {
           <div className='bg-white p-6 shadow-lg'>
             <div className='mb-4'>
               <p className='font-bold'>ID de la orden:</p>
-              <p>{order.id}</p>
+              <p>{external_reference}</p>
             </div>
             <div className='mb-4'>
               <p className='font-bold'>Fecha de la orden:</p>
               <p>{order.date}</p>
+            </div>
+            <div className='mb-4'>
+              <p className='font-bold'>Fecha de la orden:</p>
+              <p>{paymentType}</p>
             </div>
             <div className='mb-4'>
               <p className='font-bold text-lg'>Productos:</p>
@@ -138,11 +106,19 @@ const OrderDetails = (props: any) => {
 
             <div className='mb-4'>
               <p className='font-bold'>Total:</p>
-              <p>{order.total}</p>
+              <p>$ {order.total}</p>
+            </div>
+            <div className='mb-4'>
+              <p className='font-bold'>Cuotas:</p>
+              <p>x {order.cuotes}</p>
+            </div>
+            <div className='mb-4'>
+              <p className='font-bold'>Precio Final:</p>
+              <p>${order.precio_final}</p>
             </div>
             <div className='mb-4'>
               <p className='font-bold'>Estado de la orden:</p>
-              <p>{order.status}</p>
+              <p>{status}</p>
             </div>
           </div>
         </div>

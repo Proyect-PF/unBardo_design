@@ -37,7 +37,6 @@ export const FormCheckout = (): JSX.Element => {
           window.location.href = res.data.res.body.init_point;
           clearCheckoutList(); // Llamada a checkoutlist() después de la redirección
         });
-        console.log(values);
       }}
     >
       {({
@@ -52,10 +51,13 @@ export const FormCheckout = (): JSX.Element => {
           <div className="flex flex-col w-full">
             <label htmlFor="street_name">Direccion</label>
             <Input
-              type="text"
-              id="street_name"
-              name="street_name"
-              placeholder="San Martin"
+
+              autocomplete='true'
+              type='text'
+              id='street_name'
+              name='street_name'
+              placeholder='San Martin'
+
               onChange={handleChange}
               value={values.street_name}
               className=" font-poppins"
@@ -69,10 +71,13 @@ export const FormCheckout = (): JSX.Element => {
             <div className="flex flex-col w-full sm:w-1/2">
               <label htmlFor="street_number">Numero de casa</label>
               <Input
-                type="number"
-                id="street_number"
-                name="street_number"
-                placeholder="12"
+
+                autocomplete='true'
+                type='number'
+                id='street_number'
+                name='street_number'
+                placeholder='12'
+
                 onChange={handleChange}
                 value={values.street_number}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
@@ -85,10 +90,13 @@ export const FormCheckout = (): JSX.Element => {
             <div className="flex flex-col w-full sm:w-1/2">
               <label htmlFor="zip_code">Codigo Postal</label>
               <Input
-                type="number"
-                id="zip_code"
-                name="zip_code"
-                placeholder="3200"
+
+                autocomplete='true'
+                type='number'
+                id='zip_code'
+                name='zip_code'
+                placeholder='3200'
+
                 onChange={handleChange}
                 value={values.zip_code}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
@@ -104,10 +112,13 @@ export const FormCheckout = (): JSX.Element => {
             <div className="flex flex-col w-full sm:w-1/2">
               <label htmlFor="area_code">Codigo de Area</label>
               <Input
-                type="number"
-                id="area_code"
-                name="area_code"
-                placeholder="2954"
+
+                autocomplete='true'
+                type='number'
+                id='area_code'
+                name='area_code'
+                placeholder='2954'
+
                 onChange={handleChange}
                 value={values.area_code}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
@@ -120,10 +131,13 @@ export const FormCheckout = (): JSX.Element => {
             <div className="flex flex-col w-full sm:w-1/2">
               <label htmlFor="number">Telefono</label>
               <Input
-                type="number"
-                id="number"
-                name="number"
-                placeholder="153666987"
+
+                autocomplete='true'
+                type='number'
+                id='number'
+                name='number'
+                placeholder='153666987'
+
                 onChange={handleChange}
                 value={values.number}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
@@ -148,3 +162,37 @@ export const FormCheckout = (): JSX.Element => {
     </Formik>
   );
 };
+
+// payment_id: feedback.payment_id,
+// status: feedback.status,
+// external_reference: feedback.external_reference,
+// items: payment_detail.data.additional_info.items,
+// payment_method: payment_detail.data.payment_method_id,
+// payment_type: payment_detail.data.payment_type_id,
+// total_amount: payment_detail.data.transaction_amount,
+// cuotes: payment_detail.data.installments,
+// total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+// orderAproved,
+
+// Status: "approved",                 1
+// external_reference: 48,           1
+// items: [
+//     {
+//       quantity: 2,                1
+//       title: "Remera negra",        1
+//       unit_price: 5000 .          1
+//     }
+// ],
+// payment_method: "master",         1
+// payment_type: "credit_card",      1
+// total_amount: 10000,              1
+// cuotes: 18,                       1
+// total_paid_amount: 26530,         1
+
+// const payment_detail = await axios.get(https://api.mercadopago.com/v1/payments/${feedback.payment_id},
+//     {
+//         headers: {
+//             "Content-types": "application/json",
+//             Authorization: Bearer ${process.env.MERCADOPAGO_KEY}
+//         },
+//     });

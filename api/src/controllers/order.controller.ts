@@ -196,6 +196,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Extraer los valores de order y users
         const {id, updatedAt, status, dispatched, payment_id} = order.dataValues;
         const {fullname, email} = order.users;
+        
         // Combinar solo los valores necesarios
         const response = {
             id,
@@ -211,6 +212,8 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             total_amount: payment_detail.data.transaction_amount,
             cuotes: payment_detail.data.installments,
             total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+            address: payment_detail.data.additional_info.payer.address,
+            phone: payment_detail.data.additional_info.payer.phone,
             products,
         };
 

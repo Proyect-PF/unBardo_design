@@ -62,7 +62,7 @@ export const POST_Order = async (request: Request, response: Response) => {
 //Obtener todas las ordenes
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
-        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search, minPrice, maxPrice } = req.query;
+        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search } = req.query;
         const offset = (Number(page) - 1) * Number(limit);
 
         const options: any = {
@@ -127,22 +127,6 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
             options.offset = offset;
         }
 
-        // Verificar si se está filtrando por rango de precio mínimo y máximo
-        if (typeof minPrice === 'string' && typeof maxPrice === 'string') {
-            const min = Number(minPrice);
-            const max = Number(maxPrice);
-
-            if (min > 0 && max > 0) {
-                options.include.push({
-                    model: db.Product,
-                    as: "products",
-                    where: {
-                        price: { [Op.between]: [min, max] }
-                    }
-                });
-            }
-        }
-
         // Verificar si se está realizando una búsqueda global
         if (typeof search === "string") {
             const searchString = search.trim();
@@ -155,12 +139,7 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
                     "$users.email$": {
                         [Op.iLike]: `%${searchString}%`,
                     },
-                },
-                {
-                    "$products.name$": {
-                        [Op.iLike]: `%${searchString}%`,
-                    },
-                },
+                }
             ];
         }
 
@@ -190,15 +169,15 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             where: {id_order: orderId},
             attributes: {exclude: ["createdAt", "updatedAt", "id_order"]}
         });
-        
+
         //Se obtiene de la api de Mercadopago la informacion de la compra por medio del payment_id
         const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${order.payment_id}`,
-        {
-            headers: {
-                "Content-types": "application/json",
-                Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
-            },
-        });
+            {
+                headers: {
+                    "Content-types": "application/json",
+                    Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
+                },
+            });
 
         //A la informacion del producto se le agrega titulo, descripción y precio unitario obtenido desde la api de Mercadopago
 
@@ -317,7 +296,7 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
             where: {
                 id_user,
                 status: {[Op.ne]: 'cart'}
-             },
+            },
         });
 
         for (const order of orderUser) {
@@ -331,7 +310,7 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
                 payment_id: order.payment_id,
                 dispatched: order.dispatched,
                 createdAt: order.createdAt,
-                updatedAt: order.updatedAt, 
+                updatedAt: order.updatedAt,
                 product: prodOrder
             });
         }

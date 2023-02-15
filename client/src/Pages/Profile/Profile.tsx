@@ -6,21 +6,23 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 type Orden = {
-  orderDetails: {
+  id: number;
+  id_user: number;
+  status: string;
+  payment_id: number;
+  dispatched: boolean;
+  createdAt: string;
+  updatedAt: string;
+  product: {
     id: number;
-    fullname: string;
-    status: string;
-    dispatched: boolean;
+    id_order: number;
+    id_product: number;
+    sizes: {
+      [key: number]: number;
+    };
+    createdAt: string;
     updatedAt: string;
-    email: string;
-    orderProducts: [
-      {
-        id: number;
-        id_product: number;
-        sizes: {};
-      }
-    ];
-  };
+  }[];
 };
 
 const Profile = (): JSX.Element => {
@@ -57,9 +59,32 @@ const Profile = (): JSX.Element => {
         </div>
       </div>
       <div className={panel === "orders" ? "visible" : "hidden"}>
-        {orders.map((orden) => {
-          return <div key={orden.orderDetails.id}>{orden.orderDetails.id}</div>;
-        })}
+        <ul>
+        {orders.map((order: Orden) => (
+      <li key={order.id}>
+        <h3>Order ID: {order.id}</h3>
+        <p>Status: {order.status}</p>
+        <p>Payment ID: {order.payment_id}</p>
+        <p>Dispatched: {order.dispatched ? "Yes" : "No"}</p>
+        <p>Product:</p>
+        <ul>
+          {order.product.map((item) => (
+            <li key={item.id}>
+              <p>Product ID: {item.id_product}</p>
+              <p>Sizes:</p>
+              <ul>
+                {Object.entries(item.sizes).map(([size, quantity]) => (
+                  <li key={size}>
+                    {size}: {quantity}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+        </ul>
       </div>
     </div>
   );

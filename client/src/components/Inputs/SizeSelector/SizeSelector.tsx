@@ -61,24 +61,22 @@ const SizeSelector = ({
   const handleSize = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;
-    let selected = "";
     switch (button.innerHTML) {
       case "1":
-        selected = "S";
+        setter("S");
         break;
       case "2":
-        selected = "M";
+        setter("M");
         break;
       case "3":
-        selected = "L";
+        setter("L");
         break;
       case "4":
-        selected = "XL";
+        setter("XL");
         break;
       default:
         break;
     }
-    setter(selected);
   };
 
   return (

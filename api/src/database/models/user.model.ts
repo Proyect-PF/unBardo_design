@@ -12,7 +12,6 @@ export default (sequelize:any, DataTypes:any) => {
     email!:string
     password!:string
 
-
     /**
      * Method encryptPassword
      * @param password que se va a encriptar
@@ -59,11 +58,15 @@ export default (sequelize:any, DataTypes:any) => {
     },
     password: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: true
     },
     news_letter: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+      allowNull: true
+    },
+    google_id: {
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {

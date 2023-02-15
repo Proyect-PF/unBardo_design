@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "../../../components/Buttons/Button/Button";
@@ -11,6 +11,7 @@ type Props = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
   setId: React.Dispatch<React.SetStateAction<number>>;
 };
+
 const ListProducts = ({
   className,
   setSelected,
@@ -23,12 +24,25 @@ const ListProducts = ({
     dispatch
   );
   const [search, setSearch] = useState("");
+  const [query, setQuery] = useState({ byShowInShop: "", byStock: "" });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    const { name, value } = event.target;
+    setQuery({
+      ...query,
+      [name]: value,
+    });
+  };
+
+  useEffect(() => {
+    ADMfetch_products(`filter=${query.byShowInShop}&filter2=${query.byStock}`);
+  }, [query]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setSearch(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     ADMfetch_products_name(search);
   };
@@ -36,7 +50,7 @@ const ListProducts = ({
   return (
     <div className={`${className} relative`}>
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-row gap-4 mx-4">
+        <div className="flex flex-row gap-6 mx-4">
           <Input
             id="searchProdAdmin"
             type="text"
@@ -47,11 +61,41 @@ const ListProducts = ({
             onBlur={() => {}}
             className="my-4 w-80"
           />
+          <div className="my-auto">
+            <select
+              className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
+              id="byShowInShop"
+              name="byShowInShop"
+              onChange={handleFilter}
+              value={query.byShowInShop}
+            >
+              <option value="" selected>
+                Todos
+              </option>
+              <option value="true">Disponibles</option>
+              <option value="false">Ocultos</option>
+            </select>
+          </div>
+          <div className="my-auto">
+            <select
+              className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
+              id="byStock"
+              name="byStock"
+              value={query.byStock}
+              onChange={handleFilter}
+            >
+              <option value="" selected>
+                Todos
+              </option>
+              <option value="false">Sin Stock</option>
+            </select>
+          </div>
           <Button
             text="Limpiar"
             name="clearProdSearchADM"
             onClick={() => {
-              ADMfetch_products();
+              setQuery({ byShowInShop: "", byStock: "" });
+              setSearch("");
             }}
             disabled={false}
             type="button"

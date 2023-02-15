@@ -56,6 +56,7 @@ export const UPDATE_User = async (req: Request, res: Response) => {
     const [numberOfAffectedRows, affectedRows] = await db.Users.update(
       {
         ...user,
+        password: await db.Users.encryptPassword(user.password)
       },
       {
         where: { id: id },

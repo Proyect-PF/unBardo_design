@@ -21,7 +21,7 @@ const SizeSelector = ({
   const sizesStock = (x: number) => {
     if (x === 0) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-S");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-1");
         if (findCard) {
           return sizes[0] - findCard.ammount;
         }
@@ -30,7 +30,7 @@ const SizeSelector = ({
     }
     if (x === 1) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-M");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-2");
         if (findCard) {
           return sizes[1] - findCard.ammount;
         }
@@ -39,7 +39,7 @@ const SizeSelector = ({
     }
     if (x === 2) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-L");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-3");
         if (findCard) {
           return sizes[2] - findCard.ammount;
         }
@@ -48,7 +48,7 @@ const SizeSelector = ({
     }
     if (x === 3) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-XL");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-4");
         if (findCard) {
           return sizes[3] - findCard.ammount;
         }
@@ -70,7 +70,7 @@ const SizeSelector = ({
         onClick={handleSize}
         key="sizeS"
         className={`w-8 h-8 border border-black ${
-          selected === "S" ? "bg-black text-white" : "bg-white text-black"
+          selected === "1" ? "bg-black text-white" : "bg-white text-black"
         } ${sizesStock(0) === 0 ? " text-gray-400" : ""}`}
         disabled={sizesStock(0) === 0}
       >
@@ -80,7 +80,7 @@ const SizeSelector = ({
         onClick={handleSize}
         key="sizeM"
         className={`w-8 h-8 border border-black ${
-          selected === "M" ? "bg-black text-white" : "bg-white text-black"
+          selected === "2" ? "bg-black text-white" : "bg-white text-black"
         } ${sizesStock(1) === 0 ? " text-gray-400" : ""}`}
         disabled={sizesStock(1) === 0}
       >
@@ -90,7 +90,7 @@ const SizeSelector = ({
         onClick={handleSize}
         key="sizeL"
         className={`w-8 h-8 border border-black ${
-          selected === "L" ? "bg-black text-white" : "bg-white text-black"
+          selected === "3" ? "bg-black text-white" : "bg-white text-black"
         } ${sizesStock(2) === 0 ? " text-gray-400" : ""}`}
         disabled={sizesStock(2) === 0}
       >

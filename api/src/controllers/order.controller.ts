@@ -153,7 +153,12 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
                 ),
                 {
                     "$users.email$": {
-                        [Op.iLike]: `%${false}%`,
+                        [Op.iLike]: `%${searchString}%`,
+                    },
+                },
+                {
+                    "$products.name$": {
+                        [Op.iLike]: `%${searchString}%`,
                     },
                 },
             ];

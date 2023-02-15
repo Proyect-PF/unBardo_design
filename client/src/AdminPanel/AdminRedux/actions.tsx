@@ -8,7 +8,6 @@ import { PORT, baseURL } from "../../utils/url&port";
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    console.log(query);
     axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data;
       dispatch({
@@ -56,13 +55,12 @@ export const ADMdelete_product = (payload: number, toast: any) => {
 };
 
 //Orders Actions
-export const ADMfetch_orders = () => {
+export const ADMfetch_orders = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
-      .get(`${baseURL}:${PORT}/orders`)
+      .get(`${baseURL}:${PORT}/orders/?${query}`)
       .then((res) => {
         const payload = res.data.orders;
-
         dispatch({
           type: AdminActionType.GET_ALL_ORDERS,
           payload,

@@ -54,13 +54,14 @@ export const Register = (): JSX.Element => {
     const newuserGoogle: User = {
       email: profileObj.email,
       fullname: profileObj.name,
-      password: res.googleId,
+      google_id: res.googleId,
     };
     const registerLogin = () => {
       userLogin(
         {
           email: newuserGoogle.email,
           password: newuserGoogle.password,
+          google_id: res.googleId,
         },
         navigate
       );

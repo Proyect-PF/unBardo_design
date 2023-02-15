@@ -5,6 +5,7 @@ import db from "../database/database";
 import OrderProduct from "../database/models/order-product.model";
 import Product from "../database/models/product.model";
 import cloudinary from "../utils/cloudinary";
+import axios from "axios";
 
 interface RequestParams {}
 
@@ -84,7 +85,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Ejecutar la primera consulta
         const order = await db.Orders.findOne({
             where: {id: orderId},
-            attributes: ["id", "updatedAt", "status", "dispatched"],
+            attributes: ["id", "updatedAt", "status", "dispatched", "payment_id"],
             include: [{model: db.Users, as: "users", attributes: ["fullname", "email"]}],
             order: [['updatedAt', 'DESC']]
         });
@@ -94,20 +95,49 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             where: {id_order: orderId},
             attributes: {exclude: ["createdAt", "updatedAt", "id_order"]}
         });
+        
+        //Se obtiene de la api de Mercadopago la informacion de la compra por medio del payment_id
+        const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${order.payment_id}`,
+        {
+            headers: {
+                "Content-types": "application/json",
+                Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
+            },
+        });
+
+        //A la informacion del producto se le agrega titulo, descripción y precio unitario obtenido desde la api de Mercadopago
+
+        let products = [];
+        for (let i = 0; i < orderProducts.length; i++) {
+            products.push({
+                id: orderProducts[i].id,
+                id_product: orderProducts[i].id_product,
+                title: payment_detail.data.additional_info.items[i].title,
+                description: payment_detail.data.additional_info.items[i].description,
+                unit_price: payment_detail.data.additional_info.items[i].unit_price,
+                sizes: orderProducts[i].sizes,
+            });
+        }
 
         // Extraer los valores de order y users
-        const {id, updatedAt, status, dispatched} = order.dataValues;
+        const {id, updatedAt, status, dispatched, payment_id} = order.dataValues;
         const {fullname, email} = order.users;
         // Combinar solo los valores necesarios
         const response = {
             id,
+            payment_id,
             updatedAt,
             status,
             dispatched,
             fullname,
-            email
-            ,
-            orderProducts
+            email,
+            //orderProducts,
+            payment_method: payment_detail.data.payment_method_id,
+            payment_type: payment_detail.data.payment_type_id,
+            total_amount: payment_detail.data.transaction_amount,
+            cuotes: payment_detail.data.installments,
+            total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+            products,
         };
 
         // Enviar la respuesta
@@ -199,7 +229,16 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
             const prodOrder = await db.OrderProducts.findAll({
                 where: {id_order: order.id}
             })
-            array.push({order, product: prodOrder});
+            array.push({
+                id: order.id,
+                id_user: order.id_user,
+                status: order.status,
+                payment_id: order.payment_id,
+                dispatched: order.dispatched,
+                createdAt: order.createdAt,
+                updatedAt: order.updatedAt, 
+                product: prodOrder
+            });
         }
         
         return response.status(200).json(array);

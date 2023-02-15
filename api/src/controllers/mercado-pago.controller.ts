@@ -105,7 +105,7 @@ const GET_OrderDescription = async (id_order: number) => {
                 description: prod.description,
                 title: prod.name,
                 quantity: quantity,
-                unit_price: prod.price
+                unit_price: prod.promotion === true? prod.promotional_price: prod.price
             }
             items.push(product);
         }

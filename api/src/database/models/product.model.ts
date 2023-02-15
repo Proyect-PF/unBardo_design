@@ -36,7 +36,8 @@ export default (sequelize:any, DataTypes:any) => {
       // allowNull: false
     },
     image: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+       allowNull: true
     },
     name: {
       type: DataTypes.STRING,
@@ -75,6 +76,11 @@ export default (sequelize:any, DataTypes:any) => {
     promotional_price: { // Se va a usar
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    promotion: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
     }
   }, {
     sequelize,

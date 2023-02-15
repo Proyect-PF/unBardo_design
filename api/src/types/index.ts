@@ -33,6 +33,8 @@ export type TypeProduct = {
   color: string;
   show_in_shop: boolean;
   image: string;
+  promotional_price:number;
+  promotion:boolean;
 };
 
 export type TypeOrder = {

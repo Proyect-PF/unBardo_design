@@ -55,6 +55,11 @@ const Home = () => {
         <div className="border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin"></div>
       </div>
       <div className={loading ? "hidden" : "visible"}>
+        {productTotal.filter((e) => e.promotion === true).length > 0 && (
+          <div className="w-full py-2 font-bold text-center bg-details">
+            Promociones activas
+          </div>
+        )}
         <img className="object-none w-full h-48" alt="homepage" src={photo} />
         <p className="p-5 font-bold text-center font-anisette">
           WELCOME TO THE JUNGLE
@@ -67,12 +72,13 @@ const Home = () => {
                 if (e.show_in_shop) {
                   return (
                     <Product
-                      imageB={imageB}
                       imageF={e.image}
                       key={e.id}
                       name={e.name}
                       price={e.price.toString()}
                       id={Number(e.id)}
+                      promotion={e.promotion}
+                      promotional_price={e.promotional_price}
                     />
                   );
                 }

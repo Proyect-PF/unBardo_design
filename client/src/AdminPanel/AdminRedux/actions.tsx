@@ -6,9 +6,10 @@ import Swal from "sweetalert2";
 import { PORT, baseURL } from "../../utils/url&port";
 
 //Product actions
-export const ADMfetch_products = () => {
+export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/`).then((res) => {
+    console.log(query);
+    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,

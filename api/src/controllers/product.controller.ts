@@ -118,7 +118,7 @@ export const DELETE_DeleteAllProducts = async (
 export const GET_AllProducts = async (request: Request, response: Response) => {
     try {
         const {id} = request.params;
-        const {filter, order, page, perPage, sort} = request.query;
+        const {filter, filter2, order, page, perPage, sort} = request.query;
         console.log(request.query)
 
         // Seteamos el optiones BASE de consulta
@@ -129,10 +129,18 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
             },
         };
         // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
-        if (filter) {
+        if (filter || filter2) {
             let where: any = {};
-            if (filter === "black" || "white") {
+            if (filter === "black" || filter === "white") {
                 where.color = filter
+            }else if(filter === 'true' || filter === "false"){
+                where.show_in_shop = filter === 'true'
+            }
+            if(filter2 === 'false'){
+                where.S = 0
+                where.L = 0
+                where.M = 0
+                where.XL = 0
             }
             options.where = where;
         }

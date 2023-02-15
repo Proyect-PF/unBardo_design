@@ -109,7 +109,12 @@ interface GetOrderById {
   payload: Orders;
 }
 
-export type ActionOrders = GetAllOrders | GetOrderById;
+interface GetOrdersByUId {
+  type: ActionType.GET_ORDER_BY_UID;
+  payload: Order
+}
+
+export type ActionOrders = GetOrdersByUId | GetAllOrders | GetOrderById;
 
 interface GetOrderCheckout {
   type: ActionType.GET_ORDER_CHECKOUT;

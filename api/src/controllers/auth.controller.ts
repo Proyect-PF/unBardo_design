@@ -111,18 +111,16 @@ export const POST_SignIn = async (req: Request, res: Response) => {
       },
     });
 
-    if (!userFound) return res.status(400).json({ message: "user not found" });
+    if (!userFound) return res.status(400).json(getErrorMessage(undefined, "Usuario no encontrado"));
 
-    //Matcheo la password
+    //Matcheo las passwords
     const matchPassword = await db.Users.comparePassword(
       password,
       userFound.password
     );
-    if (!matchPassword)
-    throw res
-        .status(401)
-        .json({ token: null, messaage: "Invalid Password" });
-
+    if (!matchPassword){
+      throw new Error("Contraseña Incorrecta")
+    }
     //Busco el token del usuario que se registro
     const token = jwt.sign(
       { id: userFound.id },

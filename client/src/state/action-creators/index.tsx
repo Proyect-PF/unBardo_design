@@ -164,7 +164,7 @@ export const clearCheckoutList = () => {
   };
 };
 
-export const userRegister = (registerLogin:Function, user?: User, userGoogle?:User) => {
+export const userRegister = (registerLogin:Function, user?: User) => {
   axios
     .post(`${baseURL}:${PORT}/auth/signup`, user)
     .then((response) => {

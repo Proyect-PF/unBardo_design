@@ -10,6 +10,8 @@ export type Product = {
   color: string;
   show_in_shop: boolean;
   image: string;
+  promotion?: boolean;
+  promotional_price?: number;
 };
 
 export type AddProductPayload = {

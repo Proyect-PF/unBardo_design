@@ -125,17 +125,24 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
 
         const {id, status} = req.query;
 
-        const orderUpdate = await db.Orders.update({
-            dispatched: Boolean(status),
-        }, {
-            where: {
-                id
-            }
-        });
-        console.log(orderUpdate);
+        const order = await db.Orders.findOne({
+            where: {id}
+        })
 
-        if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
-        return res.status(200).json(orderUpdate);
+        if (order.status === 'approved') {
+            const orderUpdate = await db.Orders.update({
+                dispatched: Boolean(status),
+            }, {
+                where: {
+                    id
+                }
+            });
+            console.log(orderUpdate);
+            if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+            return res.status(200).json(orderUpdate);
+        }
+
+        return res.status(404).json({message: "El estado de la orden debe estar aprobada"});
     } catch (error: any) {
         return res.status(400).json({message: error.message});
     }
@@ -188,11 +195,11 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
              },
         });
         
-        for (const ele of orderUser) {
+        for (const order of orderUser) {
             const prodOrder = await db.OrderProducts.findAll({
-                where: {id_order: ele.id}
+                where: {id_order: order.id}
             })
-            array.push({ele, product: prodOrder});
+            array.push({order, product: prodOrder});
         }
         
         return response.status(200).json(array);

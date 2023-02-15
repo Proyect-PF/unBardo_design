@@ -144,22 +144,20 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
         }
 
         // Verificar si se está realizando una búsqueda global
-        if (typeof search === 'string') {
-            const searchQuery = `%${search}%`;
+        if (typeof search === "string") {
+            const searchString = search.trim();
 
             options.where[Op.or] = [
-                { id: { [Op.like]: searchQuery } },
-                { status: { [Op.like]: searchQuery } },
-                { payment_id: { [Op.like]: searchQuery } },
-                { createdAt: { [Op.like]: searchQuery } },
-                { updatedAt: { [Op.like]: searchQuery } },
-                { '$users.fullname$': { [Op.like]: searchQuery } },
-                { '$users.email$': { [Op.like]: searchQuery } },
-                { '$products.name$': { [Op.like]: searchQuery } },
+                db.Sequelize.literal(
+                    `concat("Orders"."id", "Orders"."id_user", "Orders"."status", "Orders"."payment_id", "Orders"."dispatched"::text, "Orders"."createdAt", "Orders"."updatedAt") ILIKE '%${searchString}%'`
+                ),
+                {
+                    "$users.email$": {
+                        [Op.iLike]: `%${false}%`,
+                    },
+                },
             ];
         }
-
-
 
         const orders = await db.Orders.findAll(options);
         return res.status(200).json({ orders });

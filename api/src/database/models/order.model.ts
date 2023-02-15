@@ -1,5 +1,3 @@
-"use strict";
-
 import Sequelize, { Model, DataTypes } from "sequelize";
 
 interface OrdersAttributes {
@@ -11,7 +9,7 @@ interface OrdersAttributes {
 }
 
 export default (sequelize: Sequelize.Sequelize) => {
-    class Orders extends Model<OrdersAttributes> {
+    class Orders extends Model implements Model<OrdersAttributes> {
         public id!: number;
         public id_user!: number;
         public status!: string;

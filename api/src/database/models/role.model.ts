@@ -1,8 +1,8 @@
-'use strict';
 import { Model } from "sequelize";
+import { TypeRole } from "../../types";
 
 export default (sequelize:any, DataTypes:any) => {
-  class Role extends Model {
+  class Role extends Model implements Model<TypeRole>{
 
     static associate(models:any) {
       Role.hasMany(models.Users, {

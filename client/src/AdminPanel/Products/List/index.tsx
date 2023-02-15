@@ -36,37 +36,41 @@ const ListProducts = ({
   return (
     <div className={`${className} relative`}>
       <form onSubmit={handleSubmit}>
-        <Input
-          id="searchProdAdmin"
-          type="text"
-          onChange={handleChange}
-          placeholder="Buscar un producto..."
-          name="searchProdAdmin"
-          value={search}
-          onBlur={() => {}}
-          className="absolute w-80 -top-16 left-12"
-        />
+        <div className="flex flex-row gap-4 mx-4">
+          <Input
+            id="searchProdAdmin"
+            type="text"
+            onChange={handleChange}
+            placeholder="Buscar un producto..."
+            name="searchProdAdmin"
+            value={search}
+            onBlur={() => {}}
+            className="my-4 w-80"
+          />
+          <Button
+            text="Limpiar"
+            name="clearProdSearchADM"
+            onClick={() => {
+              ADMfetch_products();
+            }}
+            disabled={false}
+            type="button"
+            className="justify-center w-32"
+          />
+        </div>
       </form>
-      <Button
-        text="Limpiar"
-        name="clearProdSearchADM"
-        onClick={() => {
-          ADMfetch_products();
-        }}
-        disabled={false}
-        type="button"
-        className="absolute w-32 -top-20 left-96"
-      />
+
       <div className="flex items-center justify-around w-full text-center border-t">
         <p className="w-8 border-r border-black">Id</p>
         <p className="w-40 ">Nombre</p>
         <p className="w-16 ">Color</p>
         <p className="w-16 ">Precio</p>
         <p className=" w-28">Mostrar en Web</p>
-        <p className="w-8 ">S</p>
-        <p className="w-8 ">M</p>
-        <p className="w-8 ">L</p>
-        <p className="w-8 ">XL</p>
+        <p className="w-8 ">Stock:</p>
+        <p className="w-8 ">1</p>
+        <p className="w-8 ">2</p>
+        <p className="w-8 ">3</p>
+        {/* <p className="w-8 ">XL</p> */}
         <p className="w-20 ">Preview</p>
         <p className="w-14"></p>
       </div>
@@ -78,10 +82,13 @@ const ListProducts = ({
             <p className="w-16">{e.color}</p>
             <p className="w-16">{e.price}</p>
             <p className="w-24">{e.show_in_shop ? "Si" : "No"}</p>
+            <p className="w-8">
+              {e.S === 0 && e.M === 0 && e.L === 0 ? "No" : "Si"}
+            </p>
             <p className="w-8">{e.S}</p>
             <p className="w-8">{e.M}</p>
             <p className="w-8">{e.L}</p>
-            <p className="w-8">{e.XL}</p>
+            {/* <p className="w-8">{e.XL}</p> */}
             <img src={e.image} className="w-20" />
             <button
               onClick={() => {

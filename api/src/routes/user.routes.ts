@@ -5,6 +5,7 @@ import {
     GET_User,
     POST_User,
     UPDATE_User,
+    updateNewsletterSubscription
 } from "../controllers/user.controller";
 import {verifyTokenIsAdmin} from "../helpers/verifyTokenIsAdmin";
 
@@ -20,5 +21,7 @@ userRoutes.put("/:id", UPDATE_User);
 userRoutes.get("/", GET_User);
 
 userRoutes.post("/", POST_User);
+
+userRoutes.put("/newsletter/subscription", updateNewsletterSubscription);
 
 export default userRoutes;

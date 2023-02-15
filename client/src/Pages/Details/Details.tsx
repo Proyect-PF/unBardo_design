@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -24,9 +24,9 @@ const Details = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   //AL: size / amount state retrieve the selection for future add to cart implementation
   const [ammount, setAmmount] = useState(1);
-  const [size, setSize] = useState('');
+  const [size, setSize] = useState("");
   //AL:retrieve the id from the url & transform to number to match type
-  const idS = location.pathname.split('/')[2];
+  const idS = location.pathname.split("/")[2];
   const id = Number(idS);
 
   //AL:Same loading implementation as HOME page
@@ -39,8 +39,8 @@ const Details = (): JSX.Element => {
   //  but functional for now.
   useEffect(() => {
     setLoading(true);
-    !productDetails.show_in_shop && navigate('/');
-    if (productDetails.name !== '') setLoading(false);
+    !productDetails.show_in_shop && navigate("/");
+    if (productDetails.name !== "") setLoading(false);
   }, [productDetails]);
 
   //AL: this function manages the add to cart functionality, needs to be implemented
@@ -57,7 +57,7 @@ const Details = (): JSX.Element => {
       addCheckout(payload);
       setSize("");
       setAmmount(1);
-      toast.success('Se añadió correctamente!', {
+      toast.success("Se añadió correctamente!", {
         position: "bottom-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -66,18 +66,17 @@ const Details = (): JSX.Element => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        });
   };
 
   const stock =
     productDetails.S + productDetails.L + productDetails.M + productDetails.XL;
 
   const stockSize = (size: string) => {
-    let checkoutList = getItem('shoppingBag');
-    if (size === 'S') {
+    let checkoutList = getItem("shoppingBag");
+    if (size === "S") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + '-S'
+          (x: any) => x.id === productDetails.id + "-S"
         );
         if (findCard) {
           return productDetails.S - findCard.ammount;
@@ -85,10 +84,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.S;
     }
-    if (size === 'L') {
+    if (size === "L") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + '-L'
+          (x: any) => x.id === productDetails.id + "-L"
         );
         if (findCard) {
           return productDetails.L - findCard.ammount;
@@ -96,10 +95,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.L;
     }
-    if (size === 'M') {
+    if (size === "M") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + '-M'
+          (x: any) => x.id === productDetails.id + "-M"
         );
         if (findCard) {
           return productDetails.M - findCard.ammount;
@@ -107,10 +106,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.M;
     }
-    if (size === 'XL') {
+    if (size === "XL") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + '-XL'
+          (x: any) => x.id === productDetails.id + "-XL"
         );
         if (findCard) {
           return productDetails.XL - findCard.ammount;
@@ -126,35 +125,35 @@ const Details = (): JSX.Element => {
     <div>
       <div
         className={`my-8 flex justify-center ${
-          !loading ? 'hidden' : 'visible'
+          !loading ? "hidden" : "visible"
         }`}
       >
-        <div className='border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin'></div>
+        <div className="border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin"></div>
       </div>
       <div
         className={`flex flex-col md:flex-row md:gap-5 ${
-          loading ? 'hidden' : 'visible'
+          loading ? "hidden" : "visible"
         }`}
       >
-        <img className='' alt='black tshirt' src={productDetails.image} />
+        <img className="" alt="black tshirt" src={productDetails.image} />
 
-        <div className='w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8'>
+        <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8">
           <div>
-            <p className='mt-4 text-4xl font-bold '>{productDetails.name}</p>
+            <p className="mt-4 text-4xl font-bold ">{productDetails.name}</p>
 
             {stock > 0 ? (
-              <p className='my-2 text-3xl font-bold '>{`$ ${productDetails.price}`}</p>
+              <p className="my-2 text-3xl font-bold ">{`$ ${productDetails.price}`}</p>
             ) : (
-              <div className='flex flex-row gap-4'>
-                <p className='my-2 text-3xl italic font-bold text-gray-500 line-through'>{`$ ${productDetails.price}`}</p>
-                <p className='my-2 text-xl italic font-bold '>Out of Stock</p>
+              <div className="flex flex-row gap-4">
+                <p className="my-2 text-3xl italic font-bold text-gray-500 line-through">{`$ ${productDetails.price}`}</p>
+                <p className="my-2 text-xl italic font-bold ">Out of Stock</p>
               </div>
             )}
 
-            <p className='my-2 text-lg italic font-medium font-poppins'>{`${productDetails.description}`}</p>
+            <p className="my-2 text-lg italic font-medium font-poppins">{`${productDetails.description}`}</p>
           </div>
           <div>
-            <div className='flex justify-around my-8 text-lg text-center'>
+            <div className="flex justify-around my-8 text-lg text-center">
               <SizeSelector
                 detailId={productDetails.id}
                 selected={size}
@@ -174,14 +173,14 @@ const Details = (): JSX.Element => {
               />
             </div>
 
-            <div className='flex flex-col'>
+            <div className="flex flex-col">
               <Button
-                className={'justify-center'}
-                type='button'
-                text='Añadir al carrito'
+                className={"justify-center"}
+                type="button"
+                text="Añadir al carrito"
                 onClick={handleCart}
-                name='Carrito'
-                disabled={size === ''}
+                name="Carrito"
+                disabled={size === ""}
               />
             </div>
           </div>

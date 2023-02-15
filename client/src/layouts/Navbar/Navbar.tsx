@@ -11,7 +11,7 @@ const Navbar = ({ handleChange, handleSearch }: any) => {
   const location = useLocation();
   const { checkoutList } = useSelector((state: State) => state.checkout);
   return (
-    <div className="relative flex items-center justify-between px-3 bg-white border-b-2 border-gray-200 h-28">
+    <div className="fixed z-20 flex items-center justify-between w-full px-3 bg-white border-b-2 border-gray-200 h-28">
       <div>
         <img
           onClick={handleChange}

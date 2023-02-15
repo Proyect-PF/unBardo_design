@@ -179,7 +179,6 @@ const UPDATE_QuantitySizes = async (id_order: number) => {
         const orderProd = await db.OrderProducts.findAll({
             where: {id_order},
         });
-        console.log(orderProd);
         //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle fue vendido, se le descuenta al stock la cantidad
         for (const element of orderProd) {
             const prod = await db.Product.findOne({
@@ -208,6 +207,37 @@ const UPDATE_QuantitySizes = async (id_order: number) => {
     }
 }
 
+//Verifica si hay stock disponible antes de realizar el pago
+const Verify_QuantitySizes = async (id_order: number) => {
+    try {
+        //Se obtiene el detalle de los productos de la orden
+        const orderProd = await db.OrderProducts.findAll({
+            where: {id_order},
+        });
+        //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle tiene menor stock retorna false
+        for (const element of orderProd) {
+            const prod = await db.Product.findOne({
+                where: {id: element.id_product}
+            });
+            if(element.sizes.S) {
+                if (prod.S < element.sizes.S) return false     
+            }
+            if(element.sizes.M) {
+                if (prod.M < element.sizes.M) return false    
+            }
+            if(element.sizes.L) {
+                if (prod.L < element.sizes.L) return false         
+            }
+            if(element.sizes.XL) {
+                if (prod.XL < element.sizes.XL) return false          
+            }
+        }
+        return true;
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 //ruta POST MERCADOPAGO
 export const POST_GeneratePayment = async (
     request: Request<RequestParams, ResponseBody, RequestBody, RequestQuery>,
@@ -226,9 +256,11 @@ export const POST_GeneratePayment = async (
     const userInfo = await GET_OrderUser(last.id); //userInfo.users.fullname; userInfo.users.email
 
     //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
-    const prodInfo = await GET_OrderDescription(last.id);    
+    const prodInfo = await GET_OrderDescription(last.id);
     
-    
+    //Verifica si hay stock disponible de los productos, en caso contrario no se puede continuar con la compra
+    const stockAvailable = await Verify_QuantitySizes(last.id);
+    if (stockAvailable === false) return response.status(400).json('EXISTE ALGUN PRODUCTO SIN STOCK NECESARIO')
 
     //TODO: items => información relacionada al producto
     //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
@@ -237,11 +269,11 @@ export const POST_GeneratePayment = async (
     let preference = {
         items: prodInfo,
         back_urls: {
-            "success": "http://localhost:3000", //"http://localhost:3700/orders/feedback"
-            "failure": "http://localhost:3000", //"http://localhost:3700/orders/feedback"
+            "success": "http://localhost:3700/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+            "failure": "http://localhost:3700/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
             "pending": ""
         },
-        //auto_return: "approved",
+        auto_return: "approved",
         binary_mode: true,
         external_reference: external_reference,
         payer: {

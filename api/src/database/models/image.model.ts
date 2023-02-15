@@ -1,7 +1,3 @@
-"use strict";
-
-import Product from "./product.model";
-
 import { Model } from "sequelize";
 
 

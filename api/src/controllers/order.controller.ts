@@ -61,18 +61,110 @@ export const POST_Order = async (request: Request, response: Response) => {
 //Obtener todas las ordenes
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
-        const orders = await db.Orders.findAll({
-            where: {status: {[Op.ne]: 'cart'}},
+        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search, minPrice, maxPrice } = req.query;
+        const offset = (Number(page) - 1) * Number(limit);
+
+        const options: any = {
+            where: {},
             include: [
                 {
                     model: db.Users,
                     as: "users"
                 }
-            ]
-        });
-        return res.status(200).json(orders);
+            ],
+            order: []
+        };
+
+        // Verificar si status es una cadena de texto
+        if (typeof status === 'string') {
+            options.where.status = status;
+        } else {
+            options.where.status = {[Op.ne]: 'cart'};
+        }
+
+        // Verificar si userId es una cadena de texto
+        if (typeof userId === 'string') {
+            options.where.id_user = userId;
+        }
+
+        // Verificar si id es una cadena de texto
+        if (typeof id === 'string') {
+            options.where.id = id;
+        }
+
+        // Verificar si paymentId es una cadena de texto
+        if (typeof paymentId === 'string') {
+            options.where.payment_id = paymentId;
+        }
+
+        // Verificar si dispatched es una cadena de texto
+        if (typeof dispatched === 'string') {
+            options.where.dispatched = dispatched === 'true';
+        }
+
+        // Verificar si startDate y endDate son cadenas de texto
+        if (typeof startDate === 'string' && typeof endDate === 'string') {
+            options.where.createdAt = {
+                [Op.between]: [new Date(startDate), new Date(endDate)],
+            };
+        }
+
+        // Verificar si sort y order son cadenas de texto o arrays
+        if (typeof sort === 'string' && (typeof order === 'string' || Array.isArray(order))) {
+            if (Array.isArray(order)) {
+                options.order.push(order.map(o => [sort, o.toString().toUpperCase()]));
+            } else {
+                options.order.push([sort, order.toUpperCase()]);
+            }
+        } else {
+            options.order.push(['createdAt', 'DESC']);
+        }
+
+        // Verificar si page y limit son números
+        if (typeof page === 'string' && typeof limit === 'string') {
+            options.limit = Number(limit);
+            options.offset = offset;
+        }
+
+        // Verificar si se está filtrando por rango de precio mínimo y máximo
+        if (typeof minPrice === 'string' && typeof maxPrice === 'string') {
+            const min = Number(minPrice);
+            const max = Number(maxPrice);
+
+            if (min > 0 && max > 0) {
+                options.include.push({
+                    model: db.Product,
+                    as: "products",
+                    where: {
+                        price: { [Op.between]: [min, max] }
+                    }
+                });
+            }
+        }
+
+        // Verificar si se está realizando una búsqueda global
+        if (typeof search === 'string') {
+            const searchQuery = `%${search}%`;
+
+            options.where[Op.or] = [
+                { id: { [Op.like]: searchQuery } },
+                { status: { [Op.like]: searchQuery } },
+                { payment_id: { [Op.like]: searchQuery } },
+                { createdAt: { [Op.like]: searchQuery } },
+                { updatedAt: { [Op.like]: searchQuery } },
+                { '$users.fullname$': { [Op.like]: searchQuery } },
+                { '$users.email$': { [Op.like]: searchQuery } },
+                { '$products.name$': { [Op.like]: searchQuery } },
+            ];
+        }
+
+
+
+        const orders = await db.Orders.findAll(options);
+        return res.status(200).json({ orders });
     } catch (error: any) {
-        return res.status(400).json({message: error.message});
+        console.error(error);
+        return res.status(400).json({error: error.message});
     }
 };
 
@@ -194,14 +286,14 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
                 status: {[Op.ne]: 'cart'}
              },
         });
-        
+
         for (const order of orderUser) {
             const prodOrder = await db.OrderProducts.findAll({
                 where: {id_order: order.id}
             })
             array.push({order, product: prodOrder});
         }
-        
+
         return response.status(200).json(array);
     } catch (error: any) {
         return response.status(500).json({ error: error.message });

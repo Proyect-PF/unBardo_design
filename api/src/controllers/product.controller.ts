@@ -156,6 +156,9 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                 where.M = 0
                 where.XL = 0
             }
+            if(filter2 === 'promo'){
+                where.promotion = true;
+            }
             if(name){
                 where.name = {[Op.iLike]: `%${name}%`}
             }

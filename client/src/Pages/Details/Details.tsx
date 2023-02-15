@@ -74,10 +74,10 @@ const Details = (): JSX.Element => {
 
   const stockSize = (size: string) => {
     let checkoutList = getItem("shoppingBag");
-    if (size === "S") {
+    if (size === "1") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-S"
+          (x: any) => x.id === productDetails.id + "-1"
         );
         if (findCard) {
           return productDetails.S - findCard.ammount;
@@ -85,10 +85,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.S;
     }
-    if (size === "L") {
+    if (size === "2") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-L"
+          (x: any) => x.id === productDetails.id + "-2"
         );
         if (findCard) {
           return productDetails.L - findCard.ammount;
@@ -96,10 +96,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.L;
     }
-    if (size === "M") {
+    if (size === "3") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-M"
+          (x: any) => x.id === productDetails.id + "-3"
         );
         if (findCard) {
           return productDetails.M - findCard.ammount;
@@ -107,10 +107,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.M;
     }
-    if (size === "XL") {
+    if (size === "4") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-XL"
+          (x: any) => x.id === productDetails.id + "-4"
         );
         if (findCard) {
           return productDetails.XL - findCard.ammount;

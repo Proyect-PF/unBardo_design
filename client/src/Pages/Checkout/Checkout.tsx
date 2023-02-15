@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button/Button';
 import CheckoutCard from '../../components/Cards/Checkout/CheckoutCard';
 import { State } from '../../state/reducers';
 import { useEffect } from 'react';
 import { clearCheckoutList } from '../../state/action-creators';
+import Swal from 'sweetalert2';
+import logged from "../../assets/svg/logged.svg";
 
 interface ProductSize {
   [size: string]: number;
@@ -22,8 +24,10 @@ interface UserProducts {
 }
 
 const Checkout = (): JSX.Element => {
+  const navigate = useNavigate()
   const { checkoutList } = useSelector((state: State) => state.checkout);
   const { userId } = useSelector((state: State) => state.user);
+  const { success } = useSelector((state: State) => state.user);
 
   // const checkoutData = localStorage.getItem('shoppingBag');
 
@@ -45,8 +49,10 @@ const Checkout = (): JSX.Element => {
     }, []),
   };
 
-  useEffect(() => {
-    axios
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    if(success){
+      axios
       .post('http://localhost:3700/orders', userProducts)
       .then((response) => {
         console.log('DESPUES DEL POST', response);
@@ -55,7 +61,33 @@ const Checkout = (): JSX.Element => {
       .catch((error) => {
         console.error('ERROR ENVIANDO LA DATA AL SERVER:', error);
       });
-  }, []);
+      navigate('/checkout/payment')
+    } else {
+      Swal.fire({
+        imageUrl: logged,
+        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
+        showCancelButton: true,
+        showConfirmButton: true,
+        showDenyButton: true,
+        confirmButtonColor: "#000",
+        denyButtonColor: "#000",
+        cancelButtonColor: "#e5e7eb",
+        cancelButtonText: "<p class='font-rift text-lg text-black'>Por ahora no</p>",
+        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
+        denyButtonText: "<p class='font-rift text-lg text-white'>Registrarse</p>",
+        reverseButtons: true,
+        html: 
+        '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder comprar los productos de la bolsa de compra</p>',
+        //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/account/login')
+        } else if (result.isDenied) {
+          navigate("/account/register")
+        }
+      })
+    }
+  }
 
   return (
     <div className='flex flex-col items-center'>
@@ -80,7 +112,6 @@ const Checkout = (): JSX.Element => {
           : 0
       }`}</p>
 
-      <Link to='/checkout/payment'>
         <Button
           className={'justify-center'}
           type='button'
@@ -92,11 +123,10 @@ const Checkout = (): JSX.Element => {
                 }, 0)
               : 0
           })`}
-          onClick={() => {}}
+          onClick={handleClick}
           // onClick={() => {}}
           disabled={checkoutList.length === 0}
         />
-      </Link>
     </div>
   );
 };

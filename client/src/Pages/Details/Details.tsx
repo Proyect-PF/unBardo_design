@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useLocation, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import { bindActionCreators } from "redux";
-import Swal from "sweetalert2";
-import imageB from "../../assets/images/remeras/unbardo-07B.png";
-import imageF from "../../assets/images/remeras/unbardo-07F.png";
-import logged from "../../assets/svg/logged.svg";
-import Button from "../../components/Buttons/Button/Button";
-import AmountInput from "../../components/Inputs/Amount/AmountInput";
-import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
-import { actionCreators } from "../../state";
-import { State } from "../../state/reducers";
-import { getItem } from "../../utils/localStorage";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import { bindActionCreators } from 'redux';
+import Button from '../../components/Buttons/Button/Button';
+import AmountInput from '../../components/Inputs/Amount/AmountInput';
+import SizeSelector from '../../components/Inputs/SizeSelector/SizeSelector';
+import { actionCreators } from '../../state';
+import { State } from '../../state/reducers';
+import { getItem } from '../../utils/localStorage';
 
 const Details = (): JSX.Element => {
   const location = useLocation();
@@ -24,7 +20,6 @@ const Details = (): JSX.Element => {
     dispatch
   );
   const { productDetails } = useSelector((state: State) => state.products);
-  const { success } = useSelector((state: State) => state.user);
   //AL: loading state for loading implementation (done)
   const [loading, setLoading] = useState(true);
   //AL: size / amount state retrieve the selection for future add to cart implementation
@@ -51,8 +46,6 @@ const Details = (): JSX.Element => {
   //AL: this function manages the add to cart functionality, needs to be implemented
   const handleCart = (e: any) => {
     e.preventDefault();
-
-    if (success) {
       const payload = {
         id: productDetails.id + "-" + size,
         name: productDetails.name,
@@ -73,41 +66,18 @@ const Details = (): JSX.Element => {
         draggable: true,
         progress: undefined,
         theme: "light",
-      });
-    } else {
-      Swal.fire({
-        imageUrl: logged,
-        title:
-          "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonColor: "#000",
-        cancelButtonColor: "#e5e7eb",
-        cancelButtonText:
-          "<p class='font-rift text-lg text-black'>Por ahora no</p>",
-        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
-        reverseButtons: true,
-        html: '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder agregar productos a la bolsa de compra</p>',
-        //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/account/login");
-        }
-      });
-      setSize("");
-      setAmmount(1);
-    }
-  };
+  })
+  } ;
 
   const stock =
     productDetails.S + productDetails.L + productDetails.M + productDetails.XL;
 
   const stockSize = (size: string) => {
     let checkoutList = getItem("shoppingBag");
-    if (size === "S") {
+    if (size === "1") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-S"
+          (x: any) => x.id === productDetails.id + "-1"
         );
         if (findCard) {
           return productDetails.S - findCard.ammount;
@@ -115,10 +85,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.S;
     }
-    if (size === "L") {
+    if (size === "2") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-L"
+          (x: any) => x.id === productDetails.id + "-2"
         );
         if (findCard) {
           return productDetails.L - findCard.ammount;
@@ -126,10 +96,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.L;
     }
-    if (size === "M") {
+    if (size === "3") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-M"
+          (x: any) => x.id === productDetails.id + "-3"
         );
         if (findCard) {
           return productDetails.M - findCard.ammount;
@@ -137,10 +107,10 @@ const Details = (): JSX.Element => {
       }
       return productDetails.M;
     }
-    if (size === "XL") {
+    if (size === "4") {
       if (checkoutList?.length > 0) {
         let findCard = checkoutList.find(
-          (x: any) => x.id === productDetails.id + "-XL"
+          (x: any) => x.id === productDetails.id + "-4"
         );
         if (findCard) {
           return productDetails.XL - findCard.ammount;

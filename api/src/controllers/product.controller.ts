@@ -118,7 +118,7 @@ export const DELETE_DeleteAllProducts = async (
 export const GET_AllProducts = async (request: Request, response: Response) => {
     try {
         const {id} = request.params;
-        const {filter, filter2, order, page, perPage, sort} = request.query;
+        const {name, filter, filter2, order, page, perPage, sort} = request.query;
         console.log(request.query)
 
         // Seteamos el optiones BASE de consulta
@@ -128,19 +128,23 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                 exclude: TO_EXCLUDE,
             },
         };
-        // Tomamos filter y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
-        if (filter || filter2) {
+
+        // Tomamos filters y lo parseamos a string, esto es por si hay un problema al recibir undefined o null o algo
+        if (filter || filter2 || name) {
             let where: any = {};
             if (filter === "black" || filter === "white") {
                 where.color = filter
-            }else if(filter === 'true' || filter === "false"){
-                where.show_in_shop = filter === 'true'
+            }else if(filter === 'show' || filter === "hidden"){
+                where.show_in_shop = filter === 'show'
             }
-            if(filter2 === 'false'){
+            if(filter2 === 'out'){
                 where.S = 0
                 where.L = 0
                 where.M = 0
                 where.XL = 0
+            }
+            if(name){
+                where.name = {[Op.iLike]: `%${name}%`}
             }
             options.where = where;
         }

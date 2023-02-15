@@ -19,12 +19,10 @@ const ListProducts = ({
 }: Props): JSX.Element => {
   const { allProducts } = useSelector((state: State) => state.admin);
   const dispatch = useDispatch();
-  const { ADMfetch_products_name, ADMfetch_products } = bindActionCreators(
-    adminActions,
-    dispatch
-  );
+  const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState({
+    name: "",
     byShowInShop: "",
     byStock: "",
     page: 1,
@@ -36,6 +34,7 @@ const ListProducts = ({
     setQuery({
       ...query,
       [name]: value,
+      page: 1,
     });
   };
 
@@ -52,7 +51,7 @@ const ListProducts = ({
 
   useEffect(() => {
     ADMfetch_products(
-      `filter=${query.byShowInShop}&filter2=${query.byStock}&page=${query.page}&perPage=${query.perPage}`
+      `name=${query.name}&filter=${query.byShowInShop}&filter2=${query.byStock}&page=${query.page}&perPage=${query.perPage}`
     );
   }, [query]);
 
@@ -62,14 +61,14 @@ const ListProducts = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    ADMfetch_products_name(search);
+    setQuery({ ...query, name: search, page: 1 });
   };
 
   return (
     <div className={`${className} relative`}>
       <div className="flex flex-row justify-between mx-8">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-row gap-6 ">
+          <div className="flex flex-row gap-8 ">
             <Input
               id="searchProdAdmin"
               type="text"
@@ -91,8 +90,8 @@ const ListProducts = ({
                 <option value="" selected>
                   Todos
                 </option>
-                <option value="true">Disponibles</option>
-                <option value="false">Ocultos</option>
+                <option value="show">Disponibles</option>
+                <option value="hidden">Ocultos</option>
               </select>
             </div>
             <div className="my-auto">
@@ -106,7 +105,7 @@ const ListProducts = ({
                 <option value="" selected>
                   Todos
                 </option>
-                <option value="false">Sin Stock</option>
+                <option value="out">Sin Stock</option>
               </select>
             </div>
             <Button
@@ -114,6 +113,7 @@ const ListProducts = ({
               name="clearProdSearchADM"
               onClick={() => {
                 setQuery({
+                  name: "",
                   byShowInShop: "",
                   byStock: "",
                   page: 1,
@@ -153,6 +153,7 @@ const ListProducts = ({
             <option value="10" selected>
               10
             </option>
+            {/* <option value="2">2</option> */}
             <option value="15">15</option>
             <option value="20">20</option>
           </select>

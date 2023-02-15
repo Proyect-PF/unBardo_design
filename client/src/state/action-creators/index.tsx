@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import {
   ActionCheckout,
   ActionOrderCheckout,
+  ActionOrders,
   ActionProducts,
   ActionUser,
 } from '../actions';
@@ -284,5 +285,22 @@ export const getOrderDetails = (paymentId: string) => {
       type: ActionType.GET_ORDER_CHECKOUT,
       payload: response.data,
     });
+  };
+};
+
+
+
+export const fetch_orders_user = (id: number | undefined) => {
+  return (dispatch: Dispatch<ActionOrders>) => {
+    axios
+      .get(`${baseURL}:${PORT}/orders/users/${id}`)
+      .then((res) => {
+        const payload = res.data;
+        dispatch({
+          type: ActionType.GET_ORDER_BY_UID,
+          payload,
+        });
+      })
+      .catch((error) => console.log(error));
   };
 };

@@ -66,7 +66,8 @@ const Details = (): JSX.Element => {
         draggable: true,
         progress: undefined,
         theme: "light",
-  };
+  })
+  } ;
 
   const stock =
     productDetails.S + productDetails.L + productDetails.M + productDetails.XL;

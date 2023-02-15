@@ -1,36 +1,32 @@
-import { request } from "http";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Await, useLocation, useNavigate, useParams } from "react-router-dom";
-import { ToastClassName } from "react-toastify";
-import { bindActionCreators } from "redux";
-import arrow from "../../assets/svg/come-back.svg";
 import { State } from "../../state/reducers";
 import axios from "axios";
 import { PORT, baseURL } from "../../utils/url&port";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+type Orden = {
+  orderDetails: {
+    id: number;
+    fullname: string;
+    status: string;
+    dispatched: boolean;
+    updatedAt: string;
+    email: string;
+    orderProducts: [
+      {
+        id: number;
+        id_product: number;
+        sizes: {};
+      }
+    ];
+  };
+};
 
 const Profile = (): JSX.Element => {
   const { panel } = useParams();
   const { userId } = useSelector((state: State) => state.user);
-  const { allOrders } = useSelector((state: State) => state.orders);
-
-  type Orden = {
-    orderDetails: {
-      id: 0;
-      fullname: "";
-      status: "";
-      dispatched: false;
-      updatedAt: "";
-      email: "";
-      orderProducts: [
-        {
-          id: 0;
-          id_product: 0;
-          sizes: {};
-        }
-      ];
-    };
-  };
+  const [orders, setOrders] = useState<Orden[]>([]);
 
   const getOrdenes = (userId: number) => {
     return axios
@@ -40,10 +36,13 @@ const Profile = (): JSX.Element => {
       });
   };
 
-  async function fetchOrders(userId: number) {
-    const orders = await getOrdenes(userId);
-    // handle orders here
-  }
+  useEffect(() => {
+    async function fetchOrders() {
+      const orders = await getOrdenes(userId);
+      setOrders(orders);
+    }
+    fetchOrders();
+  }, [userId]);
 
   return (
     <div>
@@ -58,12 +57,9 @@ const Profile = (): JSX.Element => {
         </div>
       </div>
       <div className={panel === "orders" ? "visible" : "hidden"}>
-        {
-          getOrdenes(userId).then((orders) => {
-              orders.map((orden : Orden) => {
-                orden.orderDetails.id;
-              })
-          })};
+        {orders.map((orden) => {
+          return <div key={orden.orderDetails.id}>{orden.orderDetails.id}</div>;
+        })}
       </div>
     </div>
   );

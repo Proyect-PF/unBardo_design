@@ -73,7 +73,7 @@ export type Checkout = {
   id: string;
   name: string;
   size: string;
-  price: number;
+  price: number | undefined;
   ammount: number;
   imgF: string;
 };

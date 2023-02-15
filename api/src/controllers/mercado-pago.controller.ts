@@ -106,18 +106,7 @@ const GET_OrderDescription = async (id_order: number) => {
             }
             items.push(product);
 
-        }
-      }
-      const product = {
-        id: element.id_product,
-        currency_id: 'ARS',
-        description: prod.description,
-        title: prod.name,
-        quantity: quantity,
-        unit_price: prod.price,
-      };
-      items.push(product);
-    }
+        } 
     return items;
   } catch (error: any) {
     throw new Error(error.message);
@@ -227,10 +216,6 @@ const UPDATE_QuantitySizes = async (id_order: number) => {
         throw new Error(error.message);
 
     }
-    return orderProd;
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
 };
 
 //Verifica si hay stock disponible antes de realizar el pago

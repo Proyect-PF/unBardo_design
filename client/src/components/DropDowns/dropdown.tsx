@@ -14,6 +14,7 @@ const Dropdown = (): JSX.Element => {
   const INITIAL_STATE = {
     byColor: "",
     byOrder: "ASC",
+    byPromo: "",
   };
   const [Query, setQuery] = useState(INITIAL_STATE);
 
@@ -30,7 +31,9 @@ const Dropdown = (): JSX.Element => {
   };
 
   useEffect(() => {
-    fetch_products(`filter=${Query.byColor}&order=${Query.byOrder}&sort=price`);
+    fetch_products(
+      `filter=${Query.byColor}&filter2=${Query.byPromo}&order=${Query.byOrder}&sort=price`
+    );
   }, [Query]);
 
   return (
@@ -47,6 +50,18 @@ const Dropdown = (): JSX.Element => {
         <option value="">Todos</option>
         <option value="white">Blanco</option>
         <option value="black">Negro</option>
+      </select>
+      <select
+        className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
+          show ? "visible" : "hidden"
+        }`}
+        id="byPromo"
+        name="byPromo"
+        value={Query.byPromo}
+        onChange={handleChange}
+      >
+        <option value="">Promociones:</option>
+        <option value="promo">Activas</option>
       </select>
       <select
         className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${

@@ -37,7 +37,7 @@ const orders = [
 const OrderDetails = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { getOrderDetails } = bindActionCreators(actionCreators, dispatch);
+  //const { getOrderDetails } = bindActionCreators(actionCreators, dispatch);
 
   const searchParams = new URLSearchParams(location.search);
   const payment_id = searchParams.get('payment_id'); // 1
@@ -48,7 +48,7 @@ const OrderDetails = (): JSX.Element => {
   useEffect(() => {
     const sendDataOrder = async () => {
       axios
-        .post('http://localhost:3700/payment/feedback', {
+        .post('http://localhost:3700/orders/feedback', {
           payment_id,
           external_reference,
         })

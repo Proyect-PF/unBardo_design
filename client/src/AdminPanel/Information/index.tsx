@@ -50,12 +50,12 @@ const InformationPanel = () => {
           <div className="flex flex-row gap-20 mx-8 ">
             <div className="w-40">
               <p className="text-lg font-medium">Ordenes Totales:</p>
-              {/* <p className="text-2xl font-semibold">{allOrders.length}</p> */}
+              <p className="text-2xl font-semibold">{allOrders.length}</p>
             </div>
             <div className="w-40">
               <p className="text-lg font-medium">Ordenes por Despachar:</p>
               <p className="text-2xl font-semibold">
-                {/* {allOrders.filter((e: any) => e.dispatched !== true).length} */}
+                {allOrders.filter((e: any) => e.dispatched !== true).length}
               </p>
             </div>
           </div>

@@ -61,7 +61,7 @@ export const ADMfetch_orders = () => {
     axios
       .get(`${baseURL}:${PORT}/orders`)
       .then((res) => {
-        const payload = res.data;
+        const payload = res.data.orders;
 
         dispatch({
           type: AdminActionType.GET_ALL_ORDERS,

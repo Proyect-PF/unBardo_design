@@ -3,7 +3,6 @@ import Button from '../Buttons/Button/Button';
 import axios from 'axios';
 import Input from '../Inputs/Input';
 import { validationSchema } from '../../utils/FormPayment/validation';
-import { initialValues } from '../../utils/FormPayment/initialValues';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../state/reducers';
 import { actionCreators } from '../../state';
@@ -69,6 +68,8 @@ export const FormCheckout = (): JSX.Element => {
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='street_number'>Numero de casa</label>
               <Input
+                min={0}
+                max={9999}
                 autocomplete='true'
                 type='number'
                 id='street_number'
@@ -86,6 +87,8 @@ export const FormCheckout = (): JSX.Element => {
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='zip_code'>Codigo Postal</label>
               <Input
+                min={0}
+                max={9999}
                 autocomplete='true'
                 type='number'
                 id='zip_code'
@@ -106,6 +109,8 @@ export const FormCheckout = (): JSX.Element => {
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='area_code'>Codigo de Area</label>
               <Input
+                min={0}
+                max={9999}
                 autocomplete='true'
                 type='number'
                 id='area_code'
@@ -123,6 +128,8 @@ export const FormCheckout = (): JSX.Element => {
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='number'>Telefono</label>
               <Input
+                min={0}
+                max={99999999}
                 autocomplete='true'
                 type='number'
                 id='number'

@@ -66,7 +66,7 @@ const EditFullName = ({setPanel}: Props) => {
                       title:
                         "<p class='font-bold font-rift text-black'>Tu nombre se actualizó correctamente</p>",
                     });
-                    setPanel("info")
+                    window.location.reload()
                   })
                   .catch((error) => {
                     const Toast = Swal.mixin({

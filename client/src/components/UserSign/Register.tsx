@@ -1,29 +1,29 @@
-import { Formik } from "formik";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
-import { actionCreators } from "../../state";
-import Button from "../Buttons/Button/Button";
-import Input from "../Inputs/Input";
-import { bindActionCreators } from "redux";
-import { useNavigate } from "react-router-dom";
-import { userRegister } from "../../state/action-creators";
-import { validateRegister } from "./validates";
-import { User } from "../../types/types";
-import GoogleLogin from "react-google-login";
+import { Formik } from 'formik';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import { actionCreators } from '../../state';
+import Button from '../Buttons/Button/Button';
+import Input from '../Inputs/Input';
+import { bindActionCreators } from 'redux';
+import { useNavigate } from 'react-router-dom';
+import { userRegister } from '../../state/action-creators';
+import { validateRegister } from './validates';
+import { User } from '../../types/types';
+import GoogleLogin from 'react-google-login';
 
-import { useEffect } from "react";
-import { gapi } from "gapi-script";
+import { useEffect } from 'react';
+import { gapi } from 'gapi-script';
 
 export const Register = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const clientId =
-    "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com";
+    '293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com';
   const initialvalues: User = {
-    fullname: "",
-    email: "",
-    password: "",
+    fullname: '',
+    email: '',
+    password: '',
   };
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export const Register = (): JSX.Element => {
         clientId: clientId,
       });
     };
-    gapi.load("client:auth2", start);
+    gapi.load('client:auth2', start);
   }, []);
 
   const onSubmit = (values: User) => {
@@ -45,12 +45,11 @@ export const Register = (): JSX.Element => {
         navigate
       );
     };
-      userRegister(registerLogin, values);
-
+    userRegister(registerLogin, values);
   };
 
-  const onSuccess = (res:any) => {
-    const {profileObj} = res
+  const onSuccess = (res: any) => {
+    const { profileObj } = res;
     const newuserGoogle: User = {
       email: profileObj.email,
       fullname: profileObj.name,
@@ -66,7 +65,7 @@ export const Register = (): JSX.Element => {
         navigate
       );
     };
-      userRegister(registerLogin, newuserGoogle);
+    userRegister(registerLogin, newuserGoogle);
   };
   const onFailure = (fail: any) => {
     //TODO Se setea un alert!! AGUS SETEALA
@@ -82,79 +81,87 @@ export const Register = (): JSX.Element => {
         validate={validateRegister}
         onSubmit={onSubmit}
       >
-        {({ values, handleSubmit, handleChange, handleBlur, errors, setFieldValue }) => (
+        {({
+          values,
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          errors,
+          setFieldValue,
+        }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-6 mx-8 my-4"
+            className='flex flex-col gap-6 mx-8 my-4'
           >
             <div>
-              <label htmlFor="fullname">Nombre y Apellido</label>
+              <label htmlFor='fullname'>Nombre y Apellido</label>
               <Input
-                type="text"
-                id="fullname"
-                name="fullname"
-                placeholder=""
+                type='text'
+                id='fullname'
+                name='fullname'
+                placeholder=''
                 value={values.fullname}
                 onChange={handleChange}
-                className=" font-poppins"
+                className=' font-poppins'
                 onBlur={handleBlur}
               />
 
               {errors.fullname && (
-                <p className="text-red-600 ">{errors.fullname}</p>
+                <p className='text-red-600 '>{errors.fullname}</p>
               )}
             </div>
             <div>
-              <label htmlFor="email">email</label>
+              <label htmlFor='email'>email</label>
               <Input
-                type="text"
-                id="email"
-                name="email"
-                placeholder=""
+                type='text'
+                id='email'
+                name='email'
+                placeholder=''
                 value={values.email}
                 onChange={handleChange}
-                className=" font-poppins"
+                className=' font-poppins'
                 onBlur={handleBlur}
               />
 
-              {errors.email && <p className="text-red-600 ">{errors.email}</p>}
+              {errors.email && <p className='text-red-600 '>{errors.email}</p>}
             </div>
             <div>
-              <label htmlFor="passwordRg">Contraseña</label>
+              <label htmlFor='passwordRg'>Contraseña</label>
               <Input
-                type="password"
-                id="password"
-                name="password"
-                placeholder=""
+                type='password'
+                id='password'
+                name='password'
+                placeholder=''
                 value={values.password}
                 onChange={handleChange}
-                className=" font-poppins"
+                className=' font-poppins'
                 onBlur={handleBlur}
               />
               {errors.password && (
-                <p className="text-red-600 ">{errors.password}</p>
+                <p className='text-red-600 '>{errors.password}</p>
               )}
             </div>
             <Button
-              className={"justify-center"}
-              text="Registrarme"
-              name="Register"
+              className={'justify-center'}
+              text='Registrarme'
+              name='Register'
               onClick={handleSubmit}
               disabled={
-                Object.values(values).some((e) => e === "") ||
-                Object.values(errors).some((e) => e !== "")
+                Object.values(values).some((e) => e === '') ||
+                Object.values(errors).some((e) => e !== '')
               }
-              type="button"
+              type='button'
             />
-            <GoogleLogin
-              className={""}
-              clientId={clientId}
-              buttonText="Register with google"
-              onSuccess={onSuccess}
-              onFailure={onFailure}
-              cookiePolicy={"single_host_origin"}
-
-            />
+            <div className='flex justify-center'>
+              <GoogleLogin
+                className='py-2 text-xl font-semibold justify-center border border-black w-72'
+                clientId={clientId}
+                buttonText='Register with Google'
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                cookiePolicy={'single_host_origin'}
+              />
+            </div>
           </form>
         )}
       </Formik>

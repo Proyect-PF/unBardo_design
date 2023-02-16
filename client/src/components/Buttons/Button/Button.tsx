@@ -21,9 +21,9 @@ const Button = ({
   return (
     <div className={`flex ${className}`}>
       <button
-        type={type === "submit" ? "submit" : "button"}
-        className={`py-2 my-4 text-xl font-semibold text-center border border-black w-72  ${
-          disabled ? "opacity-50" : "opacity-100"
+        type={type === 'submit' ? 'submit' : 'button'}
+        className={`py-2 mt-4 text-xl font-semibold text-center border border-black w-72  ${
+          disabled ? 'opacity-50' : 'opacity-100'
         }`}
         name={name}
         disabled={disabled}

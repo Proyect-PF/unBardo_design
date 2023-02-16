@@ -19,9 +19,6 @@ const initialState: ProductState = {
     color: "",
     show_in_shop: true,
     image: "",
-    image2: "",
-    image3: "",
-    image4: "",
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
   render: true,
@@ -91,9 +88,6 @@ const productReducer = (
           color: "",
           show_in_shop: true,
           image: "",
-          image2: "",
-          image3: "",
-          image4: "",
         },
       };
     default:

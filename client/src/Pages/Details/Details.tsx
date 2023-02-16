@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { bindActionCreators } from "redux";
 import Button from "../../components/Buttons/Button/Button";
-import ImageSlider from "../../components/ImageSlider";
 import AmountInput from "../../components/Inputs/Amount/AmountInput";
 import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
 import { actionCreators } from "../../state";
@@ -29,8 +28,6 @@ const Details = (): JSX.Element => {
   //AL:retrieve the id from the url & transform to number to match type
   const idS = location.pathname.split("/")[2];
   const id = Number(idS);
-  //image state for the slider
-  const [images, setImages] = useState<string[]>([]);
 
   //AL:Same loading implementation as HOME page
   useEffect(() => {
@@ -38,17 +35,12 @@ const Details = (): JSX.Element => {
     fetch_product_detail(id);
   }, [dispatch, id]);
 
-  //AL: checks if the data is correct an set loading state, also confirms if the product is avalible for display and sets the images in the slider
+  //AL: Check if the data is correct (see getProductDetails action for context), needs to be rewired
+  //  but functional for now.
   useEffect(() => {
     setLoading(true);
     !productDetails.show_in_shop && navigate("/");
     if (productDetails.name !== "") setLoading(false);
-    setImages([
-      productDetails.image,
-      productDetails.image2 ? productDetails.image2 : "",
-      productDetails.image3 ? productDetails.image3 : "",
-      productDetails.image4 ? productDetails.image4 : "",
-    ]);
   }, [productDetails]);
 
   //AL: this function manages the add to cart functionality, needs to be implemented
@@ -145,7 +137,8 @@ const Details = (): JSX.Element => {
           loading ? "hidden" : "visible"
         }`}
       >
-        <ImageSlider slides={images} />
+        <img className="" alt="black tshirt" src={productDetails.image} />
+
         <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8">
           <div>
             <p className="mt-4 text-4xl font-bold ">{productDetails.name}</p>

@@ -92,7 +92,7 @@ const OrderDetails = (): JSX.Element => {
               <tbody className='w-full'>
                 {orderData.items &&
                   orderData.items.map((product: Item) => (
-                    <tr className='w-full' key={product.id}>
+                    <tr className='w-full' key={product.id_product}>
                       <div className='flex flex-row justify-between'>
                         <td className='text-center flex flex-row gap-4'>
                           {product.title} x {product.quantity}

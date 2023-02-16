@@ -29,7 +29,7 @@ const UserOrders = ({setPanel, setDetailId, userId, fullname, email}: Props) => 
         .then((response) => {
             setUserOrders(response.data)
         })
-    })
+    }, [])
 
     return (
         <div className="font-semibold text-lg">

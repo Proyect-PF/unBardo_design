@@ -39,7 +39,7 @@ const OrderDetail = ({setPanel, detailId}: Props) => {
         .then((response) => {
             setDetails(response.data)
         })
-    })
+    }, [])
 
 
     return (

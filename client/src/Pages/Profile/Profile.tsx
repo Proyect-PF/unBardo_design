@@ -22,7 +22,7 @@ const Profile = (): JSX.Element => {
   useEffect(() => {
     axios.get(`http://localhost:3700/users/${userId}`)
     .then((response) => {
-      let data = response.data[0];
+      let data = response.data;
       setFullName(data.fullname)
       setEmail(data.email)
     })

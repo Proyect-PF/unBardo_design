@@ -66,6 +66,7 @@ const OrderDetails = (): JSX.Element => {
 
           <p className='font-bold text-lg mb-4'>Detalle del pedido:</p>
           <div className='w-full'>
+
             <div className='w-full'>
               <div className='flex flex-row justify-between font-bold'>
                 <div className='w-1/2 text-left'>Producto</div>
@@ -81,6 +82,7 @@ const OrderDetails = (): JSX.Element => {
                     <div className='w-1/2'>
                       <div className='flex flex-row gap-4'>
                         <div>
+
                           {product.title} x {product.quantity}
                         </div>
                       </div>

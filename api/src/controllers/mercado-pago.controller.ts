@@ -364,7 +364,8 @@ export const POST_FeedbackPayment = async (
             total_amount: payment_detail.data.transaction_amount,
             cuotes: payment_detail.data.installments,
             total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
-            //orderAproved,
+            date_last_updated: payment_detail.data.date_last_updated,
+            date_approved: payment_detail.data.date_approved,
         });
     } catch (error: any) {
         return response.status(400).json({message: error.message});

@@ -13,7 +13,7 @@ export const GET_Users = async (req: Request, res: Response) => {
       const usersEmails: TypeUser[] = await db.Users.findAll({
         where: { news_letter: true },
         attributes: {
-          exclude: ["password", "id", "createdAt", "updatedAt", "id_role", "news_letter"],
+          exclude: ["password", "id", "createdAt", "updatedAt", "id_role", "news_letter", "google_id"],
         },
       });
 

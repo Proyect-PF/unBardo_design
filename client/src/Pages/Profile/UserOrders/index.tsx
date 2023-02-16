@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "../../../components/Buttons/Button/Button";
+import { baseURL, PORT } from "../../../utils/url&port";
 
 interface Order {
     id: number
@@ -25,7 +26,7 @@ const UserOrders = ({setPanel, setDetailId, userId, fullname, email}: Props) => 
     const [userOrders, setUserOrders] = useState<Array<Order>>([])
 
     useEffect(() => {
-        axios.get(`http://localhost:3700/orders/users/${userId}`)
+        axios.get(`${baseURL}:${PORT}/orders/users/${userId}`)
         .then((response) => {
             setUserOrders(response.data)
         })

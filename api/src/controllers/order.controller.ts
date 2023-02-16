@@ -143,8 +143,16 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
             ];
         }
 
+
+        const count = await db.Orders.count({
+            where: options.where,
+            include: options.include,
+        });
+
+
         const orders = await db.Orders.findAll(options);
-        return res.status(200).json({ orders });
+
+        return res.status(200).json({ count, orders });
     } catch (error: any) {
         console.error(error);
         return res.status(400).json({error: error.message});

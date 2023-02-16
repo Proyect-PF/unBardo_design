@@ -101,15 +101,35 @@ export type Item = {
   quantity: number;
   title: string;
   unit_price: number;
+  sizes?: {
+    S?: number;
+    M?: number;
+    L?: number;
+    XL?: number;
+  };
 };
 
 export type Order = {
+  id?: number;
+  fullname?: string;
+  email?: string;
+  updatedAt?: string;
   status: string;
   external_reference: number;
-  items: Item[];
+  products: Item[];
   payment_method: string;
   payment_type: string;
   total_amount: number;
   cuotes: number;
   total_paid_amount: number;
+  dispatched: boolean;
+  address?: {
+    street_name: string;
+    street_number: string;
+    zip_code: string;
+  };
+  phone?: {
+    area_code: string;
+    number: string;
+  };
 };

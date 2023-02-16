@@ -218,7 +218,7 @@ export const userLogin = (user: User, navigate: any) => {
           payload: response.data,
         });
 
-        navigate("/home");
+        navigate("/");
 
         const Toast = Swal.mixin({
           toast: true,

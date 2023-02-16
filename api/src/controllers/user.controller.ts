@@ -5,7 +5,7 @@ import db from "../database/database";
 import getErrorMessage from "../helpers/handleErrorCatch";
 import { TypeUser } from "../types";
 
-export const GET_User = async (req: Request, res: Response) => {
+export const GET_Users = async (req: Request, res: Response) => {
   try {
     let { emails } = req.query;
     //true o false, me indica si quiero filtrar y obtener solo los usuarios
@@ -29,10 +29,8 @@ export const GET_User = async (req: Request, res: Response) => {
 export const GET_UserById =async (req: Request, res: Response) => {
   try {
     const {id_users} = req.params;
-    const userById = await db.Users.findAll({
-      where: {id: id_users}
-    })
-    if (userById.length < 1) return response.status(400).send('No existe usuario con ese id');
+    const userById:TypeUser = await db.Users.findByPk(id_users)
+    if (!userById) return response.status(400).send('No existe usuario con ese id');
     return res.status(200).json(userById);
   } catch (error: any) {
     return res.status(400).json({message: error.message});
@@ -53,10 +51,10 @@ export const UPDATE_User = async (req: Request, res: Response) => {
     const user: TypeUser = req.body;
     const { id } = req.params;
 
+    if(user.password) user.password = await db.Users.encryptPassword(user.password)
     const [numberOfAffectedRows, affectedRows] = await db.Users.update(
       {
         ...user,
-        password: await db.Users.encryptPassword(user.password)
       },
       {
         where: { id: id },

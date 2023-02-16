@@ -2,7 +2,7 @@ import {Router} from "express";
 import {
     DELETE_UserById,
     DELETE_AllUsers,
-    GET_User,
+    GET_Users,
     POST_User,
     UPDATE_User,
     GET_UserById,
@@ -19,7 +19,7 @@ userRoutes.delete("/", DELETE_AllUsers);
 
 userRoutes.put("/:id", UPDATE_User);
 
-userRoutes.get("/", GET_User);
+userRoutes.get("/", GET_Users);
 
 userRoutes.get("/:id_users", GET_UserById);
 

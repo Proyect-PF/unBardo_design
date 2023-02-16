@@ -5,7 +5,7 @@ const imageRoutes = Router();
 
 
 /**
- * TODO => RUTA para postear varias imagenes
+ * TODO: => RUTA para postear varias imagenes
  */
 imageRoutes.post("/", POST_Image);
 

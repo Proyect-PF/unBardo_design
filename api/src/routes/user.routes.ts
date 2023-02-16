@@ -21,22 +21,22 @@ const userRoutes = Router();
 
 
 /**
- * TODO => RUTA UPDATE actualiza los usuarios por medio del id
+ * TODO: => RUTA UPDATE actualiza los usuarios por medio del id
  */
 userRoutes.put("/:id", UPDATE_User);
 
 /**
- * TODO => RUTA GET Obtiene todos los usuarios
+ * TODO: => RUTA GET Obtiene todos los usuarios
  */
 userRoutes.get("/", GET_Users);
 
 /**
- * TODO => RUTA GET Obtiene un usuario por id
+ * TODO: => RUTA GET Obtiene un usuario por id
  */
 userRoutes.get("/:id_users", GET_UserById);
 
 /**
- * TODO => RUTA UPDATE 
+ * TODO: => RUTA UPDATE 
  */
 userRoutes.put("/newsletter/subscription", updateNewsletterSubscription);
 

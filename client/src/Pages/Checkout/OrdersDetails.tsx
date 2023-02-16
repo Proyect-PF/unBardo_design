@@ -92,7 +92,7 @@ const OrderDetails = (): JSX.Element => {
               <tbody className='w-full'>
                 {orderData.items &&
                   orderData.items.map((product: Item) => (
-                    <tr className='w-full'>
+                    <tr className='w-full' key={product.id}>
                       <div className='flex flex-row justify-between'>
                         <td className='text-center flex flex-row gap-4'>
                           {product.title} x {product.quantity}
@@ -102,7 +102,7 @@ const OrderDetails = (): JSX.Element => {
                             $ {product.unit_price}
                           </td>
                           <td className='text-center mr-9'>
-                            $ {orderData.total_amount}
+                            $ {product.unit_price * product.quantity}
                           </td>
                         </div>
                       </div>
@@ -110,6 +110,13 @@ const OrderDetails = (): JSX.Element => {
                   ))}
               </tbody>
             </table>
+          </div>
+
+          <div className='flex flex-row justify-end'>
+            <div className='my-4 mr-1'>
+              <p className='font-bold'>Total:</p>
+              <p className='mr-8'>${orderData.total_amount}</p>
+            </div>
           </div>
 
           <div className='flex flex-row justify-between'>
@@ -129,7 +136,7 @@ const OrderDetails = (): JSX.Element => {
       {/* ))} */}
       <div>
         <div className='text-center'>
-          <Link to='/orders'>
+          <Link to='/'>
             <Button
               text='Volver al Home '
               name='backToHome'

@@ -67,8 +67,8 @@ const ListProducts = ({
   return (
     <div className={`${className} relative`}>
       <div className="flex flex-row justify-between mx-8">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-row gap-8 ">
+        <form onSubmit={handleSubmit} className="w-full">
+          <div className="flex flex-row justify-around">
             <Input
               id="searchProdAdmin"
               type="text"
@@ -123,7 +123,7 @@ const ListProducts = ({
               }}
               disabled={false}
               type="button"
-              className="justify-center w-32"
+              className="justify-center w-32 h-fit"
             />
           </div>
         </form>

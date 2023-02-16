@@ -35,6 +35,9 @@ export type Product = {
   color: string;
   show_in_shop: boolean;
   image: string;
+  image2?: string;
+  image3?: string;
+  image4?: string;
 };
 
 export type Order = {

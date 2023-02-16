@@ -72,7 +72,8 @@ const Home = () => {
                 if (e.show_in_shop) {
                   return (
                     <Product
-                      imageF={e.image}
+                      image={e.image}
+                      image2={e.image2}
                       key={e.id}
                       name={e.name}
                       price={e.price.toString()}

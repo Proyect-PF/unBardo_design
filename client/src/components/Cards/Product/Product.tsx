@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import discount from "../../../assets/svg/receipt-tax.svg";
 
 interface Props {
-  imageF: string;
+  image: string;
+  image2?: string;
   name: string;
   price: string;
   id: number;
@@ -12,7 +13,8 @@ interface Props {
 
 const Product = ({
   price,
-  imageF,
+  image,
+  image2,
   name,
   id,
   promotion,
@@ -21,18 +23,20 @@ const Product = ({
   return (
     <div className="relative flex-col w-56 gap-4 m-auto my-4">
       {promotion && (
-        <img src={discount} className="absolute h-8 right-2 top-2" />
+        <img src={discount} className="absolute z-10 h-8 right-2 top-2" />
       )}
       <Link to={`/product/${id}`}>
-        {/* <img
-          className="absolute w-56 m-auto border-b-2 border-black opacity-0 hover:opacity-100"
-          alt="black tshirt"
-          src={imageB}
-        /> */}
+        {image2 && (
+          <img
+            className="absolute w-56 m-auto border-b-2 border-black opacity-0 hover:opacity-100"
+            alt=" tshirt"
+            src={image2}
+          />
+        )}
         <img
           className="w-56 m-auto border-b-2 border-black"
           alt="black tshirt"
-          src={imageF}
+          src={image}
         />
         <div className="flex flex-col mt-3 ml-3 ">
           <p className="text-lg font-semibold ">{name.toUpperCase()}</p>

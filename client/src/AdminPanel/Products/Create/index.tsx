@@ -7,6 +7,7 @@ import Input from "../../../components/Inputs/Input";
 import { adminActions } from "../../AdminRedux";
 import FileUpload from "./FileUploader";
 import check from "../../../assets/svg/check.svg";
+import ButtonSmall from "../../../components/Buttons/ButtonSmall/ButtonSmall";
 
 type Props = {
   className: string;
@@ -14,6 +15,7 @@ type Props = {
 
 const Create = ({ className }: Props): JSX.Element => {
   const [img, setImg] = useState(true);
+  const [imgNumb, setImgNumb] = useState(0);
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: "bg-white border-black rounded-none",
@@ -246,11 +248,69 @@ const Create = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-            <FileUpload
-              setFieldValue={setFieldValue}
-              fieldName="image"
-              force={img}
-            />
+
+            <div className="flex flex-col gap-4">
+              <p>Imagenes:</p>
+              <div>
+                <p>Principal:</p>
+                <FileUpload
+                  setFieldValue={setFieldValue}
+                  fieldName="image"
+                  force={img}
+                />
+              </div>
+              <div>
+                <p>Secundaria:</p>
+                <FileUpload
+                  setFieldValue={setFieldValue}
+                  fieldName="image2"
+                  force={img}
+                />
+              </div>
+              {imgNumb > 0 && (
+                <div>
+                  <p>Imagen 3:</p>
+                  <FileUpload
+                    setFieldValue={setFieldValue}
+                    fieldName="image3"
+                    force={img}
+                  />
+                </div>
+              )}
+              {imgNumb > 1 && (
+                <div>
+                  <p>Imagen 4:</p>
+                  <FileUpload
+                    setFieldValue={setFieldValue}
+                    fieldName="image4"
+                    force={img}
+                  />
+                </div>
+              )}
+              <div className="flex flex-row gap-4">
+                <ButtonSmall
+                  text="añadir imagen"
+                  name="addImg"
+                  onClick={() => {
+                    if (imgNumb < 2) setImgNumb(imgNumb + 1);
+                  }}
+                  disabled={false}
+                  type="button"
+                />
+                {imgNumb > 0 && (
+                  <ButtonSmall
+                    text="quitar imagen"
+                    name="rmvImg"
+                    onClick={() => {
+                      if (imgNumb > 0) setImgNumb(imgNumb - 1);
+                    }}
+                    disabled={false}
+                    type="button"
+                  />
+                )}
+              </div>
+            </div>
+
             <Button
               text="Crear"
               name="createProd"

@@ -94,7 +94,6 @@ export const fetch_product_detail = (id: number) => {
           promotional_price: res.data.promotional_price,
         };
       }
-      console.log(res.data);
       // ENVIAMOS PAYLOAD A REDUX
       dispatch({
         type: ActionType.GET_PRODUCT_DETAILS,

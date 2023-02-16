@@ -93,10 +93,10 @@ const Details = (): JSX.Element => {
           (x: any) => x.id === productDetails.id + "-2"
         );
         if (findCard) {
-          return productDetails.L - findCard.ammount;
+          return productDetails.M - findCard.ammount;
         }
       }
-      return productDetails.L;
+      return productDetails.M;
     }
     if (size === "L") {
       if (checkoutList?.length > 0) {
@@ -104,10 +104,10 @@ const Details = (): JSX.Element => {
           (x: any) => x.id === productDetails.id + "-3"
         );
         if (findCard) {
-          return productDetails.M - findCard.ammount;
+          return productDetails.L - findCard.ammount;
         }
       }
-      return productDetails.M;
+      return productDetails.L;
     }
     if (size === "XL") {
       if (checkoutList?.length > 0) {

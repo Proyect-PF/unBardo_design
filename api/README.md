@@ -176,16 +176,50 @@ Nombre de funcion = UPDATE_OrderStatus.
     Actualiza el status de la orden. Recibie id y status por query
 ```
 
-# Endpoints para Cart
-## localhost:3700/cart
+# Endpoints para Favorites
+## localhost:3700/favorites
 
-#### POST -> localhost:3700/cart/
+#### POST -> localhost:3700/favorites/
 
 ```env
-Nombre de funcion = POST_AddToCart
-    Esta ruta agrega un producto al carrito de compras en el Back en la tabla "Cart".
-    - Recibe el id y un flag "eliminar"
-    - Si eliminar es "false" agrega un producto, si existe -> suma un contador y su precio.
-    - Si flag es "true" lo elimina y resta la cantidad.
+Nombre de funcion = POST_Favorite
+    Recibe id_user y id_product por body.
+    Esta ruta consulta si existe un favorito del usuario creado, si no existe lo crea. En caso de que exista, consulta si el producto ya esta agregado a favoritos, y si no lo esta lo agrega.
+    Se guarda en la base de datos de la siguiente manera, donde products_id son los id de cada producto metidos en un array.
+    {
+        "id": 22,
+        "id_user": 2,
+        "products_id": [
+            3,
+            1,
+            5,
+            2
+        ],
+        "createdAt": "2023-02-16T17:58:48.870Z",
+        "updatedAt": "2023-02-16T18:15:01.688Z"
+    }
 ```
 
+#### GET -> localhost:3700/favorites/:id_user
+
+```env
+Nombre de funcion = GET_FavoritesByUser
+    Recibe id_user por params.
+    Esta ruta obtiene la informacion de favoritos del usuario
+```
+
+#### DELETE -> localhost:3700/favorites/
+
+```env
+Nombre de funcion = DELETE_FavoriteProductByUser
+    Recibe id_user y id_product por query.
+    Esta ruta permite eliminar un producto de la lista de favoritos
+```
+
+#### DELETE -> localhost:3700/favorites/:id_user
+
+```env
+Nombre de funcion = DELETE_AllFavoriteByUser
+    Recibe id_user por params.
+    Esta ruta permite eliminar todos los favoritos de un usuario
+```

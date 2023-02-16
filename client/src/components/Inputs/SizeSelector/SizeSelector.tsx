@@ -61,7 +61,22 @@ const SizeSelector = ({
   const handleSize = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;
-    setter(button.innerHTML);
+    switch (button.innerHTML) {
+      case "1":
+        setter("S");
+        break;
+      case "2":
+        setter("M");
+        break;
+      case "3":
+        setter("L");
+        break;
+      case "4":
+        setter("XL");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -70,7 +85,7 @@ const SizeSelector = ({
         onClick={handleSize}
         key="sizeS"
         className={`w-8 h-8 border border-black ${
-          selected === "1" ? "bg-black text-white" : "bg-white text-black"
+          selected === "S" ? "bg-black text-white" : "bg-white text-black"
         } ${sizesStock(0) === 0 ? " text-gray-400" : ""}`}
         disabled={sizesStock(0) === 0}
       >
@@ -80,7 +95,7 @@ const SizeSelector = ({
         onClick={handleSize}
         key="sizeM"
         className={`w-8 h-8 border border-black ${
-          selected === "2" ? "bg-black text-white" : "bg-white text-black"
+          selected === "M" ? "bg-black text-white" : "bg-white text-black"
         } ${sizesStock(1) === 0 ? " text-gray-400" : ""}`}
         disabled={sizesStock(1) === 0}
       >
@@ -90,7 +105,7 @@ const SizeSelector = ({
         onClick={handleSize}
         key="sizeL"
         className={`w-8 h-8 border border-black ${
-          selected === "3" ? "bg-black text-white" : "bg-white text-black"
+          selected === "L" ? "bg-black text-white" : "bg-white text-black"
         } ${sizesStock(2) === 0 ? " text-gray-400" : ""}`}
         disabled={sizesStock(2) === 0}
       >

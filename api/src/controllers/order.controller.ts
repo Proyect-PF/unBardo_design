@@ -18,7 +18,7 @@ interface RequestQuery {}
 //Ruta POST para la creacion de la orden de compra
 export const POST_Order = async (request: Request, response: Response) => {
     try {
-        const {id_user, products} = request.body;
+        const { id_user, products } = request.body;
 
         //----------------------------------------------------
         //TODO: Analiza si existe otra orden de compra con estado status "cart", y si existe la elimina, antes de crear la nueva orden con status "cart". De esta forma siempre va a existir solo un carrito por usuario
@@ -28,7 +28,7 @@ export const POST_Order = async (request: Request, response: Response) => {
                 status: 'cart'
             }
         });
-        if (order!) {
+        if (order) {
             await db.OrderProducts.destroy({
                 where: {
                     id_order: order.id
@@ -42,27 +42,56 @@ export const POST_Order = async (request: Request, response: Response) => {
             id_user,
             status: "cart",
         });
-        const createdOrderProducts = [];
+
+        const groupedProducts: Record<number, any> = {};
+
         for (const product of products) {
-            const {id_product, sizes} = product;
-            const createdOrderProduct = await db.OrderProducts.create({
-                id_order: createdOrder.id,
-                id_product,
-                sizes
-            });
-            createdOrderProducts.push(createdOrderProduct);
+            const { id_product, sizes } = product;
+
+            if (groupedProducts[id_product]) {
+                for (const size in sizes) {
+                    if (sizes.hasOwnProperty(size)) {
+                        if (groupedProducts[id_product].sizes[size]) {
+                            groupedProducts[id_product].sizes[size] += sizes[size];
+                        } else {
+                            groupedProducts[id_product].sizes[size] = sizes[size];
+                        }
+                    }
+                }
+            } else {
+                groupedProducts[id_product] = {
+                    id_product,
+                    sizes,
+                };
+            }
         }
-        return response.status(201).json({createdOrder, createdOrderProducts});
+
+        const createdOrderProducts = [];
+
+        for (const id_product in groupedProducts) {
+            if (groupedProducts.hasOwnProperty(id_product)) {
+                const { sizes } = groupedProducts[id_product];
+                const createdOrderProduct = await db.OrderProducts.create({
+                    id_order: createdOrder.id,
+                    id_product,
+                    sizes
+                });
+                createdOrderProducts.push(createdOrderProduct);
+            }
+        }
+
+        return response.status(201).json({ createdOrder, createdOrderProducts });
     } catch (error: any) {
         console.error(error);
-        return response.status(400).json({error: error.message});
+        return response.status(400).json({ error: error.message });
     }
 };
+
 
 //Obtener todas las ordenes
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
-        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search, minPrice, maxPrice } = req.query;
+        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search } = req.query;
         const offset = (Number(page) - 1) * Number(limit);
 
         const options: any = {
@@ -77,34 +106,34 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
         };
 
         // Verificar si status es una cadena de texto
-        if (typeof status === 'string') {
+        if (typeof status === 'string'  && status !=="") {
             options.where.status = status;
         } else {
             options.where.status = {[Op.ne]: 'cart'};
         }
 
         // Verificar si userId es una cadena de texto
-        if (typeof userId === 'string') {
+        if (typeof userId === 'string' && userId !=="") {
             options.where.id_user = userId;
         }
 
         // Verificar si id es una cadena de texto
-        if (typeof id === 'string') {
+        if (typeof id === 'string' && id !=="") {
             options.where.id = id;
         }
 
         // Verificar si paymentId es una cadena de texto
-        if (typeof paymentId === 'string') {
+        if (typeof paymentId === 'string' && paymentId !=="") {
             options.where.payment_id = paymentId;
         }
 
         // Verificar si dispatched es una cadena de texto
-        if (typeof dispatched === 'string') {
+        if (typeof dispatched === 'string' && dispatched !=="") {
             options.where.dispatched = dispatched === 'true';
         }
 
         // Verificar si startDate y endDate son cadenas de texto
-        if (typeof startDate === 'string' && typeof endDate === 'string') {
+        if (typeof startDate === 'string' && typeof endDate === 'string' ) {
             options.where.createdAt = {
                 [Op.between]: [new Date(startDate), new Date(endDate)],
             };
@@ -127,22 +156,6 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
             options.offset = offset;
         }
 
-        // Verificar si se está filtrando por rango de precio mínimo y máximo
-        if (typeof minPrice === 'string' && typeof maxPrice === 'string') {
-            const min = Number(minPrice);
-            const max = Number(maxPrice);
-
-            if (min > 0 && max > 0) {
-                options.include.push({
-                    model: db.Product,
-                    as: "products",
-                    where: {
-                        price: { [Op.between]: [min, max] }
-                    }
-                });
-            }
-        }
-
         // Verificar si se está realizando una búsqueda global
         if (typeof search === "string") {
             const searchString = search.trim();
@@ -155,17 +168,20 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
                     "$users.email$": {
                         [Op.iLike]: `%${searchString}%`,
                     },
-                },
-                {
-                    "$products.name$": {
-                        [Op.iLike]: `%${searchString}%`,
-                    },
-                },
+                }
             ];
         }
 
+
+        const count = await db.Orders.count({
+            where: options.where,
+            include: options.include,
+        });
+
+
         const orders = await db.Orders.findAll(options);
-        return res.status(200).json({ orders });
+
+        return res.status(200).json({ count, orders });
     } catch (error: any) {
         console.error(error);
         return res.status(400).json({error: error.message});
@@ -190,15 +206,15 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             where: {id_order: orderId},
             attributes: {exclude: ["createdAt", "updatedAt", "id_order"]}
         });
-        
+
         //Se obtiene de la api de Mercadopago la informacion de la compra por medio del payment_id
         const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${order.payment_id}`,
-        {
-            headers: {
-                "Content-types": "application/json",
-                Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
-            },
-        });
+            {
+                headers: {
+                    "Content-types": "application/json",
+                    Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
+                },
+            });
 
         //A la informacion del producto se le agrega titulo, descripción y precio unitario obtenido desde la api de Mercadopago
 
@@ -217,6 +233,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Extraer los valores de order y users
         const {id, updatedAt, status, dispatched, payment_id} = order.dataValues;
         const {fullname, email} = order.users;
+
         // Combinar solo los valores necesarios
         const response = {
             id,
@@ -232,6 +249,10 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             total_amount: payment_detail.data.transaction_amount,
             cuotes: payment_detail.data.installments,
             total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+            address: payment_detail.data.additional_info.payer.address,
+            phone: payment_detail.data.additional_info.payer.phone,
+            date_last_updated: payment_detail.data.date_last_updated,
+            date_approved: payment_detail.data.date_approved,
             products,
         };
 
@@ -317,7 +338,7 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
             where: {
                 id_user,
                 status: {[Op.ne]: 'cart'}
-             },
+            },
         });
 
         for (const order of orderUser) {
@@ -331,7 +352,7 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
                 payment_id: order.payment_id,
                 dispatched: order.dispatched,
                 createdAt: order.createdAt,
-                updatedAt: order.updatedAt, 
+                updatedAt: order.updatedAt,
                 product: prodOrder
             });
         }

@@ -1,4 +1,4 @@
-import { Product, User } from "../../state/types";
+import { Order, Product, User } from "../../state/types";
 
 export enum AdminActionType {
   GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS",
@@ -8,6 +8,7 @@ export enum AdminActionType {
   GET_ORDER_BY_ID = "GET_ORDER_BY_ID",
   GET_USER_BY_ID = "GET_USER_BY_ID",
   GET_PRODUCT_BY_NAME = "GET_PRODUCT_BY_NAME",
+  GET_ORDERS_COUNT = "GET_ORDERS_COUNT",
 }
 
 interface IGetAllProducts {
@@ -28,7 +29,7 @@ interface IGetProductById {
 }
 interface IGetOrderById {
   type: AdminActionType.GET_ORDER_BY_ID;
-  payload: OrderAdmin;
+  payload: Order;
 }
 interface IGetUserById {
   type: AdminActionType.GET_USER_BY_ID;
@@ -38,6 +39,10 @@ interface IGetProductByName {
   type: AdminActionType.GET_PRODUCT_BY_NAME;
   payload: Product[];
 }
+interface IGetOrdersCount {
+  type: AdminActionType.GET_ORDERS_COUNT;
+  payload: number;
+}
 export type AdminAction =
   | IGetAllProducts
   | IGetAllOrder
@@ -45,7 +50,8 @@ export type AdminAction =
   | IGetProductById
   | IGetOrderById
   | IGetUserById
-  | IGetProductByName;
+  | IGetProductByName
+  | IGetOrdersCount;
 
 export type OrdersAdmin = {
   id: number;
@@ -55,18 +61,4 @@ export type OrdersAdmin = {
   createdAt: string;
   updatedAt: string;
   users: User;
-};
-
-export type OrderAdmin = {
-  id: number;
-  status: string;
-  dispatched: boolean;
-  updatedAt: string;
-  fullname: string;
-  email: string;
-  orderProducts: {
-    id: number;
-    id_product: number;
-    sizes: { S?: number; M?: number; L?: number; XL?: number };
-  }[];
 };

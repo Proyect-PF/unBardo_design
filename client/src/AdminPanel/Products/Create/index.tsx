@@ -82,7 +82,10 @@ const Create = ({ className }: Props): JSX.Element => {
           errors,
           setFieldValue,
         }) => (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-8 mx-12">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-8 mx-12 my-4"
+          >
             <div className="flex flex-col gap-2">
               <label className="text-xl">Nombre:</label>
               <Input
@@ -92,7 +95,7 @@ const Create = ({ className }: Props): JSX.Element => {
                 placeholder=""
                 value={values.name}
                 onChange={handleChange}
-                className="font-mono "
+                className="font-mono w-96 "
                 onBlur={handleBlur}
               />
               {errors.name && <p className="text-red-600 ">{errors.name}</p>}

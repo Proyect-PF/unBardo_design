@@ -14,10 +14,11 @@ export type User = {
   lastname?: string | undefined;
   // Registro
   fullname?: string;
-  password: string;
+  password?: string;
   email: string;
   news_letter?: boolean;
   //
+  google_id?: number;
   id?: number;
   id_role?: number | undefined;
 };

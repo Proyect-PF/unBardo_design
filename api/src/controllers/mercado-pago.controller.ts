@@ -231,16 +231,16 @@ const Verify_QuantitySizes = async (id_order: number) => {
                 where: {id: element.id_product}
             });
             if(element.sizes.S) {
-                if (prod.S < element.sizes.S) return false     
+                if (prod.S < element.sizes.S) return false
             }
             if(element.sizes.M) {
-                if (prod.M < element.sizes.M) return false    
+                if (prod.M < element.sizes.M) return false 
             }
             if(element.sizes.L) {
-                if (prod.L < element.sizes.L) return false         
+                if (prod.L < element.sizes.L) return false 
             }
             if(element.sizes.XL) {
-                if (prod.XL < element.sizes.XL) return false          
+                if (prod.XL < element.sizes.XL) return false 
             }
         }
         return true;
@@ -281,8 +281,8 @@ export const POST_GeneratePayment = async (
     let preference = {
         items: prodInfo,
         back_urls: {
-            "success": "http://localhost:3700/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
-            "failure": "http://localhost:3700/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+            "success": "http://localhost:3000/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+            "failure": "http://localhost:3000/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
             "pending": ""
         },
         auto_return: "approved",
@@ -321,56 +321,53 @@ export const POST_GeneratePayment = async (
 };
 
 //ruta de respuesta de mercadopago cuando el pago se realiza exitosamente y cuando falla
-export const GET_FeedbackPayment = async (
-  request: Request,
-  response: Response
+export const POST_FeedbackPayment = async (
+    request: Request,
+    response: Response
 ) => {
-  try {
-    const feedback = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    try {
+        const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+        
+        const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+        {
+            headers: {
+                "Content-types": "application/json",
+                Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
+            },
+        });
 
-    const payment_detail = await axios.get(
-      `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
-      {
-        headers: {
-          'Content-types': 'application/json',
-          Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
-        },
-      }
-    );
-
-    //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-    await db.Orders.update(
-      {
-        status: feedback.status,
-        payment_id: Number(feedback.payment_id),
-      },
-      {
-        where: {
-          id: feedback.external_reference,
-        },
-      }
-    );
-
-    if (feedback.status === 'approved') {
-      var orderAproved = await UPDATE_QuantitySizes(
-        Number(feedback.external_reference)
-      );
-    }
-
-    return response.status(200).json({
-      payment_id: feedback.payment_id,
-      status: feedback.status,
-      external_reference: feedback.external_reference,
-      items: payment_detail.data.additional_info.items,
-      payment_method: payment_detail.data.payment_method_id,
-      payment_type: payment_detail.data.payment_type_id,
-      total_amount: payment_detail.data.transaction_amount,
-      cuotes: payment_detail.data.installments,
-      total_paid_amount:
-        payment_detail.data.transaction_details.total_paid_amount,
-      orderAproved,
-    });
-  } catch (error: any) {
-    return response.status(400).json({ message: error.message });
+        //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
+        await db.Orders.update({
+            //status: feedback.status,
+            status: payment_detail.data.status,
+            payment_id: Number(feedback.payment_id),
+        },{
+            where: {
+                id: feedback.external_reference
+            }
+        })
+       
+        if (payment_detail.data.status === 'approved') {
+            var orderAproved = await UPDATE_QuantitySizes(Number(feedback.external_reference))
+        }
+        console.log(feedback.external_reference);
+        console.log(payment_detail.data.status);
+        console.log(feedback.payment_id);
+        
+        return response.status(200).json({
+            payment_id: feedback.payment_id,
+            status: payment_detail.data.status,
+            external_reference: feedback.external_reference,
+            items: payment_detail.data.additional_info.items,
+            payment_method: payment_detail.data.payment_method_id,
+            payment_type: payment_detail.data.payment_type_id,
+            total_amount: payment_detail.data.transaction_amount,
+            cuotes: payment_detail.data.installments,
+            total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+            date_last_updated: payment_detail.data.date_last_updated,
+            date_approved: payment_detail.data.date_approved,
+        });
+    } catch (error: any) {
+        return response.status(400).json({message: error.message});
   }
 };

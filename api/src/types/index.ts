@@ -33,7 +33,6 @@ export type TypeProduct = {
   price: number;
   color: string;
   show_in_shop: boolean;
-  image: string;
   promotional_price:number;
   promotion:boolean;
 };

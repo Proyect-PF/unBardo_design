@@ -35,10 +35,6 @@ export default (sequelize:any, DataTypes:any) => {
       type: DataTypes.STRING,
       // allowNull: false
     },
-    image: {
-      type: DataTypes.STRING,
-       allowNull: true
-    },
     name: {
       type: DataTypes.STRING,
       // allowNull: false

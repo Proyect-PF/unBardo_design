@@ -41,28 +41,42 @@ export const GET_ProductById = async (request: Request, response: Response) => {
 };
 
 export const POST_NewProduct = async (req: Request, res: Response) => {
-    let {image, promotional_price, promotion} = req.body
+    const { promotional_price, promotion, ...images } = req.body;
+
     try {
-        if(image){
-            const uploadRes = await cloudinary.uploader.upload(image, {
-                upload_preset: 'unbardo'
-            })
-            req.body.image = uploadRes.url
-        }else {
-            //Si no se envia ninguna imagen dejar un string para probar postear productos y no generar errores al usar cloudinary
-            req.body.image = "image"
+        const productData = {
+            ...req.body,
+        };
+        // Si no llega ningún precio promocional, se deja el estado de promoción en false, por defecto el estado es en falso
+        if (!productData.promotional_price) {
+            productData.promotion = false;
+        } else {
+            productData.promotion = true;
         }
 
-        //Si no llega ningun precio promocional, se deja el estado de promocion en false, por defecto el estado es en falso
-        if(!promotional_price) {
-            req.body.promotion = false
-        }else{
-            req.body.promotion = true
+        const newProduct: TypeProduct = await db.Product.create(productData);
+
+        const { id: productId } = newProduct;
+
+        const createdImages = [];
+        for (const key in images) {
+            if (key.startsWith("image")) {
+                const imgUrl = images[key];
+                const uploadRes = await cloudinary.uploader.upload(imgUrl, {
+                    upload_preset: 'unbardo'
+                });
+                const createdImage = await db.Image.create({
+                    imgUrl: uploadRes.url,
+                    productId,
+                });
+                createdImages.push(createdImage);
+            }
         }
-        const newProduct:TypeProduct = await db.Product.create(req.body);
+
+
         return res.status(201).json(newProduct);
     } catch (error) {
-        console.log(typeof error)
+        console.log(typeof error);
         return res.status(400).json(getErrorMessage(error));
     }
 };
@@ -127,12 +141,11 @@ export const DELETE_DeleteAllProducts = async (
     }
 };
 
-
 export const GET_AllProducts = async (request: Request, response: Response) => {
     try {
-        const {id} = request.params;
-        const {name, filter, filter2, order, page, perPage, sort} = request.query;
-        console.log(request.query)
+        const { id } = request.params;
+        const { name, filter, filter2, order, page, perPage, sort } = request.query;
+        console.log(request.query);
 
         // Seteamos el optiones BASE de consulta
         let options: any = {
@@ -146,21 +159,21 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         if (filter || filter2 || name) {
             let where: any = {};
             if (filter === "black" || filter === "white") {
-                where.color = filter
-            }else if(filter === 'show' || filter === "hidden"){
-                where.show_in_shop = filter === 'show'
+                where.color = filter;
+            } else if (filter === 'show' || filter === "hidden") {
+                where.show_in_shop = filter === 'show';
             }
-            if(filter2 === 'out'){
-                where.S = 0
-                where.L = 0
-                where.M = 0
-                where.XL = 0
+            if (filter2 === 'out') {
+                where.S = 0;
+                where.L = 0;
+                where.M = 0;
+                where.XL = 0;
             }
-            if(filter2 === 'promo'){
+            if (filter2 === 'promo') {
                 where.promotion = true;
             }
-            if(name){
-                where.name = {[Op.iLike]: `%${name}%`}
+            if (name) {
+                where.name = { [Op.iLike]: `%${name}%` };
             }
             options.where = where;
         }
@@ -175,50 +188,107 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
             options.limit = perPage;
         }
         // Tomamos la cantidad de la consulta para enviar el paginado al front
-        const total = await db.Product.count({where: options.where});
+        const total = await db.Product.count({ where: options.where });
         let products = await db.Product.findAll(options);
-        // Añadimos la info para el paginado al header del response
+        let productWithImages;
+        // Iteramos sobre cada producto y obtenemos sus imágenes
+        for (const product of products) {
+            console.log(product); // Verificar si el objeto product tiene los datos esperados
+            const images = await db.Image.findAll({
+                where: {
+                    productId: product.id,
+                },
+            });
+            console.log(images); // Verificar si el objeto images tiene los datos esperados
+            for (const product of products) {
+                const images = await db.Image.findAll({
+                    where: {
+                        productId: product.id,
+                    },
+                });
+                const imageUrls = images.reduce((obj: any, image: any, i: any) => {
+                    if (i === 0) {
+                        obj[`image`] = image.imgUrl;
+                    } else {
+                        obj[`image${i + 1}`] = image.imgUrl;
+                    }
+                    return obj;
+                }, {});
+                productWithImages = {
+                    ...product.toJSON(),
+                    ...imageUrls,
+                };
+            }
+        }
 
 
+            // Añadimos la info para el paginado al header del response
         response.set("X-Total-Count", total);
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
+
         if (id) {
             return response.status(200).json(products[0]);
         }
 
-        return response.status(200).json(products);
+        return response.status(200).json(productWithImages);
     } catch (error: any) {
-        return response.status(500).json({error: error.message});
+        return response.status(500).json({ error: error.message });
     }
 };
 
 
-export const UPDATE_UpdateProduct = async (
-    request: Request,
-    response: Response
-) => {
+export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
+    const { id, promotional_price, promotion, ...images } = req.body;
+
     try {
-        let product:TypeProduct = request.body;
-        if (product.image.length > 100) {
-            const uploadRes = await cloudinary.uploader.upload(product.image, {
-                upload_preset: 'unbardo'
-            })
-            product.image = uploadRes.url
+        const productData = {
+            ...req.body,
+        };
+        // Si no llega ningún precio promocional, se deja el estado de promoción en false, por defecto el estado es en falso
+        if (!productData.promotional_price) {
+            productData.promotion = false;
+        } else {
+            productData.promotion = true;
         }
-        const [numberOfAffectedRows, affectedRows] = await db.Product.update({
-            ...product
-        }, {
-            where: {id: product.id},
-            returning: true
-        });
+
+        const [numberOfAffectedRows, affectedRows] = await db.Product.update(
+            productData,
+            {
+                where: {
+                    id,
+                },
+                returning: true,
+            }
+        );
+
         if (numberOfAffectedRows === 0) {
-            throw new Error(`No product updated with id ${product.id}`);
+            throw new Error(`No product updated with id ${id}`);
         }
-        return response.status(200).json(affectedRows[0]);
 
+        const deletedRows = await db.Image.destroy({
+            where: {
+                productId: id,
+            },
+        });
 
-        //TODO: STATUS => 201: Created, 204: No Content
+        const createdImages = [];
+        for (const key in images) {
+            if (key.startsWith("image")) {
+                const imgUrl = images[key];
+
+                const uploadRes = await cloudinary.uploader.upload(imgUrl, {
+                    upload_preset: 'unbardo'
+                });
+                const createdImage = await db.Image.create({
+                    imgUrl: uploadRes.url,
+                    productId: id,
+                });
+                createdImages.push(createdImage);
+            }
+        }
+
+        return res.status(200).json(affectedRows[0]);
     } catch (error) {
-        return response.status(400).json(getErrorMessage(error)) //TODO: STATUS => 400: Bad Request
+        return res.status(400).json(getErrorMessage(error));
     }
-}
+};

@@ -1,11 +1,12 @@
-import { Order, Product, User } from "../../state/types";
-import { AdminAction, AdminActionType, OrdersAdmin } from "./types-interfaces";
+import { Product, User } from '../../state/types';
+import { OrderDetails } from '../../types/types';
+import { AdminAction, AdminActionType, OrdersAdmin } from './types-interfaces';
 
 export type AdminState = {
   allProducts: Product[];
   productDetails: Product;
   allOrders: OrdersAdmin[];
-  orderDetails: Order;
+  orderDetails: OrderDetails;
   allUsers: User[];
   userDetails: User;
   ordersCount: number;
@@ -15,44 +16,44 @@ const initialState: AdminState = {
   allProducts: [],
   productDetails: {
     id: 0,
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     S: 0,
     M: 0,
     L: 0,
     XL: 0,
     price: 0,
-    color: "",
+    color: '',
     show_in_shop: false,
-    image: "",
+    image: '',
   },
   allOrders: [],
   ordersCount: 0,
   orderDetails: {
-    status: "",
+    status: '',
     external_reference: 0,
     products: [],
-    payment_method: "",
-    payment_type: "",
+    payment_method: '',
+    payment_type: '',
     total_amount: 0,
     cuotes: 0,
     total_paid_amount: 0,
     dispatched: false,
     address: {
-      street_name: "",
-      street_number: "",
-      zip_code: "",
+      street_name: '',
+      street_number: '',
+      zip_code: '',
     },
     phone: {
-      area_code: "",
-      number: "",
+      area_code: '',
+      number: '',
     },
   },
   allUsers: [],
   userDetails: {
-    fullname: "",
-    password: "",
-    email: "",
+    fullname: '',
+    password: '',
+    email: '',
     id: 0,
     id_role: 0,
     news_letter: true,

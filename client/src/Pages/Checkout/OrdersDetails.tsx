@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/Buttons/Button/Button';
@@ -7,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../state';
 import { State } from '../../state/reducers';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
 import { Item } from '../../types/types';
 
 const OrderDetails = (): JSX.Element => {
@@ -18,13 +16,8 @@ const OrderDetails = (): JSX.Element => {
   console.log(orderData);
 
   const searchParams = new URLSearchParams(location.search);
-  const payment_id = searchParams.get('payment_id'); // 1
-  const external_reference = searchParams.get('external_reference'); // 1 . /payment/feedback
-
-  if (orderData?.date_approved) {
-    const date = new Date(orderData.date_approved);
-    const formattedDate = date.toLocaleString();
-  }
+  const payment_id = searchParams.get('payment_id');
+  const external_reference = searchParams.get('external_reference');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +59,6 @@ const OrderDetails = (): JSX.Element => {
 
           <p className='font-bold text-lg mb-4'>Detalle del pedido:</p>
           <div className='w-full'>
-
             <div className='w-full'>
               <div className='flex flex-row justify-between font-bold'>
                 <div className='w-1/2 text-left'>Producto</div>
@@ -82,7 +74,6 @@ const OrderDetails = (): JSX.Element => {
                     <div className='w-1/2'>
                       <div className='flex flex-row gap-4'>
                         <div>
-
                           {product.title} x {product.quantity}
                         </div>
                       </div>

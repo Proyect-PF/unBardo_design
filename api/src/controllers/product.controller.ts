@@ -26,17 +26,40 @@ const TO_EXCLUDE = [
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
 
 export const GET_ProductById = async (request: Request, response: Response) => {
-    const {id} = request.params;
-    if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
-    try {
-        const product = await db.Product.findOne({
-            where: {id},
-            attributes: {exclude: TO_EXCLUDE}
+    const id = request.params.id;
+    if (id) {
+        const product = await db.Product.findByPk(id, {
+            attributes: {
+                exclude: TO_EXCLUDE,
+            },
+            include: db.Category,
         });
-        if (!product) return response.status(204).json("Producto no encontrado");
-        return response.status(200).json(product);
-    } catch (error: any) {
-        return response.status(400).json({error: error.message});
+
+        if (!product) {
+            return response.status(404).json({ error: "Product not found" });
+        }
+
+        const images = await db.Image.findAll({
+            where: {
+                productId: id,
+            },
+        });
+
+        const imageUrls = images.reduce((obj: any, image: any, i: any) => {
+            if (i === 0) {
+                obj[`image`] = image.imgUrl;
+            } else {
+                obj[`image${i + 1}`] = image.imgUrl;
+            }
+            return obj;
+        }, {});
+
+        const productWithImages = {
+            ...product.toJSON(),
+            ...imageUrls,
+        };
+
+        return response.status(200).json(productWithImages);
     }
 };
 
@@ -207,6 +230,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                 }
                 return obj;
             }, {});
+
             const productWithImages = {
                 ...product.toJSON(),
                 ...imageUrls,
@@ -215,13 +239,10 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         }
 
 
-            // Añadimos la info para el paginado al header del response
+        // Añadimos la info para el paginado al header del response
         response.set("X-Total-Count", total);
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
 
-        if (id) {
-            return response.status(200).json(productsWithImages[0]);
-        }
         return response.status(200).json(productsWithImages);
     } catch (error: any) {
         return response.status(500).json({ error: error.message });

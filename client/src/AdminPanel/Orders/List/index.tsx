@@ -143,7 +143,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
               }}
               disabled={false}
               type="button"
-              className="justify-center w-32"
+              className="justify-center w-32 h-fit"
             />
           </div>
         </form>

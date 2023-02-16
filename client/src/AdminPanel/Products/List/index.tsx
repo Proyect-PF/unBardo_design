@@ -51,7 +51,7 @@ const ListProducts = ({
 
   useEffect(() => {
     ADMfetch_products(
-      `name=${query.name}&filter=${query.byShowInShop}&filter2=${query.byStock}&page=${query.page}&perPage=${query.perPage}`
+      `name=${query.name}&filter=${query.byShowInShop}&filter2=${query.byStock}`
     );
   }, [query]);
 
@@ -127,7 +127,7 @@ const ListProducts = ({
             />
           </div>
         </form>
-        <div className="flex justify-center gap-4 mx-4 mt-8">
+        {/* <div className="flex justify-center gap-4 mx-4 mt-8">
           <div className="flex flex-row gap-2">
             <button
               className="h-fit"
@@ -153,11 +153,11 @@ const ListProducts = ({
             <option value="10" selected>
               10
             </option>
-            {/* <option value="2">2</option> */}
+            <option value="2">2</option>
             <option value="15">15</option>
             <option value="20">20</option>
           </select>
-        </div>
+        </div> */}
       </div>
       <div className="flex items-center justify-around w-full text-center border-t">
         <p className="w-8 border-r border-black">Id</p>

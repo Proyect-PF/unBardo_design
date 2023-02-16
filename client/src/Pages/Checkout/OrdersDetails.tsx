@@ -21,8 +21,10 @@ const OrderDetails = (): JSX.Element => {
   const payment_id = searchParams.get('payment_id'); // 1
   const external_reference = searchParams.get('external_reference'); // 1 . /payment/feedback
 
-  // const date = new Date(orderData.date_approved);
-  // const formattedDate = date.toLocaleString();
+  if (orderData?.date_approved) {
+    const date = new Date(orderData.date_approved);
+    const formattedDate = date.toLocaleString();
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +50,10 @@ const OrderDetails = (): JSX.Element => {
           </div>
           <div className='mb-4 flex flex-row gap-2'>
             <p className='font-bold'>Fecha de la orden:</p>
-            {/* <p>{formattedDate}</p> */}
+            <p>{`${
+              orderData?.date_approved &&
+              new Date(orderData.date_approved).toLocaleString()
+            }`}</p>
           </div>
 
           <div className='mb-4 flex flex-col md:flex-row'>

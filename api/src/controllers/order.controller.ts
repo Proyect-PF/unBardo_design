@@ -18,7 +18,7 @@ interface RequestQuery {}
 //Ruta POST para la creacion de la orden de compra
 export const POST_Order = async (request: Request, response: Response) => {
     try {
-        const {id_user, products} = request.body;
+        const { id_user, products } = request.body;
 
         //----------------------------------------------------
         //TODO: Analiza si existe otra orden de compra con estado status "cart", y si existe la elimina, antes de crear la nueva orden con status "cart". De esta forma siempre va a existir solo un carrito por usuario
@@ -28,7 +28,7 @@ export const POST_Order = async (request: Request, response: Response) => {
                 status: 'cart'
             }
         });
-        if (order!) {
+        if (order) {
             await db.OrderProducts.destroy({
                 where: {
                     id_order: order.id
@@ -42,22 +42,51 @@ export const POST_Order = async (request: Request, response: Response) => {
             id_user,
             status: "cart",
         });
-        const createdOrderProducts = [];
+
+        const groupedProducts: Record<number, any> = {};
+
         for (const product of products) {
-            const {id_product, sizes} = product;
-            const createdOrderProduct = await db.OrderProducts.create({
-                id_order: createdOrder.id,
-                id_product,
-                sizes
-            });
-            createdOrderProducts.push(createdOrderProduct);
+            const { id_product, sizes } = product;
+
+            if (groupedProducts[id_product]) {
+                for (const size in sizes) {
+                    if (sizes.hasOwnProperty(size)) {
+                        if (groupedProducts[id_product].sizes[size]) {
+                            groupedProducts[id_product].sizes[size] += sizes[size];
+                        } else {
+                            groupedProducts[id_product].sizes[size] = sizes[size];
+                        }
+                    }
+                }
+            } else {
+                groupedProducts[id_product] = {
+                    id_product,
+                    sizes,
+                };
+            }
         }
-        return response.status(201).json({createdOrder, createdOrderProducts});
+
+        const createdOrderProducts = [];
+
+        for (const id_product in groupedProducts) {
+            if (groupedProducts.hasOwnProperty(id_product)) {
+                const { sizes } = groupedProducts[id_product];
+                const createdOrderProduct = await db.OrderProducts.create({
+                    id_order: createdOrder.id,
+                    id_product,
+                    sizes
+                });
+                createdOrderProducts.push(createdOrderProduct);
+            }
+        }
+
+        return response.status(201).json({ createdOrder, createdOrderProducts });
     } catch (error: any) {
         console.error(error);
-        return response.status(400).json({error: error.message});
+        return response.status(400).json({ error: error.message });
     }
 };
+
 
 //Obtener todas las ordenes
 export const GET_AllOrders = async (req: Request, res: Response) => {
@@ -204,7 +233,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Extraer los valores de order y users
         const {id, updatedAt, status, dispatched, payment_id} = order.dataValues;
         const {fullname, email} = order.users;
-        
+
         // Combinar solo los valores necesarios
         const response = {
             id,

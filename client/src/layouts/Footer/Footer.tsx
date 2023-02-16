@@ -13,7 +13,6 @@ const Footer = () => {
         <div className="flex flex-col gap-2 text-xl font-medium">
           <p>AV. Falsa 123, Palermo, C.a.b.a.</p>
           <p>unbardo@gmail.com</p>
-          <p>tel: +54 11 123 1234</p>
         </div>
       </div>
       {/* <div className="flex flex-col gap-4 m-5 uppercase">

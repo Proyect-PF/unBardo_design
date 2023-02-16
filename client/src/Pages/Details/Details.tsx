@@ -123,7 +123,6 @@ const Details = (): JSX.Element => {
       return 1;
     }
   };
-
   return (
     <div>
       <div

@@ -77,7 +77,7 @@ const ListProducts = ({
               name="searchProdAdmin"
               value={search}
               onBlur={() => {}}
-              className="my-4 w-80"
+              className="my-4 w-60"
             />
             <div className="my-auto">
               <select

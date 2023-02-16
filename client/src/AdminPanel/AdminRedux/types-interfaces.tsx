@@ -8,6 +8,7 @@ export enum AdminActionType {
   GET_ORDER_BY_ID = "GET_ORDER_BY_ID",
   GET_USER_BY_ID = "GET_USER_BY_ID",
   GET_PRODUCT_BY_NAME = "GET_PRODUCT_BY_NAME",
+  GET_ORDERS_COUNT = "GET_ORDERS_COUNT",
 }
 
 interface IGetAllProducts {
@@ -38,6 +39,10 @@ interface IGetProductByName {
   type: AdminActionType.GET_PRODUCT_BY_NAME;
   payload: Product[];
 }
+interface IGetOrdersCount {
+  type: AdminActionType.GET_ORDERS_COUNT;
+  payload: number;
+}
 export type AdminAction =
   | IGetAllProducts
   | IGetAllOrder
@@ -45,7 +50,8 @@ export type AdminAction =
   | IGetProductById
   | IGetOrderById
   | IGetUserById
-  | IGetProductByName;
+  | IGetProductByName
+  | IGetOrdersCount;
 
 export type OrdersAdmin = {
   id: number;

@@ -13,6 +13,7 @@ export type AdminState = {
   orderDetails: OrderAdmin;
   allUsers: User[];
   userDetails: User;
+  ordersCount: number;
 };
 
 const initialState: AdminState = {
@@ -31,6 +32,7 @@ const initialState: AdminState = {
     image: "",
   },
   allOrders: [],
+  ordersCount: 0,
   orderDetails: {
     id: 0,
     fullname: "",
@@ -71,6 +73,11 @@ const adminReducer = (
       return {
         ...state,
         allOrders: action.payload,
+      };
+    case AdminActionType.GET_ORDERS_COUNT:
+      return {
+        ...state,
+        ordersCount: action.payload,
       };
     case AdminActionType.GET_ALL_USERS:
       return {

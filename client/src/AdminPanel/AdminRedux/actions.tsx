@@ -65,6 +65,10 @@ export const ADMfetch_orders = (query: string | null = null) => {
           type: AdminActionType.GET_ALL_ORDERS,
           payload,
         });
+        dispatch({
+          type: AdminActionType.GET_ORDERS_COUNT,
+          payload: res.data.count,
+        });
       })
       .catch((error) => console.log(error));
   };

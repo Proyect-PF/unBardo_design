@@ -188,37 +188,30 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
             options.limit = perPage;
         }
         // Tomamos la cantidad de la consulta para enviar el paginado al front
-        const total = await db.Product.count({ where: options.where });
+        const total = await db.Product.count({ where: options.where});
         let products = await db.Product.findAll(options);
-        let productWithImages;
-        // Iteramos sobre cada producto y obtenemos sus imágenes
+        let productsWithImages = [];
         for (const product of products) {
-            console.log(product); // Verificar si el objeto product tiene los datos esperados
+            console.log(product);
             const images = await db.Image.findAll({
                 where: {
                     productId: product.id,
                 },
             });
             console.log(images); // Verificar si el objeto images tiene los datos esperados
-            for (const product of products) {
-                const images = await db.Image.findAll({
-                    where: {
-                        productId: product.id,
-                    },
-                });
-                const imageUrls = images.reduce((obj: any, image: any, i: any) => {
-                    if (i === 0) {
-                        obj[`image`] = image.imgUrl;
-                    } else {
-                        obj[`image${i + 1}`] = image.imgUrl;
-                    }
-                    return obj;
-                }, {});
-                productWithImages = {
-                    ...product.toJSON(),
-                    ...imageUrls,
-                };
-            }
+            const imageUrls = images.reduce((obj: any, image: any, i: any) => {
+                if (i === 0) {
+                    obj[`image`] = image.imgUrl;
+                } else {
+                    obj[`image${i + 1}`] = image.imgUrl;
+                }
+                return obj;
+            }, {});
+            const productWithImages = {
+                ...product.toJSON(),
+                ...imageUrls,
+            };
+            productsWithImages.push(productWithImages);
         }
 
 
@@ -227,10 +220,9 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
 
         if (id) {
-            return response.status(200).json(products[0]);
+            return response.status(200).json(productsWithImages[0]);
         }
-
-        return response.status(200).json(productWithImages);
+        return response.status(200).json(productsWithImages);
     } catch (error: any) {
         return response.status(500).json({ error: error.message });
     }

@@ -1,24 +1,36 @@
-import { Order } from '../../types/types';
 import { ActionType } from '../action-types';
 import { ActionOrderCheckout } from '../actions';
+import { OrderDetails } from '../../types/types';
 
 export interface OrderState {
-  order: Order | [];
+  order: OrderDetails | [];
+  orderData?: OrderDetails;
+  error?: string | null;
 }
 
 const initialOrderState: OrderState = {
   order: [],
 };
 
-const orderCheckoutReducer = (
-  state = initialOrderState,
+const orderDetailsReducer = (
+  state: OrderState = initialOrderState,
   action: ActionOrderCheckout
 ) => {
   switch (action.type) {
-    case ActionType.GET_ORDER_CHECKOUT:
-      return { ...state, order: action.payload };
+    case ActionType.GET_ORDER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        orderData: action.payload,
+        error: null,
+      };
+    case ActionType.GET_ORDER_DETAILS_FAILURE:
+      return {
+        ...state,
+        orderData: initialOrderState.orderData,
+        error: action.payload,
+      };
     default:
       return state;
   }
 };
-export default orderCheckoutReducer;
+export default orderDetailsReducer;

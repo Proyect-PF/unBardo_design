@@ -50,10 +50,6 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         handleChange();
         navigate(`/profile/${id}`);
         break;
-      case "orders":
-        handleChange();
-        navigate(`/profile/${id}`);
-        break;
       case "help":
         break;
     }
@@ -103,23 +99,6 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
                   : ""}
               </p>
             </div>
-              <div className={success && userType === "user"? "visible" : "hidden"}>
-            <div 
-              onClick={handleClick}
-              id="orders"
-              className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
-            >
-              <img src={userIcon} alt="orders" className="h-6" />
-              <p className="pl-4">
-                {success && userType === "user"
-                  ? "Mis Ordenes"
-                  : ""}
-              </p>
-            </div>
-            </div>
-            
-            
-
             {/** CERRAR SESION */}
             <div
               onClick={handleClick}

@@ -20,7 +20,7 @@ interface Props {
       <div className="flex justify-center">
         <button
           type={type === "submit" ? "submit" : "button"}
-          className={`py-1 my-2 bg-white text-sm font-semibold text-center border border-black w-14 ${
+          className={`py-1 px-1 my-2 bg-white text-sm font-semibold text-center border border-black ${
             disabled ? "opacity-50" : "opacity-100"
           } duration-300 hover:bg-black hover:text-white`}
           name={name}

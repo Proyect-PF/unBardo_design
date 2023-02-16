@@ -1,16 +1,11 @@
-import { Product, User } from "../../state/types";
-import {
-  AdminAction,
-  AdminActionType,
-  OrderAdmin,
-  OrdersAdmin,
-} from "./types-interfaces";
+import { Order, Product, User } from "../../state/types";
+import { AdminAction, AdminActionType, OrdersAdmin } from "./types-interfaces";
 
 export type AdminState = {
   allProducts: Product[];
   productDetails: Product;
   allOrders: OrdersAdmin[];
-  orderDetails: OrderAdmin;
+  orderDetails: Order;
   allUsers: User[];
   userDetails: User;
   ordersCount: number;
@@ -34,19 +29,24 @@ const initialState: AdminState = {
   allOrders: [],
   ordersCount: 0,
   orderDetails: {
-    id: 0,
-    fullname: "",
     status: "",
+    external_reference: 0,
+    products: [],
+    payment_method: "",
+    payment_type: "",
+    total_amount: 0,
+    cuotes: 0,
+    total_paid_amount: 0,
     dispatched: false,
-    updatedAt: "",
-    email: "",
-    orderProducts: [
-      {
-        id: 0,
-        id_product: 0,
-        sizes: {},
-      },
-    ],
+    address: {
+      street_name: "",
+      street_number: "",
+      zip_code: "",
+    },
+    phone: {
+      area_code: "",
+      number: "",
+    },
   },
   allUsers: [],
   userDetails: {

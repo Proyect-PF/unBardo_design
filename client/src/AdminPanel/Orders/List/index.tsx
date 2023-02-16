@@ -68,7 +68,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
 
   return (
     <div>
-      <div className="flex flex-row justify-between mx-8">
+      <div className="flex flex-col mx-8">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-row gap-8 ">
             <Input
@@ -147,7 +147,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             />
           </div>
         </form>
-        <div className="flex justify-center gap-4 mx-4 mt-8 text-lg font-bold">
+        <div className="flex justify-center gap-4 mx-4 text-lg font-bold">
           <div className="flex flex-row gap-2">
             <button
               className="h-fit"
@@ -181,8 +181,8 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
       <div className={`${className}`}>
         <div className="flex items-center justify-around w-full text-center border-t">
           <p className="w-8 border-r border-black">Id</p>
-          <p className="w-60 ">Nombre</p>
-          <p className="w-60 ">Email</p>
+          <p className="w-40 ">Nombre</p>
+          <p className="w-40 ">Email</p>
           <p className="w-40 ">Fecha</p>
           <p className="w-24 ">Status</p>
           <p className="w-24 ">Despachada</p>
@@ -192,8 +192,8 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
           allOrders.map((e) => (
             <div className="flex items-center justify-around w-full text-center border-t">
               <p className="w-8 border-r border-black">{e.id}</p>
-              <p className=" w-60">{e.users.fullname}</p>
-              <p className=" w-60">{e.users.email}</p>
+              <p className="w-40 ">{e.users.fullname}</p>
+              <p className="w-40 ">{e.users.email}</p>
               <p className="w-40 ">{e.updatedAt.split("T")[0]}</p>
               <p className="w-24 ">{e.status}</p>
               <p className="w-24 ">{e.dispatched ? "Si" : "No"}</p>

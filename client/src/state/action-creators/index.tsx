@@ -11,14 +11,10 @@ import {
 } from '../actions';
 import userIcon from '../../assets/svg/user-icon.svg';
 import alertIcon from '../../assets/svg/alert.svg';
-import {
-  Checkout,
-  Product,
-  ProductState,
-
-} from "../types";
-import {User} from '../../types/types'
-import { PORT, baseURL } from "../../utils/url&port";
+import { Checkout, Product, ProductState } from '../types';
+import { OrderDetails } from '../../types/types';
+import { User } from '../../types/types';
+import { PORT, baseURL } from '../../utils/url&port';
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -60,7 +56,6 @@ export const fetch_product_byname = (name: string) => {
   };
 };
 
-
 // Funcion que retorna un Producto desde la API segun id
 // Requiere un Number como parametro
 export const fetch_product_detail = (id: number) => {
@@ -77,10 +72,9 @@ export const fetch_product_detail = (id: number) => {
       color: '',
       show_in_shop: true,
 
-      image: "",
+      image: '',
       promotion: false,
       promotional_price: 0,
-
     };
     axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
       if (res.data?.id) {
@@ -174,7 +168,7 @@ export const clearCheckoutList = () => {
   };
 };
 
-export const userRegister = (registerLogin:Function, user?: User) => {
+export const userRegister = (registerLogin: Function, user?: User) => {
   axios
     .post(`${baseURL}:${PORT}/auth/signup`, user)
     .then((response) => {
@@ -185,13 +179,12 @@ export const userRegister = (registerLogin:Function, user?: User) => {
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
         showConfirmButton: true,
 
-        confirmButtonColor: "#000",
+        confirmButtonColor: '#000',
         confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
         html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
         if (result.isConfirmed) {
           registerLogin();
-
         }
       });
     })
@@ -268,28 +261,6 @@ export const userLogout = () => {
   };
 };
 
-export const getOrderDetails = (paymentId: string) => {
-  return async (dispatch: Dispatch<ActionOrderCheckout>) => {
-    const response = await axios.get(
-      `https://api.mercadopago.com/v1/payments/?${paymentId}`,
-      {
-        headers: {
-          'Content-types': 'application/json',
-          Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
-        },
-      }
-    );
-    console.log(response);
-    // Si la respuesta fue exitosa, envíe los detalles de pago al store
-    dispatch({
-      type: ActionType.GET_ORDER_CHECKOUT,
-      payload: response.data,
-    });
-  };
-};
-
-
-
 export const fetch_orders_user = (id: number | undefined) => {
   return (dispatch: Dispatch<ActionOrders>) => {
     axios
@@ -302,5 +273,42 @@ export const fetch_orders_user = (id: number | undefined) => {
         });
       })
       .catch((error) => console.log(error));
+  };
+};
+
+export const getOrderDetailsSuccess = (
+  orderData: OrderDetails
+): ActionOrderCheckout => {
+  return {
+    type: ActionType.GET_ORDER_DETAILS_SUCCESS,
+    payload: orderData,
+  };
+};
+
+export const getOrderDetailsFailure = (error: any) => {
+  return {
+    type: ActionType.GET_ORDER_DETAILS_FAILURE,
+    payload: error,
+  };
+};
+
+export const getOrderDetails = (
+  payment_id: string,
+  external_reference: string
+) => {
+  return async (dispatch: Dispatch<ActionOrderCheckout>) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3700/orders/feedback',
+        {
+          payment_id,
+          external_reference,
+        }
+      );
+      dispatch(getOrderDetailsSuccess(response.data));
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 };

@@ -8,46 +8,28 @@ import { actionCreators } from '../../state';
 import { State } from '../../state/reducers';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Item } from '../../state/types/index';
+import { Item } from '../../types/types';
 
 const OrderDetails = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
-  //const { getOrderDetails } = bindActionCreators(actionCreators, dispatch);
-  const [orderData, setOrderData] = useState({
-    status: '',
-    external_reference: '',
-    items: [],
-    payment_method: '',
-    payment_type: '',
-    total_amount: 0,
-    cuotes: 0,
-    total_paid_amount: 0,
-  });
+  const { getOrderDetails } = bindActionCreators(actionCreators, dispatch);
+  const orderData = useSelector((state: State) => state.orderDetails.orderData);
+  console.log(orderData);
 
   const searchParams = new URLSearchParams(location.search);
   const payment_id = searchParams.get('payment_id'); // 1
   const external_reference = searchParams.get('external_reference'); // 1 . /payment/feedback
 
+  // const date = new Date(orderData.date_approved);
+  // const formattedDate = date.toLocaleString();
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          'http://localhost:3700/orders/feedback',
-          {
-            payment_id,
-            external_reference,
-          }
-        );
-        setOrderData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+      getOrderDetails(payment_id as string, external_reference as string);
     };
     fetchData();
   }, [payment_id, external_reference]);
-  // console.log(orderData.);
 
   return (
     <div className='flex flex-col items-center p-1 mt-10'>
@@ -57,7 +39,7 @@ const OrderDetails = (): JSX.Element => {
         <div className='bg-white p-6 shadow-lg'>
           <div className='mb-4 flex flex-row gap-2'>
             <p className='font-bold'>Estado de la orden:</p>
-            <p className='font-bold text-green-500'>{orderData.status}</p>
+            <p className='font-bold text-green-500'>{orderData?.status}</p>
           </div>
 
           <div className='mb-4 flex flex-row gap-2'>
@@ -66,68 +48,65 @@ const OrderDetails = (): JSX.Element => {
           </div>
           <div className='mb-4 flex flex-row gap-2'>
             <p className='font-bold'>Fecha de la orden:</p>
-            <p>20/12/2023</p>
+            {/* <p>{formattedDate}</p> */}
           </div>
 
           <div className='mb-4 flex flex-col md:flex-row'>
             <div className='mb-4 flex flex-row gap-2'>
               <p className='font-bold'>Metodo de pago:</p>
-              <p>{orderData.payment_type}</p>
-              <p>{orderData.payment_method}</p>
+              <p>{orderData?.payment_type}</p>
+              <p>{orderData?.payment_method}</p>
             </div>
           </div>
 
           <p className='font-bold text-lg mb-4'>Detalle del pedido:</p>
           <div className='w-full'>
-            <table className='table-auto w-full'>
-              <thead className='w-full'>
-                <tr className='flex flex-row justify-between justify-start'>
-                  <th className='text-center'>Producto</th>
-                  <div className='flex flex-row justify-between w-1/2'>
-                    <th className='text-center'>Precio por unidad</th>
-                    <th className='text-center mr-5'>Subtotal</th>
-                  </div>
-                </tr>
-              </thead>
-              <tbody className='w-full'>
-                {orderData.items &&
-                  orderData.items.map((product: Item) => (
-                    <tr className='w-full' key={product.id}>
-                      <div className='flex flex-row justify-between'>
-                        <td className='text-center flex flex-row gap-4'>
+            <div className='w-full'>
+              <div className='flex flex-row justify-between font-bold'>
+                <div className='w-1/2 text-left'>Producto</div>
+                <div className='w-1/4 text-center'>Precio por unidad</div>
+                <div className='w-1/4 text-center'>Subtotal</div>
+              </div>
+              {orderData?.items &&
+                orderData?.items.map((product: Item) => (
+                  <div
+                    className='flex flex-row justify-between items-center border-b py-2'
+                    key={product.id_product}
+                  >
+                    <div className='w-1/2'>
+                      <div className='flex flex-row gap-4'>
+                        <div>
                           {product.title} x {product.quantity}
-                        </td>
-                        <div className='flex flex-row justify-between w-1/2'>
-                          <td className='text-center'>
-                            $ {product.unit_price}
-                          </td>
-                          <td className='text-center mr-9'>
-                            $ {product.unit_price * product.quantity}
-                          </td>
                         </div>
                       </div>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                    </div>
+                    <div className='w-1/4 text-center'>
+                      $ {product?.unit_price}
+                    </div>
+                    <div className='w-1/4 text-center'>
+                      $ {product?.unit_price * product?.quantity}
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
 
           <div className='flex flex-row justify-end'>
             <div className='my-4 mr-1'>
               <p className='font-bold'>Total:</p>
-              <p className='mr-8'>${orderData.total_amount}</p>
+              <p className='mr-10'>${orderData?.total_amount}</p>
             </div>
           </div>
 
           <div className='flex flex-row justify-between'>
             <div className='my-4'>
               <p className='font-bold'>Cuotas:</p>
-              <p>x {orderData.cuotes}</p>
+              <p>x {orderData?.cuotes}</p>
             </div>
             <div className='my-4'>
               <p className='font-bold'>Precio Final:</p>
-              <p className='text-green-500 font-bold mr-8'>
-                ${orderData.total_paid_amount}
+              <p className='text-green-500 font-bold mr-10'>
+                ${orderData?.total_paid_amount}
               </p>
             </div>
           </div>

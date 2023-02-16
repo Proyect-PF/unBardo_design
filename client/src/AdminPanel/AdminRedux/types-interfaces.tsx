@@ -1,14 +1,14 @@
-import { Order, Product, User } from "../../state/types";
-
+import { Product, User } from '../../state/types';
+import { OrderDetails } from '../../types/types';
 export enum AdminActionType {
-  GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS",
-  GET_ALL_ORDERS = "GET_ALL_ORDERS",
-  GET_ALL_USERS = "GET_ALL_USERS",
-  GET_PRODUCT_BY_ID = "GET_PRODUCT_BY_ID",
-  GET_ORDER_BY_ID = "GET_ORDER_BY_ID",
-  GET_USER_BY_ID = "GET_USER_BY_ID",
-  GET_PRODUCT_BY_NAME = "GET_PRODUCT_BY_NAME",
-  GET_ORDERS_COUNT = "GET_ORDERS_COUNT",
+  GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS',
+  GET_ALL_ORDERS = 'GET_ALL_ORDERS',
+  GET_ALL_USERS = 'GET_ALL_USERS',
+  GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID',
+  GET_ORDER_BY_ID = 'GET_ORDER_BY_ID',
+  GET_USER_BY_ID = 'GET_USER_BY_ID',
+  GET_PRODUCT_BY_NAME = 'GET_PRODUCT_BY_NAME',
+  GET_ORDERS_COUNT = 'GET_ORDERS_COUNT',
 }
 
 interface IGetAllProducts {
@@ -29,7 +29,7 @@ interface IGetProductById {
 }
 interface IGetOrderById {
   type: AdminActionType.GET_ORDER_BY_ID;
-  payload: Order;
+  payload: OrderDetails;
 }
 interface IGetUserById {
   type: AdminActionType.GET_USER_BY_ID;

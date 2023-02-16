@@ -44,7 +44,6 @@ const OrderDetails = ({ setSelected }: Props) => {
             <div className="flex flex-col gap-3 mx-8">
               <label>{`Nombre: ${orderDetails.fullname}`}</label>
               <label>{`Email: ${orderDetails.email}`}</label>
-              <label>{`Nombre: ${orderDetails.fullname}`}</label>
               <label>{`Contacto:`}</label>
               <div className="flex flex-col gap-3 mx-8">
                 <label>{`Calle: ${orderDetails.address?.street_name}`}</label>
@@ -61,8 +60,9 @@ const OrderDetails = ({ setSelected }: Props) => {
               <p className="text-xl">{`Despachado: ${
                 orderDetails.dispatched ? "Si" : "No"
               }`}</p>
-              <p className="text-xl">{`Fecha: ${
-                orderDetails.updatedAt?.split("T")[0]
+              <p className="text-xl">{`Fecha de aprobacion: ${
+                orderDetails.date_approved &&
+                new Date(orderDetails.date_approved)
               }`}</p>
               <p className="text-xl">{`Total: ${orderDetails.total_amount}`}</p>
               <p className="text-xl">{`Metodo:  ${orderDetails.payment_type} - ${orderDetails.payment_method}`}</p>
@@ -75,6 +75,7 @@ const OrderDetails = ({ setSelected }: Props) => {
             {orderDetails &&
               orderDetails.products.map((e) => (
                 <div className="flex flex-col gap-3 mx-8">
+                  <label>{`Id: ${e.id_product}`}</label>
                   <label>{`Producto: ${e.title}`}</label>
                   <label>{`Cantidades:`}</label>
                   <div className="flex flex-row gap-4 mx-4">

@@ -98,6 +98,7 @@ export type OrderState = {
 //-------Diego--------
 //--------------------------------------------------
 export type Item = {
+  id_product?: number;
   quantity: number;
   title: string;
   unit_price: number;
@@ -113,7 +114,7 @@ export type Order = {
   id?: number;
   fullname?: string;
   email?: string;
-  updatedAt?: string;
+  date_approved?: string;
   status: string;
   external_reference: number;
   products: Item[];

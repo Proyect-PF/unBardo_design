@@ -90,6 +90,9 @@ export const fetch_product_detail = (id: number) => {
           color: res.data.color,
           show_in_shop: res.data.show_in_shop,
           image: res.data.image,
+          image2: res.data.image2,
+          image3: res.data.image3,
+          image4: res.data.image4,
           promotion: res.data.promotion,
           promotional_price: res.data.promotional_price,
         };

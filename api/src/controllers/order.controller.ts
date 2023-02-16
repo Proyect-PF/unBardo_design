@@ -251,6 +251,8 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
             address: payment_detail.data.additional_info.payer.address,
             phone: payment_detail.data.additional_info.payer.phone,
+            date_last_updated: payment_detail.data.date_last_updated,
+            date_approved: payment_detail.data.date_approved,
             products,
         };
 

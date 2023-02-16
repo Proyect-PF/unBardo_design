@@ -13,7 +13,7 @@ type Props = {
 };
 
 const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
-  const { allOrders } = useSelector((state: State) => state.admin);
+  const { allOrders, ordersCount } = useSelector((state: State) => state.admin);
   const dispatch = useDispatch();
   const { ADMfetch_orders } = bindActionCreators(adminActions, dispatch);
   const [search, setSearch] = useState("");
@@ -29,7 +29,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
 
   useEffect(() => {
     ADMfetch_orders(
-      `search=${query.search}&status=${query.status}&dispatched=${query.dispatched}&sort=${query.sort}&order=${query.order}`
+      `search=${query.search}&status=${query.status}&dispatched=${query.dispatched}&page=${query.page}&limit=${query.limit}`
     );
   }, [query]);
 
@@ -37,10 +37,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
     const button: HTMLButtonElement = event.currentTarget;
     if (button.id === "-" && query.page !== 1)
       setQuery({ ...query, page: query.page - 1 });
-    if (
-      button.id === "+" &&
-      Math.ceil(allOrders.length / query.limit) >= query.page
-    )
+    if (button.id === "+" && Math.ceil(ordersCount / query.limit) > query.page)
       setQuery({ ...query, page: query.page + 1 });
   };
 
@@ -114,7 +111,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
                 <option value="false">Por Despachar</option>
               </select>
             </div>
-            <div className="my-auto">
+            {/* <div className="my-auto">
               <select
                 className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit justify-center`}
                 id="sort"
@@ -128,7 +125,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
                 <option value="asc">ID Asc.</option>
                 <option value="desc">ID Desc.</option>
               </select>
-            </div>
+            </div> */}
             <Button
               text="Limpiar"
               name="clearProdSearchADM"
@@ -150,7 +147,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             />
           </div>
         </form>
-        {/* <div className="flex justify-center gap-4 mx-4 mt-8 text-lg font-bold">
+        <div className="flex justify-center gap-4 mx-4 mt-8 text-lg font-bold">
           <div className="flex flex-row gap-2">
             <button
               className="h-fit"
@@ -179,7 +176,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             <option value="25">25</option>
             <option value="50">50</option>
           </select>
-        </div> */}
+        </div>
       </div>
       <div className={`${className}`}>
         <div className="flex items-center justify-around w-full text-center border-t">

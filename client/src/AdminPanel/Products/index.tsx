@@ -39,7 +39,7 @@ const Products = (): JSX.Element => {
                 ADMfetch_products();
               }
         }
-        className="justify-end pr-12"
+        className="absolute z-10 justify-end pr-12 right-4"
       />
 
       {selected === "list" && (

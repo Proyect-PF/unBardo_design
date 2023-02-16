@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import adminReducer from '../../AdminPanel/AdminRedux/reducer';
 import checkoutReducer from './checkoutReducer';
-import orderCheckoutReducer from './orderReducer';
+import orderDetailsReducer from './orderReducer';
 import ordersReducer from './ordersReducer';
 import productReducer from './productReducer';
 import userReducer from './userReducer';
@@ -12,7 +12,7 @@ const reducers = combineReducers({
   user: userReducer,
   checkout: checkoutReducer,
   orders: ordersReducer,
-  order: orderCheckoutReducer,
+  orderDetails: orderDetailsReducer,
   admin: adminReducer,
 });
 

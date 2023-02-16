@@ -35,6 +35,9 @@ export type Product = {
   color: string;
   show_in_shop: boolean;
   image: string;
+  image2?: string;
+  image3?: string;
+  image4?: string;
 };
 
 export type Order = {
@@ -54,4 +57,42 @@ export type Checkout = {
   price: number;
   ammount: number;
   imgF: string;
+};
+
+export type Item = {
+  id_product?: number;
+  quantity: number;
+  title: string;
+  unit_price: number;
+  sizes?: {
+    S?: number;
+    M?: number;
+    L?: number;
+    XL?: number;
+  };
+};
+export type OrderDetails = {
+  id?: number;
+  fullname?: string;
+  email?: string;
+  date_approved?: string;
+  status: string;
+  external_reference: number;
+  items?: Item[];
+  products?: Item[];
+  payment_method: string;
+  payment_type: string;
+  total_amount: number;
+  cuotes: number;
+  total_paid_amount: number;
+  dispatched: boolean;
+  address?: {
+    street_name: string;
+    street_number: string;
+    zip_code: string;
+  };
+  phone?: {
+    area_code: string;
+    number: string;
+  };
 };

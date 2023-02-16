@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
 // import NewProductForm from "./components/NewProduct/NewProductForm";
 import AdminP from "./AdminPanel";
-import Orders from "./AdminPanel/Orders";
 import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
 import Searchbar from "./layouts/Searchbar/Searchbar";
@@ -18,6 +17,7 @@ import Newsletter from "./Pages/NewsLetter";
 import Profile from "./Pages/Profile/Profile";
 import LogInPage from "./Pages/SignIn";
 import RegisterPage from "./Pages/SignUp";
+import whatsapp from "./assets/svg/whatsapp.svg";
 // import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
@@ -55,11 +55,13 @@ function App() {
             <Route path="/orders/feedback" element={<OrderDetails />} />
             <Route path="/profile/:panel" element={<Profile />} />
             <Route path="/newsletter" element={<Newsletter />} />
-            {/*<Route path="/profile/orders" element={<Orders />} />*/}
             {/* <Route path="/panel/newproduct" element={<NewProductForm />} /> */}
             <Route path="/panel" element={<AdminP />} />
           </Routes>
         </div>
+        <a href="https://wa.me/1111111111111">
+          <img src={whatsapp} className="fixed right-8 bottom-8" />
+        </a>
         <Footer />
       </BrowserRouter>
     </div>

@@ -30,6 +30,8 @@ export const validateRegister = (values: ValuesRegister) => {
     ) {
       errors.email = "Ingrese un email valido";
     }
+
+    if (values.password.length < 6) errors.password = "Necesitas almenos 6 caracteres";
     
     if (!values.password) errors.password = "Ingrese una contraseña";
     return errors;

@@ -1,9 +1,13 @@
 import dotenv from "dotenv";
-import { Request, Response } from "express";
+import { Request, Response } from "express"
+import {response} from "express";
+import {request} from "express";
+
 import jwt from "jsonwebtoken";
 import db from "../database/database";
 import getErrorMessage from "../helpers/handleErrorCatch";
 import { TypeRole, TypeUser } from "../types";
+import {sendConfirmationEmailController} from "./email";
 dotenv.config();
 
 export const POST_SignUp = async (req: Request, res: Response) => {
@@ -94,6 +98,8 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           expiresIn: 86400, //24 hs
         }
       );
+        // Enviar correo electrónico de confirmación
+      await sendConfirmationEmailController(email, user.id);
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
     } else {
@@ -133,6 +139,8 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           expiresIn: 86400, //24 hs
         }
       );
+      // Enviar correo electrónico de confirmación
+      await sendConfirmationEmailController(email, user.id);
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
     }

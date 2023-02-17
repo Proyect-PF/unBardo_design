@@ -8,6 +8,7 @@ import { validateFullName } from "../validates";
 import logged from "../../../assets/svg/logged.svg";
 import { useSelector } from "react-redux";
 import { State } from "../../../state/reducers";
+import { baseURL, PORT } from "../../../utils/url&port";
 
 const EditFullName = ({setPanel}: Props) => {
     const { userId } = useSelector((state: State) => state.user);
@@ -47,7 +48,7 @@ const EditFullName = ({setPanel}: Props) => {
                 //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
               }).then((result) => {
                 if (result.isConfirmed) {
-                  axios.put(`http://localhost:3700/users/${userId}`, {fullname: values.fullname})
+                  axios.put(`${baseURL}:${PORT}/users/${userId}`, {fullname: values.fullname})
                   .then((response) => {
                     const Toast = Swal.mixin({
                       toast: true,

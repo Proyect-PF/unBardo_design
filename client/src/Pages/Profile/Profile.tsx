@@ -7,6 +7,7 @@ import Info from "./Info/info";
 import EditFullName from "./EditFullname";
 import UserOrders from "./UserOrders";
 import OrderDetail from "./OrderDetail";
+import { baseURL, PORT } from "../../utils/url&port";
 
 export interface Props {
   setPanel: React.Dispatch<React.SetStateAction<string>>
@@ -20,7 +21,7 @@ const Profile = (): JSX.Element => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:3700/users/${userId}`)
+    axios.get(`${baseURL}:${PORT}/users/${userId}`)
     .then((response) => {
       let data = response.data;
       setFullName(data.fullname)

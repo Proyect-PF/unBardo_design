@@ -9,6 +9,7 @@ import { State } from "../../../state/reducers";
 import axios from "axios";
 import Swal from "sweetalert2";
 import logged from "../../../assets/svg/logged.svg";
+import { baseURL, PORT } from "../../../utils/url&port";
 
 const EditPassword = ({setPanel}: Props) => {
   const [passType, setPassType] = useState("password");
@@ -56,7 +57,7 @@ const EditPassword = ({setPanel}: Props) => {
             //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
           }).then((result) => {
             if (result.isConfirmed) {
-              axios.put(`http://localhost:3700/users/${userId}`, {password: values.password})
+              axios.put(`${baseURL}:${PORT}/users/${userId}`, {password: values.password})
               .then((response) => {
                 const Toast = Swal.mixin({
                   toast: true,

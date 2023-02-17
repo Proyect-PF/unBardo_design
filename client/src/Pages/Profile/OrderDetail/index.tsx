@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Button from "../../../components/Buttons/Button/Button";
+import { baseURL, PORT } from "../../../utils/url&port";
 
 
 export interface Props {
@@ -35,7 +36,7 @@ const OrderDetail = ({setPanel, detailId}: Props) => {
     const [details, setDetails] = useState<any>(initialState)
     
     useEffect(() => {
-        axios.get(`http:localhost:3700/orders/${detailId}`)
+        axios.get(`${baseURL}:${PORT}/orders/${detailId}`)
         .then((response) => {
             setDetails(response.data)
         })

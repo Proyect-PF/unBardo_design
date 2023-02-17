@@ -11,6 +11,8 @@ interface Props {
   value: any;
   className: string;
   autocomplete?: string;
+  min?: number;
+  max?: number;
 }
 
 const Input = ({
@@ -23,6 +25,8 @@ const Input = ({
   className,
   onBlur,
   autocomplete,
+  min,
+  max,
 }: Props) => {
   return (
     <div>
@@ -36,6 +40,8 @@ const Input = ({
         name={name}
         onBlur={onBlur}
         autoComplete={autocomplete}
+        min={min}
+        max={max}
       />
     </div>
   );

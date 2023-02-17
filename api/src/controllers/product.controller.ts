@@ -4,7 +4,7 @@ import {Op} from "sequelize";
 import db from "../database/database";
 import cloudinary from "../utils/cloudinary";
 import getErrorMessage from "../helpers/handleErrorCatch";
-import { TypeProduct } from "../types";
+import {TypeProduct} from "../types";
 
 // LOS PRODUCT EN LA BASE DE DATOS TIENEN ESTA INFO TAMBIEN, Y NO QUEREMOS TOMARLA. ASIQUE USAMOS ...TO_EXCLUDE en la query, para todos
 // los endpoint
@@ -26,22 +26,45 @@ const TO_EXCLUDE = [
 // Aca se definen funciones que INTERACTUAN con nuestar base de datos
 
 export const GET_ProductById = async (request: Request, response: Response) => {
-    const {id} = request.params;
-    if (!id) return response.status(400).json("No se ha proporcionado un ID de producto A BUSCAR");
-    try {
-        const product = await db.Product.findOne({
-            where: {id},
-            attributes: {exclude: TO_EXCLUDE}
+    const id = request.params.id;
+    if (id) {
+        const product = await db.Product.findByPk(id, {
+            attributes: {
+                exclude: TO_EXCLUDE,
+            },
+            include: db.Category,
         });
-        if (!product) return response.status(204).json("Producto no encontrado");
-        return response.status(200).json(product);
-    } catch (error: any) {
-        return response.status(400).json({error: error.message});
+
+        if (!product) {
+            return response.status(404).json({error: "Product not found"});
+        }
+
+        const images = await db.Image.findAll({
+            where: {
+                productId: id,
+            },
+        });
+
+        const imageUrls = images.reduce((obj: any, image: any, i: any) => {
+            if (i === 0) {
+                obj[`image`] = image.imgUrl;
+            } else {
+                obj[`image${i + 1}`] = image.imgUrl;
+            }
+            return obj;
+        }, {});
+
+        const productWithImages = {
+            ...product.toJSON(),
+            ...imageUrls,
+        };
+
+        return response.status(200).json(productWithImages);
     }
 };
 
 export const POST_NewProduct = async (req: Request, res: Response) => {
-    const { promotional_price, promotion, ...images } = req.body;
+    const {promotional_price, promotion, ...images} = req.body;
 
     try {
         const productData = {
@@ -56,7 +79,7 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
 
         const newProduct: TypeProduct = await db.Product.create(productData);
 
-        const { id: productId } = newProduct;
+        const {id: productId} = newProduct;
 
         const createdImages = [];
         for (const key in images) {
@@ -143,8 +166,8 @@ export const DELETE_DeleteAllProducts = async (
 
 export const GET_AllProducts = async (request: Request, response: Response) => {
     try {
-        const { id } = request.params;
-        const { name, filter, filter2, order, page, perPage, sort } = request.query;
+        const {id} = request.params;
+        const {name, filter, filter2, order, page, perPage, sort} = request.query;
         console.log(request.query);
 
         // Seteamos el optiones BASE de consulta
@@ -173,7 +196,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                 where.promotion = true;
             }
             if (name) {
-                where.name = { [Op.iLike]: `%${name}%` };
+                where.name = {[Op.iLike]: `%${name}%`};
             }
             options.where = where;
         }
@@ -188,7 +211,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
             options.limit = perPage;
         }
         // Tomamos la cantidad de la consulta para enviar el paginado al front
-        const total = await db.Product.count({ where: options.where});
+        const total = await db.Product.count({where: options.where});
         let products = await db.Product.findAll(options);
         let productsWithImages = [];
         for (const product of products) {
@@ -207,6 +230,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                 }
                 return obj;
             }, {});
+
             const productWithImages = {
                 ...product.toJSON(),
                 ...imageUrls,
@@ -215,22 +239,19 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         }
 
 
-            // Añadimos la info para el paginado al header del response
+        // Añadimos la info para el paginado al header del response
         response.set("X-Total-Count", total);
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
 
-        if (id) {
-            return response.status(200).json(productsWithImages[0]);
-        }
         return response.status(200).json(productsWithImages);
     } catch (error: any) {
-        return response.status(500).json({ error: error.message });
+        return response.status(500).json({error: error.message});
     }
 };
 
 
 export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
-    const { id, promotional_price, promotion, ...images } = req.body;
+    const {id, promotional_price, promotion, ...images} = req.body;
 
     try {
         const productData = {
@@ -253,11 +274,20 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
             }
         );
 
+        const validExtensions = ["jpg", "jpeg", "gif","bmp","svg","webp","tiff", "png", "gif"];
+
+        const isValidExtension = (fileName: string): boolean => {
+            const extension = fileName.split(".").pop()?.toLowerCase();
+            if (extension && validExtensions.includes(extension)) {
+                return true;
+            }
+            return false;
+        };
         if (numberOfAffectedRows === 0) {
             throw new Error(`No product updated with id ${id}`);
         }
 
-        const deletedRows = await db.Image.destroy({
+        await db.Image.destroy({
             where: {
                 productId: id,
             },
@@ -267,15 +297,16 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
         for (const key in images) {
             if (key.startsWith("image")) {
                 const imgUrl = images[key];
-
-                const uploadRes = await cloudinary.uploader.upload(imgUrl, {
-                    upload_preset: 'unbardo'
-                });
-                const createdImage = await db.Image.create({
-                    imgUrl: uploadRes.url,
-                    productId: id,
-                });
-                createdImages.push(createdImage);
+                if (!isValidExtension(imgUrl)) {
+                    const uploadRes = await cloudinary.uploader.upload(imgUrl, {
+                        upload_preset: 'unbardo'
+                    });
+                    const createdImage = await db.Image.create({
+                        imgUrl: uploadRes.url,
+                        productId: id,
+                    });
+                    createdImages.push(createdImage);
+                }
             }
         }
 

@@ -92,6 +92,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
     const botMessage3 = createChatBotMessage(
       "Talle 2: Ancho 60cm, Largo 74cm, Manga 26cm"
     );
+    setState((prev: any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage, botMessage2, botMessage3],
+    }));
   };
 
   return (

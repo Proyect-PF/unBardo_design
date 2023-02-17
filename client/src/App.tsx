@@ -20,6 +20,7 @@ import RegisterPage from "./Pages/SignUp";
 import robot from "./assets/svg/googleIcons/robot.svg";
 import support from "./assets/svg/question-mark-circle.svg";
 import ChatBotComponent from "./components/ChatBot";
+import Favorites from "./Pages/Favorites/Favorites";
 // import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
             <Route path="/account/login" element={<LogInPage />} />
             <Route path="/account/register" element={<RegisterPage />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/checkout/payment" element={<Payment />} />
             <Route path="/orders/feedback" element={<OrderDetails />} />
             <Route path="/profile/:panel" element={<Profile />} />

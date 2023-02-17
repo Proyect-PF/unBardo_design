@@ -90,7 +90,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
       "Talle 1: Ancho 56cm, Largo 70cm, Manga 24cm"
     );
     const botMessage3 = createChatBotMessage(
-      "Talle 1: Ancho 60cm, Largo 74cm, Manga 26cm"
+      "Talle 2: Ancho 60cm, Largo 74cm, Manga 26cm"
     );
   };
 

@@ -8,7 +8,8 @@ import {
     UPDATE_OrderStatus,
     DELETE_Order,
     DELETE_AllOrders,
-    GET_OrderByUser
+    GET_OrderByUser,
+    UPDATE_OrderTrack
 } from "../controllers/order.controller";
 
 import {
@@ -29,12 +30,12 @@ ordersRoutes.post("/feedback/", POST_FeedbackPayment);
 
 
 /**
- *  TODO: => RUTA GET Obtener todas las ordenes 
+ //TODO: => RUTA GET Obtener todas las ordenes 
  */
 ordersRoutes.get("/", GET_AllOrders);
 
 /**
- *  TODO: => RUTA GET Obtener Ordenes por ID
+ //TODO: => RUTA GET Obtener Ordenes por ID
  */
 ordersRoutes.get("/:orderId", GET_DetailsByOrderId);
 
@@ -45,7 +46,7 @@ ordersRoutes.get("/:orderId", GET_DetailsByOrderId);
 ordersRoutes.get("/users/:id_user", GET_OrderByUser);
 
 /**
- * TODO:: => RUTA POST orden
+ //TODO:: => RUTA POST orden
  */
 ordersRoutes.post("/", POST_Order);
 
@@ -53,6 +54,11 @@ ordersRoutes.post("/", POST_Order);
  //TODO: RUTA UPDATE estado de la orden
  */
 ordersRoutes.put("/", UPDATE_OrderStatus);
+
+/**
+ //TODO: RUTA UPDATE el track de la orden
+ */
+ ordersRoutes.put("/track/", UPDATE_OrderTrack);
 
 /**
  //TODO: RUTA DELETE Borrar una orden por id

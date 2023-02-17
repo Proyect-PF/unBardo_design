@@ -294,6 +294,26 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
     }
 }
 
+//Update el track_id de la orden
+export const UPDATE_OrderTrack = async (req: Request, res: Response) => {
+    try {
+        const {id, track_id} = req.query;
+
+        const orderUpdate = await db.Orders.update({
+            track_id,
+        }, {
+            where: {
+                id
+            }
+        });
+        console.log(orderUpdate);
+        if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+        return res.status(200).json(orderUpdate);
+    } catch (error: any) {
+        return res.status(400).json({message: error.message});
+    }
+}
+
 export const DELETE_Order = async (request: Request, response: Response) => {
     try {
         const {id} = request.params;

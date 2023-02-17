@@ -6,6 +6,7 @@ interface OrdersAttributes {
   status: string;
   payment_id: number;
   dispatched: boolean;
+  track_id: string;
 }
 
 export default (sequelize: Sequelize.Sequelize) => {
@@ -13,6 +14,9 @@ export default (sequelize: Sequelize.Sequelize) => {
     public id!: number;
     public id_user!: number;
     public status!: string;
+    public payment_id!: number;
+    public dispatched!: boolean;
+    public track_id!: string;
 
     public static associate(models: any) {
       Orders.belongsToMany(models.Product, {
@@ -51,6 +55,10 @@ export default (sequelize: Sequelize.Sequelize) => {
       dispatched: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      track_id: {
+        type: DataTypes.STRING,
+        defaultValue: null,
       },
     },
     {

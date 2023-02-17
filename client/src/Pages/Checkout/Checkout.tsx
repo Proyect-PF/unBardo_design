@@ -1,13 +1,10 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button/Button';
 import CheckoutCard from '../../components/Cards/Checkout/CheckoutCard';
 import { State } from '../../state/reducers';
-import { useEffect } from 'react';
-import { clearCheckoutList } from '../../state/action-creators';
 import Swal from 'sweetalert2';
-import logged from "../../assets/svg/logged.svg";
 
 interface ProductSize {
   [size: string]: number;
@@ -64,7 +61,6 @@ const Checkout = (): JSX.Element => {
       navigate('/checkout/payment')
     } else {
       Swal.fire({
-        imageUrl: logged,
         title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,

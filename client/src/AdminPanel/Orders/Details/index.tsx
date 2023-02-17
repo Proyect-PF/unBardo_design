@@ -17,7 +17,7 @@ const OrderDetails = ({ setSelected }: Props) => {
     dispatch
   );
 
-  console.log(orderDetails.products);
+  console.log(orderDetails);
 
   return (
     <div>

@@ -39,7 +39,6 @@ const CheckoutCard = ({
       .fire({
         title:
           '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
-        imageUrl: trash,
         html: '<p class="font-poppins font-medium text-black italic" >Sacaras este producto de tu bolsa de compras</p>',
         showCancelButton: true,
         showConfirmButton: true,
@@ -62,19 +61,24 @@ const CheckoutCard = ({
       <img src={imgF} className="w-28" />
       <div className="flex flex-col justify-around w-full pl-4">
         <div className="font-semibold">
-          <Link to={`/product/${id.split("-")[0]}`}>{name}</Link>
+          <Link 
+          className="font-poppins font-bold text-sm"
+          to={`/product/${id.split("-")[0]}`}>{name}</Link>
           <p>{size}</p>
-          <p>{`$ ${price * ammount}`}</p>
+          <p className="font-poppins font-bold text-xxs">{`$ ${price * ammount}`}</p>
         </div>
         <div className="flex items-center justify-between mr-4 font-bold">
           <p>{ammount}</p>
-          <ButtonSmall
+          <p className="font-poppins text-sm font-medium text-black underline hover:cursor-pointer"
+          onClick={handleClick}
+          >Remover</p>
+          {/* <ButtonSmall
             type="button"
             text="Remover"
             onClick={handleClick}
             name="Carrito"
             disabled={false}
-          />
+          /> */}
         </div>
       </div>
     </div>

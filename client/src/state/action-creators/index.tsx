@@ -10,7 +10,6 @@ import {
   ActionProducts,
   ActionUser,
 } from "../actions";
-import userIcon from "../../assets/svg/user-icon.svg";
 import alertIcon from "../../assets/svg/alert.svg";
 import { Checkout, Product, ProductState } from "../types";
 import { Favorites, OrderDetails, SetFavoritePayload } from "../../types/types";
@@ -176,7 +175,6 @@ export const userRegister = (registerLogin: Function, user?: User) => {
     .post(`${baseURL}:${PORT}/auth/signup`, user)
     .then((response) => {
       Swal.fire({
-        imageUrl: userIcon,
         imageHeight: 80,
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",

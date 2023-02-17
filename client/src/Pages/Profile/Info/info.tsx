@@ -16,7 +16,7 @@ const Info = ({setPanel, fullName, email}: Props): JSX.Element => {
           <h4 className="text-4xl font-rift font-bold mt-4">{fullName}</h4>
           <h4 className="text-sm font-poppins text-gray-500">{email}</h4>
         </div>
-        <div className="w-56">
+        <div className=" w-72">
           <Button 
               type="button"
               text="Ver mis ordenes"
@@ -28,7 +28,7 @@ const Info = ({setPanel, fullName, email}: Props): JSX.Element => {
               className="text-3xl"
               />
         </div>
-        <div className="flex w-64 justify-around">
+        <div className="flex w-72 justify-between">
           <ButtonSmall
           type='button'
           name='editfullname'

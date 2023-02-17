@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import menuIcon from "../../assets/svg/menu-alt-2.svg";
+import menuIcon from "../../assets/svg/googleIcons/menu-alt-2.svg";
 import logo from "../../assets/svg/principal-logo.svg";
-import searchIcon from "../../assets/svg/search.svg";
-import shoppingIcon from "../../assets/svg/shopping-bag.svg";
+import searchIcon from "../../assets/svg/googleIcons/search.svg";
+import shoppingIcon from "../../assets/svg/googleIcons/shopping-bag.svg";
 import { State } from "../../state/reducers";
 
 const Navbar = ({ handleChange, handleSearch }: any) => {

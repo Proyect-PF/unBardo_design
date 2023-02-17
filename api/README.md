@@ -176,6 +176,13 @@ Nombre de funcion = UPDATE_OrderStatus.
     Actualiza el status de la orden. Recibie id y status por query
 ```
 
+#### UPDATE -> localhost:3700/orders/track/
+
+```env
+Nombre de funcion = UPDATE_OrderTrack.
+    Actualiza el estado del seguimiento de la orden. Recibie id y track_id por query
+```
+
 # Endpoints para Favorites
 ## localhost:3700/favorites
 

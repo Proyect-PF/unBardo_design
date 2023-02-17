@@ -17,13 +17,16 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { fetch_products, clear_product_detail } = bindActionCreators(
+  const { fetch_products, clear_product_detail, getFavorites } = bindActionCreators(
     actionCreators,
     dispatch
   );
   const [loading, setLoading] = useState(true);
   const { productList, productTotal } = useSelector(
     (state: State) => state.products
+  );
+  const { userId } = useSelector(
+    (state: State) => state.user
   );
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
@@ -43,6 +46,7 @@ const Home = () => {
   useEffect(() => {
     if (productTotal.length > 0) setLoading(false);
     clear_product_detail();
+    getFavorites(userId)
   }, [productTotal]);
 
   return (

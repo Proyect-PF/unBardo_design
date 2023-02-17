@@ -1,6 +1,6 @@
 import { ActionType } from '../action-types';
 import { AddProductPayload, Checkout, Orders, Product, User } from '../types';
-import { OrderDetails } from '../../types/types';
+import { Favorites, OrderDetails, SetFavoritePayload } from '../../types/types';
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -121,3 +121,35 @@ interface GetOrderDetailFailure {
 }
 
 export type ActionOrderCheckout = GetOrderDetailSuccess | GetOrderDetailFailure;
+
+//Interfaces & types for FAVORITES STATE
+
+interface GetFavorites {
+  type: ActionType.GET_FAVORITES;
+  payload: Favorites;
+}
+
+interface SetFavorites {
+  type: ActionType.SET_FAVORITE;
+  payload: SetFavoritePayload;
+}
+
+interface DeleteFavorite {
+  type: ActionType.DELETE_FAVORITE;
+  payload: SetFavoritePayload;
+}
+
+interface DeleteAllFavorite {
+  type: ActionType.DELETE_FAVORITE;
+  payload: number;
+}
+interface LogOutFavorite {
+  type: ActionType.LOG_OUT_FAVORITES;
+}
+
+export type ActionFavorites = 
+  | GetFavorites
+  | SetFavorites
+  | DeleteFavorite
+  | DeleteAllFavorite
+  | LogOutFavorite

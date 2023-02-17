@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from "express"
 import jwt, { Jwt } from "jsonwebtoken"
-import { JwtHeader } from "jsonwebtoken"
 import db from "../database/database"
 import dotenv from "dotenv"
+import { IDecoded } from "../types"
 dotenv.config()
 
-interface IDecoded {
-    id:string;
-    iat:number;
-    exp:number;
-}
-
-
-export const verifyTokenIsAdmin = async (req: Request, res: Response, next: NextFunction) => {
+/**
+ * 
+ * @param req Token de verificacion
+ * @param res Respoonde dependiendo si encuentra un token, si coincide el token o si el usuario es admin o no
+ * @param next si el usuario es adin da acceso a las demas rutas
+ * @returns 
+ */
+export const verifyTokenIsAdmin = async (req: Request, res: Response, next: NextFunction):Promise<object | undefined>=> {
     try {
         const token = req.header("x-access-token")
         //Comprobamos si existe el token

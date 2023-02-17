@@ -96,3 +96,14 @@ export type OrderDetails = {
     number: string;
   };
 };
+
+export type Favorites = {
+  id: number;
+  id_user: number;
+  products_id: number[];
+}
+
+export type SetFavoritePayload = {
+  id_user: number;
+  id_product: number;
+}

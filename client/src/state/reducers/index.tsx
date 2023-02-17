@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import adminReducer from '../../AdminPanel/AdminRedux/reducer';
 import checkoutReducer from './checkoutReducer';
+import favoritesReducer from './favoritesReducer';
 import orderDetailsReducer from './orderReducer';
 import ordersReducer from './ordersReducer';
 import productReducer from './productReducer';
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   orders: ordersReducer,
   orderDetails: orderDetailsReducer,
   admin: adminReducer,
+  favorites: favoritesReducer,
 });
 
 export default reducers;

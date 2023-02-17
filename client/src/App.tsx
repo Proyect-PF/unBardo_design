@@ -17,12 +17,16 @@ import Newsletter from "./Pages/NewsLetter";
 import Profile from "./Pages/Profile/Profile";
 import LogInPage from "./Pages/SignIn";
 import RegisterPage from "./Pages/SignUp";
-import whatsapp from "./assets/svg/whatsapp.svg";
+import robot from "./assets/svg/googleIcons/robot.svg";
+import support from "./assets/svg/question-mark-circle.svg";
+import ChatBotComponent from "./components/ChatBot";
+import Favorites from "./Pages/Favorites/Favorites";
 // import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
   const [search, setSearch] = useState(true);
+  const [chatbot, setChatbot] = useState(false);
 
   const handleChange = () => {
     if (!openClose) setOpenClose(true);
@@ -51,6 +55,7 @@ function App() {
             <Route path="/account/login" element={<LogInPage />} />
             <Route path="/account/register" element={<RegisterPage />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/favorites" element={<Favorites />} />
             <Route path="/checkout/payment" element={<Payment />} />
             <Route path="/orders/feedback" element={<OrderDetails />} />
             <Route path="/profile/:panel" element={<Profile />} />
@@ -59,9 +64,17 @@ function App() {
             <Route path="/panel" element={<AdminP />} />
           </Routes>
         </div>
-        <a href="https://wa.me/1111111111111">
-          <img src={whatsapp} className="fixed right-8 bottom-8" alt="WhatsApp" />
-        </a>
+        
+        <div className="fixed z-40 right-8 bottom-24">
+          {chatbot ? <ChatBotComponent /> : null}
+        </div>
+        <div className="fixed z-40 bg-white rounded-full right-4 bottom-6">
+          <img
+            src={robot}
+            className="w-12 h-auto"
+            onClick={() => (chatbot ? setChatbot(false) : setChatbot(true))}
+          />
+        </div>
         <Footer />
       </BrowserRouter>
     </div>

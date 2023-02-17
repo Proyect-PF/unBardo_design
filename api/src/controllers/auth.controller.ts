@@ -1,7 +1,5 @@
 import dotenv from "dotenv";
 import { Request, Response } from "express"
-import {response} from "express";
-import {request} from "express";
 
 import jwt from "jsonwebtoken";
 import db from "../database/database";

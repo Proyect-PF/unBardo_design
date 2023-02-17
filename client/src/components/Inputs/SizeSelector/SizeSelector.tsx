@@ -80,7 +80,7 @@ const SizeSelector = ({
   };
 
   return (
-    <div className="flex gap-4 my-4 text-lg font-bold text-center">
+    <div className="flex gap-4 my-4 text-lg text-center">
       <button
         onClick={handleSize}
         key="sizeS"

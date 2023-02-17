@@ -70,11 +70,11 @@ function App() {
             <Route path="/panel" element={<AdminP />} />
           </Routes>
         </div>
-        
+
         <div className="fixed z-40 right-8 bottom-24">
           {chatbot ? <ChatBotComponent /> : null}
         </div>
-        <div className="fixed z-40 bg-white rounded-full right-4 bottom-6">
+        <div className="fixed z-40 right-4 bottom-6">
           <img
             src={robot}
             className="w-12 h-auto"

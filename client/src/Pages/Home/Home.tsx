@@ -17,17 +17,13 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { fetch_products, clear_product_detail, getFavorites } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
+  const { fetch_products, clear_product_detail, getFavorites } =
+    bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
   const { productList, productTotal } = useSelector(
     (state: State) => state.products
   );
-  const { userId } = useSelector(
-    (state: State) => state.user
-  );
+  const { userId } = useSelector((state: State) => state.user);
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
@@ -46,7 +42,7 @@ const Home = () => {
   useEffect(() => {
     if (productTotal.length > 0) setLoading(false);
     clear_product_detail();
-    getFavorites(userId)
+    getFavorites(userId);
   }, [productTotal]);
 
   return (
@@ -65,7 +61,7 @@ const Home = () => {
           </div>
         )}
         <img className="object-none w-full h-48" alt="homepage" src={photo} />
-        <p className="p-5 font-bold text-center font-anisette">
+        <p className="p-5 text-3xl font-bold text-center font-rift">
           WELCOME TO THE JUNGLE
         </p>
         <Dropdown />

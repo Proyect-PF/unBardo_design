@@ -15,37 +15,37 @@ import { verifyTokenIsAdmin } from "../helpers/verifyTokenIsAdmin";
 const productRoutes = Router();
 
 /**
- * TODO: => RUTA GET Obtener todos los productos
+ //TODO: RUTA GET Obtener todos los productos
  */
 productRoutes.get("/", GET_AllProducts);
 
 /**
- * TODO: => Ruta GET Obtener un producto por id
+ //TODO: Ruta GET Obtener un producto por id
  */
 productRoutes.get("/:id", GET_ProductById);
 
 /**
- * TODO: => RUTA UPDATE actualizar productos
+ //TODO: RUTA UPDATE actualizar productos
  */
 productRoutes.put("/", UPDATE_UpdateProduct);
 
 /**
- * TODO: => RUTA DELETE Borrar todos los productos
+ //TODO: RUTA DELETE Borrar todos los productos
  */
 productRoutes.delete("/deleteAll", DELETE_DeleteAllProducts);
 
 /**
- * TODO: => RUTA GET Buscar productos por nombre
+ //TODO: RUTA GET Buscar productos por nombre
  */
 productRoutes.get("/search/:name", GET_SearchByName);
 
 /**
- * TODO: => RUTA DELETE Borra un producto por id
+ //TODO: RUTA DELETE Borra un producto por id
  */
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
 /**
- * TODO: => RUTA POST Publica un producto nuevo
+ //TODO: RUTA POST Publica un producto nuevo
  */
 productRoutes.post("/", POST_NewProduct);
 

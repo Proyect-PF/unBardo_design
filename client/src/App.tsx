@@ -60,7 +60,7 @@ function App() {
           </Routes>
         </div>
         <a href="https://wa.me/1111111111111">
-          <img src={whatsapp} className="fixed right-8 bottom-8" />
+          <img src={whatsapp} className="fixed right-8 bottom-8" alt="WhatsApp" />
         </a>
         <Footer />
       </BrowserRouter>

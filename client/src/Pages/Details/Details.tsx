@@ -11,7 +11,6 @@ import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
 import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
 import { getItem } from "../../utils/localStorage";
-import logged from "../../assets/svg/logged.svg"
 import Swal from "sweetalert2";
 
 const Details = (): JSX.Element => {
@@ -160,7 +159,6 @@ const Details = (): JSX.Element => {
       }
     } else {
       Swal.fire({
-        imageUrl: logged,
         title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,

@@ -1,16 +1,18 @@
 import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-  } from "chart.js";
-  
-  import { Line } from "react-chartjs-2";
-  
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { useRef } from "react";
+import { Line, getElementsAtEvent } from "react-chartjs-2";
+
+
+export const LineGraph = () => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -20,9 +22,10 @@ import {
     Tooltip,
     Legend
   );
-  
-  export const options:any = {
+
+  const options: any = {
     responsive: true,
+    hoverBorderWidth:1,
     plugins: {
       legend: {
         position: "top",
@@ -31,7 +34,18 @@ import {
         display: true,
         text: "Productos",
       },
-    },
+
+    //   animations: {
+    //     tension: {
+    //       duration: 1000,
+    //       easing: 'linear',
+    //       from: 1,
+    //       to: 0,
+    //       loop: true
+    //     }
+    // }
+},
+
     // scales: {
     //   x: {
     //     grid: {
@@ -41,8 +55,8 @@ import {
     //   }
     // }
   };
-  
-  const labels:string[] = [
+
+  const labels: string[] = [
     "Enero",
     "Febrero",
     "Marzo",
@@ -56,42 +70,38 @@ import {
     "Noviembre",
     "Diciembre",
   ];
-  
-  const obj:any = {};
+
+  const obj: any = {};
   labels.forEach((month) => {
     obj[month] = Math.floor(Math.random() * 100);
-  
-    return obj;
   });
-  const obj2:any = {};
+  const obj2: any = {};
   labels.forEach((month) => {
     obj2[month] = Math.floor(Math.random() * 100);
     return obj2;
   });
-  
-  
-  export const data = {
+  const data = {
     labels,
     datasets: [
       {
         label: "Productos vendidos",
-        data: obj2,
+        data: [100, 200, 20, 40],
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
-        tension: .1,
-  
-      },
-      {
-        label: "Precio de productos",
-        data: obj,
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-        tension: .1,
+        tension: 0.1,
       },
     ],
   };
-  
-  export const LineGraph =() => {
-    return <Line options={options} data={data} />;
-  }
-  
+
+// backgroundColor: "rgba(255, 99, 132, 0.5)"
+// borderColor: "rgb(255, 99, 132)"
+// borderWidth: 1
+// hitRadius: 1
+// hoverBorderWidth: 1
+// hoverRadius: 4
+// pointStyle: "circle"
+// radius: 3
+// rotation: 
+
+  return <Line options={options} data={data}/>;
+};

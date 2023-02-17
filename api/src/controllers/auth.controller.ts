@@ -8,6 +8,9 @@ dotenv.config();
 
 export const POST_SignUp = async (req: Request, res: Response) => {
   try {
+
+
+      //TODO: CASO Q SE REGISTRA CON UN ROLE ESPECIFICO
     const { fullname, email, password, role, news_letter, google_id } =
       req.body;
     //Comprobar si el usuario ya existe
@@ -42,7 +45,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           .status(400)
           .json({ message: "usuario ya creado" });
       }
-
+      //se crea y devuelve el token - si se loguea con password sin google
       const token = jwt.sign(
         { id: user.id },
         process.env.SECRET || "tokenFake",
@@ -50,12 +53,21 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           expiresIn: 86400, //24 hs
         }
       );
+      // - no se registra con google
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
     }
 
+
+
+
+
+
+
+  //TODO: CASO Q SE REGISTRA CON GOOGLE
     //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     //Busca el rol user por defecto si no se pasa ningun role
+      // -  se registra con google
     if (google_id) {
       const foundRole: TypeRole = await db.Role.findOne({
         where: { name: "user" },
@@ -85,7 +97,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           .status(400)
           .json({ message: "usuario ya creado" });
       }
-
+      // si se regitra con google -> le devueve un mensaje
       //crear un token, recibe dos argumentos
       const token = jwt.sign(
         { id: user.id },
@@ -94,9 +106,20 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           expiresIn: 86400, //24 hs
         }
       );
+
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
-    } else {
+    } 
+
+
+
+
+
+
+
+    //TODO: CASO Q SE REGISTRA CON PASWORD NORMAL    
+     //->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    else {
       const foundRole: TypeRole = await db.Role.findOne({
         where: { name: "user" },
         raw: true,

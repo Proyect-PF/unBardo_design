@@ -7,13 +7,13 @@ import {
 }  from '../controllers/email/index';
 
 /**
- * Enrutador para el envío de correos electrónicos.
+ //TODO: RUTA Enrutador para el envío de correos electrónicos.
  */
 const emailRoutes = express.Router();
 
 /**
- * Enviar un correo electrónico a todos los usuarios registrados.
- *
+ * 
+ //TODO: RUTA Enviar un correo electrónico a todos los usuarios registrados.
  * @name Enviar correo electrónico a todos los usuarios
  * @route {POST} /all
  * @function
@@ -21,7 +21,7 @@ const emailRoutes = express.Router();
 emailRoutes.post('/all', sendEmailToAllController);
 
 /**
- * Enviar un correo electrónico de confirmación a un usuario por ID.
+//TODO: RUTA Enviar un correo electrónico de confirmación a un usuario por ID.
  *
  * @name Enviar correo electrónico de confirmación a un usuario
  * @route {POST} /confirmation/:id
@@ -32,7 +32,7 @@ emailRoutes.post('/all', sendEmailToAllController);
 emailRoutes.post('/confirmation/:id', sendConfirmationEmailController);
 
 /**
- * Enviar un correo electrónico a un usuario por ID.
+ //TODO: RUTA Enviar un correo electrónico a un usuario por ID.
  *
  * @name Enviar correo electrónico a un usuario
  * @route {POST} /

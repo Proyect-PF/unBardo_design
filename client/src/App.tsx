@@ -64,7 +64,7 @@ function App() {
             <Route path="/panel" element={<AdminP />} />
           </Routes>
         </div>
-
+        
         <div className="fixed z-40 right-8 bottom-24">
           {chatbot ? <ChatBotComponent /> : null}
         </div>

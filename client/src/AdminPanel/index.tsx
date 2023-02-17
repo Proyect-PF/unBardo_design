@@ -8,6 +8,7 @@ import { adminActions } from "./AdminRedux";
 import { State } from "../state/reducers";
 import { useNavigate } from "react-router-dom";
 import EmailList from "./Email";
+import { Barchar } from "./bar";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
@@ -23,6 +24,7 @@ const AdminP = (): JSX.Element => {
 
   return (
     <div className="flex flex-row justify-between">
+
       <div className="flex flex-col gap-8 px-2 py-12 text-2xl font-bold border-r">
         <button onClick={() => setPanel("info")}>Resumen</button>
         <button onClick={() => setPanel("products")}>Productos</button>
@@ -30,6 +32,7 @@ const AdminP = (): JSX.Element => {
         {/* <button onClick={() => setPanel("sales")}>Promociones</button>*/}
         <button onClick={() => setPanel("newsletter")}>Newsletter</button>
       </div>
+
       <div className="w-full ">
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
@@ -37,6 +40,7 @@ const AdminP = (): JSX.Element => {
         {/* {panel == "sales" && <div>Sales</div>}*/}
         {panel == "newsletter" && <EmailList />}
       </div>
+
     </div>
   );
 };

@@ -4,6 +4,8 @@ import Button from "../../components/Buttons/Button/Button";
 import Input from "../../components/Inputs/Input";
 import { validateUnsubscribe } from "../../components/UserSign/validates";
 import rmv from "../../assets/svg/user-remove.svg";
+import axios from "axios";
+import { baseURL, PORT } from "../../utils/url&port";
 
 const Newsletter = () => {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -34,7 +36,12 @@ const Newsletter = () => {
               cancelButtonText: '<p class="font-rift text-lg">No</p>',
               focusConfirm: false,
             })
-            .then((result) => {});
+            .then((result) => {
+              axios.put(`${baseURL}:${PORT}/users/newsletter/subscription`, {
+                email: values.email,
+                newsletter: "false",
+              });
+            });
         }}
       >
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (

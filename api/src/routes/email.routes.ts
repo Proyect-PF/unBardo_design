@@ -29,7 +29,7 @@ emailRoutes.post('/all', sendEmailToAllController);
  *
  * @param {string} id - El ID del usuario que debe recibir el correo electrónico de confirmación.
  */
-emailRoutes.post('/confirmation/:id', sendConfirmationEmailController);
+// emailRoutes.post('/confirmation', sendConfirmationEmailController);
 
 /**
  //TODO: RUTA Enviar un correo electrónico a un usuario por ID.

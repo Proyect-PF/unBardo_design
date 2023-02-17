@@ -2,7 +2,7 @@ import db from "../database/database";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import getErrorMessage from "./handleErrorCatch";
-import { TypeUser } from "../types";
+import { State, TypeUser } from "../types";
 
 dotenv.config();
 
@@ -67,3 +67,10 @@ export const USER: TypeUser = {
   password: USER_PASSWORD,
   role: USER_ROLE,
 };
+
+export const state:State = {} 
+if(Boolean(process.env.STATE_DB)){
+  state.force = true
+}else {
+  state.alter = true
+}

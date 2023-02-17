@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { State } from "../../state/reducers";
 import { adminActions } from "../AdminRedux";
-import { Barchar } from "../bar";
+import { LineGraph } from "../../components/Graphs/LineGraph";
 
 const InformationPanel = () => {
   const { allProducts, allOrders, allUsers } = useSelector(
@@ -22,11 +22,11 @@ const InformationPanel = () => {
 
   return (
     <div>
-            <div className="flex flex-col mx-4">
-        <Barchar/>
-      </div>
       {allProducts && allOrders && allUsers && (
         <div className="flex flex-col gap-8 m-10">
+          <div className="w-96">
+            <LineGraph />
+          </div>
           <p className="text-2xl font-bold">Estadisticas:</p>
           <div className="flex flex-row gap-20 mx-8">
             <div className="w-40">

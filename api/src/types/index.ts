@@ -4,7 +4,11 @@ export type TypeImage = {
 export type TypeOrderProducts = {};
 export type TypeOrders = {};
 export type TypeProductVariant = {};
-
+//State app index
+export type State = {
+  alter?: boolean;
+  force?: boolean;
+}
 // SOLO PARA DEFINICION - TIPOS GLOBALES
 // ?: El campo puede existir o no. Permitiendo redefinir el modelo
 export type TypeUser = {

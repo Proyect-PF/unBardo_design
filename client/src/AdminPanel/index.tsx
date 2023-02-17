@@ -8,7 +8,6 @@ import { adminActions } from "./AdminRedux";
 import { State } from "../state/reducers";
 import { useNavigate } from "react-router-dom";
 import EmailList from "./Email";
-import { Barchar } from "./bar";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");

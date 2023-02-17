@@ -11,16 +11,21 @@ import SizeSelector from "../../components/Inputs/SizeSelector/SizeSelector";
 import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
 import { getItem } from "../../utils/localStorage";
+import logged from "../../assets/svg/logged.svg"
+import Swal from "sweetalert2";
 
 const Details = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { fetch_product_detail, addCheckout } = bindActionCreators(
+  const { fetch_product_detail, addCheckout, setFavorite, getFavorites, deleteFavorite } = bindActionCreators(
     actionCreators,
     dispatch
   );
+
   const { productDetails } = useSelector((state: State) => state.products);
+  const { userId, success } = useSelector((state: State) => state.user);
+  const { products_id } = useSelector((state: State) => state.favorites);
   //AL: loading state for loading implementation (done)
   const [loading, setLoading] = useState(true);
   //AL: size / amount state retrieve the selection for future add to cart implementation
@@ -50,6 +55,8 @@ const Details = (): JSX.Element => {
       productDetails.image4 ? productDetails.image4 : "",
     ]);
   }, [productDetails]);
+
+
 
   //AL: this function manages the add to cart functionality, needs to be implemented
   const handleCart = (e: any) => {
@@ -131,6 +138,48 @@ const Details = (): JSX.Element => {
       return 1;
     }
   };
+
+  const isFavorite = () => {
+    let findProduct = products_id.find(x => x === productDetails.id)
+    if(!findProduct) return false;
+    return true;
+  }
+
+  const handleFavorite = () => {
+    if(success){
+      if(isFavorite()){
+        deleteFavorite({
+          id_product: productDetails.id,
+          id_user: userId
+        }, getFavorites)
+      } else {
+        setFavorite({
+          id_product: productDetails.id,
+          id_user: userId
+        }, getFavorites)
+      }
+    } else {
+      Swal.fire({
+        imageUrl: logged,
+        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: "#000",
+        cancelButtonColor: "#e5e7eb",
+        cancelButtonText: "<p class='font-rift text-lg text-black'>Por ahora no</p>",
+        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
+        reverseButtons: true,
+        html: 
+        '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder agregar productos a tus favoritos</p>',
+        //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/account/login')
+        } 
+      })
+    }
+  }
+
   return (
     <div>
       <div
@@ -189,7 +238,7 @@ const Details = (): JSX.Element => {
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex items-center justify-center">
               <Button
                 className={"justify-center"}
                 type="button"
@@ -198,6 +247,11 @@ const Details = (): JSX.Element => {
                 name="Carrito"
                 disabled={size === ""}
               />
+              <svg width="45" height="40" viewBox="0 0 20 18" fill={isFavorite() ? "black": "none"} xmlns="http://www.w3.org/2000/svg"
+              className="pl-4 pt-3 hover:cursor-pointer duration-300"
+              onClick={handleFavorite}>
+              <path d="M2.3314 9.04738L10 17L17.6686 9.04738C18.5211 8.16332 19 6.96429 19 5.71405C19 3.11055 16.9648 1 14.4543 1C13.2487 1 12.0925 1.49666 11.24 2.38071L10 3.66667L8.75997 2.38071C7.90749 1.49666 6.75128 1 5.54569 1C3.03517 1 1 3.11055 1 5.71405C1 6.96429 1.47892 8.16332 2.3314 9.04738Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
           </div>
         </div>

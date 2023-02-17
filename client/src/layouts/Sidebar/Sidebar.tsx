@@ -7,6 +7,7 @@ import login from "../../assets/svg/log-in.svg";
 import outIcon from "../../assets/svg/out-session.svg";
 import logo from "../../assets/svg/principal-logo.svg";
 import userIcon from "../../assets/svg/user-icon.svg";
+import heart from "../../assets/svg/heart.svg"
 import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
 
@@ -18,7 +19,7 @@ interface Props {
 const Sidebar = ({ openClose, handleChange }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userLogout } = bindActionCreators(actionCreators, dispatch);
+  const { userLogout, logOutFavorites } = bindActionCreators(actionCreators, dispatch);
   const { success, userType } = useSelector((state: State) => state.user);
 
   let style: string;
@@ -43,12 +44,17 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         break;
       case "logout":
         userLogout();
+        logOutFavorites();
         handleChange();
         navigate("/");
         break;
       case "profile":
         handleChange();
         navigate(`/profile/${id}`);
+        break;
+      case "favorites":
+        handleChange();
+        navigate(`/favorites`);
         break;
       case "help":
         break;
@@ -98,6 +104,15 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
                   ? "Mi perfil"
                   : ""}
               </p>
+            </div>
+            {/** FAVORITOS */}
+            <div
+              onClick={handleClick}
+              id="favorites"
+              className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
+            >
+              <img src={heart} alt="Favorites" className="h-6" />
+              <p className="pl-4">Favoritos</p>
             </div>
             {/** CERRAR SESION */}
             <div

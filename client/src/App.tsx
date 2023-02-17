@@ -41,12 +41,18 @@ function App() {
     }
   };
   return (
-    <div className=" font-rift">
+    <div className=" font-poppins">
       <BrowserRouter>
         <Searchbar openClose={search} handleSearch={handleSearch} />
         <Sidebar openClose={openClose} handleChange={handleChange} />
         <Navbar handleChange={handleChange} handleSearch={handleSearch} />
         <div className="pt-28">
+          {chatbot ? (
+            <div
+              className="fixed z-30 w-full h-screen"
+              onClick={() => setChatbot(false)}
+            />
+          ) : null}
           <Routes>
             <Route path="*" element={<Page404 />} />
             <Route path="/" element={<Home />} />

@@ -287,12 +287,6 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
             throw new Error(`No product updated with id ${id}`);
         }
 
-        await db.Image.destroy({
-            where: {
-                productId: id,
-            },
-        });
-
         const createdImages = [];
         for (const key in images) {
             if (key.startsWith("image")) {

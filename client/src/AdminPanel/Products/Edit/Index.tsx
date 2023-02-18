@@ -9,8 +9,8 @@ import FileUpload from "../Create/FileUploader";
 import Swal from "sweetalert2";
 import trash from "../../../assets/svg/trash.svg";
 import edit from "../../../assets/svg/pencil-alt.svg";
-import { ToastContainer, toast } from "react-toastify";
 import ButtonSmall from "../../../components/Buttons/ButtonSmall/ButtonSmall";
+import Toast from "../../../components/Toast";
 
 type Props = {
   className: string;
@@ -31,28 +31,25 @@ const Edit = ({ className }: Props): JSX.Element => {
     swalWithBootstrapButtons
       .fire({
         title:
-          '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
-        imageUrl: trash,
+          '<p class="mt-4 text-4xl font-bold  text-black">¿Estás seguro?</p>',
         html: '<p class="font-poppins font-medium text-black italic" >Eliminaras este producto definitivamente</p>',
         showCancelButton: true,
         showConfirmButton: true,
-        confirmButtonColor: "#e5e7eb",
-        cancelButtonColor: "#000",
-        confirmButtonText:
-          '<p class="font-rift text-lg text-black">Si, Remover!</p>',
-        cancelButtonText: '<p class="font-rift text-lg">No, cancelar!</p>',
+        confirmButtonColor: "#ED5E68",
+        cancelButtonColor: "#e5e7eb",
+        confirmButtonText: '<p class=" text-lg text-black">Si, Remover!</p>',
+        cancelButtonText: '<p class=" text-lg text-black">No, cancelar!</p>',
         focusConfirm: false,
       })
       .then((result) => {
         if (result.isConfirmed) {
-          adminActions.ADMdelete_product(productDetails.id, toast);
+          adminActions.ADMdelete_product(productDetails.id, Toast);
         }
       });
   };
 
   return (
     <div className={className}>
-      <ToastContainer />
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -66,6 +63,9 @@ const Edit = ({ className }: Props): JSX.Element => {
           price: productDetails.price,
           show_in_shop: productDetails.show_in_shop ? "true" : "false",
           image: productDetails.image,
+          image2: productDetails.image2,
+          image3: productDetails.image3,
+          image4: productDetails.image4,
           promotion: productDetails.promotion ? "true" : "false",
           promotional_price: productDetails.promotional_price,
         }}
@@ -73,17 +73,15 @@ const Edit = ({ className }: Props): JSX.Element => {
           swalWithBootstrapButtons
             .fire({
               title:
-                '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
-              imageUrl: edit,
+                '<p class="mt-4 text-4xl font-bold text-black">¿Estás seguro?</p>',
               html: '<p class="font-poppins font-medium text-black italic" >Editaras este producto definitivamente</p>',
               showCancelButton: true,
               showConfirmButton: true,
-              confirmButtonColor: "#e5e7eb",
-              cancelButtonColor: "#000",
-              confirmButtonText:
-                '<p class="font-rift text-lg text-black">Si, Editar!</p>',
+              confirmButtonColor: "#376B7E",
+              cancelButtonColor: "#e5e7eb",
+              confirmButtonText: '<p class="text-lg ">Si, editar!</p>',
               cancelButtonText:
-                '<p class="font-rift text-lg">No, cancelar!</p>',
+                '<p class="text-lg text-black">No, cancelar!</p>',
               focusConfirm: false,
             })
             .then((result) => {
@@ -96,7 +94,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                     show_in_shop: values.show_in_shop === "true" ? true : false,
                     promotion: values.promotion === "true" ? true : false,
                   },
-                  toast
+                  Toast
                 );
               }
             });
@@ -268,9 +266,17 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-
             <div className="flex flex-col gap-4">
-              <p>Imagenes:</p>
+              <p>Imagenes actuales:</p>
+              <div className="flex flex-row w-40 gap-8">
+                {values.image && <img src={values.image} />}
+                {values.image2 && <img src={values.image2} />}
+                {values.image3 && <img src={values.image3} />}
+                {values.image4 && <img src={values.image4} />}
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <p>Cargar imagenes:</p>
               <div>
                 <p>Principal:</p>
                 <FileUpload

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import discount from "../../../assets/svg/receipt-tax.svg";
+import discount from "../../../assets/svg/googleIcons/promo.svg";
 
 interface Props {
   image: string;
@@ -28,28 +28,24 @@ const Product = ({
       <Link to={`/product/${id}`}>
         {image2 && (
           <img
-            className="absolute w-56 m-auto border-b-2 border-black opacity-0 hover:opacity-100"
+            className="absolute w-56 m-auto opacity-0 hover:opacity-100"
             alt=" tshirt"
             src={image2}
           />
         )}
-        <img
-          className="w-56 m-auto border-b-2 border-black"
-          alt="black tshirt"
-          src={image}
-        />
-        <div className="flex flex-col mt-3 ml-3 ">
-          <p className="text-lg font-semibold ">{name.toUpperCase()}</p>
+        <img className="w-56 m-auto" alt="black tshirt" src={image} />
+        <div className="flex flex-col mt-3 ">
+          <p className="text-lg text-center">{name.toUpperCase()}</p>
 
           {promotion ? (
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row justify-center gap-2">
               <p className="text-lg font-medium ">$ {promotional_price}</p>
               <p className="italic font-medium line-through text-medium ">
                 $ {price}
               </p>
             </div>
           ) : (
-            <p className="text-lg font-medium ">$ {price}</p>
+            <p className="text-lg font-medium text-center">$ {price}</p>
           )}
         </div>
       </Link>

@@ -1,6 +1,5 @@
 import { Formik } from "formik";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
@@ -8,6 +7,7 @@ import { adminActions } from "../../AdminRedux";
 import FileUpload from "./FileUploader";
 import check from "../../../assets/svg/check.svg";
 import ButtonSmall from "../../../components/Buttons/ButtonSmall/ButtonSmall";
+import Toast from "../../../components/Toast";
 
 type Props = {
   className: string;
@@ -25,7 +25,6 @@ const Create = ({ className }: Props): JSX.Element => {
 
   return (
     <div className={className}>
-      <ToastContainer />
       <Formik
         initialValues={{
           name: "",
@@ -38,6 +37,9 @@ const Create = ({ className }: Props): JSX.Element => {
           price: 0,
           show_in_shop: "true",
           image: "",
+          image2: "",
+          image3: "",
+          image4: "",
           promotion: "false",
           promotional_price: 0,
         }}
@@ -46,18 +48,14 @@ const Create = ({ className }: Props): JSX.Element => {
             .fire({
               title:
                 '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
-              imageUrl: check,
               html: '<p class="font-poppins font-medium text-black italic" >Quieres crear el producto?</p>',
               showCancelButton: true,
               showConfirmButton: true,
-              confirmButtonColor: "#000",
+              confirmButtonColor: "#376B7E",
               cancelButtonColor: "#e5e7eb",
-              confirmButtonText:
-                '<p class="font-rift text-lg text-white">Si, Crear!</p>',
-              cancelButtonText:
-                '<p class="font-rift text-lg text-black">No, cancelar!</p>',
+              cancelButtonText: "<p class='text-lg text-black'>Cancelar</p>",
+              confirmButtonText: "<p class='text-lg'>Si, crear!</p>",
               focusConfirm: false,
-              reverseButtons: true,
             })
             .then((result) => {
               if (result.isConfirmed) {
@@ -69,7 +67,7 @@ const Create = ({ className }: Props): JSX.Element => {
                     promotion: values.promotion === "true" ? true : false,
                     promotional_price: values.promotional_price,
                   },
-                  toast
+                  Toast
                 );
                 resetForm();
               }
@@ -248,7 +246,15 @@ const Create = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-
+            <div className="flex flex-col gap-4">
+              <p>Imagenes actuales:</p>
+              <div className="flex flex-row w-40 gap-8">
+                {values.image && <img src={values.image} />}
+                {values.image2 && <img src={values.image2} />}
+                {values.image3 && <img src={values.image3} />}
+                {values.image4 && <img src={values.image4} />}
+              </div>
+            </div>
             <div className="flex flex-col gap-4">
               <p>Imagenes:</p>
               <div>
@@ -302,7 +308,10 @@ const Create = ({ className }: Props): JSX.Element => {
                     text="quitar imagen"
                     name="rmvImg"
                     onClick={() => {
-                      if (imgNumb > 0) setImgNumb(imgNumb - 1);
+                      if (imgNumb > 0) {
+                        setFieldValue(`image${imgNumb + 2}`, "");
+                        setImgNumb(imgNumb - 1);
+                      }
                     }}
                     disabled={false}
                     type="button"

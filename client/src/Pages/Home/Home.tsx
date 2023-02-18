@@ -1,14 +1,7 @@
-// import { Cloudinary } from "@cloudinary/url-gen";
-// import { AdvancedImage } from "@cloudinary/react";
-// import { fill } from "@cloudinary/url-gen/actions/resize";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import photo from "../../assets/images/homep.jpg";
-import ig1 from "../../assets/images/ig1.jpg";
-import ig2 from "../../assets/images/ig2.jpg";
-import imageB from "../../assets/images/remeras/unbardo-07B.png";
-// import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import Button from "../../components/Buttons/Button/Button";
 import Product from "../../components/Cards/Product/Product";
 import Dropdown from "../../components/DropDowns/dropdown";
@@ -17,18 +10,14 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { fetch_products, clear_product_detail, getFavorites } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
+  const { fetch_products, clear_product_detail, getFavorites } =
+    bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
   const { productList, productTotal } = useSelector(
     (state: State) => state.products
   );
-  const { userId } = useSelector(
-    (state: State) => state.user
-  );
-
+  const { userId } = useSelector((state: State) => state.user);
+    console.log("a home")
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
 
@@ -46,8 +35,8 @@ const Home = () => {
   useEffect(() => {
     if (productTotal.length > 0) setLoading(false);
     clear_product_detail();
-    getFavorites(userId)
-  }, [productTotal]);
+    userId && getFavorites(userId);
+  }, [productTotal, userId]);
 
   return (
     <div>
@@ -65,7 +54,7 @@ const Home = () => {
           </div>
         )}
         <img className="object-none w-full h-48" alt="homepage" src={photo} />
-        <p className="p-5 font-bold text-center font-anisette">
+        <p className="p-5 text-3xl font-bold text-center font-rift">
           WELCOME TO THE JUNGLE
         </p>
         <Dropdown />
@@ -87,6 +76,7 @@ const Home = () => {
                     />
                   );
                 }
+                return <></>;
               })}
             </div>
           ) : (

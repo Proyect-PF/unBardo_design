@@ -8,6 +8,7 @@ import { adminActions } from "./AdminRedux";
 import { State } from "../state/reducers";
 import { useNavigate } from "react-router-dom";
 import EmailList from "./Email";
+import Pricing from "./Pricing";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
@@ -19,27 +20,26 @@ const AdminP = (): JSX.Element => {
   useEffect(() => {
     if (userType !== "admin") navigate("/");
     ADMfetch_products();
+    
   }, []);
-
+  console.log("a")
   return (
     <div className="flex flex-row justify-between">
-
       <div className="flex flex-col gap-8 px-2 py-12 text-2xl font-bold border-r">
         <button onClick={() => setPanel("info")}>Resumen</button>
         <button onClick={() => setPanel("products")}>Productos</button>
         <button onClick={() => setPanel("orders")}>Ordenes</button>
-        {/* <button onClick={() => setPanel("sales")}>Promociones</button>*/}
         <button onClick={() => setPanel("newsletter")}>Newsletter</button>
+        <button onClick={() => setPanel("pricing")}>Tarifas</button>
       </div>
 
       <div className="w-full ">
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
-        {panel == "info" && <InformationPanel />}
-        {/* {panel == "sales" && <div>Sales</div>}*/}
-        {panel == "newsletter" && <EmailList />}
+        {panel === "info" && <InformationPanel />}
+        {panel === "newsletter" && <EmailList />}
+        {panel === "pricing" && <Pricing />}
       </div>
-
     </div>
   );
 };

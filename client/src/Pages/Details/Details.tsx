@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+
 import { bindActionCreators } from "redux";
 import Button from "../../components/Buttons/Button/Button";
 import ImageSlider from "../../components/ImageSlider";
@@ -12,15 +11,23 @@ import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
 import { getItem } from "../../utils/localStorage";
 import Swal from "sweetalert2";
+import plus from "../../assets/svg/googleIcons/plus.svg";
+import minus from "../../assets/svg/googleIcons/minus.svg";
+import heartF from "../../assets/svg/googleIcons/heart.svg";
+import heartUF from "../../assets/svg/googleIcons/heartunfilled.svg";
+import Toast from "../../components/Toast";
 
 const Details = (): JSX.Element => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { fetch_product_detail, addCheckout, setFavorite, getFavorites, deleteFavorite } = bindActionCreators(
-    actionCreators,
-    dispatch
-  );
+  const {
+    fetch_product_detail,
+    addCheckout,
+    setFavorite,
+    getFavorites,
+    deleteFavorite,
+  } = bindActionCreators(actionCreators, dispatch);
 
   const { productDetails } = useSelector((state: State) => state.products);
   const { userId, success } = useSelector((state: State) => state.user);
@@ -35,6 +42,10 @@ const Details = (): JSX.Element => {
   const id = Number(idS);
   //image state for the slider
   const [images, setImages] = useState<string[]>([]);
+  //state for the description
+  const [desc, showDesc] = useState(false);
+  //state for the sizes chart
+  const [sChart, showSChart] = useState(false);
 
   //AL:Same loading implementation as HOME page
   useEffect(() => {
@@ -55,8 +66,6 @@ const Details = (): JSX.Element => {
     ]);
   }, [productDetails]);
 
-
-
   //AL: this function manages the add to cart functionality, needs to be implemented
   const handleCart = (e: any) => {
     e.preventDefault();
@@ -73,15 +82,9 @@ const Details = (): JSX.Element => {
     addCheckout(payload);
     setSize("");
     setAmmount(1);
-    toast.success("Se añadió correctamente!", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
+    Toast.fire({
+      icon: "success",
+      title: "<p class='font-bold font-rift text-black'>Se añadió correctamente!</p>",
     });
   };
 
@@ -139,44 +142,51 @@ const Details = (): JSX.Element => {
   };
 
   const isFavorite = () => {
-    let findProduct = products_id.find(x => x === productDetails.id)
-    if(!findProduct) return false;
+    let findProduct = products_id.find((x) => x === productDetails.id);
+    if (!findProduct) return false;
     return true;
-  }
+  };
 
   const handleFavorite = () => {
-    if(success){
-      if(isFavorite()){
-        deleteFavorite({
-          id_product: productDetails.id,
-          id_user: userId
-        }, getFavorites)
+    if (success) {
+      if (isFavorite()) {
+        deleteFavorite(
+          {
+            id_product: productDetails.id,
+            id_user: userId,
+          },
+          getFavorites
+        );
       } else {
-        setFavorite({
-          id_product: productDetails.id,
-          id_user: userId
-        }, getFavorites)
+        setFavorite(
+          {
+            id_product: productDetails.id,
+            id_user: userId,
+          },
+          getFavorites
+        );
       }
     } else {
       Swal.fire({
-        title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
+        title:
+          "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,
         confirmButtonColor: "#000",
         cancelButtonColor: "#e5e7eb",
-        cancelButtonText: "<p class='font-rift text-lg text-black'>Por ahora no</p>",
+        cancelButtonText:
+          "<p class='font-rift text-lg text-black'>Por ahora no</p>",
         confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
         reverseButtons: true,
-        html: 
-        '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder agregar productos a tus favoritos</p>',
+        html: '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder agregar productos a tus favoritos</p>',
         //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate('/account/login')
-        } 
-      })
+          navigate("/account/login");
+        }
+      });
     }
-  }
+  };
 
   return (
     <div>
@@ -188,35 +198,35 @@ const Details = (): JSX.Element => {
         <div className="border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin"></div>
       </div>
       <div
-        className={`flex flex-col md:flex-row md:gap-5 ${
+        className={`flex flex-col md:flex-row md:gap-5 md:mx-20 md:mt-12 ${
           loading ? "hidden" : "visible"
         }`}
       >
         <ImageSlider slides={images} />
-        <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8">
+        <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8 md:mx-20 md:h-fit">
           <div>
-            <p className="mt-4 text-4xl font-bold ">{productDetails.name}</p>
+            <p className="my-4 text-3xl font-medium text-center md:text-left ">
+              {productDetails.name}
+            </p>
 
             {stock > 0 ? (
               productDetails.promotion ? (
-                <div className="flex flex-row gap-4">
-                  <p className="my-2 text-3xl font-bold">{`$ ${productDetails.promotional_price}`}</p>
-                  <p className="my-2 text-xl italic font-bold text-gray-400 line-through">{`$ ${productDetails.price}`}</p>
+                <div className="flex flex-row justify-center gap-4 md:justify-start">
+                  <p className="my-2 text-3xl">{`$ ${productDetails.promotional_price}`}</p>
+                  <p className="my-2 text-xl italic text-gray-400 line-through">{`$ ${productDetails.price}`}</p>
                 </div>
               ) : (
-                <p className="my-2 text-3xl font-bold ">{`$ ${productDetails.price}`}</p>
+                <p className="my-2 text-3xl ">{`$ ${productDetails.price}`}</p>
               )
             ) : (
               <div className="flex flex-row gap-4">
-                <p className="my-2 text-3xl italic font-bold text-gray-500 line-through">{`$ ${productDetails.price}`}</p>
-                <p className="my-2 text-xl italic font-bold ">Out of Stock</p>
+                <p className="my-2 text-3xl italic text-gray-500 line-through">{`$ ${productDetails.price}`}</p>
+                <p className="my-2 text-xl italic font-medium ">Out of Stock</p>
               </div>
             )}
-
-            <p className="my-2 text-lg italic font-medium font-poppins">{`${productDetails.description}`}</p>
           </div>
           <div>
-            <div className="flex justify-around my-8 text-lg text-center">
+            <div className="flex justify-around my-8 text-lg text-center md:justify-center md:w-fit">
               <SizeSelector
                 detailId={productDetails.id}
                 selected={size}
@@ -236,7 +246,7 @@ const Details = (): JSX.Element => {
               />
             </div>
 
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center gap-4 ">
               <Button
                 className={"justify-center"}
                 type="button"
@@ -245,16 +255,72 @@ const Details = (): JSX.Element => {
                 name="Carrito"
                 disabled={size === ""}
               />
-              <svg width="45" height="40" viewBox="0 0 20 18" fill={isFavorite() ? "black": "none"} xmlns="http://www.w3.org/2000/svg"
-              className="pl-4 pt-3 hover:cursor-pointer duration-300"
-              onClick={handleFavorite}>
-              <path d="M2.3314 9.04738L10 17L17.6686 9.04738C18.5211 8.16332 19 6.96429 19 5.71405C19 3.11055 16.9648 1 14.4543 1C13.2487 1 12.0925 1.49666 11.24 2.38071L10 3.66667L8.75997 2.38071C7.90749 1.49666 6.75128 1 5.54569 1C3.03517 1 1 3.11055 1 5.71405C1 6.96429 1.47892 8.16332 2.3314 9.04738Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <img
+                src={isFavorite() ? heartF : heartUF}
+                onClick={handleFavorite}
+                className="h-6 mt-4 cursor-pointer"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 mt-8 md:mt-20">
+            <div
+              className="flex flex-row justify-between py-2 border-t border-b"
+              onClick={() => showDesc(desc ? false : true)}
+            >
+              <p className="text-lg font-medium ">DESCRIPCION</p>
+              <img src={desc ? minus : plus} className="h-6" />
+            </div>
+            <p
+              className={` text-lg italic  ${desc ? "visible" : "hidden"}`}
+            >{`${productDetails.description}`}</p>
+            <div
+              className="flex flex-row justify-between py-2 border-t border-b"
+              onClick={() => showSChart(sChart ? false : true)}
+            >
+              <p className="text-lg font-medium ">TALLES</p>
+              <img src={sChart ? minus : plus} className="h-6" />
+            </div>
+            <div
+              className={`flex flex-col gap-2 ${sChart ? "visible" : "hidden"}`}
+            >
+              <div>
+                <p>Talle 1:</p>
+                <div className="mx-20">
+                  <div className="flex gap-4">
+                    <p className="w-16">Ancho: </p>
+                    <p>56 cm</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <p className="w-16">Largo: </p>
+                    <p>70 cm</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <p className="w-16">Manga: </p>
+                    <p>24 cm</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p>Talle 2:</p>
+                <div className="mx-20">
+                  <div className="flex gap-4">
+                    <p className="w-16">Ancho: </p>
+                    <p>60 cm</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <p className="w-16">Largo: </p>
+                    <p>74 cm</p>
+                  </div>
+                  <div className="flex gap-4">
+                    <p className="w-16">Manga: </p>
+                    <p>26 cm</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

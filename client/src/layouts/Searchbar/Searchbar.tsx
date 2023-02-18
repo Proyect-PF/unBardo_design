@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router";
 import { bindActionCreators } from "redux";
 import comeBack from "../../assets/svg/come-back.svg";
-import searchIcon from "../../assets/svg/search.svg";
+import searchIcon from "../../assets/svg/googleIcons/search.svg";
 import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
 
@@ -45,11 +45,11 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
 
   return (
     <div
-      className={`flex flex-col fixed z-50 top-24 ${style} bg-white w-full  z-40 text-xl border-t`}
+      className={`flex flex-col fixed z-30 top-24 ${style} bg-white w-full  z-40 text-xl border-t`}
     >
       <div className="flex justify-between w-full h-16 border-b border-gray-300">
         <button onClick={handleSearch} className="px-5">
-          <img src={comeBack} alt="icono" className="h-5" />
+          <img src={comeBack} alt="icono" className="h-5 sm:h-4" />
         </button>
         <form onSubmit={handleSubmit} className="flex w-full">
           <input
@@ -60,7 +60,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
             className="w-full bg-white h-13 focus:outline-0"
           />
           <button type="submit" disabled={input === ""}>
-            <img src={searchIcon} alt="iconSea" className="h-10 px-5" />
+            <img src={searchIcon} alt="iconSea" className="h-12 px-5 sm:h-8" />
           </button>
           {/*
           <button

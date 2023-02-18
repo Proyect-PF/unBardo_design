@@ -10,11 +10,11 @@ import {
   ActionProducts,
   ActionUser,
 } from "../actions";
-import alertIcon from "../../assets/svg/alert.svg";
 import { Checkout, Product, ProductState } from "../types";
-import { Favorites, OrderDetails, SetFavoritePayload } from "../../types/types";
+import { OrderDetails, SetFavoritePayload } from "../../types/types";
 import { User } from "../../types/types";
 import { PORT, baseURL } from "../../utils/url&port";
+import Toast from "../../components/Toast";
 
 //AL: Here we're defining the actions to be consumed in the components
 
@@ -175,12 +175,10 @@ export const userRegister = (registerLogin: Function, user?: User) => {
     .post(`${baseURL}:${PORT}/auth/signup`, user)
     .then((response) => {
       Swal.fire({
-        imageHeight: 80,
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
         showConfirmButton: true,
-
-        confirmButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
         confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
         html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
@@ -191,12 +189,10 @@ export const userRegister = (registerLogin: Function, user?: User) => {
     })
     .catch((err) => {
       Swal.fire({
-        imageUrl: alertIcon,
-        imageHeight: 80,
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
         showConfirmButton: true,
-        confirmButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
         confirmButtonText:
           "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
         html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
@@ -221,18 +217,6 @@ export const userLogin = (user: User, navigate: any) => {
 
         navigate("/");
 
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "bottom",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
-
         Toast.fire({
           icon: "success",
           title:
@@ -241,12 +225,10 @@ export const userLogin = (user: User, navigate: any) => {
       })
       .catch((err) => {
         Swal.fire({
-          imageUrl: alertIcon,
-          imageHeight: 80,
           title:
             "<p class='text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
           showConfirmButton: true,
-          confirmButtonColor: "#000",
+          confirmButtonColor: "#376B7E",
           confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
           html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
         });
@@ -299,13 +281,10 @@ export const getOrderDetails = (
 ) => {
   return async (dispatch: Dispatch<ActionOrderCheckout>) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3700/orders/feedback",
-        {
-          payment_id,
-          external_reference,
-        }
-      );
+      const response = await axios.post(`${baseURL}:${PORT}/orders/feedback`, {
+        payment_id,
+        external_reference,
+      });
       dispatch(getOrderDetailsSuccess(response.data));
       // console.log(response.data);
     } catch (error) {
@@ -316,115 +295,74 @@ export const getOrderDetails = (
 
 export const getFavorites = (id: number) => {
   return (dispatch: Dispatch<ActionFavorites>) => {
-    axios.get(`${baseURL}:${PORT}/favorites/${id}`)
-    .then((res) => {
-      const payload = res.data;
-      dispatch({
-        type: ActionType.GET_FAVORITES,
-        payload
+    axios
+      .get(`${baseURL}:${PORT}/favorites/${id}`)
+      .then((res) => {
+        const payload = res.data;
+        dispatch({
+          type: ActionType.GET_FAVORITES,
+          payload,
+        });
       })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
-}
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 export const setFavorite = (payload: SetFavoritePayload, getFavorites: any) => {
   return (dispatch: Dispatch<ActionFavorites>) => {
-    axios.post(`${baseURL}:${PORT}/favorites`, payload)
-    .then((res) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
+    axios
+      .post(`${baseURL}:${PORT}/favorites`, payload)
+      .then((res) => {
+        Toast.fire({
+          icon: "success",
+          title:
+            "<p class='font-bold font-rift text-black'>Se agregó a tus favoritos</p>",
+        });
+        getFavorites(payload.id_user);
+      })
+      .catch((err) => {
+        Toast.fire({
+          icon: "error",
+          title:
+            "<p class='font-bold font-rift text-black'>No se pudo agregar a tus favoritos</p>",
+        });
       });
+  };
+};
 
-      Toast.fire({
-        icon: "success",
-        title:
-          "<p class='font-bold font-rift text-black'>Se agregó a tus favoritos</p>",
-      });
-      getFavorites(payload.id_user)
-    })
-    .catch((err) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "error",
-        title:
-          "<p class='font-bold font-rift text-black'>No se pudo agregar a tus favoritos</p>",
-    })
-  })
-  }
-}
-
-export const deleteFavorite = (payload: SetFavoritePayload, getFavorites: any) => {
+export const deleteFavorite = (
+  payload: SetFavoritePayload,
+  getFavorites: any
+) => {
   return (dispatch: Dispatch<ActionFavorites>) => {
-    axios.delete(`${baseURL}:${PORT}/favorites?id_user=${payload.id_user}&id_product=${payload.id_product}`,)
-    .then((res) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
+    axios
+      .delete(
+        `${baseURL}:${PORT}/favorites?id_user=${payload.id_user}&id_product=${payload.id_product}`
+      )
+      .then((res) => {
+        Toast.fire({
+          icon: "success",
+          title:
+            "<p class='font-bold font-rift text-black'>Se eliminó de tus favoritos</p>",
+        });
+        getFavorites(payload.id_user);
+      })
+      .catch((err) => {
+        Toast.fire({
+          icon: "error",
+          title:
+            "<p class='font-bold font-rift text-black'>No se pudo eliminar de tus favoritos</p>",
+        });
       });
-
-      Toast.fire({
-        icon: "success",
-        title:
-          "<p class='font-bold font-rift text-black'>Se eliminó de tus favoritos</p>",
-      });
-      getFavorites(payload.id_user)
-    })
-    .catch((err) => {
-      const Toast = Swal.mixin({
-        toast: true,
-        position: "bottom",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-          toast.addEventListener("mouseenter", Swal.stopTimer);
-          toast.addEventListener("mouseleave", Swal.resumeTimer);
-        },
-      });
-
-      Toast.fire({
-        icon: "error",
-        title:
-          "<p class='font-bold font-rift text-black'>No se pudo eliminar de tus favoritos</p>",
-    })
-  })
-  }
-}
+  };
+};
 
 export const logOutFavorites = () => {
   return (dispatch: Dispatch<ActionFavorites>) => {
-      dispatch({
-        type: ActionType.LOG_OUT_FAVORITES,
-    })
-  }
-}
-
+    dispatch({
+      type: ActionType.LOG_OUT_FAVORITES,
+    });
+  };
+};

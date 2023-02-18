@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import { State } from "../../state/reducers";
 import { adminActions } from "../AdminRedux";
-import { LineGraph } from "../../components/Graphs/LineGraph";
+import { LineChartProducts } from "../../components/Graphs/LineChartProducts";
+import { PieChart } from "../../components/Graphs/PieChart";
 
 const InformationPanel = () => {
   const { allProducts, allOrders, allUsers } = useSelector(
@@ -24,10 +25,16 @@ const InformationPanel = () => {
     <div>
       {allProducts && allOrders && allUsers && (
         <div className="flex flex-col gap-8 m-10">
-          <div className="w-96">
-            <LineGraph />
-          </div>
+
           <p className="text-2xl font-bold">Estadisticas:</p>
+          <div className="flex flex-row m-10 justify-between">
+            <div className="w-6/12">
+              <LineChartProducts />
+            </div>
+            <div className="w-3/12">
+              <PieChart />
+            </div>
+          </div>
           <div className="flex flex-row gap-20 mx-8">
             <div className="w-40">
               <p className="text-lg font-medium ">Total de productos:</p>

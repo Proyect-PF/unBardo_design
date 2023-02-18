@@ -30,28 +30,46 @@ export const ADMfetch_products_id = (id: number) => {
   };
 };
 
-export const ADMcreate_product = (payload: any, toast: any) => {
-  toast.promise(axios.post(`${baseURL}:${PORT}/products/`, payload), {
-    pending: "Creando...",
-    success: "Se creo el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMcreate_product = (payload: any, Toast: any) => {
+  axios
+    .post(`${baseURL}:${PORT}/products/`, payload)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto creado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
-export const ADMupdate_product = (payload: any, toast: any) => {
-  toast.promise(axios.put(`${baseURL}:${PORT}/products`, payload), {
-    pending: "Editando...",
-    success: "Se edito el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMupdate_product = (payload: any, Toast: any) => {
+  axios
+    .put(`${baseURL}:${PORT}/products`, payload)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto actualizado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
-export const ADMdelete_product = (payload: number, toast: any) => {
-  toast.promise(axios.delete(`${baseURL}:${PORT}/products/${payload}`), {
-    pending: "Eliminando...",
-    success: "Se elimino el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMdelete_product = (payload: number, Toast: any) => {
+  axios
+    .delete(`${baseURL}:${PORT}/products/${payload}`)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto eliminado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
 //Orders Actions
@@ -89,19 +107,26 @@ export const ADMfetch_order_id = (id: number | undefined) => {
   };
 };
 
-export const ADMupdate_order = (
+export const ADMupdate_order = async (
   id: number | undefined,
   status: string,
-  toast: any
+  trackid: string,
+  Toast: any
 ) => {
-  toast.promise(
-    axios.put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`),
-    {
-      pending: "Actualizando...",
-      success: "Se actualizo el producto con exito",
-      error: "Algo salio mal...",
-    }
-  );
+  axios
+    .put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`)
+    .then(() =>
+      axios.put(`${baseURL}:${PORT}/orders/track/?id=${id}&track_id=${trackid}`)
+    )
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Orden actualizada con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
 //Users Actions
@@ -133,4 +158,31 @@ export const ADMfetch_users_id = (id: number | undefined) => {
       })
       .catch((error) => console.log(error));
   };
+};
+
+
+// type chartValues = {
+//   numberCarts?:number //Numero de carritos generados, se maneja desde el boton que se compra el carrito.
+//   numberRegister?:number //Numero de registros, se maneja desde el Back la info que me trae.
+//   numberDirections?:number //Numero de personas que ingresan sus datos, se maneja con el evento onclick del boton del componente.
+//   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
+// }
+
+
+export const ADMfetch_chartValues = (timeUnit:string) => {
+  return (dispatch: Dispatch<AdminAction>) => {
+  axios
+    .get(
+      `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+    )
+    .then((res) => {
+      const payload = res.data;
+      console.log(payload)
+      dispatch({
+        type: AdminActionType.GET_ANALITICS,
+        payload
+      })
+    })
+    .catch((error) => console.log(error));
+  }
 };

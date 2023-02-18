@@ -7,7 +7,7 @@ import whatsapp from "../../assets/svg/googleIcons/whatsapp.svg";
 const Footer = () => {
   return (
     <div className="flex flex-col items-start mt-14">
-      <div className="flex flex-col w-full gap-4">
+      <div className="flex flex-col w-full">
         <img src={logofooter} className="justify-center h-40" />
       </div>
       <div className="flex flex-col gap-4 m-5 mt-8 ">

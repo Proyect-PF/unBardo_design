@@ -5,11 +5,11 @@ import Button from "../../components/Buttons/Button/Button";
 import CheckoutCard from "../../components/Cards/Checkout/CheckoutCard";
 import { State } from "../../state/reducers";
 import Swal from "sweetalert2";
-import close from "../../assets/svg/googleIcons/close.svg"
-import Scroll from "react-scroll"
+import close from "../../assets/svg/googleIcons/close.svg";
+import Scroll from "react-scroll";
 import { baseURL, PORT } from "../../utils/url&port";
 
-const Element = Scroll.Element
+const Element = Scroll.Element;
 
 interface ProductSize {
   [size: string]: number;
@@ -30,7 +30,7 @@ interface Props {
   handleCheckout: any;
 }
 
-const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
+const Checkout = ({ openClose, handleCheckout }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { checkoutList } = useSelector((state: State) => state.checkout);
   const { userId } = useSelector((state: State) => state.user);
@@ -59,16 +59,10 @@ const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (success) {
-      axios
-        .post(`${baseURL}:${PORT}/orders`, userProducts)
-        .then((response) => {
-          console.log("DESPUES DEL POST", response);
-          return response;
-        })
-        .catch((error) => {
-          console.error("ERROR ENVIANDO LA DATA AL SERVER:", error);
-        });
-      handleCheckout()
+      axios.post(`${baseURL}:${PORT}/orders`, userProducts).then((response) => {
+        return response;
+      });
+      handleCheckout();
       navigate("/checkout/payment");
     } else {
       Swal.fire({
@@ -110,21 +104,37 @@ const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
   }
 
   return (
-    <div className={`flex fixed ${style1} duration-300 justify-end w-full bg-black/60 z-50`}>
-      <div className={`h-screen flex flex-col ${style} duration-300 justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4`}>
-        <div className="flex justify-center flex-wrap w-full">
-          <div className="flex border-b w-full h-12 justify-between items-center border-gray-400">
-            <p className="font-poppins font-medium pb-3 pl-3">Bolsa de Compra</p>
-            <img onClick={handleCheckout} className="pb-3 hover:cursor-pointer" src={close} alt="close" />
+    <div
+      className={`flex fixed ${style1} duration-300 justify-end w-full bg-black/60 z-50`}
+    >
+      <div
+        className={`h-screen flex flex-col ${style} duration-300 justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4`}
+      >
+        <div className="flex flex-wrap justify-center w-full">
+          <div className="flex items-center justify-between w-full h-12 border-b border-gray-400">
+            <p className="pb-3 pl-3 font-medium font-poppins">
+              Bolsa de Compra
+            </p>
+            <img
+              onClick={handleCheckout}
+              className="pb-3 hover:cursor-pointer"
+              src={close}
+              alt="close"
+            />
           </div>
-          <Element name="test7" className="element scroll-hidden" id="containerElement" style={{
-          position: 'relative',
-          height: '70vh',
-          overflow: 'scroll',
-          scrollbarWidth: 'none',
-          overflowX: 'hidden',
-          }}>
-            <div className="flex flex-wrap w-full justify-center">
+          <Element
+            name="test7"
+            className="element scroll-hidden"
+            id="containerElement"
+            style={{
+              position: "relative",
+              height: "70vh",
+              overflow: "scroll",
+              scrollbarWidth: "none",
+              overflowX: "hidden",
+            }}
+          >
+            <div className="flex flex-wrap justify-center w-full">
               {checkoutList?.length > 0 &&
                 checkoutList.map((e: any) => (
                   <CheckoutCard
@@ -141,8 +151,8 @@ const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
             </div>
           </Element>
         </div>
-        <div className="border-t w-full border-gray-400">
-          <p className="mx-6 font-bold text-center pt-3">{`Total: $ ${
+        <div className="w-full border-t border-gray-400">
+          <p className="pt-3 mx-6 font-bold text-center">{`Total: $ ${
             checkoutList.length > 0
               ? checkoutList.reduce((acc: number, e: any) => {
                   return acc + e.price * e.ammount;

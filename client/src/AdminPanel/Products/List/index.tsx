@@ -159,45 +159,31 @@ const ListProducts = ({
           </select>
         </div> */}
       </div>
-      <div className="flex items-center justify-around w-full text-center border-t">
-        <p className="w-8 border-r border-black">Id</p>
+      <div className="flex items-center justify-between w-full px-4 text-center border-t">
+        <p className="w-12 border-r border-black">Id</p>
         <p className="w-40 ">Nombre</p>
-        <p className="w-16 ">Color</p>
         <p className="w-16 ">Precio</p>
-        <p className=" w-28">Mostrar en Web</p>
-        <p className="w-8 ">Stock:</p>
-        <p className="w-8 ">1</p>
-        <p className="w-8 ">2</p>
-        <p className="w-8 ">3</p>
-        {/* <p className="w-8 ">XL</p> */}
+        <p className="w-40">Visible en tienda</p>
+        <p className="w-8 ">Stock</p>
         <p className="w-20 ">Preview</p>
-        <p className="w-14"></p>
       </div>
       {allProducts &&
         allProducts.map((e: any) => (
-          <div className="flex items-center justify-around w-full text-center border-t">
-            <p className="w-8 border-r border-black">{e.id}</p>
+          <div
+            className="flex items-center justify-between w-full px-4 text-lg font-normal text-center border-t cursor-pointer"
+            onClick={() => {
+              setId(e.id);
+              setSelected("edit");
+            }}
+          >
+            <p className="w-12 border-r border-black">{e.id}</p>
             <p className="w-40">{e.name}</p>
-            <p className="w-16">{e.color}</p>
-            <p className="w-16">{e.price}</p>
-            <p className="w-24">{e.show_in_shop ? "Si" : "No"}</p>
+            <p className="w-16">{"$ " + e.price}</p>
+            <p className="w-40">{e.show_in_shop ? "Si" : "No"}</p>
             <p className="w-8">
               {e.S === 0 && e.M === 0 && e.L === 0 ? "No" : "Si"}
             </p>
-            <p className="w-8">{e.S}</p>
-            <p className="w-8">{e.M}</p>
-            <p className="w-8">{e.L}</p>
-            {/* <p className="w-8">{e.XL}</p> */}
             <img src={e.image} className="w-20" />
-            <button
-              onClick={() => {
-                setId(e.id);
-                setSelected("edit");
-              }}
-              className="py-2 border border-black w-14"
-            >
-              Edit
-            </button>
           </div>
         ))}
     </div>

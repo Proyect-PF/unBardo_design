@@ -98,14 +98,19 @@ const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
   };
 
   let style: string;
-  if (openClose) style = "right-full";
+  if (openClose) style = "translate-x-[100%]";
   else {
-    style = "right";
+    style = "translate-x-[0%]";
+  }
+  let style1: string;
+  if (openClose) style1 = "opacity-0 invisible";
+  else {
+    style1 = "opacity-1 visible";
   }
 
   return (
-    <div className={`flex fixed ${style} justify-end w-full bg-black/60 z-50`}>
-      <div className="h-screen flex flex-col justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4">
+    <div className={`flex fixed ${style1} duration-300 justify-end w-full bg-black/60 z-50`}>
+      <div className={`h-screen flex flex-col ${style} duration-300 justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4`}>
         <div className="flex justify-center flex-wrap w-full">
           <div className="flex border-b w-full h-12 justify-between items-center border-gray-400">
             <p className="font-poppins font-medium pb-3 pl-3">Bolsa de Compra</p>

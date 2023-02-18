@@ -11,6 +11,7 @@ interface Props {
   price: number;
   ammount: number;
   imgF: string;
+  handleCheckout: any;
 }
 
 const CheckoutCard = ({
@@ -20,6 +21,7 @@ const CheckoutCard = ({
   price,
   ammount,
   imgF,
+  handleCheckout,
 }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const { removeCheckout } = bindActionCreators(actionCreators, dispatch);
@@ -60,7 +62,7 @@ const CheckoutCard = ({
       <img src={imgF} className="w-20 sm:w-28" />
       <div className="flex flex-col justify-around w-full pl-4">
         <div className="flex flex-col gap-1">
-          <Link className="text-xxs font-bold sm:text-base" to={`/product/${id.split("-")[0]}`}>
+          <Link onClick={() => handleCheckout()} className="text-xxs font-bold sm:text-base" to={`/product/${id.split("-")[0]}`}>
             {name}
           </Link>
           <p className="text-xs sm:text-sm">

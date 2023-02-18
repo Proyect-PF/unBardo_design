@@ -18,11 +18,13 @@ const Footer = () => {
         </div>
         <div className="flex flex-row gap-2 font-medium">
           <img src={instagram} className="h-6" />
-          <p> @unbardo.design</p>
+          <a href="https://www.instagram.com/unbardo.design/">
+            @unbardo.design
+          </a>
         </div>
         <div className="flex flex-row gap-2 font-medium">
           <img src={whatsapp} className="h-6" />
-          <p> +54 9 11 3612-6072</p>
+          <a href="https://wa.me/5491136126072"> +54 9 11 3612-6072</a>
         </div>
       </div>
       <p className="w-full py-4 text-center ">© 2023 UNBARDO</p>

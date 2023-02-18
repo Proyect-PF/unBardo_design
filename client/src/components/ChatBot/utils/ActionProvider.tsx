@@ -14,7 +14,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
       "Hola, puedo ayudarte en los siguientes temas:"
     );
     const botMessage2 = createChatBotMessage(
-      "Promociones, Inicio de sesion, Ordenes, Metodos de pago, Envios, Contacto"
+      "Promociones, Inicio de sesion, Ordenes, Metodos de pago, Envios, Contacto, Cuidados, Devoluciones y muchas mas!"
     );
     setState((prev: any) => ({
       ...prev,
@@ -76,9 +76,18 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
     const botMessage = createChatBotMessage(
       "Puedes contactarnos a traves de las siguientes plataformas:"
     );
+    const botMessage2 = createChatBotMessage("Email: unbardodesign @gmail.com");
+    const botMessage3 = createChatBotMessage("Whatsapp:  +54 11 3612 6072");
+    const botMessage4 = createChatBotMessage("Instagram: @unBardo.design");
     setState((prev: any) => ({
       ...prev,
-      messages: [...prev.messages, botMessage],
+      messages: [
+        ...prev.messages,
+        botMessage,
+        botMessage2,
+        botMessage3,
+        botMessage4,
+      ],
     }));
   };
 
@@ -98,6 +107,55 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
     }));
   };
 
+  const handleCares = () => {
+    const botMessage = createChatBotMessage(
+      "Para mayor precaución en el cuidado del producto lava la camiseta al revés, plancha por el reverso del estampado, evita el uso de secadores o temperaturas altas de forma constante en las prendas. "
+    );
+    setState((prev: any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
+  const handleShipping = () => {
+    const botMessage = createChatBotMessage(
+      "Si no te llego el envio aún. Podes seguir el estado del pedido en andreani.com escribiendo el codigo de tu envío"
+    );
+    setState((prev: any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
+  const handleReturns = () => {
+    const botMessage = createChatBotMessage(
+      "Si el producto tiene algun defecto y lo queres devolver, contactate con nosotros a traves de cualquier de nuestras plataformas:"
+    );
+    const botMessage2 = createChatBotMessage("Email: unbardodesign @gmail.com");
+    const botMessage3 = createChatBotMessage("Whatsapp:  +54 11 3612 6072");
+    const botMessage4 = createChatBotMessage("Instagram: @unBardo.design");
+    setState((prev: any) => ({
+      ...prev,
+      messages: [
+        ...prev.messages,
+        botMessage,
+        botMessage2,
+        botMessage3,
+        botMessage4,
+      ],
+    }));
+  };
+
+  const handleTakeAway = () => {
+    const botMessage = createChatBotMessage(
+      "Por el momento las remeras solo se entregan a domicilio, no se pueden retirar."
+    );
+    setState((prev: any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
   return (
     <div>
       {React.Children.map(children, (child) => {
@@ -112,6 +170,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
             handleEnvios,
             handleContact,
             handleSizes,
+            handleCares,
+            handleShipping,
+            handleReturns,
+            handleTakeAway,
           },
         });
       })}

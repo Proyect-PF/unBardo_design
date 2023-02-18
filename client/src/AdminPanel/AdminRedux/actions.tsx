@@ -89,19 +89,16 @@ export const ADMfetch_order_id = (id: number | undefined) => {
   };
 };
 
-export const ADMupdate_order = (
+export const ADMupdate_order = async (
   id: number | undefined,
   status: string,
-  toast: any
+  trackid: string
 ) => {
-  toast.promise(
-    axios.put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`),
-    {
-      pending: "Actualizando...",
-      success: "Se actualizo el producto con exito",
-      error: "Algo salio mal...",
-    }
-  );
+  axios
+    .put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`)
+    .then(() =>
+      axios.put(`${baseURL}:${PORT}/orders/track/?id=${id}&track_id=${trackid}`)
+    );
 };
 
 //Users Actions

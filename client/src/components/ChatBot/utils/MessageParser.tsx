@@ -19,10 +19,14 @@ const MessageParser = ({ children, actions }: any) => {
     ) {
       actions.handleLogIn();
     } else if (
-      message.includes("orden") ||
+      message.includes("envio") ||
+      message.includes("segui") ||
       message.includes("estado") ||
-      message.includes("compra")
+      message.includes("pedido") ||
+      message.includes("andreani")
     ) {
+      actions.handleShipping();
+    } else if (message.includes("orden") || message.includes("compra")) {
       actions.handleOrders();
     } else if (message.includes("envio")) {
       actions.handleEnvios();
@@ -43,6 +47,29 @@ const MessageParser = ({ children, actions }: any) => {
       message.includes("medida")
     ) {
       actions.handleSizes();
+    } else if (
+      message.includes("cuidad") ||
+      message.includes("precauc") ||
+      message.includes("estampa")
+    ) {
+      actions.handleCares();
+    } else if (
+      message.includes("defect") ||
+      message.includes("problema") ||
+      message.includes("reembolso") ||
+      message.includes("falla") ||
+      message.includes("roto") ||
+      message.includes("devol")
+    ) {
+      actions.handleReturns();
+    } else if (
+      message.includes("encuentr") ||
+      message.includes("punto") ||
+      message.includes("retir") ||
+      message.includes("local") ||
+      message.includes("sucursal")
+    ) {
+      actions.handleTakeAway();
     } else {
       actions.handleHelp();
     }

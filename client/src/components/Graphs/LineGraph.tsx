@@ -8,8 +8,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useRef } from "react";
-import { Line, getElementsAtEvent } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import { Line} from "react-chartjs-2";
+import axios from "axios";
 
 
 export const LineGraph = () => {
@@ -22,6 +23,21 @@ export const LineGraph = () => {
     Tooltip,
     Legend
   );
+  const [da, setDa] = useState([])
+    useEffect(()=> {
+      const ADMfetch_chartValues = () => {
+        axios
+            .get(`http://localhost:3700/statistics/product-sales/?timeUnit=year`)
+            .then((res) => {
+              const payload = res.data;
+              setDa(payload)
+              console.log(payload)
+            })
+            .catch((error) => console.log(error));
+      };
+      ADMfetch_chartValues()
+    },[])
+
 
   const options: any = {
     responsive: true,
@@ -32,63 +48,32 @@ export const LineGraph = () => {
       },
       title: {
         display: true,
-        text: "Productos",
+        text: "Productos vendidos al año",
       },
-
-    //   animations: {
-    //     tension: {
-    //       duration: 1000,
-    //       easing: 'linear',
-    //       from: 1,
-    //       to: 0,
-    //       loop: true
-    //     }
-    // }
-},
-
-    // scales: {
-    //   x: {
-    //     grid: {
-    //       color: 'green',
-    //       tickColor: 'green'
-    //     }
-    //   }
-    // }
+    },
   };
 
-  const labels: string[] = [
-    "Enero",
-    "Febrero",
-    "Marzo",
-    "Abril",
-    "Mayo",
-    "Junio",
-    "Julio",
-    "Agosto",
-    "Septiembre",
-    "Octubre",
-    "Noviembre",
-    "Diciembre",
-  ];
+  type Month = {
+    totalProductsSold: number
+    timeUnit: string
+  }
+   const arr:any = [];
+  da.forEach((month:Month) => {
+    arr.push(month.totalProductsSold)
+  });
 
-  const obj: any = {};
-  labels.forEach((month) => {
-    obj[month] = Math.floor(Math.random() * 100);
-  });
-  const obj2: any = {};
-  labels.forEach((month) => {
-    obj2[month] = Math.floor(Math.random() * 100);
-    return obj2;
-  });
+  const labels = da.map((obj:Month)=> {
+    return obj.timeUnit
+  })
   const data = {
     labels,
     datasets: [
       {
-        label: "Productos vendidos",
-        data: [100, 200, 20, 40],
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-        tension: 0.1,
+        label: "Productos",
+        data: arr,
+        borderColor: "rgb(0, 0, 100)",
+        backgroundColor: "rgba(0, 0, 100, 0.2)",
+        tension: 0.4,
       },
     ],
   };

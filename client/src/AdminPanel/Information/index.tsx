@@ -23,8 +23,8 @@ const InformationPanel = () => {
 
   return (
     <div>
-      <div className="flex flex-row m-10 justify-center">
-      <div className="w-5/12">
+      <div className="flex flex-row m-10 justify-between">
+      <div className="w-6/12">
         <LineGraph />
       </div>
       <div className="w-3/12">

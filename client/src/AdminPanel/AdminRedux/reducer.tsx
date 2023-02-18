@@ -105,6 +105,9 @@ const adminReducer = (
         ...state,
         allProducts: action.payload,
       };
+      
+
+      //Caso en el que obtiene los datos de los analisis
     default:
       return { ...state };
   }

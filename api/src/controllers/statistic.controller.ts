@@ -5,8 +5,8 @@ import db from "../database/database";
 
 export const getProductSalesStats = async (req: Request, res: Response) => {
     try {
-        const { timeUnit } = req.body;
-
+        const {timeUnit} = req.query
+        console.log(req.params, "time")
         let timeUnitFormat: any;
         let groupByTimeUnit;
         let dateRange;

@@ -20,6 +20,7 @@ const AdminP = (): JSX.Element => {
   useEffect(() => {
     if (userType !== "admin") navigate("/");
     ADMfetch_products();
+    
   }, []);
 
   return (
@@ -36,7 +37,6 @@ const AdminP = (): JSX.Element => {
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
         {panel === "info" && <InformationPanel />}
-
         {panel === "newsletter" && <EmailList />}
         {panel === "pricing" && <Pricing />}
       </div>

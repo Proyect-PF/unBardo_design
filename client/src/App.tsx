@@ -26,6 +26,7 @@ import Favorites from "./Pages/Favorites/Favorites";
 function App() {
   const [openClose, setOpenClose] = useState(true);
   const [search, setSearch] = useState(true);
+  const [checkout, setCheckout] = useState(true);
   const [chatbot, setChatbot] = useState(false);
 
   const handleChange = () => {
@@ -40,13 +41,20 @@ function App() {
     else {
       setSearch(false);
     }
+  }
+  const handleCheckout = () => {
+    if (!checkout) setCheckout(true);
+    else {
+      setCheckout(false);
+    }
   };
   return (
-    <div className=" font-poppins">
+    <div className="font-poppins">
       <BrowserRouter>
         <Searchbar openClose={search} handleSearch={handleSearch} />
         <Sidebar openClose={openClose} handleChange={handleChange} />
-        <Navbar handleChange={handleChange} handleSearch={handleSearch} />
+        <Navbar handleChange={handleChange} handleSearch={handleSearch} handleCheckout={handleCheckout} />
+        <Checkout openClose={checkout} handleCheckout={handleCheckout} />
         <div className="pt-28">
           {chatbot ? (
             <div
@@ -60,7 +68,7 @@ function App() {
             <Route path="/product/:name" element={<Details />} />
             <Route path="/account/login" element={<LogInPage />} />
             <Route path="/account/register" element={<RegisterPage />} />
-            <Route path="/checkout" element={<Checkout />} />
+            {/* <Route path="/checkout" element={<Checkout />} /> */}
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/checkout/payment" element={<Payment />} />
             <Route path="/orders/feedback" element={<OrderDetails />} />

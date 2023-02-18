@@ -114,7 +114,7 @@ const OrderDetails = ({ setSelected }: Props) => {
               showConfirmButton: true,
               showCancelButton: true,
               confirmButtonColor: "#376B7E",
-              cancelButtonColor: "#ffff",
+              cancelButtonColor: "#e5e7eb",
               cancelButtonText: "<p class='text-lg text-black'>Mejor no</p>",
               confirmButtonText: "<p class='text-lg'>Despachar</p>",
               // html: '<p class="font-medium text-black italic">Revisa que el numero de trackeo sea el correcto</p>',

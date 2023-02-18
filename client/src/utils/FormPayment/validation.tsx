@@ -16,11 +16,10 @@ export const validationSchema = Yup.object().shape({
   zip_code: Yup.string()
     .required('Código postal es requerido')
     .min(4, 'Debe tener al menos 4 caracteres')
-    .matches(/^[0-9]+$/, 'El telefono solo puede contener números')
-    .test(
-      'no-letters-or-hyphens',
-      'El teléfono no puede contener letras ni guiones',
-      (value) => !/[-a-zA-Z]/.test(value)
+    .max(6, 'Debe tener como máximo 6 caracteres')
+    .matches(
+      /^[a-zA-Z0-9]+$/,
+      'El código postal solo puede contener letras y números'
     ),
   area_code: Yup.string()
     .required('Código de área es requerido')

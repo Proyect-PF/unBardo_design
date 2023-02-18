@@ -288,25 +288,20 @@ export const getOrderDetails = (
       dispatch(getOrderDetailsSuccess(response.data));
       // console.log(response.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 };
 
 export const getFavorites = (id: number) => {
   return (dispatch: Dispatch<ActionFavorites>) => {
-    axios
-      .get(`${baseURL}:${PORT}/favorites/${id}`)
-      .then((res) => {
-        const payload = res.data;
-        dispatch({
-          type: ActionType.GET_FAVORITES,
-          payload,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    axios.get(`${baseURL}:${PORT}/favorites/${id}`).then((res) => {
+      const payload = res.data;
+      dispatch({
+        type: ActionType.GET_FAVORITES,
+        payload,
       });
+    });
   };
 };
 

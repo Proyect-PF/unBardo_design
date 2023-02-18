@@ -39,7 +39,7 @@ export const LogIn = (): JSX.Element => {
     userLogin(logUser, navigate);
   };
   return (
-    <div>
+    <div className="flex justify-center">
       <Formik
         initialValues={initialValues}
         validate={validateLogin}
@@ -50,10 +50,10 @@ export const LogIn = (): JSX.Element => {
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-6 mx-8 my-4"
+            className="flex flex-col gap-6 mx-8 my-4 sm:w-1/2"
           >
             <div>
-              <label htmlFor="email">email</label>
+              <label htmlFor="email">Email</label>
               <Input
                 type="text"
                 id="email"

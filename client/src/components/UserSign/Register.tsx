@@ -74,7 +74,7 @@ export const Register = (): JSX.Element => {
   const { userLogin } = bindActionCreators(actionCreators, dispatch);
 
   return (
-    <div>
+    <div className="flex justify-center">
       <Formik
         initialValues={initialvalues}
         validate={validateRegister}
@@ -90,7 +90,7 @@ export const Register = (): JSX.Element => {
         }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-6 mx-8 my-4"
+            className="flex flex-col gap-6 mx-8 my-4 sm:w-1/2"
           >
             <div>
               <label htmlFor="fullname">Nombre y Apellido</label>
@@ -110,7 +110,7 @@ export const Register = (): JSX.Element => {
               )}
             </div>
             <div>
-              <label htmlFor="email">email</label>
+              <label htmlFor="email">Email</label>
               <Input
                 type="text"
                 id="email"

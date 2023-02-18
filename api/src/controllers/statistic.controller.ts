@@ -5,7 +5,7 @@ import db from "../database/database";
 
 export const getProductSalesStats = async (req: Request, res: Response) => {
     try {
-        const { timeUnit } = req.body;
+        const { timeUnit, status } = req.query;
 
         let timeUnitFormat: any;
         let groupByTimeUnit;
@@ -47,7 +47,7 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
                   ("OrderProducts"."sizes" ->> 'XL')::integer) AS "totalProductsSold"
        FROM "Orders"
        INNER JOIN "OrderProducts" ON "Orders"."id" = "OrderProducts"."id_order"
-       WHERE "Orders"."status" = 'approved' ${dateRange}
+       WHERE "Orders"."status" = '${status}' ${dateRange}
        GROUP BY "timeUnit"
        ORDER BY "timeUnit" ASC`,
             { type: QueryTypes.SELECT }

@@ -37,6 +37,9 @@ const Create = ({ className }: Props): JSX.Element => {
           price: 0,
           show_in_shop: "true",
           image: "",
+          image2: "",
+          image3: "",
+          image4: "",
           promotion: "false",
           promotional_price: 0,
         }}
@@ -243,7 +246,15 @@ const Create = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-
+            <div className="flex flex-col gap-4">
+              <p>Imagenes actuales:</p>
+              <div className="flex flex-row w-40 gap-8">
+                {values.image && <img src={values.image} />}
+                {values.image2 && <img src={values.image2} />}
+                {values.image3 && <img src={values.image3} />}
+                {values.image4 && <img src={values.image4} />}
+              </div>
+            </div>
             <div className="flex flex-col gap-4">
               <p>Imagenes:</p>
               <div>
@@ -297,7 +308,10 @@ const Create = ({ className }: Props): JSX.Element => {
                     text="quitar imagen"
                     name="rmvImg"
                     onClick={() => {
-                      if (imgNumb > 0) setImgNumb(imgNumb - 1);
+                      if (imgNumb > 0) {
+                        setFieldValue(`image${imgNumb + 2}`, "");
+                        setImgNumb(imgNumb - 1);
+                      }
                     }}
                     disabled={false}
                     type="button"

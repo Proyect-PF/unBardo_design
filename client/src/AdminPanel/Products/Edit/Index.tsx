@@ -63,6 +63,9 @@ const Edit = ({ className }: Props): JSX.Element => {
           price: productDetails.price,
           show_in_shop: productDetails.show_in_shop ? "true" : "false",
           image: productDetails.image,
+          image2: productDetails.image2,
+          image3: productDetails.image3,
+          image4: productDetails.image4,
           promotion: productDetails.promotion ? "true" : "false",
           promotional_price: productDetails.promotional_price,
         }}
@@ -263,9 +266,17 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <option value="false">No</option>
               </select>
             </div>
-
             <div className="flex flex-col gap-4">
-              <p>Imagenes:</p>
+              <p>Imagenes actuales:</p>
+              <div className="flex flex-row w-40 gap-8">
+                {values.image && <img src={values.image} />}
+                {values.image2 && <img src={values.image2} />}
+                {values.image3 && <img src={values.image3} />}
+                {values.image4 && <img src={values.image4} />}
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <p>Cargar imagenes:</p>
               <div>
                 <p>Principal:</p>
                 <FileUpload

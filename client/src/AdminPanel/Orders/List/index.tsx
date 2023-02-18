@@ -65,7 +65,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
       });
     }
   };
-
+console.log(query)
   return (
     <div>
       <div className="flex flex-col mx-8">

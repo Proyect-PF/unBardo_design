@@ -108,3 +108,13 @@ export type SetFavoritePayload = {
   id_user: number;
   id_product: number;
 };
+
+
+
+
+
+// TYPES ANALITICS
+export type Analitic = {
+  timeUnit:string
+  totalProductsSold:number
+}

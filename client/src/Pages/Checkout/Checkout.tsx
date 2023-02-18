@@ -135,6 +135,7 @@ const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
                     price={e.price}
                     ammount={e.ammount}
                     imgF={e.imgF}
+                    handleCheckout={handleCheckout}
                   />
                 ))}
             </div>

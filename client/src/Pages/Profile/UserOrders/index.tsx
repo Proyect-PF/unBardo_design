@@ -45,9 +45,6 @@ const UserOrders = ({setPanel, setDetailId, userId, fullname, email}: Props) => 
             className="justify-end pr-12"
             />
             <div className="flex items-center justify-around w-full text-center border-t">
-                <p className="w-8 border-r border-black">Id</p>
-                <p className="w-60 ">Nombre</p>
-                <p className="w-60 ">Email</p>
                 <p className="w-40 ">Fecha</p>
                 <p className="w-24 ">Status</p>
                 <p className="w-24 ">Despachada</p>
@@ -56,9 +53,6 @@ const UserOrders = ({setPanel, setDetailId, userId, fullname, email}: Props) => 
             {
                 userOrders.map((e) => (
                     <div className="flex items-center justify-around w-full text-center border-t">
-                      <p className="w-8 border-r border-black">{e.id}</p>
-                      <p className=" w-60">{fullname}</p>
-                      <p className=" w-60">{email}</p>
                       <p className="w-40 ">{e.updatedAt.split("T")[0]}</p>
                       <p className="w-24 ">{e.status}</p>
                       <p className="w-24 ">{e.dispatched ? "Si" : "No"}</p>

@@ -72,12 +72,12 @@ const InformationPanel = () => {
               </div>
             </div>
 
-            <div className="w-full ">
+            <div className="w-6/12 ">
               <LineChartProducts />
             </div>
-            {/* <div className="w-3/12">
-              <PieChart />
-            </div> */}
+            <div className="w-6/12">
+              <BarChartFunnel />
+            </div>
           </div>
         </div>
       )}

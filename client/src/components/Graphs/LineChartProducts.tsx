@@ -14,9 +14,13 @@ import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
 import { adminActions } from "../../AdminPanel/AdminRedux";
 import { State } from "../../state/reducers";
-import { Analitic } from "../../types/types";
+import { AnaliticProducts } from "../../types/types";
+
+
+
 
 export const LineChartProducts = () => {
+  //Register for generate chart
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -26,23 +30,24 @@ export const LineChartProducts = () => {
     Tooltip,
     Legend
   );
-  //cart, approved, rejected
+
+  
   const [date, setDate] = useState({
     timeUnit: "month",
   });
   const dispatch = useDispatch();
-  const { ADMfetch_chartValues } = bindActionCreators(adminActions, dispatch);
-  const { analitics } = useSelector((state: State) => state.admin);
+  const { ADMfetch_chart_products_values } = bindActionCreators(adminActions, dispatch);
+  const { analiticsProducts } = useSelector((state: State) => state.admin);
 
 
   useEffect(() => {
-    ADMfetch_chartValues(date.timeUnit);
+    ADMfetch_chart_products_values(date.timeUnit);
   }, [date.timeUnit]);
   const arrData: any = [];
-  analitics.forEach((date: Analitic) => {
+  analiticsProducts.forEach((date: AnaliticProducts) => {
     arrData.push(date.totalProductsSold);
   });
-  const labels = analitics.map((obj: Analitic) => {
+  const labels = analiticsProducts.map((obj: AnaliticProducts) => {
     return obj.timeUnit;
   });
   const options: any = {
@@ -80,7 +85,7 @@ export const LineChartProducts = () => {
 
   return (
     <div>
-      {analitics.length > 0 && (
+      {analiticsProducts.length > 0 && (
         <div>
           <select value={date.timeUnit} onChange={handleChange}>
             <option value="day">Dia</option>

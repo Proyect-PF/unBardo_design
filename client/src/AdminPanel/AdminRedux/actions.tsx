@@ -155,22 +155,41 @@ export const ADMfetch_users_id = (id: number | undefined) => {
 //   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
 // }
 
-export const ADMfetch_chartValues = (timeUnit: string) => {
+export const ADMfetch_chart_products_values = (timeUnit: string) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios
       .get(
-        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+        //status => cart, approved, rejected
+        //timeUnit => month, day, year
+        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=rejected`
       )
       .then((res) => {
         const payload = res.data;
 
         dispatch({
-          type: AdminActionType.GET_ANALITICS,
+          type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,
         });
       });
   };
 };
+
+// export const ADMfetch_chart_funnel_values = (timeUnit: string) => {
+//   return (dispatch: Dispatch<AdminAction>) => {
+//     axios
+//       .get(
+//         `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+//       )
+//       .then((res) => {
+//         const payload = res.data;
+
+//         dispatch({
+//           type: AdminActionType.GET_ANALITICS,
+//           payload,
+//         });
+//       });
+//   };
+// };
 
 export const ADMupdate_pricing = (
   minus100: number,

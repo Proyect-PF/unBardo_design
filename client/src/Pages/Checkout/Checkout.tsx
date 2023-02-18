@@ -77,21 +77,22 @@ const Checkout = ({openClose, handleCheckout}: Props): JSX.Element => {
         showCancelButton: true,
         showConfirmButton: true,
         showDenyButton: true,
-        confirmButtonColor: "#000",
-        denyButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
+        denyButtonColor: "#376B7E",
         cancelButtonColor: "#e5e7eb",
         cancelButtonText:
           "<p class='font-rift text-lg text-black'>Por ahora no</p>",
         confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
         denyButtonText:
           "<p class='font-rift text-lg text-white'>Registrarse</p>",
-        reverseButtons: true,
         html: '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder comprar los productos de la bolsa de compra</p>',
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/account/login");
+          handleCheckout();
         } else if (result.isDenied) {
           navigate("/account/register");
+          handleCheckout();
         }
       });
     }

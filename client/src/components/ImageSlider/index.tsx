@@ -1,4 +1,5 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "./slider.css";
 import { Carousel } from "react-responsive-carousel";
 
 type Props = {

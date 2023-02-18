@@ -1,14 +1,7 @@
-// import { Cloudinary } from "@cloudinary/url-gen";
-// import { AdvancedImage } from "@cloudinary/react";
-// import { fill } from "@cloudinary/url-gen/actions/resize";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import photo from "../../assets/images/homep.jpg";
-import ig1 from "../../assets/images/ig1.jpg";
-import ig2 from "../../assets/images/ig2.jpg";
-import imageB from "../../assets/images/remeras/unbardo-07B.png";
-// import imageF from "../../assets/images/remeras/unbardo-07F.png";
 import Button from "../../components/Buttons/Button/Button";
 import Product from "../../components/Cards/Product/Product";
 import Dropdown from "../../components/DropDowns/dropdown";
@@ -42,8 +35,8 @@ const Home = () => {
   useEffect(() => {
     if (productTotal.length > 0) setLoading(false);
     clear_product_detail();
-    getFavorites(userId);
-  }, [productTotal]);
+    userId && getFavorites(userId);
+  }, [productTotal, userId]);
 
   return (
     <div>
@@ -83,6 +76,7 @@ const Home = () => {
                     />
                   );
                 }
+                return <></>;
               })}
             </div>
           ) : (

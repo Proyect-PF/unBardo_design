@@ -92,13 +92,21 @@ export const ADMfetch_order_id = (id: number | undefined) => {
 export const ADMupdate_order = async (
   id: number | undefined,
   status: string,
-  trackid: string
+  trackid: string,
+  Toast: any
 ) => {
   axios
     .put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`)
     .then(() =>
       axios.put(`${baseURL}:${PORT}/orders/track/?id=${id}&track_id=${trackid}`)
-    );
+    )
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "ok",
+      })
+    )
+    .catch((e) => Toast.fire({ icon: "error", title: e.message }));
 };
 
 //Users Actions

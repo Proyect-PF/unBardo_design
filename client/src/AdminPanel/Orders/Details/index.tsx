@@ -121,18 +121,11 @@ const OrderDetails = ({ setSelected }: Props) => {
               text:
                 "El siguiente numero de tracking sera asociado a la orden: " +
                 trackid,
-            })
-              .then((result) => {
-                if (result.isConfirmed) {
-                  ADMupdate_order(orderDetails.id, "true", trackid);
-                }
-              })
-              .then(() =>
-                Toast.fire({
-                  icon: "success",
-                  title: "Orden actualizada",
-                })
-              );
+            }).then((result) => {
+              if (result.isConfirmed) {
+                ADMupdate_order(orderDetails.id, "true", trackid, Toast);
+              }
+            });
           }}
           disabled={false}
           type="button"

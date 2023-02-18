@@ -32,7 +32,7 @@ const EmailList = () => {
             {allUsers.filter((e) => e.news_letter === true).length}
           </p>
         </div>
-        <div className="w-40">
+        <div className="w-60">
           <Button
             text="Exportar usuarios"
             name="exportUsers"

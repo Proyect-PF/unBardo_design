@@ -95,15 +95,16 @@ export type OrderDetails = {
     area_code: string;
     number: string;
   };
+  track_id?: string;
 };
 
 export type Favorites = {
   id: number;
   id_user: number;
   products_id: number[];
-}
+};
 
 export type SetFavoritePayload = {
   id_user: number;
   id_product: number;
-}
+};

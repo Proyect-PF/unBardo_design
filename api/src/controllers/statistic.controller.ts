@@ -7,6 +7,7 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
     try {
         const {timeUnit} = req.query
         console.log(req.params, "time")
+
         let timeUnitFormat: any;
         let groupByTimeUnit;
         let dateRange;
@@ -30,9 +31,10 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
                 break;
             case "year":
                 timeUnitFormat = "YYYY";
-                groupByTimeUnit = "to_char(\"Orders\".\"createdAt\", 'YYYY')";
+                groupByTimeUnit = "DATE_TRUNC('year', \"Orders\".\"createdAt\")";
                 dateRange = `AND \"Orders\".\"createdAt\" >= NOW() - INTERVAL '20 years'`;
                 break;
+
             default:
                 return res.status(400).json({
                     message: `Invalid time unit provided: ${timeUnit}. Valid values are: day, week, month, year.`,
@@ -41,21 +43,25 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
 
         const stats = await db.sequelize.query(
             `SELECT ${groupByTimeUnit} AS "timeUnit",
-              sum(("OrderProducts"."sizes" ->> 'S')::integer + 
-                  ("OrderProducts"."sizes" ->> 'M')::integer + 
-                  ("OrderProducts"."sizes" ->> 'L')::integer + 
-                  ("OrderProducts"."sizes" ->> 'XL')::integer) AS "totalProductsSold"
-       FROM "Orders"
-       INNER JOIN "OrderProducts" ON "Orders"."id" = "OrderProducts"."id_order"
-       WHERE "Orders"."status" = 'approved' ${dateRange}
-       GROUP BY "timeUnit"
-       ORDER BY "timeUnit" ASC`,
+    sum(("OrderProducts"."sizes" ->> 'S')::integer + 
+        ("OrderProducts"."sizes" ->> 'M')::integer + 
+        ("OrderProducts"."sizes" ->> 'L')::integer + 
+        ("OrderProducts"."sizes" ->> 'XL')::integer) AS "totalProductsSold"
+  FROM "Orders"
+  INNER JOIN "OrderProducts" ON "Orders"."id" = "OrderProducts"."id_order"
+  WHERE "Orders"."status" = '${status}' ${dateRange}
+  GROUP BY "timeUnit"
+  ORDER BY "timeUnit" ASC`,
             { type: QueryTypes.SELECT }
         );
 
+
+
+
+
         const data = stats.map((stat: { timeUnit: string; totalProductsSold: string }) => {
             return {
-                timeUnit: moment(stat.timeUnit + '1', 'YYYY [W]WW').format(timeUnitFormat),
+                timeUnit: moment(stat.timeUnit, 'YYYY-MM-DD').format(timeUnitFormat),
                 totalProductsSold: parseInt(stat.totalProductsSold),
             };
         });

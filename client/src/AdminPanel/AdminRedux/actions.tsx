@@ -30,28 +30,46 @@ export const ADMfetch_products_id = (id: number) => {
   };
 };
 
-export const ADMcreate_product = (payload: any, toast: any) => {
-  toast.promise(axios.post(`${baseURL}:${PORT}/products/`, payload), {
-    pending: "Creando...",
-    success: "Se creo el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMcreate_product = (payload: any, Toast: any) => {
+  axios
+    .post(`${baseURL}:${PORT}/products/`, payload)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto creado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
-export const ADMupdate_product = (payload: any, toast: any) => {
-  toast.promise(axios.put(`${baseURL}:${PORT}/products`, payload), {
-    pending: "Editando...",
-    success: "Se edito el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMupdate_product = (payload: any, Toast: any) => {
+  axios
+    .put(`${baseURL}:${PORT}/products`, payload)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto actualizado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
-export const ADMdelete_product = (payload: number, toast: any) => {
-  toast.promise(axios.delete(`${baseURL}:${PORT}/products/${payload}`), {
-    pending: "Eliminando...",
-    success: "Se elimino el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMdelete_product = (payload: number, Toast: any) => {
+  axios
+    .delete(`${baseURL}:${PORT}/products/${payload}`)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto eliminado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
 //Orders Actions
@@ -89,19 +107,26 @@ export const ADMfetch_order_id = (id: number | undefined) => {
   };
 };
 
-export const ADMupdate_order = (
+export const ADMupdate_order = async (
   id: number | undefined,
   status: string,
-  toast: any
+  trackid: string,
+  Toast: any
 ) => {
-  toast.promise(
-    axios.put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`),
-    {
-      pending: "Actualizando...",
-      success: "Se actualizo el producto con exito",
-      error: "Algo salio mal...",
-    }
-  );
+  axios
+    .put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`)
+    .then(() =>
+      axios.put(`${baseURL}:${PORT}/orders/track/?id=${id}&track_id=${trackid}`)
+    )
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Orden actualizada con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
 //Users Actions

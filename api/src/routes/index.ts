@@ -8,6 +8,7 @@ import productRoutes from './product.routes';
 import userRoutes from './user.routes';
 import favoritesRoutes from './favorite.routes'
 import imageRoutes from "./image.routes";
+import shipmentsRoutes from "./shipment.routes"
 
 // Crea una instancia de un enrutador de Express.
 const index = Router();
@@ -20,6 +21,7 @@ index.use('/products', productRoutes);
 index.use('/users', userRoutes);
 index.use('/favorites', favoritesRoutes);
 index.use('/images', imageRoutes);
+index.use('/shipments', shipmentsRoutes);
 
 // Exporta el enrutador de índice para que pueda ser utilizado por otros módulos.
 export default index;

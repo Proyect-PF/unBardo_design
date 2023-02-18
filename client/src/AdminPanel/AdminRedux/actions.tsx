@@ -159,3 +159,30 @@ export const ADMfetch_users_id = (id: number | undefined) => {
       .catch((error) => console.log(error));
   };
 };
+
+
+// type chartValues = {
+//   numberCarts?:number //Numero de carritos generados, se maneja desde el boton que se compra el carrito.
+//   numberRegister?:number //Numero de registros, se maneja desde el Back la info que me trae.
+//   numberDirections?:number //Numero de personas que ingresan sus datos, se maneja con el evento onclick del boton del componente.
+//   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
+// }
+
+
+export const ADMfetch_chartValues = (timeUnit:string) => {
+  return (dispatch: Dispatch<AdminAction>) => {
+  axios
+    .get(
+      `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+    )
+    .then((res) => {
+      const payload = res.data;
+      console.log(payload)
+      dispatch({
+        type: AdminActionType.GET_ANALITICS,
+        payload
+      })
+    })
+    .catch((error) => console.log(error));
+  }
+};

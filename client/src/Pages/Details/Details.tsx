@@ -84,7 +84,8 @@ const Details = (): JSX.Element => {
     setAmmount(1);
     Toast.fire({
       icon: "success",
-      title: "<p class='font-bold font-rift text-black'>Se añadió correctamente!</p>",
+      title:
+        "<p class='font-bold font-rift text-black'>Se añadió correctamente!</p>",
     });
   };
 
@@ -226,7 +227,7 @@ const Details = (): JSX.Element => {
             )}
           </div>
           <div>
-            <div className="flex justify-around my-8 text-lg text-center md:justify-center md:w-fit">
+            <div className="flex justify-around my-8 text-lg text-center md:justify-center md:w-fit ">
               <SizeSelector
                 detailId={productDetails.id}
                 selected={size}

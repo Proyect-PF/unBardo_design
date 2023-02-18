@@ -2,9 +2,7 @@ import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../state";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import ButtonSmall from "../../Buttons/ButtonSmall/ButtonSmall";
 import Swal from "sweetalert2";
-import trash from "../../../assets/svg/trash.svg";
 
 interface Props {
   id: string;
@@ -43,11 +41,12 @@ const CheckoutCard = ({
         showCancelButton: true,
         showConfirmButton: true,
         confirmButtonColor: "#e5e7eb",
-        cancelButtonColor: "#000",
+        cancelButtonColor: "#376B7E",
         confirmButtonText:
           '<p class="font-rift text-lg text-black">Si, Remover!</p>',
         cancelButtonText: '<p class="font-rift text-lg">No, cancelar!</p>',
         focusConfirm: false,
+        reverseButtons:true
       })
       .then((result) => {
         if (result.isConfirmed) {

@@ -84,18 +84,8 @@ const Details = (): JSX.Element => {
     setAmmount(1);
     Toast.fire({
       icon: "success",
-      title: "Se añadió correctamente!",
+      title: "<p class='font-bold font-rift text-black'>Se añadió correctamente!</p>",
     });
-    // toast.success("Se añadió correctamente!", {
-    //   position: "bottom-right",
-    //   autoClose: 3000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    // });
   };
 
   const stock =

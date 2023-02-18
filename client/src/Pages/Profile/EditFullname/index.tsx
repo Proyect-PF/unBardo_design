@@ -5,10 +5,10 @@ import Button from "../../../components/Buttons/Button/Button";
 import Input from "../../../components/Inputs/Input";
 import { Props } from "../Profile";
 import { validateFullName } from "../validates";
-import logged from "../../../assets/svg/logged.svg";
 import { useSelector } from "react-redux";
 import { State } from "../../../state/reducers";
 import { baseURL, PORT } from "../../../utils/url&port";
+import Toast from "../../../components/Toast";
 
 const EditFullName = ({setPanel}: Props) => {
     const { userId } = useSelector((state: State) => state.user);
@@ -34,15 +34,13 @@ const EditFullName = ({setPanel}: Props) => {
         validate={validateFullName}
         onSubmit={(values) => {
             Swal.fire({
-                imageUrl: logged,
                 title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>¿Estas Seguro?</p>",
                 showCancelButton: true,
                 showConfirmButton: true,
-                confirmButtonColor: "#000",
+                confirmButtonColor: "#376B7E",
                 cancelButtonColor: "#e5e7eb",
                 cancelButtonText: "<p class='font-rift text-lg text-black'>Cancelar</p>",
                 confirmButtonText: "<p class='font-rift text-lg'>Estoy seguro</p>",
-                reverseButtons: true,
                 html: 
                 `<p class="font-poppins font-medium text-black italic" >¿Seguro que quieres cambiar tu nombre a "${values.fullname}" ?</p>`,
                 //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
@@ -50,18 +48,6 @@ const EditFullName = ({setPanel}: Props) => {
                 if (result.isConfirmed) {
                   axios.put(`${baseURL}:${PORT}/users/${userId}`, {fullname: values.fullname})
                   .then((response) => {
-                    const Toast = Swal.mixin({
-                      toast: true,
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 3000,
-                      timerProgressBar: true,
-                      didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                      },
-                    });
-            
                     Toast.fire({
                       icon: 'success',
                       title:
@@ -70,18 +56,6 @@ const EditFullName = ({setPanel}: Props) => {
                     window.location.reload()
                   })
                   .catch((error) => {
-                    const Toast = Swal.mixin({
-                      toast: true,
-                      position: 'top-end',
-                      showConfirmButton: false,
-                      timer: 3000,
-                      timerProgressBar: true,
-                      didOpen: (toast) => {
-                        toast.addEventListener('mouseenter', Swal.stopTimer);
-                        toast.addEventListener('mouseleave', Swal.resumeTimer);
-                      },
-                    });
-            
                     Toast.fire({
                       icon: "error",
                       title:

@@ -20,9 +20,7 @@ const AdminP = (): JSX.Element => {
   useEffect(() => {
     if (userType !== "admin") navigate("/");
     ADMfetch_products();
-    
   }, []);
-  console.log("a")
   return (
     <div className="flex flex-row justify-between">
       <div className="flex flex-col gap-8 px-2 py-12 text-2xl font-bold border-r">

@@ -173,7 +173,7 @@ export const ADMfetch_chartValues = (timeUnit:string) => {
   return (dispatch: Dispatch<AdminAction>) => {
   axios
     .get(
-      `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+      `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=rejected`
     )
     .then((res) => {
       const payload = res.data;

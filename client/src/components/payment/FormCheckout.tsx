@@ -90,7 +90,7 @@ export const FormCheckout = (): JSX.Element => {
                 min={0}
                 max={9999}
                 autocomplete='true'
-                type='number'
+                type='text'
                 id='zip_code'
                 name='zip_code'
                 placeholder='3200'

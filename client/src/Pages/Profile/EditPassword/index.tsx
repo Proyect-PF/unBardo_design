@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import { State } from "../../../state/reducers";
 import axios from "axios";
 import Swal from "sweetalert2";
-import logged from "../../../assets/svg/logged.svg";
 import { baseURL, PORT } from "../../../utils/url&port";
+import Toast from "../../../components/Toast";
 
 const EditPassword = ({setPanel}: Props) => {
   const [passType, setPassType] = useState("password");
@@ -43,34 +43,19 @@ const EditPassword = ({setPanel}: Props) => {
         validate={validatePassword}
         onSubmit={(values) => {
           Swal.fire({
-            imageUrl: logged,
             title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>¿Estas Seguro?</p>",
             showCancelButton: true,
             showConfirmButton: true,
-            confirmButtonColor: "#000",
+            confirmButtonColor: "#376B7E",
             cancelButtonColor: "#e5e7eb",
             cancelButtonText: "<p class='font-rift text-lg text-black'>Cancelar</p>",
             confirmButtonText: "<p class='font-rift text-lg'>Estoy seguro</p>",
-            reverseButtons: true,
             html: 
             '<p class="font-poppins font-medium text-black italic" >¿Seguro que quieres cambiar tu contraseña?</p>',
-            //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
           }).then((result) => {
             if (result.isConfirmed) {
               axios.put(`${baseURL}:${PORT}/users/${userId}`, {password: values.password})
               .then((response) => {
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                  },
-                });
-        
                 Toast.fire({
                   icon: 'success',
                   title:
@@ -78,18 +63,6 @@ const EditPassword = ({setPanel}: Props) => {
                 });
               })
               .catch((error) => {
-                const Toast = Swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  timerProgressBar: true,
-                  didOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer);
-                    toast.addEventListener('mouseleave', Swal.resumeTimer);
-                  },
-                });
-        
                 Toast.fire({
                   icon: "error",
                   title:

@@ -17,7 +17,7 @@ const Home = () => {
     (state: State) => state.products
   );
   const { userId } = useSelector((state: State) => state.user);
-
+    console.log("a home")
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
   // of filtered/ordered list needs to remain during web navigation must rewire
 

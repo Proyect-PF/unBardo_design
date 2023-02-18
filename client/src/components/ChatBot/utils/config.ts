@@ -7,7 +7,7 @@ const config = {
       backgroundColor: '#376B7E',
     },
     chatButton: {
-      backgroundColor: '#5ccc9d',
+      backgroundColor: '#376B7E',
     },
   },
   botName: 'UnBardoBot'

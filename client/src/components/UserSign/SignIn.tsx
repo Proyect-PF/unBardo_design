@@ -1,35 +1,34 @@
-import { Formik } from 'formik';
-import React, { useEffect } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../state';
-import Button from '../Buttons/Button/Button';
-import Input from '../Inputs/Input';
-import { validateLogin } from './validates';
-import { User } from '../../types/types';
-import GoogleLogin from 'react-google-login';
-import { gapi } from 'gapi-script';
+import { Formik } from "formik";
+import React, { useEffect } from "react";
+
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../state";
+import Button from "../Buttons/Button/Button";
+import Input from "../Inputs/Input";
+import { validateLogin } from "./validates";
+import { User } from "../../types/types";
+import GoogleLogin from "react-google-login";
+import { gapi } from "gapi-script";
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userLogin } = bindActionCreators(actionCreators, dispatch);
 
   const initialValues: User = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
   const clientId =
-    '293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com';
+    "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com";
   useEffect(() => {
     const start = () => {
       gapi.auth2.init({
         clientId: clientId,
       });
     };
-    gapi.load('client:auth2', start);
+    gapi.load("client:auth2", start);
   }, []);
 
   const onSuccess = (res: any) => {
@@ -51,50 +50,50 @@ export const LogIn = (): JSX.Element => {
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
           <form
             onSubmit={handleSubmit}
-            className='flex flex-col gap-6 mx-8 my-4'
+            className="flex flex-col gap-6 mx-8 my-4"
           >
             <div>
-              <label htmlFor='email'>email</label>
+              <label htmlFor="email">email</label>
               <Input
-                type='text'
-                id='email'
-                name='email'
-                placeholder=''
+                type="text"
+                id="email"
+                name="email"
+                placeholder=""
                 value={values.email}
                 onChange={handleChange}
-                className=' font-poppins'
+                className=" font-poppins"
                 onBlur={handleBlur}
               />
 
-              {errors.email && <p className='text-red-600 '>{errors.email}</p>}
+              {errors.email && <p className="text-red-600 ">{errors.email}</p>}
             </div>
             <div>
-              <label htmlFor='passwordLogIn'>Contraseña</label>
+              <label htmlFor="passwordLogIn">Contraseña</label>
               <Input
-                type='password'
-                id='password'
-                name='password'
-                placeholder=''
+                type="password"
+                id="password"
+                name="password"
+                placeholder=""
                 value={values.password}
                 onChange={handleChange}
-                className=' font-poppins'
+                className=" font-poppins"
                 onBlur={handleBlur}
               />
               {errors.password && (
-                <p className='text-red-600 '>{errors.password}</p>
+                <p className="text-red-600 ">{errors.password}</p>
               )}
             </div>
             <Button
-              className={'justify-center'}
-              text='Iniciar sesion'
-              name='LogIn'
+              className={"justify-center"}
+              text="Iniciar sesion"
+              name="LogIn"
               onClick={handleSubmit}
               disabled={false}
-              type='button'
+              type="button"
             />
-            <div className='flex justify-center'>
+            <div className="flex justify-center">
               <GoogleLogin
-                className='py-2 text-xl font-semibold justify-center border border-black w-72'
+                className="justify-center py-2 text-xl font-semibold border border-black w-72"
                 clientId={clientId}
                 onSuccess={onSuccess}
               />
@@ -102,7 +101,6 @@ export const LogIn = (): JSX.Element => {
           </form>
         )}
       </Formik>
-      <ToastContainer />
     </div>
   );
 };

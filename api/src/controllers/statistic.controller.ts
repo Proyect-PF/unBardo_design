@@ -78,6 +78,7 @@ import { Request, Response } from "express";
 import { QueryTypes } from "sequelize";
 import moment from "moment";
 import db from "../database/database";
+import getErrorMessage from "../helpers/handleErrorCatch";
 
 export const getProductSalesStats = async (req: Request, res: Response) => {
     try {
@@ -143,3 +144,17 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
+
+export const getFunnelStats = async (req: Request, res: Response) => {
+    try {
+        res.send("obteniendo datos")
+
+
+
+
+    } catch (error) {
+        res.status(500).json(getErrorMessage(error))
+    }
+}

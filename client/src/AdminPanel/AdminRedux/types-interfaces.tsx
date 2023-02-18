@@ -1,5 +1,5 @@
 import { Product, User } from "../../state/types";
-import { OrderDetails, Analitic } from "../../types/types";
+import { OrderDetails, AnaliticProducts } from "../../types/types";
 export enum AdminActionType {
   GET_ALL_PRODUCTS = "GET_ALL_PRODUCTS",
   GET_ALL_ORDERS = "GET_ALL_ORDERS",
@@ -9,7 +9,7 @@ export enum AdminActionType {
   GET_USER_BY_ID = "GET_USER_BY_ID",
   GET_PRODUCT_BY_NAME = "GET_PRODUCT_BY_NAME",
   GET_ORDERS_COUNT = "GET_ORDERS_COUNT",
-  GET_ANALITICS = "GET_ANALITICS",
+  GET_ANALITICS_PRODUCTS = "GET_ANALITICS_PRODUCTS",
 }
 
 interface IGetAllProducts {
@@ -48,9 +48,10 @@ interface IGetOrdersCount {
 
 
 interface IGetAnaliticsLine {
-  type: AdminActionType.GET_ANALITICS;
-  payload: Analitic[];
+  type: AdminActionType.GET_ANALITICS_PRODUCTS;
+  payload: AnaliticProducts[];
 }
+
 
 export type AdminAction =
   | IGetAllProducts

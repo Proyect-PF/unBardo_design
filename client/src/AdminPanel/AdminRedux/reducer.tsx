@@ -1,5 +1,5 @@
 import { Product, User } from '../../state/types';
-import { Analitic, OrderDetails } from '../../types/types';
+import { AnaliticProducts, OrderDetails } from '../../types/types';
 import { AdminAction, AdminActionType, OrdersAdmin } from './types-interfaces';
 
 export type AdminState = {
@@ -10,7 +10,7 @@ export type AdminState = {
   allUsers: User[];
   userDetails: User;
   ordersCount: number;
-  analitics: Analitic[]
+  analiticsProducts: AnaliticProducts[]
 };
 
 const initialState: AdminState = {
@@ -59,7 +59,7 @@ const initialState: AdminState = {
     id_role: 0,
     news_letter: true,
   },
-  analitics:[]
+  analiticsProducts:[]
 };
 
 const adminReducer = (
@@ -109,10 +109,10 @@ const adminReducer = (
       };
       
       //Caso en el que obtiene los datos de los analisis
-      case AdminActionType.GET_ANALITICS: 
+      case AdminActionType.GET_ANALITICS_PRODUCTS: 
       return {
         ...state, 
-        analitics: action.payload
+        analiticsProducts: action.payload
       }
     default:
       return { ...state };

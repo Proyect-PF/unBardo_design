@@ -230,3 +230,21 @@ Nombre de funcion = DELETE_AllFavoriteByUser
     Recibe id_user por params.
     Esta ruta permite eliminar todos los favoritos de un usuario
 ```
+
+# Endpoints para Shipments
+## localhost:3700/shipments
+
+#### PUT -> localhost:3700/shipments/
+
+```env
+Nombre de funcion = UPDATE_ShipmentPrices
+    Recibe minus100, minus500, minus1000, plus1000 por query.
+    Esta ruta consulta si existe una tabla creada con los costos de envio, si no existe la crea, y en caso de existir la actualiza con los nuevos valores.
+```
+
+#### GET -> localhost:3700/shipments/
+
+```env
+Nombre de funcion = GET_ShipmentPrices
+    Esta ruta obtiene la informacion de los costos de envio.
+```

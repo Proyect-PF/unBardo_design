@@ -251,67 +251,72 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
 
 
 export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
-    const {id, promotional_price, promotion, ...images} = req.body;
+  const { id, promotional_price, promotion, ...images } = req.body;
 
-    try {
-        const productData = {
-            ...req.body,
-        };
-        // Si no llega ningún precio promocional, se deja el estado de promoción en false, por defecto el estado es en falso
-        if (!productData.promotional_price) {
-            productData.promotion = false;
-        } else {
-            productData.promotion = true;
-        }
-
-        const [numberOfAffectedRows, affectedRows] = await db.Product.update(
-            productData,
-            {
-                where: {
-                    id,
-                },
-                returning: true,
-            }
-        );
-
-        const validExtensions = ["jpg", "jpeg", "gif","bmp","svg","webp","tiff", "png", "gif"];
-
-        const isValidExtension = (fileName: string): boolean => {
-            const extension = fileName.split(".").pop()?.toLowerCase();
-            if (extension && validExtensions.includes(extension)) {
-                return true;
-            }
-            return false;
-        };
-        if (numberOfAffectedRows === 0) {
-            throw new Error(`No product updated with id ${id}`);
-        }
-
-        await db.Image.destroy({
-            where: {
-                productId: id,
-            },
-        });
-
-        const createdImages = [];
-        for (const key in images) {
-            if (key.startsWith("image")) {
-                const imgUrl = images[key];
-                if (!isValidExtension(imgUrl)) {
-                    const uploadRes = await cloudinary.uploader.upload(imgUrl, {
-                        upload_preset: 'unbardo'
-                    });
-                    const createdImage = await db.Image.create({
-                        imgUrl: uploadRes.url,
-                        productId: id,
-                    });
-                    createdImages.push(createdImage);
-                }
-            }
-        }
-
-        return res.status(200).json(affectedRows[0]);
-    } catch (error) {
-        return res.status(400).json(getErrorMessage(error));
+  try {
+    const productData = {
+      ...req.body,
+    };
+    // Si no llega ningún precio promocional, se deja el estado de promoción en false, por defecto el estado es en falso
+    if (!productData.promotional_price) {
+      productData.promotion = false;
+    } else {
+      productData.promotion = true;
     }
+
+    const [numberOfAffectedRows, affectedRows] = await db.Product.update(
+      productData,
+      {
+        where: {
+          id,
+        },
+        returning: true,
+      }
+    );
+
+    const validExtensions = ["jpg", "jpeg", "gif", "bmp", "svg", "webp", "tiff", "png", "gif"];
+
+    const isValidExtension = (fileName: string): boolean => {
+      const extension = fileName.split(".").pop()?.toLowerCase();
+      if (extension && validExtensions.includes(extension)) {
+        return true;
+      }
+      return false;
+    };
+
+    let imagesCount = 0;
+    for (const key in images) {
+      if (key.startsWith("image")) {
+        const imgUrl = images[key];
+        if (!isValidExtension(imgUrl)) {
+          const uploadRes = await cloudinary.uploader.upload(imgUrl, {
+            upload_preset: "unbardo",
+          });
+          const createdImage = await db.Image.create({
+            imgUrl: uploadRes.url,
+            productId: id,
+          });
+          imagesCount++;
+        }
+      }
+    }
+
+    if (imagesCount === 0) {
+      throw new Error("You must upload at least one image");
+    }
+
+    if (numberOfAffectedRows === 0) {
+      throw new Error(`No product updated with id ${id}`);
+    }
+
+    const imagesToDelete = await db.Image.findAll({ where: { productId: id }, order: [["createdAt", "ASC"]] });
+    for (let i = 0; i < imagesToDelete.length - imagesCount; i++) {
+      const image = imagesToDelete[i];
+      await image.destroy();
+    }
+
+    return res.status(200).json(affectedRows[0]);
+  } catch (error) {
+    return res.status(400).json(getErrorMessage(error));
+  }
 };

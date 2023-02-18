@@ -25,9 +25,15 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
   const { success, userType } = useSelector((state: State) => state.user);
 
   let style: string;
-  if (openClose) style = "left-full";
+  if (openClose) style = "translate-x-[-100%]";
   else {
-    style = "";
+    style = "translate-x-[0%]";
+  }
+
+  let style1: string;
+  if (openClose) style1 = "opacity-0 invisible";
+  else {
+    style1 = "opacity-1 visible";
   }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -65,9 +71,9 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
 
   return (
     <div
-      className={`flex fixed ${style} w-full bg-black/80 z-40  text-xl font-semibold`}
+      className={`flex fixed ${style1} duration-300 w-full bg-black/80 z-40  text-xl font-semibold`}
     >
-      <div className="flex flex-col justify-between w-2/3 max-w-lg min-h-screen bg-white">
+      <div className={`flex flex-col ${style} duration-300 justify-between w-2/3 max-w-lg min-h-screen bg-white`}>
         <div>
           <div className="flex items-center justify-center h-16 border-b-2 border-gray-300">
             <img src={logo} alt="logo" className="h-7" />

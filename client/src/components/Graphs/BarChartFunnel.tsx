@@ -43,11 +43,11 @@ export function BarChartFunnel() {
   const arrData:AnaliticFunnel[] = [
     {
       timeUnit: "Primera Semana",
-      numberRegister: 100, //Porcentaje
-      numberCarts: Math.round((220 * 100) / 350),
-      numberDirections: Math.round((110 * 100) / 350),
-      numberSales: Math.round((60 * 100) / 350),
-    },
+      numberRegister: 100, //Porcentaje => number registers users
+      numberCarts: Math.round((220 * 100) / 350), // 
+      numberDirections: Math.round((110 * 100) / 350), //status cart
+      numberSales: Math.round((60 * 100) / 350), //Status approved
+    }, 
     {
       timeUnit: "Segunda Semana",
       numberRegister: 100, //Porcentaje

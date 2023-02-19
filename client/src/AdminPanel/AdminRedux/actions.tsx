@@ -155,13 +155,16 @@ export const ADMfetch_users_id = (id: number | undefined) => {
 //   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
 // }
 
-export const ADMfetch_chart_products_values = (timeUnit: string) => {
+export const ADMfetch_chart_products_values = (timeUnit: string, status:string, num?:number) => {
+  console.log(status)
   return (dispatch: Dispatch<AdminAction>) => {
+
     axios
       .get(
         //status => cart, approved, rejected
-        //timeUnit => month, day, year
-        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}`
+        //timeUnit => 
+
+        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
       )
       .then((res) => {
         const payload = res.data;

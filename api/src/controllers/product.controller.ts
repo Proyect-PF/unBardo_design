@@ -251,9 +251,14 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
     const { id, promotional_price, promotion, ...images } = req.body;
 
     try {
+        if (!id) {
+            throw new Error("No product id provided");
+        }
+
         const productData = {
             ...req.body,
         };
+
         // Si no llega ningún precio promocional, se deja el estado de promoción en false, por defecto el estado es en falso
         if (!productData.promotional_price) {
             productData.promotion = false;
@@ -271,47 +276,34 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
             }
         );
 
-        const validExtensions = ["jpg", "jpeg", "gif", "bmp", "svg", "webp", "tiff", "png", "gif"];
-
-        const isValidExtension = (fileName: string): boolean => {
-            const extension = fileName.split(".").pop()?.toLowerCase();
-            if (extension && validExtensions.includes(extension)) {
-                return true;
-            }
-            return false;
-        };
-
-        let imagesCount = 0;
-        let imageToUpdate: any; // Variable para guardar la imagen que se va a actualizar
-        for (const key in images) {
-            if (key.startsWith("image")) {
-                const imgUrl = images[key];
-                if (!isValidExtension(imgUrl)) {
-                    const uploadRes = await cloudinary.uploader.upload(imgUrl, {
-                        upload_preset: "unbardo",
-                    });
-                    const createdImage = await db.Image.create({
-                        imgUrl: uploadRes.url,
-                        productId: id,
-                    });
-                    imagesCount++;
-                } else {
-                    // Buscar la imagen que se va a actualizar y actualizar su URL con la URL de la nueva imagen
-                    const imageId = key.split("_")[1];
-                    imageToUpdate = await db.Image.findByPk(imageId);
-                    if (imageToUpdate) {
-                        const uploadRes = await cloudinary.uploader.upload(imgUrl, {
-                            upload_preset: "unbardo",
-                        });
-                        imageToUpdate.imgUrl = uploadRes.url;
-                        await imageToUpdate.save();
-                    }
-                }
-            }
-        }
-
         if (numberOfAffectedRows === 0) {
             throw new Error(`No product updated with id ${id}`);
+        }
+
+        const imagesToUpdate = await db.Image.findAll({ where: { productId: id }, order: [["id", "ASC"]] });
+
+        for (const key in images) {
+            if (key === "image") {
+                const imagePosition = 0;
+                if (imagePosition < imagesToUpdate.length) {
+                    const image = imagesToUpdate[imagePosition];
+                    const uploadRes = await cloudinary.uploader.upload(images[key], {
+                        upload_preset: 'unbardo'
+                    });
+                    image.imgUrl = uploadRes.url;
+                    await image.save();
+                }
+            } else if (key.startsWith("image")) {
+                const imagePosition = parseInt(key.replace("image", "")) - 1;
+                if (imagePosition >= 0 && imagePosition < imagesToUpdate.length) {
+                    const image = imagesToUpdate[imagePosition];
+                    const uploadRes = await cloudinary.uploader.upload(images[key], {
+                        upload_preset: 'unbardo'
+                    });
+                    image.imgUrl = uploadRes.url;
+                    await image.save();
+                }
+            }
         }
 
         return res.status(200).json(affectedRows[0]);
@@ -319,4 +311,5 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
         return res.status(400).json(getErrorMessage(error));
     }
 };
+
 

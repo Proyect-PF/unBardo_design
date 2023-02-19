@@ -9,9 +9,16 @@ interface DailyStatistic {
 
 export const getProductSalesStats = async (req: Request, res: Response) => {
     try {
-        let {timeUnit, num}: any = req.query;
+        let {timeUnit, num, status}: any = req.query;
         if (!timeUnit) {
             return res.status(400).json({message: 'Missing period parameter'});
+        }
+        if (timeUnit === "trimesters") {
+            timeUnit = "months";
+            num = 3;
+        }
+        if (!status) {
+            status = 'approved';
         }
         if (!num && timeUnit === 'days') {
             num = 7;
@@ -25,16 +32,17 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
         const range = moment().subtract(num, timeUnit).format('YYYY-MM-DD');
 
         const query = `
-      SELECT DATE_TRUNC('${timeUnit}', orders."createdAt") AS "timeUnit",
-        SUM(COALESCE((op.sizes->>'XL')::int, 0) 
-          + COALESCE((op.sizes->>'S')::int, 0) 
-          + COALESCE((op.sizes->>'M')::int, 0) 
-          + COALESCE((op.sizes->>'L')::int, 0)) AS "totalProductsSold"
-      FROM public."OrderProducts" AS op
-      JOIN public."Orders" AS orders ON op.id_order = orders.id
-      WHERE orders."createdAt" >= '${range}'
-      GROUP BY DATE_TRUNC('${timeUnit}', orders."createdAt")
-      ORDER BY DATE_TRUNC('${timeUnit}', orders."createdAt") ASC
+     SELECT DATE_TRUNC('${timeUnit}', orders."updatedAt") AS "timeUnit",
+       SUM(COALESCE((op.sizes->>'XL')::int, 0) 
+         + COALESCE((op.sizes->>'S')::int, 0) 
+         + COALESCE((op.sizes->>'M')::int, 0) 
+         + COALESCE((op.sizes->>'L')::int, 0)) AS "totalProductsSold"
+     FROM public."OrderProducts" AS op
+     JOIN public."Orders" AS orders ON op.id_order = orders.id
+     WHERE orders."updatedAt" >= '${range}' AND orders.status = '${status}'
+     GROUP BY DATE_TRUNC('${timeUnit}', orders."updatedAt")
+     ORDER BY DATE_TRUNC('${timeUnit}', orders."updatedAt") ASC;
+
     `;
 
         const results = await db.sequelize.query(query, {

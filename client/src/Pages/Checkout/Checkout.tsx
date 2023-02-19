@@ -105,10 +105,10 @@ const Checkout = ({ openClose, handleCheckout }: Props): JSX.Element => {
 
   return (
     <div
-      className={`flex fixed ${style1} duration-300 justify-end w-full bg-black/60 z-50`}
+      className={`flex fixed ${style1} ease-in-out duration-500 justify-end w-full bg-black/60 z-50`}
     >
       <div
-        className={`h-screen flex flex-col ${style} duration-300 justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4`}
+        className={`h-screen flex flex-col ${style} ease-in-out duration-500 justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4`}
       >
         <div className="flex flex-wrap justify-center w-full">
           <div className="flex items-center justify-between w-full h-12 border-b border-gray-400">

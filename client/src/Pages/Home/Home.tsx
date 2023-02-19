@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
-import photo from "../../assets/images/homep.jpg";
+import photo from "../../assets/images/home.jpg";
 import Button from "../../components/Buttons/Button/Button";
 import Product from "../../components/Cards/Product/Product";
 import Dropdown from "../../components/DropDowns/dropdown";
@@ -53,7 +53,11 @@ const Home = () => {
             Promociones activas
           </div>
         )}
-        <img className="object-none w-full h-48" alt="homepage" src={photo} />
+        <img
+          className="object-cover w-full h-60 sm:h-80"
+          alt="homepage"
+          src={photo}
+        />
         <p className="p-5 text-3xl font-bold text-center font-rift">
           WELCOME TO THE JUNGLE
         </p>

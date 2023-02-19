@@ -120,7 +120,11 @@ export type AnaliticProducts = {
 }
 
 export type AnaliticFunnel = {
-  
+  timeUnit: string,
+  numberRegister:number
+  numberCarts:number
+  numberDirections: number
+  numberSales: number
 }
 
 // type chartValues = {

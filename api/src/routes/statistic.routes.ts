@@ -108,21 +108,21 @@ statisticRoutes.get("/product-sales", getProductSalesStats);
  const arrData:AnaliticFunnel[] = [
  {
       timeUnit: "Enero",
-      numberRegister: 350,
+      numberRegister: 100 %,
       numberCarts: (220 * 100) / 350,
       numberDirections: (110 * 100) / 350,
       numberSales: (60 * 100) / 350,
     },
  {
       timeUnit: "Febrero",
-      numberRegister: 400,
+      numberRegister: 100,
       numberCarts: (350 * 100) / 400,
       numberDirections: (50 * 100) / 400,
       numberSales: (25 * 100) / 400,
     },
  {
       timeUnit: "Marzo",
-      numberRegister: 200,
+      numberRegister: 100,
       numberCarts: (150 * 100) / 200,
       numberDirections: (40 * 100) / 200,
       numberSales: (20 * 100) / 200,

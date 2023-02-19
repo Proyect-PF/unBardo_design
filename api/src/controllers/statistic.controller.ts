@@ -30,20 +30,44 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
             num = 5;
         }
         const range = moment().subtract(num, timeUnit).format('YYYY-MM-DD');
-
+        // Por revisar que no se sobreescriban los ceros
         const query = `
-     SELECT DATE_TRUNC('${timeUnit}', orders."updatedAt") AS "timeUnit",
-       SUM(COALESCE((op.sizes->>'XL')::int, 0) 
-         + COALESCE((op.sizes->>'S')::int, 0) 
-         + COALESCE((op.sizes->>'M')::int, 0) 
-         + COALESCE((op.sizes->>'L')::int, 0)) AS "totalProductsSold"
-     FROM public."OrderProducts" AS op
-     JOIN public."Orders" AS orders ON op.id_order = orders.id
-     WHERE orders."updatedAt" >= '${range}' AND orders.status = '${status}'
-     GROUP BY DATE_TRUNC('${timeUnit}', orders."updatedAt")
-     ORDER BY DATE_TRUNC('${timeUnit}', orders."updatedAt") ASC;
-
+WITH date_range AS (
+  SELECT generate_series(
+    date_trunc('${timeUnit}', '${range}'::date),
+    date_trunc('${timeUnit}', NOW())::date,
+    '1 ${timeUnit}'::interval
+  ) AS "timeUnit"
+), sales_data AS (
+  SELECT DATE_TRUNC('${timeUnit}', orders."updatedAt") AS "timeUnit",
+    SUM(COALESCE((op.sizes->>'XL')::int, 0) 
+      + COALESCE((op.sizes->>'S')::int, 0) 
+      + COALESCE((op.sizes->>'M')::int, 0) 
+      + COALESCE((op.sizes->>'L')::int, 0)) AS "totalProductsSold"
+  FROM public."OrderProducts" AS op
+  JOIN public."Orders" AS orders ON op.id_order = orders.id
+  WHERE orders."updatedAt" >= '${range}' AND orders.status = '${status}'
+  GROUP BY DATE_TRUNC('${timeUnit}', orders."updatedAt")
+)
+SELECT date_range."timeUnit", COALESCE(sales_data."totalProductsSold", 0) AS "totalProductsSold"
+FROM date_range
+LEFT JOIN sales_data ON date_range."timeUnit" = sales_data."timeUnit"
+ORDER BY date_range."timeUnit" ASC;
     `;
+
+        // Version Vieja sin los ceros
+    //     const query = `
+    //  SELECT DATE_TRUNC('${timeUnit}', orders."updatedAt") AS "timeUnit",
+    //    SUM(COALESCE((op.sizes->>'XL')::int, 0)
+    //      + COALESCE((op.sizes->>'S')::int, 0)
+    //      + COALESCE((op.sizes->>'M')::int, 0)
+    //      + COALESCE((op.sizes->>'L')::int, 0)) AS "totalProductsSold"
+    //  FROM public."OrderProducts" AS op
+    //  JOIN public."Orders" AS orders ON op.id_order = orders.id
+    //  WHERE orders."updatedAt" >= '${range}' AND orders.status = '${status}'
+    //  GROUP BY DATE_TRUNC('${timeUnit}', orders."updatedAt")
+    //  ORDER BY DATE_TRUNC('${timeUnit}', orders."updatedAt") ASC;
+    // `;
 
         const results = await db.sequelize.query(query, {
             type: db.sequelize.QueryTypes.SELECT,
@@ -57,4 +81,3 @@ export const getProductSalesStats = async (req: Request, res: Response) => {
         return res.status(500).json({message: 'Internal server error'});
     }
 };
-

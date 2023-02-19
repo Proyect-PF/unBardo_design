@@ -110,34 +110,59 @@ type AnaliticFunnel = {
 }
         Este es el formato que debe de tener la respuesta desde esta ruta
         *!EJEMPLO
+
+
+        const arrData:AnaliticFunnel[] = [
+    {
+      timeUnit: "Enero",
+      numberRegister: 350,
+      numberCarts: (220 * 100) / 350,
+      numberDirections: (110 * 100) / 350,
+      numberSales: (60 * 100) / 350,
+    },
+    {
+      timeUnit: "Febrero",
+      numberRegister: 400,
+      numberCarts: (350 * 100) / 400,
+      numberDirections: (50 * 100) / 400,
+      numberSales: (25 * 100) / 400,
+    },
+    {
+      timeUnit: "Marzo",
+      numberRegister: 200,
+      numberCarts: (150 * 100) / 200,
+      numberDirections: (40 * 100) / 200,
+      numberSales: (20 * 100) / 200,
+    },
+
         Ej => [
             {
             timeUnit: "primera semana"
-            numberSales: 2000 =>  numero de ordenes completadas
-            numberCarts: (numberCarts x 100) / 2000  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
-            numberRegister: (numberRegister x 100) / 2000  =>  Porcentaje segun los usuarios registrados
-            numberDirections: (numberDirections x 100) / 2000  =>  Porcentaje segun las direcciones completadas
+            numberRegister: 200 =>  numero de ordenes completadas
+            numberCarts: (150 * 100) / 200,  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
+            numberDirections: (40 * 100) / 200,  => Porcentaje segun las direcciones completadas
+            numberSales: (60 * 100) / 350,  =>   Porcentaje segun los usuarios registrados
         },
                     {
             timeUnit: "segunda Semana"
-            numberSales: 4000 =>  numero de ordenes completadas
-            numberCarts: (numberCarts x 100) / 2000  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
-            numberRegister: (numberRegister x 100) / 2000  =>  Porcentaje segun los usuarios registrados
-            numberDirections: (numberDirections x 100) / 2000  =>  Porcentaje segun las direcciones completadas
+            numberRegister: 400, =>  numero de ordenes completadas
+                  numberCarts: (350 * 100) / 400,  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
+                  numberDirections: (50 * 100) / 400,  => Porcentaje segun las direcciones completadas
+                  numberSales: (25 * 100) / 400,  =>   Porcentaje segun los usuarios registrados
         },
                     {
             timeUnit: "tercera Semana"
-            numberSales: 5000 =>  numero de ordenes completadas
-            numberCarts: (numberCarts x 100) / 2000  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
-            numberRegister: (numberRegister x 100) / 2000  =>  Porcentaje segun los usuarios registrados
-            numberDirections: (numberDirections x 100) / 2000  =>  Porcentaje segun las direcciones completadas
+                  numberRegister: 350, =>  numero de ordenes completadas
+                  numberCarts: (220 * 100) / 350,  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
+                  numberDirections: (110 * 100) / 350,  => Porcentaje segun las direcciones completadas
+                 numberSales: (60 * 100) / 350,  =>   Porcentaje segun los usuarios registrados
         },
                             {
             timeUnit: "cuarta Semana"
-            numberSales: 1000 =>  numero de ordenes completadas
-            numberCarts: (numberCarts x 100) / 2000  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
-            numberRegister: (numberRegister x 100) / 2000  =>  Porcentaje segun los usuarios registrados
-            numberDirections: (numberDirections x 100) / 2000  =>  Porcentaje segun las direcciones completadas
+            numberRegister: 200 =>  numero de ordenes completadas
+            numberCarts: (150 * 100) / 200,  =>  Porcentaje segun los carritos Hechos (pero no vendidos) 
+            numberDirections: (40 * 100) / 200,  => Porcentaje segun las direcciones completadas
+            numberSales: (60 * 100) / 350,  =>   Porcentaje segun los usuarios registrados
         }
         ]
 

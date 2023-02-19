@@ -110,7 +110,7 @@ export type SetFavoritePayload = {
 };
 
 
-
+//semanal
 
 
 // TYPES ANALITICS

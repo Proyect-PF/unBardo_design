@@ -161,11 +161,11 @@ export const ADMfetch_chart_products_values = (timeUnit: string) => {
       .get(
         //status => cart, approved, rejected
         //timeUnit => month, day, year
-        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=rejected`
+        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}`
       )
       .then((res) => {
         const payload = res.data;
-
+        console.log(payload)
         dispatch({
           type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,

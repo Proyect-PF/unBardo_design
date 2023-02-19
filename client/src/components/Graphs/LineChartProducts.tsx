@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
+  ChartEvent,
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
@@ -68,15 +69,12 @@ export const LineChartProducts = () => {
     return timeShort.concat(" hs");
   });
 
-
-
-  //
-
   //Configuracion del Chart Line
   const options: ChartOptions = {
     responsive: true,
+  
     plugins: {
-
+      
       legend: {
         position: "top",
 
@@ -121,6 +119,7 @@ export const LineChartProducts = () => {
   };
 
   const data = {
+    point: "triangle",
     labels,
     datasets: [
       {
@@ -140,7 +139,9 @@ export const LineChartProducts = () => {
       [names]: values,
     });
   };
-
+  const hanldle = (e: any)=> {
+    console.log(e)
+  }
   return (
     <div>
       {analiticsProducts.length > 0 && (
@@ -160,12 +161,12 @@ export const LineChartProducts = () => {
           </select>
           <select value={infoBack.status} name="status" onChange={handleChange}>
             <option value="approved" selected>
-              Aprovados
+              Aprobados
             </option>
             <option value="rejected">Cancelados</option>
             <option value="cart">Carrito</option>
           </select>
-          <Line options={options} data={data} />
+          <Line options={options} data={data} onClick={hanldle}/>
         </div>
       )}
     </div>

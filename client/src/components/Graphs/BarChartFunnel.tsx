@@ -51,11 +51,29 @@ export function BarChartFunnel() {
     {
       timeUnit: "Segunda Semana",
       numberRegister: 100, //Porcentaje
+      numberCarts: Math.round((12 * 100) / 500),
+      numberDirections: Math.round((4 * 100) / 500),
+      numberSales: Math.round((1 * 100) / 500),
+    },
+    {
+      timeUnit: "Segunda Semana",
+      numberRegister: 100, //Porcentaje
+      numberCarts: Math.round((350 * 100) / 500),
+      numberDirections: Math.round((50 * 100) / 500),
+      numberSales: Math.round((25 * 100) / 500),
+    },    {
+      timeUnit: "Segunda Semana",
+      numberRegister: 100, //Porcentaje
+      numberCarts: Math.round((350 * 100) / 500),
+      numberDirections: Math.round((50 * 100) / 500),
+      numberSales: Math.round((25 * 100) / 500),
+    },    {
+      timeUnit: "Segunda Semana",
+      numberRegister: 100, //Porcentaje
       numberCarts: Math.round((350 * 100) / 500),
       numberDirections: Math.round((50 * 100) / 500),
       numberSales: Math.round((25 * 100) / 500),
     },
-
   ];
 
   //Instanciacion para 

@@ -72,10 +72,10 @@ const InformationPanel = () => {
               </div>
             </div>
 
-            <div className="w-6/12 ">
+            <div className="w-6/12 shadow-2xl">
               <LineChartProducts />
             </div>
-            <div className="h-6/12">
+            <div className="w-7/12 ">
               <BarChartFunnel />
             </div>
           </div>

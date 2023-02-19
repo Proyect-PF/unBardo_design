@@ -92,7 +92,7 @@ export const LineChartProducts = () => {
           <select value={date.timeUnit} onChange={handleChange}>
             <option value="days" selected>Ultimos 7 Dias</option>
             <option value="weeks">Ultimas 4 Semanas</option>
-            <option value="trimestres">Ultimos 3 Meses</option>
+            <option value="trimesters">Ultimos 3 Meses</option>
             <option value="months">Ultimos 12 Meses</option>
             {/* <option value="years">Ultimo Año</option>  */}
           </select>

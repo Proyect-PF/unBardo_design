@@ -5,6 +5,11 @@ import Button from "../../components/Buttons/Button/Button";
 import CheckoutCard from "../../components/Cards/Checkout/CheckoutCard";
 import { State } from "../../state/reducers";
 import Swal from "sweetalert2";
+import close from "../../assets/svg/googleIcons/close.svg";
+import Scroll from "react-scroll";
+import { baseURL, PORT } from "../../utils/url&port";
+
+const Element = Scroll.Element;
 
 interface ProductSize {
   [size: string]: number;
@@ -20,7 +25,12 @@ interface UserProducts {
   products: Product[];
 }
 
-const Checkout = (): JSX.Element => {
+interface Props {
+  openClose: boolean;
+  handleCheckout: any;
+}
+
+const Checkout = ({ openClose, handleCheckout }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { checkoutList } = useSelector((state: State) => state.checkout);
   const { userId } = useSelector((state: State) => state.user);
@@ -49,15 +59,10 @@ const Checkout = (): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (success) {
-      axios
-        .post("http://localhost:3700/orders", userProducts)
-        .then((response) => {
-          console.log("DESPUES DEL POST", response);
-          return response;
-        })
-        .catch((error) => {
-          console.error("ERROR ENVIANDO LA DATA AL SERVER:", error);
-        });
+      axios.post(`${baseURL}:${PORT}/orders`, userProducts).then((response) => {
+        return response;
+      });
+      handleCheckout();
       navigate("/checkout/payment");
     } else {
       Swal.fire({
@@ -66,65 +71,111 @@ const Checkout = (): JSX.Element => {
         showCancelButton: true,
         showConfirmButton: true,
         showDenyButton: true,
-        confirmButtonColor: "#000",
-        denyButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
+        denyButtonColor: "#376B7E",
         cancelButtonColor: "#e5e7eb",
         cancelButtonText:
           "<p class='font-rift text-lg text-black'>Por ahora no</p>",
         confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
         denyButtonText:
           "<p class='font-rift text-lg text-white'>Registrarse</p>",
-        reverseButtons: true,
         html: '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder comprar los productos de la bolsa de compra</p>',
-        //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/account/login");
+          handleCheckout();
         } else if (result.isDenied) {
           navigate("/account/register");
+          handleCheckout();
         }
       });
     }
   };
 
-  return (
-    <div className="flex flex-col items-center gap-4">
-      {checkoutList?.length > 0 &&
-        checkoutList.map((e: any) => (
-          <CheckoutCard
-            key={e.id}
-            id={e.id}
-            name={e.name}
-            size={e.size}
-            price={e.price}
-            ammount={e.ammount}
-            imgF={e.imgF}
-          />
-        ))}
-      <div>
-        <p className="mx-6 font-bold text-right">{`Total: $ ${
-          checkoutList.length > 0
-            ? checkoutList.reduce((acc: number, e: any) => {
-                return acc + e.price * e.ammount;
-              }, 0)
-            : 0
-        }`}</p>
+  let style: string;
+  if (openClose) style = "translate-x-[100%]";
+  else {
+    style = "translate-x-[0%]";
+  }
+  let style1: string;
+  if (openClose) style1 = "opacity-0 invisible";
+  else {
+    style1 = "opacity-1 visible";
+  }
 
-        <Button
-          className={"justify-center"}
-          type="button"
-          name="Checkout"
-          text={`Pagar ahora (${
+  return (
+    <div
+      className={`flex fixed ${style1} ease-in-out duration-500 justify-end w-full bg-black/60 z-50`}
+    >
+      <div
+        className={`h-screen flex flex-col ${style} ease-in-out duration-500 justify-between pt-5 pb-14 max-w-md bg-white w-4/5 items-center gap-4`}
+      >
+        <div className="flex flex-wrap justify-center w-full">
+          <div className="flex items-center justify-between w-full h-12 border-b border-gray-400">
+            <p className="pb-3 pl-3 font-medium font-poppins">
+              Bolsa de Compra
+            </p>
+            <img
+              onClick={handleCheckout}
+              className="pb-3 hover:cursor-pointer"
+              src={close}
+              alt="close"
+            />
+          </div>
+          <Element
+            name="test7"
+            className="element scroll-hidden"
+            id="containerElement"
+            style={{
+              position: "relative",
+              height: "70vh",
+              overflow: "scroll",
+              scrollbarWidth: "none",
+              overflowX: "hidden",
+            }}
+          >
+            <div className="flex flex-wrap justify-center w-full">
+              {checkoutList?.length > 0 &&
+                checkoutList.map((e: any) => (
+                  <CheckoutCard
+                    key={e.id}
+                    id={e.id}
+                    name={e.name}
+                    size={e.size}
+                    price={e.price}
+                    ammount={e.ammount}
+                    imgF={e.imgF}
+                    handleCheckout={handleCheckout}
+                  />
+                ))}
+            </div>
+          </Element>
+        </div>
+        <div className="w-full border-t border-gray-400">
+          <p className="pt-3 mx-6 font-bold text-center">{`Total: $ ${
             checkoutList.length > 0
               ? checkoutList.reduce((acc: number, e: any) => {
-                  return acc + e.ammount;
+                  return acc + e.price * e.ammount;
                 }, 0)
               : 0
-          })`}
-          onClick={handleClick}
-          // onClick={() => {}}
-          disabled={checkoutList.length === 0}
-        />
+          }`}</p>
+
+          <Button
+            className={"justify-center"}
+            type="button"
+            name="Checkout"
+            text={`Pagar ahora (${
+              checkoutList.length > 0
+                ? checkoutList.reduce((acc: number, e: any) => {
+                    return acc + e.ammount;
+                  }, 0)
+                : 0
+            })`}
+            onClick={handleClick}
+            // onClick={() => {}}
+            disabled={checkoutList.length === 0}
+          />
+        </div>
       </div>
     </div>
   );

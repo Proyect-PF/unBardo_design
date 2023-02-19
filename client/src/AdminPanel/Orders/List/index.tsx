@@ -65,7 +65,6 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
       });
     }
   };
-
   return (
     <div>
       <div className="flex flex-col mx-8">
@@ -179,33 +178,27 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         </div>
       </div>
       <div className={`${className}`}>
-        <div className="flex items-center justify-around w-full text-center border-t">
-          <p className="w-8 border-r border-black">Id</p>
-          <p className="w-40 ">Nombre</p>
-          <p className="w-40 ">Email</p>
+        <div className="flex items-center justify-between w-full px-4 text-center border-t">
+          <p className="w-12 border-r border-black">Id</p>
+          <p className="w-40"> Usuario</p>
           <p className="w-40 ">Fecha</p>
           <p className="w-24 ">Status</p>
-          <p className="w-24 ">Despachada</p>
-          <p className="w-20"></p>
+          <p className="w-28 ">Despachada</p>
         </div>
         {allOrders &&
           allOrders.map((e) => (
-            <div className="flex items-center justify-around w-full text-center border-t">
-              <p className="w-8 border-r border-black">{e.id}</p>
-              <p className="w-40 ">{e.users.fullname}</p>
+            <div
+              className="flex items-center justify-between w-full px-4 py-2 text-base font-normal text-center border-t cursor-pointer"
+              onClick={() => {
+                setId(e.id);
+                setSelected("details");
+              }}
+            >
+              <p className="w-12 border-r border-black">{e.id}</p>
               <p className="w-40 ">{e.users.email}</p>
               <p className="w-40 ">{e.updatedAt.split("T")[0]}</p>
               <p className="w-24 ">{e.status}</p>
-              <p className="w-24 ">{e.dispatched ? "Si" : "No"}</p>
-              <button
-                onClick={() => {
-                  setId(e.id);
-                  setSelected("details");
-                }}
-                className="w-20 py-2 border border-black"
-              >
-                Detalles
-              </button>
+              <p className="w-28 ">{e.dispatched ? "Si" : "No"}</p>
             </div>
           ))}
       </div>

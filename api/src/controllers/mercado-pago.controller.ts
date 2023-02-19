@@ -315,7 +315,6 @@ export const POST_GeneratePayment = async (
       });
     })
     .catch(function (error: any) {
-      console.log(error);
       return response.status(400).json(error);
     });
 };
@@ -350,9 +349,9 @@ export const POST_FeedbackPayment = async (
         if (payment_detail.data.status === 'approved') {
             var orderAproved = await UPDATE_QuantitySizes(Number(feedback.external_reference))
         }
-        console.log(feedback.external_reference);
-        console.log(payment_detail.data.status);
-        console.log(feedback.payment_id);
+        // console.log(feedback.external_reference);
+        // console.log(payment_detail.data.status);
+        // console.log(feedback.payment_id);
         
         return response.status(200).json({
             payment_id: feedback.payment_id,

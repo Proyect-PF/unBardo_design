@@ -34,26 +34,27 @@ const Favorites = () => {
     return (
         <div>
             <h3 className="font-rift text-4xl font-bold text-center">Productos Favoritos</h3>
-            <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
-                {
-                    productsFavorites.length? 
-                    productsFavorites.map((e) => {
-                        if (e.show_in_shop) {
-                        return (
-                            <Product
-                            image={e.image}
-                            image2={e.image2}
-                            key={e.id}
-                            name={e.name}
-                            price={e.price.toString()}
-                            id={Number(e.id)}
-                            promotion={e.promotion}
-                            promotional_price={e.promotional_price}
-                            />)}}): 
-                            
-                            <p className="font-poppins text-center text-2xl font-medium">No has agregado productos a tus favoritos</p>
-                }
-            </div>
+            {
+
+                productsFavorites.length? <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
+                    {
+                        productsFavorites.map((e) => {
+                            if (e.show_in_shop) {
+                            return (
+                                <Product
+                                image={e.image}
+                                image2={e.image2}
+                                key={e.id}
+                                name={e.name}
+                                price={e.price.toString()}
+                                id={Number(e.id)}
+                                promotion={e.promotion}
+                                promotional_price={e.promotional_price}
+                                />)}})
+                    }
+                </div>:
+                <p className="font-poppins text-center text-2xl font-medium">No has agregado productos a tus favoritos</p>
+            }
         </div>
     )
 }

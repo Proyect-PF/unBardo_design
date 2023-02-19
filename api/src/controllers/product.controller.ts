@@ -99,7 +99,6 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
 
         return res.status(201).json(newProduct);
     } catch (error) {
-        console.log(typeof error);
         return res.status(400).json(getErrorMessage(error));
     }
 };
@@ -168,7 +167,6 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
     try {
         const {id} = request.params;
         const {name, filter, filter2, order, page, perPage, sort} = request.query;
-        console.log(request.query);
 
         // Seteamos el optiones BASE de consulta
         let options: any = {
@@ -215,13 +213,12 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         let products = await db.Product.findAll(options);
         let productsWithImages = [];
         for (const product of products) {
-            console.log(product);
             const images = await db.Image.findAll({
                 where: {
                     productId: product.id,
                 },
             });
-            console.log(images); // Verificar si el objeto images tiene los datos esperados
+             // Verificar si el objeto images tiene los datos esperados
             const imageUrls = images.reduce((obj: any, image: any, i: any) => {
                 if (i === 0) {
                     obj[`image`] = image.imgUrl;

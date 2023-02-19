@@ -21,10 +21,9 @@ const AdminP = (): JSX.Element => {
     if (userType !== "admin") navigate("/");
     ADMfetch_products();
   }, []);
-
   return (
     <div className="flex flex-row justify-between">
-      <div className="flex flex-col gap-8 px-2 py-12 text-2xl font-bold border-r">
+      <div className="flex flex-col gap-8 px-4 py-12 text-2xl font-bold border-r">
         <button onClick={() => setPanel("info")}>Resumen</button>
         <button onClick={() => setPanel("products")}>Productos</button>
         <button onClick={() => setPanel("orders")}>Ordenes</button>
@@ -35,10 +34,9 @@ const AdminP = (): JSX.Element => {
       <div className="w-full ">
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
-        {panel == "info" && <InformationPanel />}
-
-        {panel == "newsletter" && <EmailList />}
-        {panel == "pricing" && <Pricing />}
+        {panel === "info" && <InformationPanel />}
+        {panel === "newsletter" && <EmailList />}
+        {panel === "pricing" && <Pricing />}
       </div>
     </div>
   );

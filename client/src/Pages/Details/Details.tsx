@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+
 import { bindActionCreators } from "redux";
 import Button from "../../components/Buttons/Button/Button";
 import ImageSlider from "../../components/ImageSlider";
@@ -15,6 +15,7 @@ import plus from "../../assets/svg/googleIcons/plus.svg";
 import minus from "../../assets/svg/googleIcons/minus.svg";
 import heartF from "../../assets/svg/googleIcons/heart.svg";
 import heartUF from "../../assets/svg/googleIcons/heartunfilled.svg";
+import Toast from "../../components/Toast";
 
 const Details = (): JSX.Element => {
   const location = useLocation();
@@ -81,15 +82,10 @@ const Details = (): JSX.Element => {
     addCheckout(payload);
     setSize("");
     setAmmount(1);
-    toast.success("Se añadió correctamente!", {
-      position: "bottom-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
+    Toast.fire({
+      icon: "success",
+      title:
+        "<p class='font-bold font-rift text-black'>Se añadió correctamente!</p>",
     });
   };
 
@@ -231,7 +227,7 @@ const Details = (): JSX.Element => {
             )}
           </div>
           <div>
-            <div className="flex justify-around my-8 text-lg text-center md:justify-center md:w-fit">
+            <div className="flex justify-around my-8 text-lg text-center md:justify-center md:w-fit ">
               <SizeSelector
                 detailId={productDetails.id}
                 selected={size}
@@ -326,7 +322,6 @@ const Details = (): JSX.Element => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };

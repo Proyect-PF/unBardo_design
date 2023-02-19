@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Toast from "../../Toast";
 
 interface Props {
   stock: (size: string) => number;
@@ -16,11 +17,25 @@ const AmountInput = ({ stock, size, amount, setter }: Props): JSX.Element => {
     event.preventDefault();
     const button: HTMLButtonElement = event.currentTarget;
     if (button.innerHTML === "+") {
+      if(size === "") {
+        Toast.fire({
+          icon: "info",
+          title:
+            "<p class='font-bold font-rift text-black'>Selecciona una talla primero</p>",
+        });
+      }
       if (amount < stock(size)) {
         setter(amount + 1);
       }
-    } else if (amount > 1) {
-      setter(amount - 1);
+    } else {
+      if(size === "") {
+        Toast.fire({
+          icon: "info",
+          title:
+            "<p class='font-bold font-rift text-black'>Selecciona una talla primero</p>",
+        });
+      }
+      if (amount > 1) setter(amount - 1);
     }
   };
 

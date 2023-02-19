@@ -12,6 +12,8 @@ const ChatBotComponent = () => {
         config={config}
         messageParser={MessageParser}
         actionProvider={ActionProvider}
+        headerText="Chatea con UnBardo!"
+        placeholderText="Escribe un mensaje..."
       />
     </div>
   );

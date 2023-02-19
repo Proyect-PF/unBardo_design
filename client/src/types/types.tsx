@@ -95,15 +95,41 @@ export type OrderDetails = {
     area_code: string;
     number: string;
   };
+  track_id?: string;
 };
 
 export type Favorites = {
   id: number;
   id_user: number;
   products_id: number[];
-}
+};
 
 export type SetFavoritePayload = {
   id_user: number;
   id_product: number;
+};
+
+
+
+
+
+// TYPES ANALITICS
+export type AnaliticProducts = {
+  timeUnit:string
+  totalProductsSold:number
 }
+
+export type AnaliticFunnel = {
+  timeUnit: string,
+  numberRegister:number
+  numberCarts:number
+  numberDirections: number
+  numberSales: number
+}
+
+// type chartValues = {
+//   numberCarts?:number //Numero de carritos generados, se maneja desde el boton que se compra el carrito.
+//   numberRegister?:number //Numero de registros, se maneja desde el Back la info que me trae.
+//   numberDirections?:number //Numero de personas que ingresan sus datos, se maneja con el evento onclick del boton del componente.
+//   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
+// }

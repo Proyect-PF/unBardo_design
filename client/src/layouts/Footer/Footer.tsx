@@ -1,14 +1,14 @@
 import React from "react";
 import email from "../../assets/svg/googleIcons/email.svg";
-import logofooter from "../../assets/svg/googleIcons/logofooter.svg";
+import logofooter from "../../assets/png/Bardo-frase.png";
 import instagram from "../../assets/svg/googleIcons/instagram.svg";
 import whatsapp from "../../assets/svg/googleIcons/whatsapp.svg";
 
 const Footer = () => {
   return (
     <div className="flex flex-col items-start mt-14">
-      <div className="flex flex-col w-full">
-        <img src={logofooter} className="justify-center h-40" />
+      <div className="flex flex-row justify-center w-full ">
+        <img src={logofooter} className="w-60 " />
       </div>
       <div className="flex flex-col gap-4 m-5 mt-8 ">
         <p className="text-2xl font-bold">CONTACTO</p>

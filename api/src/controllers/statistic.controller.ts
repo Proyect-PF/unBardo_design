@@ -10,26 +10,27 @@ interface DailyStatistic {
 export const getProductSalesStats = async (req: Request, res: Response) => {
     try {
         let {timeUnit, num, status}: any = req.query;
+        let n = Number(num)
         if (!timeUnit) {
             return res.status(400).json({message: 'Missing period parameter'});
         }
         if (timeUnit === "trimesters") {
             timeUnit = "months";
-            num = 3;
+            n = 3;
         }
         if (!status) {
             status = 'approved';
         }
-        if (!num && timeUnit === 'days') {
-            num = 7;
-        } else if (!num && timeUnit === 'weeks') {
-            num = 4;
-        } else if (!num && timeUnit === 'months') {
-            num = 12;
-        } else if (!num && timeUnit === 'years') {
-            num = 5;
+        if (!n && timeUnit === 'days') {
+            n = 7;
+        } else if (!n && timeUnit === 'weeks') {
+            n = 4;
+        } else if (!n && timeUnit === 'months') {
+            n = 12;
+        } else if (!n && timeUnit === 'years') {
+            n = 5;
         }
-        const range = moment().subtract(num, timeUnit).format('YYYY-MM-DD');
+        const range = moment().subtract(n, timeUnit).format('YYYY-MM-DD');
         // Por revisar que no se sobreescriban los ceros
         const query = `
 WITH date_range AS (

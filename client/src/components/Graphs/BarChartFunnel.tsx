@@ -39,64 +39,22 @@ export function BarChartFunnel() {
   // useEffect(() => {
   //   ADMfetch_chart_products_values(date.timeUnit);
   // }, [date.timeUnit]);
-
+    
   const arrData:AnaliticFunnel[] = [
     {
       timeUnit: "Enero",
-      numberRegister: 350,
-      numberCarts: (220 * 100) / 350,
-      numberDirections: (110 * 100) / 350,
-      numberSales: (60 * 100) / 350,
+      numberRegister: 100, //Porcentaje
+      numberCarts: Math.round((220 * 100) / 350),
+      numberDirections: Math.round((110 * 100) / 350),
+      numberSales: Math.round((60 * 100) / 350),
     },
     {
       timeUnit: "Febrero",
-      numberRegister: 400,
-      numberCarts: (350 * 100) / 400,
-      numberDirections: (50 * 100) / 400,
-      numberSales: (25 * 100) / 400,
+      numberRegister: 100, //Porcentaje
+      numberCarts: Math.round((350 * 100) / 500),
+      numberDirections: Math.round((50 * 100) / 500),
+      numberSales: Math.round((25 * 100) / 500),
     },
-    {
-      timeUnit: "Marzo",
-      numberRegister: 200,
-      numberCarts: (150 * 100) / 200,
-      numberDirections: (40 * 100) / 200,
-      numberSales: (20 * 100) / 200,
-    },
-    // {
-    //   timeUnit: "Jueves",
-    //   numberSales: 100,
-    //   numberCarts: (20 * 100) / 100,
-    //   numberRegister: (200 * 100) / 100,
-    //   numberDirections: (300 * 100) / 100,
-    // },
-    // {
-    //   timeUnit: "Viernes",
-    //   numberRegister: (1000 * 100) / 350,
-    //   numberCarts: (100 * 100) / 350,
-    //   numberDirections: (220 * 100) / 350,
-    //   numberSales: 4,
-    // },
-    // {
-    //   timeUnit: "Sabado",
-    //   numberRegister: (900 * 100) / 400,
-    //   numberCarts: (1000 * 100) / 400,
-    //   numberDirections: (10 * 100) / 400,
-    //   numberSales: 2  ,
-    // },
-    // {
-    //   timeUnit: "Domingo",
-    //   numberSales: 200,
-    //   numberCarts: (200 * 100) / 200,
-    //   numberRegister: (500 * 100) / 200,
-    //   numberDirections: (40 * 100) / 200,
-    // },
-    // {
-    //   timeUnit: "cuarta Semana",
-    //   numberSales: 100,
-    //   numberCarts: (20 * 100) / 100,
-    //   numberRegister: (200 * 100) / 100,
-    //   numberDirections: (300 * 100) / 100,
-    // },
   ];
 
   //Instanciacion para 
@@ -109,8 +67,14 @@ export function BarChartFunnel() {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //Configuracion Chart JS
   const options: any = {
+    
+    indexAxis: 'y' as const,
+    elements: {
+      bar: {
+        borderWidth: 2.3,
+      },
+    },
     responsive: true,
-    hoverBorderWidth: 1,
     plugins: {
       legend: {
         position: "top",
@@ -119,6 +83,7 @@ export function BarChartFunnel() {
         display: true,
         text: "Compras Efectivas",
       },
+
     },
   };
   const data = {
@@ -143,9 +108,9 @@ export function BarChartFunnel() {
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: "Compras Realizadas",
+        label: "Compras Realizadas %",
         data: _data4,
-        borderColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 0)",
         backgroundColor: "rgba(255, 99, 0, 0.5)",
       },
     ],

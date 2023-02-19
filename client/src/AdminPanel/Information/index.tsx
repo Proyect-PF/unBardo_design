@@ -75,7 +75,7 @@ const InformationPanel = () => {
             <div className="w-6/12 ">
               <LineChartProducts />
             </div>
-            <div className="w-12/12">
+            <div className="h-full">
               <BarChartFunnel />
             </div>
           </div>

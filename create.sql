@@ -52,7 +52,7 @@ SELECT floor(random() * 100) + 1 AS id_user,
            END                   AS status,
        make_date(2000, 1, 1) + (floor(random() * 8000) || ' days')::interval AS "createdAt",
        make_date(2000, 1, 1) + (floor(random() * 8000) || ' days')::interval AS "updatedAt"
-FROM generate_series(1, 1000);
+FROM generate_series(1, 100);
 
 
 
@@ -73,4 +73,4 @@ SELECT
 FROM public."Orders" AS o
 JOIN public."Product" AS p ON random() < 0.5
 WHERE o."createdAt" >= '2000-01-01'::date AND o."createdAt" < NOW()::date
-LIMIT 1000;
+LIMIT 100;

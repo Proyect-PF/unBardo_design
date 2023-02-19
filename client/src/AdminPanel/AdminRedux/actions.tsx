@@ -161,7 +161,7 @@ export const ADMfetch_chart_products_values = (timeUnit: string) => {
       .get(
         //status => cart, approved, rejected
         //timeUnit => month, day, year
-        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}`
       )
       .then((res) => {
         const payload = res.data;

@@ -4,4 +4,8 @@ import {getProductSalesStats} from "../controllers/statistic.controller";
 
 statisticRoutes.get("/product-sales/", getProductSalesStats);
 
+
+
+
+
 export default statisticRoutes;

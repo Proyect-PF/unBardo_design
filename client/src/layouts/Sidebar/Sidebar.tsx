@@ -71,9 +71,9 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
 
   return (
     <div
-      className={`flex fixed ${style1} duration-300 w-full bg-black/80 z-40  text-xl font-semibold`}
+      className={`flex fixed ${style1} ease-in-out duration-500 w-full bg-black/80 z-40  text-xl font-semibold`}
     >
-      <div className={`flex flex-col ${style} duration-300 justify-between w-2/3 max-w-lg min-h-screen bg-white`}>
+      <div className={`flex flex-col ${style} ease-in-out duration-500 justify-between w-2/3 max-w-lg min-h-screen bg-white`}>
         <div>
           <div className="flex items-center justify-center h-16 border-b-2 border-gray-300">
             <img src={logo} alt="logo" className="h-7" />

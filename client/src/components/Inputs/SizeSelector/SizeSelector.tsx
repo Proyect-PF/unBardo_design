@@ -21,7 +21,7 @@ const SizeSelector = ({
   const sizesStock = (x: number) => {
     if (x === 0) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-1");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-S");
         if (findCard) {
           return sizes[0] - findCard.ammount;
         }
@@ -30,7 +30,7 @@ const SizeSelector = ({
     }
     if (x === 1) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-2");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-M");
         if (findCard) {
           return sizes[1] - findCard.ammount;
         }
@@ -39,7 +39,7 @@ const SizeSelector = ({
     }
     if (x === 2) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-3");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-L");
         if (findCard) {
           return sizes[2] - findCard.ammount;
         }
@@ -48,7 +48,7 @@ const SizeSelector = ({
     }
     if (x === 3) {
       if (checkoutList?.length > 0) {
-        let findCard = checkoutList.find((x: any) => x.id === detailId + "-4");
+        let findCard = checkoutList.find((x: any) => x.id === detailId + "-XL");
         if (findCard) {
           return sizes[3] - findCard.ammount;
         }

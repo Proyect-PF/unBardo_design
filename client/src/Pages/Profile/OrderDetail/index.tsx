@@ -44,7 +44,7 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
     <div>
       <Button
         type="button"
-        text="atras"
+        text="Atras"
         name="back"
         onClick={() => {
           setPanel("userorders");
@@ -52,7 +52,7 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
         disabled={false}
         className="justify-end pr-12"
       />
-      <div className="flex flex-col gap-10 mx-12">
+      <div className="flex flex-col gap-10 mx-12 mt-4">
         <div className="flex gap-4 text-2xl font-medium">
           <p>{`Orden numero:`}</p>
           <p>{details.id}</p>
@@ -71,7 +71,7 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
             <p className="text-xl">{`Despachado: ${
               details.dispatched ? "Si" : "No"
             }`}</p>
-            <p className="text-xl">{`Fecha: Fecha: ${
+            <p className="text-xl">{`Fecha: ${
               details.updatedAt.split("T")[0]
             }`}</p>
           </div>
@@ -80,14 +80,14 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
           <p className="text-2xl font-medium">Resumen:</p>
           {details.products.map((e: any) => (
             <div key={e.id_product} className="flex flex-col gap-3 mx-8">
-              <label>{`Producto id: ${e.id_product}`}</label>
               <p>{`Nombre del Producto: ${e.title}`}</p>
+
               <label>{`Cantidades:`}</label>
               <div className="flex flex-row gap-4 mx-4">
-                {e.sizes.S && <p>{`1: ${e.sizes.S}`}</p>}
-                {e.sizes.M && <p>{`2: ${e.sizes.M}`}</p>}
-                {e.sizes.L && <p>{`3: ${e.sizes.L}`}</p>}
-                {e.sizes.XL && <p>{`Xl: ${e.sizes.XL}`}</p>}
+                {e.sizes.S && <p>{`Talle 1: ${e.sizes.S}`}</p>}
+                {e.sizes.M && <p>{`Talle 2: ${e.sizes.M}`}</p>}
+                {e.sizes.L && <p>{`Talle 3: ${e.sizes.L}`}</p>}
+                {e.sizes.XL && <p>{`Talle 4: ${e.sizes.XL}`}</p>}
               </div>
             </div>
           ))}

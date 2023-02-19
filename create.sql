@@ -44,15 +44,18 @@ FROM generate_series(1, 100);
 --------------------------------------------------------------------------------------
 
 INSERT INTO public."Orders" (id_user, status, "createdAt", "updatedAt")
-SELECT floor(random() * 100) + 1 AS id_user,
+SELECT u.id AS id_user,
        CASE floor(random() * 3) + 1
            WHEN 1 THEN 'rejected'
            WHEN 2 THEN 'approved'
            ELSE 'cart'
            END                   AS status,
-       make_date(2000, 1, 1) + (floor(random() * 8000) || ' days')::interval AS "createdAt",
-       make_date(2000, 1, 1) + (floor(random() * 8000) || ' days')::interval AS "updatedAt"
-FROM generate_series(1, 100);
+       now() - (floor(random() * 365) || ' days')::interval * random()::float8 ^ 2 AS "createdAt",
+       now() - (floor(random() * 365) || ' days')::interval * random()::float8 ^ 2 AS "updatedAt"
+FROM public."Users" u
+WHERE u."createdAt" >= now() - interval '1 year'
+ORDER BY ABS(EXTRACT(EPOCH FROM now() - "createdAt")) ASC
+LIMIT 1000;
 
 
 
@@ -71,6 +74,14 @@ SELECT
     o."createdAt" AS "createdAt",
     o."updatedAt" AS "updatedAt"
 FROM public."Orders" AS o
-JOIN public."Product" AS p ON random() < 0.5
-WHERE o."createdAt" >= '2000-01-01'::date AND o."createdAt" < NOW()::date
-LIMIT 100;
+CROSS JOIN LATERAL (
+    SELECT *
+    FROM (
+        SELECT *
+        FROM public."Product"
+        ORDER BY random() LIMIT 1
+    ) AS subquery
+) AS p
+WHERE o."createdAt" >= now() - interval '1 year'
+ORDER BY ABS(EXTRACT(EPOCH FROM now() - o."createdAt")) ASC
+LIMIT 1000;

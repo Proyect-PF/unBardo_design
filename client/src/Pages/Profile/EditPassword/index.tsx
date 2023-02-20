@@ -54,7 +54,7 @@ const EditPassword = ({setPanel}: Props) => {
             '<p class="font-poppins font-medium text-black italic" >¿Seguro que quieres cambiar tu contraseña?</p>',
           }).then((result) => {
             if (result.isConfirmed) {
-              axios.put(`${baseURL}:${PORT}/users/${userId}`, {password: values.password})
+              axios.put(`${baseURL}/users/${userId}`, {password: values.password})
               .then((response) => {
                 Toast.fire({
                   icon: 'success',

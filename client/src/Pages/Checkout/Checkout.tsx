@@ -59,7 +59,7 @@ const Checkout = ({ openClose, handleCheckout }: Props): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (success) {
-      axios.post(`${baseURL}:${PORT}/orders`, userProducts).then((response) => {
+      axios.post(`${baseURL}/orders`, userProducts).then((response) => {
         return response;
       });
       handleCheckout();

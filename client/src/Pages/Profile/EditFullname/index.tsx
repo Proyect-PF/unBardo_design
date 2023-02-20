@@ -46,7 +46,7 @@ const EditFullName = ({setPanel}: Props) => {
                 //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
               }).then((result) => {
                 if (result.isConfirmed) {
-                  axios.put(`${baseURL}:${PORT}/users/${userId}`, {fullname: values.fullname})
+                  axios.put(`${baseURL}/users/${userId}`, {fullname: values.fullname})
                   .then((response) => {
                     Toast.fire({
                       icon: 'success',

@@ -23,7 +23,7 @@ import Toast from "../../components/Toast";
 export const fetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
+    axios.get(`${baseURL}/products/?${query}`).then((res) => {
       payload = res.data;
       // ENVIAMOS PAYLOAD A REDUX
       dispatch({
@@ -40,7 +40,7 @@ export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
-      .get(`${baseURL}:${PORT}/products/search/${name}`)
+      .get(`${baseURL}/products/search/${name}`)
       .then((res) => {
         payload = res.data;
 
@@ -76,7 +76,7 @@ export const fetch_product_detail = (id: number) => {
       promotion: false,
       promotional_price: 0,
     };
-    axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
+    axios.get(`${baseURL}/products/${id}`).then((res) => {
       if (res.data?.id) {
         product = {
           id: res.data.id,
@@ -121,7 +121,7 @@ export const fetch_filtered_products = (query: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
     axios
-      .get(`${baseURL}:${PORT}/products/filtered/?${query}`)
+      .get(`${baseURL}/products/filtered/?${query}`)
       .then((response) => {
         if (response.data) {
           payload = response.data;
@@ -172,7 +172,7 @@ export const clearCheckoutList = () => {
 
 export const userRegister = (registerLogin: Function, user?: User) => {
   axios
-    .post(`${baseURL}:${PORT}/auth/signup`, user)
+    .post(`${baseURL}/auth/signup`, user)
     .then((response) => {
       Swal.fire({
         title:
@@ -205,7 +205,7 @@ export const userRegister = (registerLogin: Function, user?: User) => {
 export const userLogin = (user: User, navigate: any) => {
   return (dispatch: Dispatch<ActionUser>) => {
     axios
-      .post(`${baseURL}:${PORT}/auth/signin`, user)
+      .post(`${baseURL}/auth/signin`, user)
       .then((response) => {
         axios.defaults.headers.common[
           "x-access-token"
@@ -247,7 +247,7 @@ export const userLogout = () => {
 export const fetch_orders_user = (id: number | undefined) => {
   return (dispatch: Dispatch<ActionOrders>) => {
     axios
-      .get(`${baseURL}:${PORT}/orders/users/${id}`)
+      .get(`${baseURL}/orders/users/${id}`)
       .then((res) => {
         const payload = res.data;
         dispatch({
@@ -281,7 +281,7 @@ export const getOrderDetails = (
 ) => {
   return async (dispatch: Dispatch<ActionOrderCheckout>) => {
     try {
-      const response = await axios.post(`${baseURL}:${PORT}/orders/feedback`, {
+      const response = await axios.post(`${baseURL}/orders/feedback`, {
         payment_id,
         external_reference,
       });
@@ -295,7 +295,7 @@ export const getOrderDetails = (
 
 export const getFavorites = (id: number) => {
   return (dispatch: Dispatch<ActionFavorites>) => {
-    axios.get(`${baseURL}:${PORT}/favorites/${id}`).then((res) => {
+    axios.get(`${baseURL}/favorites/${id}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: ActionType.GET_FAVORITES,
@@ -308,7 +308,7 @@ export const getFavorites = (id: number) => {
 export const setFavorite = (payload: SetFavoritePayload, getFavorites: any) => {
   return (dispatch: Dispatch<ActionFavorites>) => {
     axios
-      .post(`${baseURL}:${PORT}/favorites`, payload)
+      .post(`${baseURL}/favorites`, payload)
       .then((res) => {
         Toast.fire({
           icon: "success",
@@ -334,7 +334,7 @@ export const deleteFavorite = (
   return (dispatch: Dispatch<ActionFavorites>) => {
     axios
       .delete(
-        `${baseURL}:${PORT}/favorites?id_user=${payload.id_user}&id_product=${payload.id_product}`
+        `${baseURL}/favorites?id_user=${payload.id_user}&id_product=${payload.id_product}`
       )
       .then((res) => {
         Toast.fire({

@@ -14,7 +14,7 @@ const EmailList = () => {
 
   const handleExport = async () => {
     axios
-      .get(`${baseURL}:${PORT}/users?emails=true`)
+      .get(`${baseURL}/users?emails=true`)
       .then((res: any) => setData(res.data));
   };
 

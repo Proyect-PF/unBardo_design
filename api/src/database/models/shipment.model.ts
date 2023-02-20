@@ -54,5 +54,17 @@ export default (sequelize:any, DataTypes:any) => {
     }
   );
 
+  Shipments.afterSync(async () => {
+    const count = await Shipments.count();
+    if (count === 0) {
+      await Shipments.create({
+        minus100: 1,
+        minus500: 1,
+        minus1000: 1,
+        plus1000: 1,
+      });
+    }
+  });
+
   return Shipments;
 };

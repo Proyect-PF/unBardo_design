@@ -85,15 +85,43 @@ ORDER BY date_range."timeUnit" ASC;
 
 export const getGeneralStats = async (req: Request, res: Response) => {
     try {
-        const {action_type}: any = req.query;
-        const query = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = '${action_type}';`
-        const results = await db.sequelize.query(query, {
+        const { action_type }: any = req.query;
+
+        let query = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = '${action_type}';`;
+        let conversionRate:any = 0;
+
+        if (action_type === "cart_to_approved") {
+            const queryFirst = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'payment_success';`;
+            const querySecond = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'create_cart';`;
+
+            const resultFirst = await db.sequelize.query(queryFirst, {
+                type: db.sequelize.QueryTypes.SELECT,
+            });
+            const resultSecond = await db.sequelize.query(querySecond, {
+                type: db.sequelize.QueryTypes.SELECT,
+            });
+
+            const countFirst = resultFirst[0].count;
+            const countSecond = resultSecond[0].count;
+            conversionRate = countFirst > 0 ? (countFirst / countSecond) * 100 : 0;
+        }
+
+        const [results]:any = await db.sequelize.query(query, {
             type: db.sequelize.QueryTypes.SELECT,
         }) as DailyStatistic[];
-        res.status(200).json(results);
+
+        const response:any = {};
+
+        if (action_type === "cart_to_approved") {
+            response[action_type] = conversionRate;
+
+        } else {
+            response[action_type] = results.count;
+        }
+
+        res.status(200).json(response);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({message: 'Internal server error'});
+        return res.status(500).json({ message: "Internal server error" });
     }
-}
-
+};

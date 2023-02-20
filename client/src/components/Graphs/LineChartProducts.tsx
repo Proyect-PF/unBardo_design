@@ -65,7 +65,6 @@ export const LineChartProducts = () => {
 
   let sum: number = 0;
   for (let i = 0; i < analiticsProducts.length; i++) {
-    console.log(analiticsProducts[i].totalProductsSold);
     sum = Number(analiticsProducts[i].totalProductsSold) + sum;
   }
 
@@ -143,10 +142,10 @@ export const LineChartProducts = () => {
       [names]: values,
     });
   };
-  const hanldle = (e: any) => {
-    console.log(e);
-  };
-  console.log(arrData);
+  // const hanldle = (e: any) => {
+  //   console.log(e);
+  // };
+  // console.log(arrData);
   return (
     <div className="p-4 shadow-md shadow-slate-400 ">
       {analiticsProducts.length > 0 && (
@@ -180,7 +179,7 @@ export const LineChartProducts = () => {
           </select>
 
           <div className="flex flex-row">
-            <Line options={options} data={data} onClick={hanldle} />
+            <Line options={options} data={data}/>
             <article className="">
               <div className="w-96">
                 <p className="text-lg font-medium ">

@@ -156,7 +156,6 @@ export const ADMfetch_users_id = (id: number | undefined) => {
 // }
 
 export const ADMfetch_chart_products_values = (timeUnit: string, status:string, num?:number) => {
-  console.log(status)
   return (dispatch: Dispatch<AdminAction>) => {
 
     axios
@@ -168,7 +167,6 @@ export const ADMfetch_chart_products_values = (timeUnit: string, status:string, 
       )
       .then((res) => {
         const payload = res.data;
-        console.log(payload)
         dispatch({
           type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,
@@ -178,15 +176,14 @@ export const ADMfetch_chart_products_values = (timeUnit: string, status:string, 
 };
 
 export const ADMfetch_chart_funnel = (action_type: string) => {
-  // console.log(status)
   // return (dispatch: Dispatch<AdminAction>) => {
-
+// cart_to_approved, create_cart, mercadopago, user_login, user_registration, create_cart
     axios
       .get(
         //status => cart, approved, rejected
         //timeUnit => 
 
-        `${baseURL}:${PORT}/statistics/general-stats/?${action_type}`
+        `http://localhost:3700/statistics/general-stats/?action_type=${action_type}`
       )
       .then((res) => {
         const payload = res.data;
@@ -198,7 +195,9 @@ export const ADMfetch_chart_funnel = (action_type: string) => {
       });
   // };
 };
-ADMfetch_chart_funnel("")
+ADMfetch_chart_funnel("create_cart")
+
+
 // export const ADMfetch_chart_funnel_values = (timeUnit: string) => {
 //   return (dispatch: Dispatch<AdminAction>) => {
 //     axios

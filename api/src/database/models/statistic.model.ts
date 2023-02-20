@@ -7,7 +7,6 @@ interface StatisticsAttributes {
     id_user: number;
     id_product: number;
     id_order: number;
-    numberCarts:number
 }
 
 export default (sequelize: Sequelize.Sequelize) => {
@@ -15,7 +14,6 @@ export default (sequelize: Sequelize.Sequelize) => {
         public id!: number;
         public action_type!: string;
         public action_date!: Date;
-        public numberCarts!:number
     }
 
     Statistics.init(
@@ -42,10 +40,7 @@ export default (sequelize: Sequelize.Sequelize) => {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
-            numberCarts: {
-                type: DataTypes.INTEGER,
-                allowNull: true,
-            }
+
         },
         {
             sequelize,

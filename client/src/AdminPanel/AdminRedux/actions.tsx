@@ -164,7 +164,7 @@ export const ADMfetch_chart_products_values = (timeUnit: string, status:string, 
         //status => cart, approved, rejected
         //timeUnit => 
 
-        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
+        `${baseURL}:${PORT}/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
       )
       .then((res) => {
         const payload = res.data;
@@ -177,6 +177,28 @@ export const ADMfetch_chart_products_values = (timeUnit: string, status:string, 
   };
 };
 
+export const ADMfetch_chart_funnel = (action_type: string) => {
+  // console.log(status)
+  // return (dispatch: Dispatch<AdminAction>) => {
+
+    axios
+      .get(
+        //status => cart, approved, rejected
+        //timeUnit => 
+
+        `${baseURL}:${PORT}/statistics/general-stats/?${action_type}`
+      )
+      .then((res) => {
+        const payload = res.data;
+        console.log(payload)
+        // dispatch({
+        //   type: AdminActionType.GET_ANALITICS_PRODUCTS,
+        //   payload,
+        // });
+      });
+  // };
+};
+ADMfetch_chart_funnel("")
 // export const ADMfetch_chart_funnel_values = (timeUnit: string) => {
 //   return (dispatch: Dispatch<AdminAction>) => {
 //     axios

@@ -4,7 +4,6 @@ import Sequelize from "sequelize";
 interface StatisticsAttributes {
     id: number;
     action_type: string;
-    action_date: Date;
     id_user: number;
     id_product: number;
     id_order: number;
@@ -29,10 +28,6 @@ export default (sequelize: Sequelize.Sequelize) => {
             },
             action_type: {
                 type: DataTypes.STRING(255),
-                allowNull: false,
-            },
-            action_date: {
-                type: DataTypes.DATE,
                 allowNull: false,
             },
             id_user: {

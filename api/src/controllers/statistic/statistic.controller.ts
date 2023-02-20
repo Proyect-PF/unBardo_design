@@ -83,6 +83,21 @@ ORDER BY date_range."timeUnit" ASC;
     }
 };
 
+export const getGeneralStats = async (req: Request, res: Response) => {
+    try {
+        const {action_type}: any = req.query;
+        const query = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = '${action_type}';`
+        const results = await db.sequelize.query(query, {
+            type: db.sequelize.QueryTypes.SELECT,
+        }) as DailyStatistic[];
+        res.status(200).json(results);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({message: 'Internal server error'});
+    }
+}
+
+
 
 export const createStatisticsFunnel = (req: Request, res:Response)=> {
     req.query

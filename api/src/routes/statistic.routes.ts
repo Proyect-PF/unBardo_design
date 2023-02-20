@@ -2,7 +2,7 @@ import { Router } from "express";
 const statisticRoutes = Router();
 import {
     getProductSalesStats,
-    createStatisticsFunnel
+    getGeneralStats
 }
 from "../controllers/statistic/statistic.controller";
 
@@ -86,7 +86,7 @@ from "../controllers/statistic/statistic.controller";
  ]
  */
 statisticRoutes.get("/product-sales", getProductSalesStats);
-
+statisticRoutes.get("/general-stats", getGeneralStats);
 //Obtener envudo de clientes
 /**
  * !Numeros a tener en cuenta:
@@ -161,8 +161,6 @@ statisticRoutes.get("/product-sales", getProductSalesStats);
  ]
  */
 
-
-statisticRoutes.post("/funnel", createStatisticsFunnel)
 
 
 export default statisticRoutes;

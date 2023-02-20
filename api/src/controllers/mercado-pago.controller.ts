@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { Express, Request, Response } from 'express';
 import { Op } from 'sequelize';
 import db from '../database/database';
+import {createMercadoPagoStatistics} from "./statistic/create-mercado-pago-statistics";
 import OrderProduct from '../database/models/order-product.model';
 import Product from '../database/models/product.model';
 import cloudinary from '../utils/cloudinary';
@@ -309,7 +310,9 @@ export const POST_GeneratePayment = async (
   mercadopago.preferences
     .create(preference)
     .then(function (res: any) {
-      return response.status(201).json({
+        createMercadoPagoStatistics(prod.id_user, last.id);
+
+        return response.status(201).json({
         //id: res.body.id
         res,
       });

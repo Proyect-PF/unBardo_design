@@ -2,7 +2,7 @@ import { Router } from "express";
 const statisticRoutes = Router();
 import {
     getProductSalesStats,
-} from "../controllers/statistic.controller";
+} from "../controllers/statistic/statistic.controller";
 
 //Obtener Productos vendidos por fechas en diario, semanal, mensual, trimestral, y anual
 /**

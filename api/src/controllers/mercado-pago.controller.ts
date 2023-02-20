@@ -4,6 +4,7 @@ import { Express, Request, Response } from 'express';
 import { Op } from 'sequelize';
 import db from '../database/database';
 import {createMercadoPagoStatistics} from "./statistic/create-mercado-pago-statistics";
+import {createPaymentSuccessStatistics} from "./statistic/create-mercado-pago-success-statistics";
 import OrderProduct from '../database/models/order-product.model';
 import Product from '../database/models/product.model';
 import cloudinary from '../utils/cloudinary';
@@ -352,6 +353,9 @@ export const POST_FeedbackPayment = async (
         if (payment_detail.data.status === 'approved') {
             var orderAproved = await UPDATE_QuantitySizes(Number(feedback.external_reference))
         }
+        // FALTA VERIFICAR
+        // await createPaymentSuccessStatistics(request.body.id, payment_detail.data.status);
+
         // console.log(feedback.external_reference);
         // console.log(payment_detail.data.status);
         // console.log(feedback.payment_id);

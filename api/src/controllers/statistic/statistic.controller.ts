@@ -82,3 +82,8 @@ ORDER BY date_range."timeUnit" ASC;
         return res.status(500).json({message: 'Internal server error'});
     }
 };
+
+
+export const createStatisticsFunnel = (req: Request, res:Response)=> {
+    req.query
+}

@@ -59,9 +59,15 @@ export const LineChartProducts = () => {
   }, [infoBack.timeUnit, infoBack.status, infoBack.num]);
 
   //Manejo de la data que traemos del back >>>>>>>>>>>>>>>>>>>><
-  const arrData: number[] = analiticsProducts.map(
+  const arrData: number[] = analiticsProducts?.map(
     (date: AnaliticProducts) => date.totalProductsSold
   );
+
+  let sum: number = 0;
+  for (let i = 0; i < analiticsProducts.length; i++) {
+    console.log(analiticsProducts[i].totalProductsSold);
+    sum = Number(analiticsProducts[i].totalProductsSold) + sum;
+  }
 
   const labels: string[][] = analiticsProducts.map((date: AnaliticProducts) => {
     const time = new Date(date.timeUnit);
@@ -72,17 +78,15 @@ export const LineChartProducts = () => {
   //Configuracion del Chart Line
   const options: ChartOptions = {
     responsive: true,
-  
+
     plugins: {
-      
       legend: {
         position: "top",
-
       },
       title: {
         display: true,
         text:
-        //Estado de carrito en approved
+          //Estado de carrito en approved
           infoBack.status === "approved"
             ? infoBack.timeUnit === "days"
               ? "Productos venidos en los ultimos 7 Dias"
@@ -93,8 +97,8 @@ export const LineChartProducts = () => {
               : infoBack.timeUnit === "months"
               ? "Productos venidos en los ultimos 12 Meses"
               : "Otras Fechas"
-              //Estado de carrito en rejected
-            : infoBack.status === "rejected"
+            : //Estado de carrito en rejected
+            infoBack.status === "rejected"
             ? infoBack.timeUnit === "days"
               ? "Productos cancelados en los ultimos 7 Dias"
               : infoBack.timeUnit === "weeks"
@@ -104,8 +108,8 @@ export const LineChartProducts = () => {
               : infoBack.timeUnit === "months"
               ? "Productos cancelados en los ultimos 12 Meses"
               : "Otras Fechas"
-              //Estado de carrito en cart
-            : infoBack.timeUnit === "days"
+            : //Estado de carrito en cart
+            infoBack.timeUnit === "days"
             ? "Productos totales en los ultimos 7 Dias"
             : infoBack.timeUnit === "weeks"
             ? "Productos totales en las ultimas 4 Semanas"
@@ -139,14 +143,17 @@ export const LineChartProducts = () => {
       [names]: values,
     });
   };
-  const hanldle = (e: any)=> {
-    console.log(e)
-  }
+  const hanldle = (e: any) => {
+    console.log(e);
+  };
+  console.log(arrData);
   return (
-    <div>
+    <div className="p-4 shadow-md shadow-slate-400 ">
       {analiticsProducts.length > 0 && (
-        <div>
+        <div className="w-6/12">
+          <p className="mt-2 text-2xl font-medium">Productos:</p>
           <select
+            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
             value={infoBack.timeUnit}
             name="timeUnit"
             onChange={handleChange}
@@ -159,14 +166,35 @@ export const LineChartProducts = () => {
             <option value="months">Ultimos 12 Meses</option>
             {/* <option value="years">Ultimo Año</option>  */}
           </select>
-          <select value={infoBack.status} name="status" onChange={handleChange}>
+          <select
+            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
+            value={infoBack.status}
+            name="status"
+            onChange={handleChange}
+          >
             <option value="approved" selected>
               Aprobados
             </option>
             <option value="rejected">Cancelados</option>
             <option value="cart">Carrito</option>
           </select>
-          <Line options={options} data={data} onClick={hanldle}/>
+
+          <div className="flex flex-row">
+            <Line options={options} data={data} onClick={hanldle} />
+            <article className="">
+              <div className="w-96">
+                <p className="text-lg font-medium ">
+                  Total de productos{" "}
+                  {infoBack.status === "cart"
+                    ? "En el Carrito"
+                    : infoBack.status === "approved"
+                    ? "Aprovados"
+                    : "Cancelados"}
+                </p>
+                <p className="text-2xl font-semibold">{sum}</p>
+              </div>
+            </article>
+          </div>
         </div>
       )}
     </div>

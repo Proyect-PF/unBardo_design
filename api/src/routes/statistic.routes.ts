@@ -2,6 +2,7 @@ import { Router } from "express";
 const statisticRoutes = Router();
 import {
     getProductSalesStats,
+    createStatisticsFunnel
 }
 from "../controllers/statistic/statistic.controller";
 
@@ -161,7 +162,7 @@ statisticRoutes.get("/product-sales", getProductSalesStats);
  */
 
 
-
+statisticRoutes.post("/funnel", createStatisticsFunnel)
 
 
 export default statisticRoutes;

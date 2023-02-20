@@ -28,7 +28,7 @@ userRoutes.put("/:id", UPDATE_User);
 /**
  //TODO: RUTA GET Obtiene todos los usuarios
  */
-userRoutes.get("/", GET_Users);
+userRoutes.get("/", verifyTokenIsAdmin, GET_Users);
 
 /**
  //TODO: RUTA GET Obtiene un usuario por id
@@ -38,6 +38,6 @@ userRoutes.get("/:id_users", GET_UserById);
 /**
  //TODO: RUTA UPDATE 
  */
-userRoutes.put("/newsletter/subscription", updateNewsletterSubscription);
+userRoutes.put("/newsletter/subscription", verifyTokenIsAdmin,updateNewsletterSubscription);
 
 export default userRoutes;

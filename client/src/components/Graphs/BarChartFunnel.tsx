@@ -143,7 +143,7 @@ export function BarChartFunnel() {
   // };
 
   return (
-    <div>
+    <div className="shadow-slate-400 shadow-xl">
       {analiticsProducts.length > 0 && (
         <div>
           {/* <select value={date.timeUnit} onChange={handleChange}>

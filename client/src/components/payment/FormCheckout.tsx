@@ -13,7 +13,7 @@ export const FormCheckout = (): JSX.Element => {
   const { userId } = useSelector((state: State) => state.user);
   const dispatch = useDispatch();
   const { clearCheckoutList } = bindActionCreators(actionCreators, dispatch);
-
+  
   const initialValues = {
     area_code: '',
     number: '',
@@ -28,6 +28,11 @@ export const FormCheckout = (): JSX.Element => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
+        axios({
+          method: 'post',
+          url: `${baseURL}:${PORT}/orders/funnel`,
+          data: values,
+        })
         axios({
           method: 'post',
           url: `${baseURL}:${PORT}/orders/payment`,

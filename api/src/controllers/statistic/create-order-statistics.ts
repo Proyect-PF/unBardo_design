@@ -6,8 +6,8 @@ export async function createOrderStatistics(id_user: number, id_order: number) {
         const cartStatistic = {
             action_type: "create_cart",
             action_date: new Date(),
-            user_id: id_user,
-            cart_id: id_order,
+            id_user: id_user,
+            id_order: id_order,
         };
 
         await db.Statistics.create(cartStatistic);

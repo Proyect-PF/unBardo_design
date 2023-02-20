@@ -86,7 +86,7 @@ ORDER BY date_range."timeUnit" ASC;
 
 export const getGeneralStats = async (req: Request, res: Response) => {
     try {
-       let { action_type, timeUnit, num }: any = req.query;
+        let { action_type, timeUnit, num }: any = req.query;
 
         let query = `SELECT COUNT(*) FROM "Statistics"`;
         if (action_type) {
@@ -118,6 +118,20 @@ export const getGeneralStats = async (req: Request, res: Response) => {
             const countFirst = resultFirst[0].count;
             const countSecond = resultSecond[0].count;
             conversionRate = countFirst > 0 ? (countFirst / countSecond) * 100 : 0;
+        } else if (action_type === "mercadopago_to_approved") {
+            const queryFirst = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'payment_success';`;
+            const querySecond = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'mercadopago';`;
+
+            const resultFirst = await db.sequelize.query(queryFirst, {
+                type: db.sequelize.QueryTypes.SELECT,
+            });
+            const resultSecond = await db.sequelize.query(querySecond, {
+                type: db.sequelize.QueryTypes.SELECT,
+            });
+
+            const countFirst = resultFirst[0].count;
+            const countSecond = resultSecond[0].count;
+            conversionRate = countSecond > 0 ? (countFirst / countSecond) * 100 : 0;
         }
 
         const [results]: any = await db.sequelize.query(query, {
@@ -126,7 +140,7 @@ export const getGeneralStats = async (req: Request, res: Response) => {
 
         const response: any = {};
 
-        if (action_type === "cart_to_approved") {
+        if (action_type === "cart_to_approved" || action_type === "mercadopago_to_approved") {
             response[action_type] = conversionRate;
 
         } else {

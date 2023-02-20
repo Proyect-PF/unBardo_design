@@ -96,9 +96,3 @@ export const getGeneralStats = async (req: Request, res: Response) => {
         return res.status(500).json({message: 'Internal server error'});
     }
 }
-
-
-
-export const createStatisticsFunnel = (req: Request, res:Response)=> {
-    req.query
-}

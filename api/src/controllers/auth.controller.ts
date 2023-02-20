@@ -7,6 +7,7 @@ import getErrorMessage from "../helpers/handleErrorCatch";
 import { TypeRole, TypeUser } from "../types";
 import {sendConfirmationEmailController} from "./email";
 import {createUserRegistrationStatistics} from "./statistic/create-user-registration-statistics";
+import {loginStatistics} from "./statistic/login-statistics";
 dotenv.config();
 
 export const POST_SignUp = async (req: Request, res: Response) => {
@@ -217,6 +218,8 @@ export const POST_SignIn = async (req: Request, res: Response) => {
       }
     );
     const roleA = userFound["Role.name"];
+    await loginStatistics(userFound.id);
+
     return res.json({
       id: userFound["id"],
       token: token,

@@ -21,7 +21,7 @@ const Profile = (): JSX.Element => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    axios.get(`${baseURL}:${PORT}/users/${userId}`)
+    axios.get(`${baseURL}/users/${userId}`)
     .then((response) => {
       let data = response.data;
       setFullName(data.fullname)

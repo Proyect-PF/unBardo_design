@@ -15,7 +15,8 @@ email="unbardodesign2023@gmail.com"
 password="jlvmoatfefqrsgnt\n"
 CLOUDINARY_NAME=drt1pzx1x
 CLOUDINARY_API_KEY=185432381513669
-CLOUDINARY_API_SECRET=ddhUhnhLRNuwsoV1Qn4IW-EjWJg	
+CLOUDINARY_API_SECRET=ddhUhnhLRNuwsoV1Qn4IW-EjWJg
+LOCATIONIQ_KEY="pk.cb041215288dedcb0b037a20905b3f2e"
 
 ```
 
@@ -247,4 +248,18 @@ Nombre de funcion = UPDATE_ShipmentPrices
 ```env
 Nombre de funcion = GET_ShipmentPrices
     Esta ruta obtiene la informacion de los costos de envio.
+```
+
+#### GET -> localhost:3700/shipments/distance/
+
+```env
+Nombre de funcion = GET_Distance
+    Se recibe el zip_code (codigo postal) por query
+    Esta ruta con el codigo postal recibido consulta en la api de LocationIQ la latitud y longitud correspondiente. La latitud y longitud de origen esta determinada por defecto con el codigo postal 1842 (Monte Grande, Buenos Aires; latitud = -34.819691, longitud = -58.465862). Con esta informacion se ingresa a la api de LocationIQ y se determina la distancia del envío, luego se consulta si la distancia es mayor a 1000km, menor a 1000km, menor a 500km y menor a 100km para aplicar el coeficiente de costo por kilometro correspondiente.
+    Se retorna un json con la siguiente estructura:
+    {
+    city : nombre de la ciudad,
+    distance: distancia del envío,
+    shipmentCost: costo del envío
+    }
 ```

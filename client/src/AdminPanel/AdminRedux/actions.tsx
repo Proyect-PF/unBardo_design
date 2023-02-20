@@ -8,7 +8,7 @@ import { PORT, baseURL } from "../../utils/url&port";
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
+    axios.get(`${baseURL}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
@@ -20,7 +20,7 @@ export const ADMfetch_products = (query: string | null = null) => {
 
 export const ADMfetch_products_id = (id: number) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
+    axios.get(`${baseURL}/products/${id}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_PRODUCT_BY_ID,
@@ -32,7 +32,7 @@ export const ADMfetch_products_id = (id: number) => {
 
 export const ADMcreate_product = (payload: any, Toast: any) => {
   axios
-    .post(`${baseURL}:${PORT}/products/`, payload)
+    .post(`${baseURL}/products/`, payload)
     .then(() =>
       Toast.fire({
         icon: "success",
@@ -46,7 +46,7 @@ export const ADMcreate_product = (payload: any, Toast: any) => {
 
 export const ADMupdate_product = (payload: any, Toast: any) => {
   axios
-    .put(`${baseURL}:${PORT}/products`, payload)
+    .put(`${baseURL}/products`, payload)
     .then(() =>
       Toast.fire({
         icon: "success",
@@ -60,7 +60,7 @@ export const ADMupdate_product = (payload: any, Toast: any) => {
 
 export const ADMdelete_product = (payload: number, Toast: any) => {
   axios
-    .delete(`${baseURL}:${PORT}/products/${payload}`)
+    .delete(`${baseURL}/products/${payload}`)
     .then(() =>
       Toast.fire({
         icon: "success",
@@ -75,7 +75,7 @@ export const ADMdelete_product = (payload: number, Toast: any) => {
 //Orders Actions
 export const ADMfetch_orders = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/orders/?${query}`).then((res) => {
+    axios.get(`${baseURL}/orders/?${query}`).then((res) => {
       const payload = res.data.orders;
       dispatch({
         type: AdminActionType.GET_ALL_ORDERS,
@@ -91,7 +91,7 @@ export const ADMfetch_orders = (query: string | null = null) => {
 
 export const ADMfetch_order_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/orders/${id}`).then((res) => {
+    axios.get(`${baseURL}/orders/${id}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_ORDER_BY_ID,
@@ -108,9 +108,9 @@ export const ADMupdate_order = async (
   Toast: any
 ) => {
   axios
-    .put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`)
+    .put(`${baseURL}/orders/?id=${id}&status=${status}`)
     .then(() =>
-      axios.put(`${baseURL}:${PORT}/orders/track/?id=${id}&track_id=${trackid}`)
+      axios.put(`${baseURL}/orders/track/?id=${id}&track_id=${trackid}`)
     )
     .then(() =>
       Toast.fire({
@@ -126,7 +126,7 @@ export const ADMupdate_order = async (
 //Users Actions
 export const ADMfetch_users = () => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/users`).then((res) => {
+    axios.get(`${baseURL}/users`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_USERS,
@@ -138,7 +138,7 @@ export const ADMfetch_users = () => {
 
 export const ADMfetch_users_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/users/${id}`).then((res) => {
+    axios.get(`${baseURL}/users/${id}`).then((res) => {
       const payload = res.data;
       dispatch({
         type: AdminActionType.GET_USER_BY_ID,
@@ -203,7 +203,7 @@ export const ADMupdate_pricing = (
 ) => {
   axios
     .put(
-      `${baseURL}:${PORT}/shipments/?minus100=${minus100}&minus500=${minus500}&minus1000=${minus1000}&plus1000=${plus100}`
+      `${baseURL}/shipments/?minus100=${minus100}&minus500=${minus500}&minus1000=${minus1000}&plus1000=${plus100}`
     )
     .then(() =>
       Toast.fire({

@@ -5,6 +5,7 @@ import db from "../database/database";
 import OrderProduct from "../database/models/order-product.model";
 import Product from "../database/models/product.model";
 import cloudinary from "../utils/cloudinary";
+import {createOrderStatistics} from "./statistic/create-order-statistics";
 import axios from "axios";
 
 interface RequestParams {}
@@ -42,6 +43,7 @@ export const POST_Order = async (request: Request, response: Response) => {
             id_user,
             status: "cart",
         });
+        await createOrderStatistics(id_user, createdOrder.id);
 
         const groupedProducts: Record<number, any> = {};
 

@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import moment from 'moment';
-import db from '../database/database';
+import db from '../../database/database';
 
 interface DailyStatistic {
     timeUnit: string;

@@ -49,14 +49,14 @@ const UserOrders = ({
         disabled={false}
         className="justify-end pr-12"
       />
-      <div className="flex items-center justify-around w-full mt-4 text-center border-t">
+      <div className="flex items-center text-xxs justify-around w-full mt-4 text-center border-t">
         <p className="w-40 ">Fecha</p>
         <p className="w-24 ">Status</p>
         <p className="w-24 ">Despachada</p>
       </div>
       {userOrders.map((e) => (
         <div
-          className="flex items-center justify-around w-full py-2 text-center border-t cursor-pointer"
+          className="flex items-center justify-around bg-gray-100 duration-300 w-full py-2 text-center border-t cursor-pointer hover:bg-gray-200"
           onClick={() => {
             setDetailId(e.id);
             setPanel("orderdetail");

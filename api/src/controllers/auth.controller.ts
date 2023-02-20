@@ -6,6 +6,7 @@ import db from "../database/database";
 import getErrorMessage from "../helpers/handleErrorCatch";
 import { TypeRole, TypeUser } from "../types";
 import {sendConfirmationEmailController} from "./email";
+import {createUserRegistrationStatistics} from "./statistic/create-user-registration-statistics";
 dotenv.config();
 
 export const POST_SignUp = async (req: Request, res: Response) => {
@@ -108,8 +109,9 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           expiresIn: 86400, //24 hs
         }
       );
+      await createUserRegistrationStatistics(user.id);
 
-        // Enviar correo electrónico de confirmación
+      // Enviar correo electrónico de confirmación
       await sendConfirmationEmailController(email, user.id);
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
@@ -160,6 +162,8 @@ export const POST_SignUp = async (req: Request, res: Response) => {
           expiresIn: 86400, //24 hs
         }
       );
+      await createUserRegistrationStatistics(user.id);
+
       // Enviar correo electrónico de confirmación
       await sendConfirmationEmailController(email, user.id);
       //Si no esta creado, devuelve el token

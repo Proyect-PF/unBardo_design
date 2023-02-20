@@ -118,7 +118,30 @@ export const GET_SearchByName = async (
                 exclude: TO_EXCLUDE,
             },
         });
-        return response.status(200).json(products);
+        let productsWithImages = [];
+        for (const product of products) {
+            const images = await db.Image.findAll({
+                where: {
+                    productId: product.id,
+                },
+            });
+            // Verificar si el objeto images tiene los datos esperados
+            const imageUrls = images.reduce((obj: any, image: any, i: any) => {
+                if (i === 0) {
+                    obj[`image`] = image.imgUrl;
+                } else {
+                    obj[`image${i + 1}`] = image.imgUrl;
+                }
+                return obj;
+            }, {});
+
+            const productWithImages = {
+                ...product.toJSON(),
+                ...imageUrls,
+            };
+            productsWithImages.push(productWithImages);
+        }
+        return response.status(200).json(productsWithImages);
 
     } catch (error: any) {
         return response.status(400).json({error: error.message});

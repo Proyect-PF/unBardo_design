@@ -1,60 +1,65 @@
-import { Product, User } from "../../state/types";
-import {
-  AdminAction,
-  AdminActionType,
-  OrderAdmin,
-  OrdersAdmin,
-} from "./types-interfaces";
+import { Product, User } from '../../state/types';
+import { AnaliticProducts, OrderDetails } from '../../types/types';
+import { AdminAction, AdminActionType, OrdersAdmin } from './types-interfaces';
 
 export type AdminState = {
   allProducts: Product[];
   productDetails: Product;
   allOrders: OrdersAdmin[];
-  orderDetails: OrderAdmin;
+  orderDetails: OrderDetails;
   allUsers: User[];
   userDetails: User;
+  ordersCount: number;
+  analiticsProducts: AnaliticProducts[]
 };
 
 const initialState: AdminState = {
   allProducts: [],
   productDetails: {
     id: 0,
-    name: "",
-    description: "",
+    name: '',
+    description: '',
     S: 0,
     M: 0,
     L: 0,
     XL: 0,
     price: 0,
-    color: "",
+    color: '',
     show_in_shop: false,
-    image: "",
+    image: '',
   },
   allOrders: [],
+  ordersCount: 0,
   orderDetails: {
-    id: 0,
-    fullname: "",
-    status: "",
+    status: '',
+    external_reference: 0,
+    products: [],
+    payment_method: '',
+    payment_type: '',
+    total_amount: 0,
+    cuotes: 0,
+    total_paid_amount: 0,
     dispatched: false,
-    updatedAt: "",
-    email: "",
-    orderProducts: [
-      {
-        id: 0,
-        id_product: 0,
-        sizes: {},
-      },
-    ],
+    address: {
+      street_name: '',
+      street_number: '',
+      zip_code: '',
+    },
+    phone: {
+      area_code: '',
+      number: '',
+    },
   },
   allUsers: [],
   userDetails: {
-    fullname: "",
-    password: "",
-    email: "",
+    fullname: '',
+    password: '',
+    email: '',
     id: 0,
     id_role: 0,
     news_letter: true,
   },
+  analiticsProducts:[]
 };
 
 const adminReducer = (
@@ -71,6 +76,11 @@ const adminReducer = (
       return {
         ...state,
         allOrders: action.payload,
+      };
+    case AdminActionType.GET_ORDERS_COUNT:
+      return {
+        ...state,
+        ordersCount: action.payload,
       };
     case AdminActionType.GET_ALL_USERS:
       return {
@@ -97,6 +107,13 @@ const adminReducer = (
         ...state,
         allProducts: action.payload,
       };
+      
+      //Caso en el que obtiene los datos de los analisis
+      case AdminActionType.GET_ANALITICS_PRODUCTS: 
+      return {
+        ...state, 
+        analiticsProducts: action.payload
+      }
     default:
       return { ...state };
   }

@@ -31,9 +31,8 @@ const FileUpload = ({ setFieldValue, fieldName, force }: Props) => {
   }, [force]);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-row gap-8">
       <input type="file" accept="image/" onChange={handleUpload} />
-      <img src={image} className="w-80" />
     </div>
   );
 };

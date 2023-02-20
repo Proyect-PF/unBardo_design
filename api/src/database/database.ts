@@ -1,8 +1,6 @@
-'use strict';
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const process = require('process');
 const basename = path.basename(__dirname);
 import config from "../config/config";
 
@@ -58,7 +56,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-//console.log(db)
+console.log(db)
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

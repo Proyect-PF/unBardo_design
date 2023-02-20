@@ -10,6 +10,9 @@ interface Props {
   onBlur: any;
   value: any;
   className: string;
+  autocomplete?: string;
+  min?: number;
+  max?: number;
 }
 
 const Input = ({
@@ -21,6 +24,9 @@ const Input = ({
   onChange,
   className,
   onBlur,
+  autocomplete,
+  min,
+  max,
 }: Props) => {
   return (
     <div>
@@ -33,6 +39,9 @@ const Input = ({
         className={`text-align: first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50 ${className}`}
         name={name}
         onBlur={onBlur}
+        autoComplete={autocomplete}
+        min={min}
+        max={max}
       />
     </div>
   );

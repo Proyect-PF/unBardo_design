@@ -5,6 +5,8 @@ import db from "../database/database";
 import OrderProduct from "../database/models/order-product.model";
 import Product from "../database/models/product.model";
 import cloudinary from "../utils/cloudinary";
+import {createOrderStatistics} from "./statistic/create-order-statistics";
+import axios from "axios";
 
 interface RequestParams {}
 
@@ -17,7 +19,7 @@ interface RequestQuery {}
 //Ruta POST para la creacion de la orden de compra
 export const POST_Order = async (request: Request, response: Response) => {
     try {
-        const {id_user, products} = request.body;
+        const { id_user, products } = request.body;
 
         //----------------------------------------------------
         //TODO: Analiza si existe otra orden de compra con estado status "cart", y si existe la elimina, antes de crear la nueva orden con status "cart". De esta forma siempre va a existir solo un carrito por usuario
@@ -27,7 +29,7 @@ export const POST_Order = async (request: Request, response: Response) => {
                 status: 'cart'
             }
         });
-        if (order!) {
+        if (order) {
             await db.OrderProducts.destroy({
                 where: {
                     id_order: order.id
@@ -41,38 +43,150 @@ export const POST_Order = async (request: Request, response: Response) => {
             id_user,
             status: "cart",
         });
-        const createdOrderProducts = [];
+        await createOrderStatistics(id_user, createdOrder.id);
+
+        const groupedProducts: Record<number, any> = {};
+
         for (const product of products) {
-            const {id_product, sizes} = product;
-            const createdOrderProduct = await db.OrderProducts.create({
-                id_order: createdOrder.id,
-                id_product,
-                sizes
-            });
-            createdOrderProducts.push(createdOrderProduct);
+            const { id_product, sizes } = product;
+
+            if (groupedProducts[id_product]) {
+                for (const size in sizes) {
+                    if (sizes.hasOwnProperty(size)) {
+                        if (groupedProducts[id_product].sizes[size]) {
+                            groupedProducts[id_product].sizes[size] += sizes[size];
+                        } else {
+                            groupedProducts[id_product].sizes[size] = sizes[size];
+                        }
+                    }
+                }
+            } else {
+                groupedProducts[id_product] = {
+                    id_product,
+                    sizes,
+                };
+            }
         }
-        return response.status(201).json({createdOrder, createdOrderProducts});
+
+        const createdOrderProducts = [];
+
+        for (const id_product in groupedProducts) {
+            if (groupedProducts.hasOwnProperty(id_product)) {
+                const { sizes } = groupedProducts[id_product];
+                const createdOrderProduct = await db.OrderProducts.create({
+                    id_order: createdOrder.id,
+                    id_product,
+                    sizes
+                });
+                createdOrderProducts.push(createdOrderProduct);
+            }
+        }
+
+        return response.status(201).json({ createdOrder, createdOrderProducts });
     } catch (error: any) {
         console.error(error);
-        return response.status(400).json({error: error.message});
+        return response.status(400).json({ error: error.message });
     }
 };
+
 
 //Obtener todas las ordenes
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
-        const orders = await db.Orders.findAll({
-            where: {status: {[Op.ne]: 'cart'}},
+        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search } = req.query;
+        const offset = (Number(page) - 1) * Number(limit);
+
+        const options: any = {
+            where: {},
             include: [
                 {
                     model: db.Users,
                     as: "users"
                 }
-            ]
+            ],
+            order: []
+        };
+
+        // Verificar si status es una cadena de texto
+        if (typeof status === 'string'  && status !=="") {
+            options.where.status = status;
+        } else {
+            options.where.status = {[Op.ne]: 'cart'};
+        }
+
+        // Verificar si userId es una cadena de texto
+        if (typeof userId === 'string' && userId !=="") {
+            options.where.id_user = userId;
+        }
+
+        // Verificar si id es una cadena de texto
+        if (typeof id === 'string' && id !=="") {
+            options.where.id = id;
+        }
+
+        // Verificar si paymentId es una cadena de texto
+        if (typeof paymentId === 'string' && paymentId !=="") {
+            options.where.payment_id = paymentId;
+        }
+
+        // Verificar si dispatched es una cadena de texto
+        if (typeof dispatched === 'string' && dispatched !=="") {
+            options.where.dispatched = dispatched === 'true';
+        }
+
+        // Verificar si startDate y endDate son cadenas de texto
+        if (typeof startDate === 'string' && typeof endDate === 'string' ) {
+            options.where.createdAt = {
+                [Op.between]: [new Date(startDate), new Date(endDate)],
+            };
+        }
+
+        // Verificar si sort y order son cadenas de texto o arrays
+        if (typeof sort === 'string' && (typeof order === 'string' || Array.isArray(order))) {
+            if (Array.isArray(order)) {
+                options.order.push(order.map(o => [sort, o.toString().toUpperCase()]));
+            } else {
+                options.order.push([sort, order.toUpperCase()]);
+            }
+        } else {
+            options.order.push(['createdAt', 'DESC']);
+        }
+
+        // Verificar si page y limit son números
+        if (typeof page === 'string' && typeof limit === 'string') {
+            options.limit = Number(limit);
+            options.offset = offset;
+        }
+
+        // Verificar si se está realizando una búsqueda global
+        if (typeof search === "string") {
+            const searchString = search.trim();
+
+            options.where[Op.or] = [
+                db.Sequelize.literal(
+                    `concat("Orders"."id", "Orders"."id_user", "Orders"."status", "Orders"."payment_id", "Orders"."dispatched"::text, "Orders"."createdAt", "Orders"."updatedAt") ILIKE '%${searchString}%'`
+                ),
+                {
+                    "$users.email$": {
+                        [Op.iLike]: `%${searchString}%`,
+                    },
+                }
+            ];
+        }
+
+
+        const count = await db.Orders.count({
+            where: options.where,
+            include: options.include,
         });
-        return res.status(200).json(orders);
+
+
+        const orders = await db.Orders.findAll(options);
+
+        return res.status(200).json({ count, orders });
     } catch (error: any) {
-        return res.status(400).json({message: error.message});
+        console.error(error);
+        return res.status(400).json({error: error.message});
     }
 };
 
@@ -84,7 +198,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Ejecutar la primera consulta
         const order = await db.Orders.findOne({
             where: {id: orderId},
-            attributes: ["id", "updatedAt", "status", "dispatched"],
+            attributes: ["id", "updatedAt", "status", "dispatched", "payment_id"],
             include: [{model: db.Users, as: "users", attributes: ["fullname", "email"]}],
             order: [['updatedAt', 'DESC']]
         });
@@ -95,19 +209,53 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             attributes: {exclude: ["createdAt", "updatedAt", "id_order"]}
         });
 
+        //Se obtiene de la api de Mercadopago la informacion de la compra por medio del payment_id
+        const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${order.payment_id}`,
+            {
+                headers: {
+                    "Content-types": "application/json",
+                    Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
+                },
+            });
+
+        //A la informacion del producto se le agrega titulo, descripción y precio unitario obtenido desde la api de Mercadopago
+
+        let products = [];
+        for (let i = 0; i < orderProducts.length; i++) {
+            products.push({
+                id: orderProducts[i].id,
+                id_product: orderProducts[i].id_product,
+                title: payment_detail.data.additional_info.items[i].title,
+                description: payment_detail.data.additional_info.items[i].description,
+                unit_price: payment_detail.data.additional_info.items[i].unit_price,
+                sizes: orderProducts[i].sizes,
+            });
+        }
+
         // Extraer los valores de order y users
-        const {id, updatedAt, status, dispatched} = order.dataValues;
+        const {id, updatedAt, status, dispatched, payment_id} = order.dataValues;
         const {fullname, email} = order.users;
+
         // Combinar solo los valores necesarios
         const response = {
             id,
+            payment_id,
             updatedAt,
             status,
             dispatched,
             fullname,
-            email
-            ,
-            orderProducts
+            email,
+            //orderProducts,
+            payment_method: payment_detail.data.payment_method_id,
+            payment_type: payment_detail.data.payment_type_id,
+            total_amount: payment_detail.data.transaction_amount,
+            cuotes: payment_detail.data.installments,
+            total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+            address: payment_detail.data.additional_info.payer.address,
+            phone: payment_detail.data.additional_info.payer.phone,
+            date_last_updated: payment_detail.data.date_last_updated,
+            date_approved: payment_detail.data.date_approved,
+            products,
         };
 
         // Enviar la respuesta
@@ -125,15 +273,42 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
 
         const {id, status} = req.query;
 
+        const order = await db.Orders.findOne({
+            where: {id}
+        })
+
+        if (order.status === 'approved') {
+            const orderUpdate = await db.Orders.update({
+                dispatched: Boolean(status),
+            }, {
+                where: {
+                    id
+                }
+            });
+            console.log(orderUpdate);
+            if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+            return res.status(200).json(orderUpdate);
+        }
+
+        return res.status(404).json({message: "El estado de la orden debe estar aprobada"});
+    } catch (error: any) {
+        return res.status(400).json({message: error.message});
+    }
+}
+
+//Update el track_id de la orden
+export const UPDATE_OrderTrack = async (req: Request, res: Response) => {
+    try {
+        const {id, track_id} = req.query;
+
         const orderUpdate = await db.Orders.update({
-            dispatched: Boolean(status),
+            track_id,
         }, {
             where: {
                 id
             }
         });
         console.log(orderUpdate);
-
         if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
         return res.status(200).json(orderUpdate);
     } catch (error: any) {
@@ -185,16 +360,25 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
             where: {
                 id_user,
                 status: {[Op.ne]: 'cart'}
-             },
+            },
         });
-        
-        for (const ele of orderUser) {
+
+        for (const order of orderUser) {
             const prodOrder = await db.OrderProducts.findAll({
-                where: {id_order: ele.id}
+                where: {id_order: order.id}
             })
-            array.push({ele, product: prodOrder});
+            array.push({
+                id: order.id,
+                id_user: order.id_user,
+                status: order.status,
+                payment_id: order.payment_id,
+                dispatched: order.dispatched,
+                createdAt: order.createdAt,
+                updatedAt: order.updatedAt,
+                product: prodOrder
+            });
         }
-        
+
         return response.status(200).json(array);
     } catch (error: any) {
         return response.status(500).json({ error: error.message });

@@ -2,18 +2,20 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { ActionType } from "../action-types";
 import Swal from "sweetalert2";
-import { ActionCheckout, ActionProducts, ActionUser } from "../actions";
-import userIcon from "../../assets/svg/user-icon.svg";
-import alertIcon from "../../assets/svg/alert.svg";
 import {
-  Checkout,
-  Product,
-  ProductState,
-  User,
-  UserLog,
-  UserRegister,
-} from "../types";
+  ActionCheckout,
+  ActionFavorites,
+  ActionOrderCheckout,
+  ActionOrders,
+  ActionProducts,
+  ActionUser,
+} from "../actions";
+import { Checkout, Product, ProductState } from "../types";
+import { OrderDetails, SetFavoritePayload } from "../../types/types";
+import { User } from "../../types/types";
 import { PORT, baseURL } from "../../utils/url&port";
+import Toast from "../../components/Toast";
+
 //AL: Here we're defining the actions to be consumed in the components
 
 // Funcion que retorna Productos desde la API
@@ -32,28 +34,6 @@ export const fetch_products = (query: string | null = null) => {
   };
 };
 
-{
-  /** 
-export const fetch_products = (color: string | null = null) => {
-  return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
-    let url = `http://localhost:3700/products`;
-    if (color) {
-      url += `?filter={"color": "${color}"}`;
-      console.log(url)
-    }
-    axios.get(url).then((res) => {
-      payload = res.data;
-
-      // ENVIAMOS PAYLOAD A REDUX
-      dispatch({
-        type: ActionType.GET_ALL_PRODUCTS,
-        payload,
-      });
-    });
-  };
-};*/
-}
 // Funcion que retorna un Producto desde la API segun nombre
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {
@@ -71,29 +51,10 @@ export const fetch_product_byname = (name: string) => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 };
-
-// Funcion que envia un Producto a la API para ser creado.
-// Requiere Payload:Product
-
-// export const create_product = (payload: Product) => {
-//   return (dispatch: Dispatch<ActionProducts>) => {
-//     axios({
-//       method: "post",
-//       url: "http://localhost:3700/products/new",
-//       data: payload,
-//     }).then(() =>
-//       // ENVIAMOS PAYLOAD A REDUX
-//       dispatch({
-//         type: ActionType.ADD_PRODUCT,
-//         payload,
-//       })
-//     );
-//   };
-// };
 
 // Funcion que retorna un Producto desde la API segun id
 // Requiere un Number como parametro
@@ -110,7 +71,10 @@ export const fetch_product_detail = (id: number) => {
       price: 0,
       color: "",
       show_in_shop: true,
+
       image: "",
+      promotion: false,
+      promotional_price: 0,
     };
     axios.get(`${baseURL}:${PORT}/products/${id}`).then((res) => {
       if (res.data?.id) {
@@ -126,9 +90,13 @@ export const fetch_product_detail = (id: number) => {
           color: res.data.color,
           show_in_shop: res.data.show_in_shop,
           image: res.data.image,
+          image2: res.data.image2,
+          image3: res.data.image3,
+          image4: res.data.image4,
+          promotion: res.data.promotion,
+          promotional_price: res.data.promotional_price,
         };
       }
-
       // ENVIAMOS PAYLOAD A REDUX
       dispatch({
         type: ActionType.GET_PRODUCT_DETAILS,
@@ -202,42 +170,29 @@ export const clearCheckoutList = () => {
   };
 };
 
-export const userRegister = (user: UserRegister, navigate: any) => {
-  // return (dispatch: Dispatch<ActionUser>)=> {
-
+export const userRegister = (registerLogin: Function, user?: User) => {
   axios
     .post(`${baseURL}:${PORT}/auth/signup`, user)
     .then((response) => {
-      // const data = response.data;
-      // console.log(data);
-      // alert("registrado");
-      // dispatch({
-      //   type: ActionType.GET_TOKEN_USER_LOG,
-      //   payload: ""
-      // })
       Swal.fire({
-        imageUrl: userIcon,
-        imageHeight: 80,
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
         showConfirmButton: true,
-        confirmButtonColor: "#000",
-        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
-        html: '<p class="font-poppins font-medium text-black italic" >Bienvenido! Por favor inicia sesion.</p>',
+        confirmButtonColor: "#376B7E",
+        confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
+        html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
         if (result.isConfirmed) {
-          navigate("/account/login");
+          registerLogin();
         }
       });
     })
     .catch((err) => {
       Swal.fire({
-        imageUrl: alertIcon,
-        imageHeight: 80,
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
         showConfirmButton: true,
-        confirmButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
         confirmButtonText:
           "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
         html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
@@ -247,7 +202,7 @@ export const userRegister = (user: UserRegister, navigate: any) => {
 };
 
 // Recibimos en la response token y role
-export const userLogin = (user: UserLog, navigate: any) => {
+export const userLogin = (user: User, navigate: any) => {
   return (dispatch: Dispatch<ActionUser>) => {
     axios
       .post(`${baseURL}:${PORT}/auth/signin`, user)
@@ -259,18 +214,8 @@ export const userLogin = (user: UserLog, navigate: any) => {
           type: ActionType.USER_LOGIN,
           payload: response.data,
         });
+
         navigate("/");
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "bottom",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-          },
-        });
 
         Toast.fire({
           icon: "success",
@@ -280,12 +225,10 @@ export const userLogin = (user: UserLog, navigate: any) => {
       })
       .catch((err) => {
         Swal.fire({
-          imageUrl: alertIcon,
-          imageHeight: 80,
           title:
             "<p class='text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
           showConfirmButton: true,
-          confirmButtonColor: "#000",
+          confirmButtonColor: "#376B7E",
           confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
           html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
         });
@@ -297,6 +240,124 @@ export const userLogout = () => {
   return (dispatch: Dispatch<ActionUser>) => {
     dispatch({
       type: ActionType.USER_LOGOUT,
+    });
+  };
+};
+
+export const fetch_orders_user = (id: number | undefined) => {
+  return (dispatch: Dispatch<ActionOrders>) => {
+    axios
+      .get(`${baseURL}:${PORT}/orders/users/${id}`)
+      .then((res) => {
+        const payload = res.data;
+        dispatch({
+          type: ActionType.GET_ORDER_BY_UID,
+          payload,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+};
+
+export const getOrderDetailsSuccess = (
+  orderData: OrderDetails
+): ActionOrderCheckout => {
+  return {
+    type: ActionType.GET_ORDER_DETAILS_SUCCESS,
+    payload: orderData,
+  };
+};
+
+export const getOrderDetailsFailure = (error: any) => {
+  return {
+    type: ActionType.GET_ORDER_DETAILS_FAILURE,
+    payload: error,
+  };
+};
+
+export const getOrderDetails = (
+  payment_id: string,
+  external_reference: string
+) => {
+  return async (dispatch: Dispatch<ActionOrderCheckout>) => {
+    try {
+      const response = await axios.post(`${baseURL}:${PORT}/orders/feedback`, {
+        payment_id,
+        external_reference,
+      });
+      dispatch(getOrderDetailsSuccess(response.data));
+      // console.log(response.data);
+    } catch (error) {
+      // console.log(error);
+    }
+  };
+};
+
+export const getFavorites = (id: number) => {
+  return (dispatch: Dispatch<ActionFavorites>) => {
+    axios.get(`${baseURL}:${PORT}/favorites/${id}`).then((res) => {
+      const payload = res.data;
+      dispatch({
+        type: ActionType.GET_FAVORITES,
+        payload,
+      });
+    });
+  };
+};
+
+export const setFavorite = (payload: SetFavoritePayload, getFavorites: any) => {
+  return (dispatch: Dispatch<ActionFavorites>) => {
+    axios
+      .post(`${baseURL}:${PORT}/favorites`, payload)
+      .then((res) => {
+        Toast.fire({
+          icon: "success",
+          title:
+            "<p class='font-bold font-rift text-black'>Se agregó a tus favoritos</p>",
+        });
+        getFavorites(payload.id_user);
+      })
+      .catch((err) => {
+        Toast.fire({
+          icon: "error",
+          title:
+            "<p class='font-bold font-rift text-black'>No se pudo agregar a tus favoritos</p>",
+        });
+      });
+  };
+};
+
+export const deleteFavorite = (
+  payload: SetFavoritePayload,
+  getFavorites: any
+) => {
+  return (dispatch: Dispatch<ActionFavorites>) => {
+    axios
+      .delete(
+        `${baseURL}:${PORT}/favorites?id_user=${payload.id_user}&id_product=${payload.id_product}`
+      )
+      .then((res) => {
+        Toast.fire({
+          icon: "success",
+          title:
+            "<p class='font-bold font-rift text-black'>Se eliminó de tus favoritos</p>",
+        });
+        getFavorites(payload.id_user);
+      })
+      .catch((err) => {
+        Toast.fire({
+          icon: "error",
+          title:
+            "<p class='font-bold font-rift text-black'>No se pudo eliminar de tus favoritos</p>",
+        });
+      });
+  };
+};
+
+export const logOutFavorites = () => {
+  return (dispatch: Dispatch<ActionFavorites>) => {
+    dispatch({
+      type: ActionType.LOG_OUT_FAVORITES,
     });
   };
 };

@@ -15,7 +15,8 @@ email="unbardodesign2023@gmail.com"
 password="jlvmoatfefqrsgnt\n"
 CLOUDINARY_NAME=drt1pzx1x
 CLOUDINARY_API_KEY=185432381513669
-CLOUDINARY_API_SECRET=ddhUhnhLRNuwsoV1Qn4IW-EjWJg	
+CLOUDINARY_API_SECRET=ddhUhnhLRNuwsoV1Qn4IW-EjWJg
+LOCATIONIQ_KEY="pk.cb041215288dedcb0b037a20905b3f2e"
 
 ```
 
@@ -176,16 +177,89 @@ Nombre de funcion = UPDATE_OrderStatus.
     Actualiza el status de la orden. Recibie id y status por query
 ```
 
-# Endpoints para Cart
-## localhost:3700/cart
-
-#### POST -> localhost:3700/cart/
+#### UPDATE -> localhost:3700/orders/track/
 
 ```env
-Nombre de funcion = POST_AddToCart
-    Esta ruta agrega un producto al carrito de compras en el Back en la tabla "Cart".
-    - Recibe el id y un flag "eliminar"
-    - Si eliminar es "false" agrega un producto, si existe -> suma un contador y su precio.
-    - Si flag es "true" lo elimina y resta la cantidad.
+Nombre de funcion = UPDATE_OrderTrack.
+    Actualiza el estado del seguimiento de la orden. Recibie id y track_id por query
 ```
 
+# Endpoints para Favorites
+## localhost:3700/favorites
+
+#### POST -> localhost:3700/favorites/
+
+```env
+Nombre de funcion = POST_Favorite
+    Recibe id_user y id_product por body.
+    Esta ruta consulta si existe un favorito del usuario creado, si no existe lo crea. En caso de que exista, consulta si el producto ya esta agregado a favoritos, y si no lo esta lo agrega.
+    Se guarda en la base de datos de la siguiente manera, donde products_id son los id de cada producto metidos en un array.
+    {
+        "id": 22,
+        "id_user": 2,
+        "products_id": [
+            3,
+            1,
+            5,
+            2
+        ],
+        "createdAt": "2023-02-16T17:58:48.870Z",
+        "updatedAt": "2023-02-16T18:15:01.688Z"
+    }
+```
+
+#### GET -> localhost:3700/favorites/:id_user
+
+```env
+Nombre de funcion = GET_FavoritesByUser
+    Recibe id_user por params.
+    Esta ruta obtiene la informacion de favoritos del usuario
+```
+
+#### DELETE -> localhost:3700/favorites/
+
+```env
+Nombre de funcion = DELETE_FavoriteProductByUser
+    Recibe id_user y id_product por query.
+    Esta ruta permite eliminar un producto de la lista de favoritos
+```
+
+#### DELETE -> localhost:3700/favorites/:id_user
+
+```env
+Nombre de funcion = DELETE_AllFavoriteByUser
+    Recibe id_user por params.
+    Esta ruta permite eliminar todos los favoritos de un usuario
+```
+
+# Endpoints para Shipments
+## localhost:3700/shipments
+
+#### PUT -> localhost:3700/shipments/
+
+```env
+Nombre de funcion = UPDATE_ShipmentPrices
+    Recibe minus100, minus500, minus1000, plus1000 por query.
+    Esta ruta consulta si existe una tabla creada con los costos de envio, si no existe la crea, y en caso de existir la actualiza con los nuevos valores.
+```
+
+#### GET -> localhost:3700/shipments/
+
+```env
+Nombre de funcion = GET_ShipmentPrices
+    Esta ruta obtiene la informacion de los costos de envio.
+```
+
+#### GET -> localhost:3700/shipments/distance/
+
+```env
+Nombre de funcion = GET_Distance
+    Se recibe el zip_code (codigo postal) por query
+    Esta ruta con el codigo postal recibido consulta en la api de LocationIQ la latitud y longitud correspondiente. La latitud y longitud de origen esta determinada por defecto con el codigo postal 1842 (Monte Grande, Buenos Aires; latitud = -34.819691, longitud = -58.465862). Con esta informacion se ingresa a la api de LocationIQ y se determina la distancia del envío, luego se consulta si la distancia es mayor a 1000km, menor a 1000km, menor a 500km y menor a 100km para aplicar el coeficiente de costo por kilometro correspondiente.
+    Se retorna un json con la siguiente estructura:
+    {
+    city : nombre de la ciudad,
+    distance: distancia del envío,
+    shipmentCost: costo del envío
+    }
+```

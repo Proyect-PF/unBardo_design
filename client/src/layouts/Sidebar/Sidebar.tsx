@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
-import helpIcon from "../../assets/svg/help.svg";
-import login from "../../assets/svg/log-in.svg";
-import outIcon from "../../assets/svg/out-session.svg";
+import login from "../../assets/svg/googleIcons/login.svg";
+import outIcon from "../../assets/svg/googleIcons/logout.svg";
 import logo from "../../assets/svg/principal-logo.svg";
-import userIcon from "../../assets/svg/user-icon.svg";
+import userIcon from "../../assets/svg/googleIcons/account.svg";
+import heart from "../../assets/svg/googleIcons/favorite.svg";
 import { actionCreators } from "../../state";
 import { State } from "../../state/reducers";
 
@@ -18,13 +18,22 @@ interface Props {
 const Sidebar = ({ openClose, handleChange }: Props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userLogout } = bindActionCreators(actionCreators, dispatch);
+  const { userLogout, logOutFavorites } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
   const { success, userType } = useSelector((state: State) => state.user);
 
   let style: string;
-  if (openClose) style = "left-full";
+  if (openClose) style = "translate-x-[-100%]";
   else {
-    style = "";
+    style = "translate-x-[0%]";
+  }
+
+  let style1: string;
+  if (openClose) style1 = "opacity-0 invisible";
+  else {
+    style1 = "opacity-1 visible";
   }
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -43,6 +52,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         break;
       case "logout":
         userLogout();
+        logOutFavorites();
         handleChange();
         navigate("/");
         break;
@@ -50,9 +60,9 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
         handleChange();
         navigate(`/profile/${id}`);
         break;
-      case "orders":
+      case "favorites":
         handleChange();
-        navigate(`/profile/${id}`);
+        navigate(`/favorites`);
         break;
       case "help":
         break;
@@ -61,9 +71,9 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
 
   return (
     <div
-      className={`flex fixed ${style} w-full bg-black/80 z-40  text-2xl font-semibold`}
+      className={`flex fixed ${style1} ease-in-out duration-500 w-full bg-black/80 z-40  text-xl font-semibold`}
     >
-      <div className="flex flex-col justify-between w-2/3 max-w-lg min-h-screen bg-white">
+      <div className={`flex flex-col ${style} ease-in-out duration-500 justify-between w-2/3 max-w-lg min-h-screen bg-white`}>
         <div>
           <div className="flex items-center justify-center h-16 border-b-2 border-gray-300">
             <img src={logo} alt="logo" className="h-7" />
@@ -76,7 +86,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               id="login"
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
-              <img src={login} alt="user" className="h-6" />
+              <img src={login} alt="user" className="h-8" />
               <p className="pl-4">Iniciar Sesión</p>
             </div>
           </div>
@@ -94,7 +104,7 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
               }
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
-              <img src={userIcon} alt="user" className="h-6" />
+              <img src={userIcon} alt="user" className="h-8" />
               <p className="pl-4">
                 {success && userType === "admin"
                   ? "Panel Admin"
@@ -103,30 +113,22 @@ const Sidebar = ({ openClose, handleChange }: Props) => {
                   : ""}
               </p>
             </div>
-              <div className={success && userType === "user"? "visible" : "hidden"}>
-            <div 
+            {/** FAVORITOS */}
+            <div
               onClick={handleClick}
-              id="orders"
+              id="favorites"
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
-              <img src={userIcon} alt="orders" className="h-6" />
-              <p className="pl-4">
-                {success && userType === "user"
-                  ? "Mis Ordenes"
-                  : ""}
-              </p>
+              <img src={heart} alt="Favorites" className="h-8" />
+              <p className="pl-4">Favoritos</p>
             </div>
-            </div>
-            
-            
-
             {/** CERRAR SESION */}
             <div
               onClick={handleClick}
               id="logout"
               className="flex items-center h-16 pl-5 duration-300 border-l-4 border-white hover:border-l-4 hover:border-gray-700 hover:bg-gray-300 hover:cursor-pointer"
             >
-              <img src={outIcon} alt="out" className="h-6" />
+              <img src={outIcon} alt="out" className="h-8" />
               <p className="pl-4">Cerrar Sesión</p>
             </div>
           </div>

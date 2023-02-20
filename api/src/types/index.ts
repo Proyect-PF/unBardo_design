@@ -1,25 +1,40 @@
-
+export type TypeImage = {
+  
+};
+export type TypeOrderProducts = {};
+export type TypeOrders = {};
+export type TypeProductVariant = {};
+//State app index
+export type State = {
+  alter?: boolean;
+  force?: boolean;
+}
 // SOLO PARA DEFINICION - TIPOS GLOBALES
 // ?: El campo puede existir o no. Permitiendo redefinir el modelo
 export type TypeUser = {
   firstname?: string | undefined;
   lastname?: string | undefined;
   // Registro
-  fullname: string;
-  password: string;
-  email: string;
+  fullname?: string;
+  password?: string;
+  email?: string;
   news_letter?: boolean;
   //
+  google_id?: number;
   id?: number;
   id_role?: number | undefined;
+  role?: string;
 };
 
 export type TypeRole = {
   name: string;
   id?: number;
-
-}
-
+};
+export type IDecoded = {
+  id: string;
+  iat: number;
+  exp: number;
+};
 
 export type TypeProduct = {
   id?: number;
@@ -32,7 +47,8 @@ export type TypeProduct = {
   price: number;
   color: string;
   show_in_shop: boolean;
-  image: string;
+  promotional_price: number;
+  promotion: boolean;
 };
 
 export type TypeOrder = {
@@ -63,4 +79,4 @@ export type TypeProductVariantAttributes = {
   quantity: number;
   SKU: string;
   release_date: Date;
-}
+};

@@ -1,38 +1,52 @@
 // IMPORTS
 import { Router } from "express";
-
-const productRoutes = Router();
-
 import {
-    DELETE_DeleteAllProducts, DELETE_DeleteProduct, GET_AllProducts, GET_ProductById, GET_SearchByName, POST_NewProduct,
-    UPDATE_UpdateProduct
+  DELETE_DeleteAllProducts,
+  DELETE_DeleteProduct,
+  GET_AllProducts,
+  GET_ProductById,
+  GET_SearchByName,
+  POST_NewProduct,
+  UPDATE_UpdateProduct,
 } from "../controllers/product.controller";
-
-
 import { verifyTokenIsAdmin } from "../helpers/verifyTokenIsAdmin";
 
 
+const productRoutes = Router();
 
-
-
-// PRODUCTS LIST OPERATIONS
-//productRoutes.get("/filtered/?", GET_FillteredOrderProducts);
-
+/**
+ //TODO: RUTA GET Obtener todos los productos
+ */
 productRoutes.get("/", GET_AllProducts);
+
+/**
+ //TODO: Ruta GET Obtener un producto por id
+ */
 productRoutes.get("/:id", GET_ProductById);
+
+/**
+ //TODO: RUTA UPDATE actualizar productos
+ */
 productRoutes.put("/", UPDATE_UpdateProduct);
 
-productRoutes.delete("/delete/:id", verifyTokenIsAdmin, DELETE_DeleteProduct);
-productRoutes.delete("/deleteAll",  DELETE_DeleteAllProducts);
+/**
+ //TODO: RUTA DELETE Borrar todos los productos
+ */
+productRoutes.delete("/deleteAll", DELETE_DeleteAllProducts);
 
-
+/**
+ //TODO: RUTA GET Buscar productos por nombre
+ */
 productRoutes.get("/search/:name", GET_SearchByName);
 
+/**
+ //TODO: RUTA DELETE Borra un producto por id
+ */
 productRoutes.delete("/:id", DELETE_DeleteProduct);
 
-
-productRoutes.post("/",verifyTokenIsAdmin, POST_NewProduct);
-
-
+/**
+ //TODO: RUTA POST Publica un producto nuevo
+ */
+productRoutes.post("/", POST_NewProduct);
 
 export default productRoutes;

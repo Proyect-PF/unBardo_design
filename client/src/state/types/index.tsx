@@ -10,6 +10,11 @@ export type Product = {
   color: string;
   show_in_shop: boolean;
   image: string;
+  image2?: string;
+  image3?: string;
+  image4?: string;
+  promotion?: boolean;
+  promotional_price?: number;
 };
 
 export type AddProductPayload = {
@@ -71,7 +76,7 @@ export type Checkout = {
   id: string;
   name: string;
   size: string;
-  price: number;
+  price: number | undefined;
   ammount: number;
   imgF: string;
 };
@@ -79,7 +84,7 @@ export type Checkout = {
 export type CheckoutState = {
   checkoutList: Checkout[];
 };
-
+//---------Agus------------
 export type Orders = {
   id: number;
   fullname: string;
@@ -92,3 +97,5 @@ export type OrderState = {
   allOrders: Orders[];
   order: Orders;
 };
+
+

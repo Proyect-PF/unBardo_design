@@ -13,11 +13,12 @@ export type User = {
   firstname?: string | undefined;
   lastname?: string | undefined;
   // Registro
-  fullname: string;
-  password: string;
+  fullname?: string;
+  password?: string;
   email: string;
   news_letter?: boolean;
   //
+  google_id?: number;
   id?: number;
   id_role?: number | undefined;
 };
@@ -34,6 +35,9 @@ export type Product = {
   color: string;
   show_in_shop: boolean;
   image: string;
+  image2?: string;
+  image3?: string;
+  image4?: string;
 };
 
 export type Order = {
@@ -54,3 +58,78 @@ export type Checkout = {
   ammount: number;
   imgF: string;
 };
+
+export type Item = {
+  id_product?: number;
+  quantity: number;
+  title: string;
+  unit_price: number;
+  sizes?: {
+    S?: number;
+    M?: number;
+    L?: number;
+    XL?: number;
+  };
+};
+export type OrderDetails = {
+  id?: number;
+  fullname?: string;
+  email?: string;
+  date_approved?: string;
+  status: string;
+  external_reference: number;
+  items?: Item[];
+  products?: Item[];
+  payment_method: string;
+  payment_type: string;
+  total_amount: number;
+  cuotes: number;
+  total_paid_amount: number;
+  dispatched: boolean;
+  address?: {
+    street_name: string;
+    street_number: string;
+    zip_code: string;
+  };
+  phone?: {
+    area_code: string;
+    number: string;
+  };
+  track_id?: string;
+};
+
+export type Favorites = {
+  id: number;
+  id_user: number;
+  products_id: number[];
+};
+
+export type SetFavoritePayload = {
+  id_user: number;
+  id_product: number;
+};
+
+
+//semanal
+
+
+// TYPES ANALITICS
+export type AnaliticProducts = {
+  timeUnit:string
+  totalProductsSold:number
+}
+
+export type AnaliticFunnel = {
+  timeUnit: string,
+  numberRegister:number
+  numberCarts:number
+  numberDirections: number
+  numberSales: number
+}
+
+// type chartValues = {
+//   numberCarts?:number //Numero de carritos generados, se maneja desde el boton que se compra el carrito.
+//   numberRegister?:number //Numero de registros, se maneja desde el Back la info que me trae.
+//   numberDirections?:number //Numero de personas que ingresan sus datos, se maneja con el evento onclick del boton del componente.
+//   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
+// }

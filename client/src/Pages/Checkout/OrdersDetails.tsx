@@ -1,167 +1,130 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Button from '../../components/Buttons/Button/Button';
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Button from "../../components/Buttons/Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionCreators } from "../../state";
+import { State } from "../../state/reducers";
+import { useLocation } from "react-router-dom";
+import { Item } from "../../types/types";
 
-const orders = [
-  {
-    id: 1,
-    date: '2022-01-01',
-    total: 100,
-    status: 'approved',
-    items: [
-      {
-        id: 1,
-        name: 'Product 1',
-        price: 50,
-        quantity: 2,
-      },
-      {
-        id: 2,
-        name: 'Product 2',
-        price: 25,
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: 2,
-    date: '2022-02-01',
-    total: 200,
-    items: [
-      {
-        id: 3,
-        name: 'Product 3',
-        price: 100,
-        quantity: 2,
-      },
-      {
-        id: 4,
-        name: 'Product 4',
-        price: 50,
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: 3,
-    date: '2022-03-01',
-    total: 150,
-    status: 'pending',
-    items: [
-      {
-        id: 5,
-        name: 'Product 5',
-        price: 75,
-        quantity: 2,
-      },
-    ],
-  },
-  {
-    id: 4,
-    date: '2022-04-01',
-    total: 300,
-    items: [
-      {
-        id: 6,
-        name: 'Product 6',
-        price: 150,
-        quantity: 2,
-      },
-    ],
-  },
-  {
-    id: 5,
-    date: '2022-05-01',
-    total: 175,
-    items: [
-      {
-        id: 7,
-        name: 'Product 7',
-        price: 75,
-        quantity: 1,
-      },
-      {
-        id: 8,
-        name: 'Product 8',
-        price: 50,
-        quantity: 1,
-      },
-      {
-        id: 9,
-        name: 'Product 9',
-        price: 50,
-        quantity: 1,
-      },
-    ],
-  },
-];
+const OrderDetails = (): JSX.Element => {
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const { getOrderDetails } = bindActionCreators(actionCreators, dispatch);
+  const orderData = useSelector((state: State) => state.orderDetails.orderData);
 
-const OrderDetails = (props: any) => {
-  //   const order = order || {};
+  const searchParams = new URLSearchParams(location.search);
+  const payment_id = searchParams.get("payment_id");
+  const external_reference = searchParams.get("external_reference");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      getOrderDetails(payment_id as string, external_reference as string);
+    };
+    fetchData();
+  }, [payment_id, external_reference]);
 
   return (
-    <div className='flex flex-col items-center p-1 mt-10'>
-      <h1 className='text-2xl font-bold'>Detalles de la orden</h1>
-      {orders.map((order) => (
-        <div className='w-full md:w-2/3 lg:w-2/3 xl:w-2/4 mb-10' key={order.id}>
-          <div className='bg-white p-6 shadow-lg'>
-            <div className='mb-4'>
-              <p className='font-bold'>ID de la orden:</p>
-              <p>{order.id}</p>
-            </div>
-            <div className='mb-4'>
-              <p className='font-bold'>Fecha de la orden:</p>
-              <p>{order.date}</p>
-            </div>
-            <div className='mb-4'>
-              <p className='font-bold text-lg'>Productos:</p>
-              <table className='w-full'>
-                <thead>
-                  <tr>
-                    <th className='text-left'>Nombre</th>
-                    <th className='text-center'>Precio</th>
-                    <th className='text-center'>Cantidad</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order.items &&
-                    order.items.map((product: any) => (
-                      <tr key={product.id}>
-                        <td className='text-left'>{product.name}</td>
-                        <td className='text-center'>$ {product.price}</td>
-                        <td className='text-center'>{product.quantity}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
+    <div className="flex flex-col items-center p-1 mt-10">
+      <h1 className="text-2xl font-bold">Gracias por su Compra!!</h1>
+      {/* {orders.map((order) => ( */}
+      <div className="w-full mb-10 md:w-2/3 lg:w-2/3 xl:w-2/4">
+        <div className="p-6 bg-white shadow-lg">
+          <div className="flex flex-row gap-2 mb-4">
+            <p className="font-bold">Estado de la orden:</p>
+            <p className="font-bold text-green-500">{orderData?.status}</p>
+          </div>
 
-            <div className='mb-4'>
-              <p className='font-bold'>Total:</p>
-              <p>{order.total}</p>
+          <div className="flex flex-row gap-2 mb-4">
+            <p className="font-bold">ID de la orden:</p>
+            <p className="font-bold text-green-500">{external_reference}</p>
+          </div>
+          <div className="flex flex-row gap-2 mb-4">
+            <p className="font-bold">Fecha de la orden:</p>
+            <p>{`${
+              orderData?.date_approved &&
+              new Date(orderData.date_approved).toLocaleString()
+            }`}</p>
+          </div>
+
+          <div className="flex flex-col mb-4 md:flex-row">
+            <div className="flex flex-row gap-2 mb-4">
+              <p className="font-bold">Metodo de pago:</p>
+              <p>{orderData?.payment_type}</p>
+              <p>{orderData?.payment_method}</p>
             </div>
-            <div className='mb-4'>
-              <p className='font-bold'>Estado de la orden:</p>
-              <p>{order.status}</p>
+          </div>
+
+          <p className="mb-4 text-lg font-bold">Detalle del pedido:</p>
+          <div className="w-full">
+            <div className="w-full">
+              <div className="flex flex-row justify-between font-bold">
+                <div className="w-1/2 text-left">Producto</div>
+                <div className="w-1/4 text-center">Precio por unidad</div>
+                <div className="w-1/4 text-center">Subtotal</div>
+              </div>
+              {orderData?.items &&
+                orderData?.items.map((product: Item) => (
+                  <div
+                    className="flex flex-row items-center justify-between py-2 border-b"
+                    key={product.id_product}
+                  >
+                    <div className="w-1/2">
+                      <div className="flex flex-row gap-4">
+                        <div>
+                          {product.title} x {product.quantity}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-1/4 text-center">
+                      $ {product?.unit_price}
+                    </div>
+                    <div className="w-1/4 text-center">
+                      $ {product?.unit_price * product?.quantity}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </div>
+
+          <div className="flex flex-row justify-end">
+            <div className="my-4 mr-1">
+              <p className="font-bold">Total:</p>
+              <p className="mr-10">${orderData?.total_amount}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-row justify-between">
+            <div className="my-4">
+              <p className="font-bold">Cuotas:</p>
+              <p>x {orderData?.cuotes}</p>
+            </div>
+            <div className="my-4">
+              <p className="font-bold">Precio Final:</p>
+              <p className="mr-10 font-bold text-green-500">
+                ${orderData?.total_paid_amount}
+              </p>
             </div>
           </div>
         </div>
-      ))}
-
-      <div className='text-center'>
-        <Link to='/orders'>
-          <Button
-            text='Volver al Home '
-            name='backToHome'
-            onClick={() => {}}
-            disabled={false}
-            type='submit'
-            className={'justify-center'}
-          />
-        </Link>
       </div>
+      {/* ))} */}
+      <div>
+        <div className="text-center">
+          <Link to="/">
+            <Button
+              text="Volver al Home "
+              name="backToHome"
+              onClick={() => {}}
+              disabled={false}
+              type="submit"
+              className={"justify-center"}
+            />
+          </Link>
+        </div>
+      </div>{" "}
     </div>
-    //   </div>
     // </div>
   );
 };

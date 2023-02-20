@@ -28,7 +28,7 @@ export const a = "a";
 
 //   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 //     event.preventDefault();
-//     console.log(inputValues);
+//
 //     create_product(inputValues);
 //     dispatch({ type: "clear" });
 //     document.querySelectorAll("input[type=checkbox]").forEach((e: any) => {

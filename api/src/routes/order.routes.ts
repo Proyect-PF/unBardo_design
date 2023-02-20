@@ -8,37 +8,66 @@ import {
     UPDATE_OrderStatus,
     DELETE_Order,
     DELETE_AllOrders,
-    GET_OrderByUser
+    GET_OrderByUser,
+    UPDATE_OrderTrack
 } from "../controllers/order.controller";
 
 import {
     POST_GeneratePayment,
-    GET_FeedbackPayment,
+    POST_FeedbackPayment,
 } from "../controllers/mercado-pago.controller";
 
 
 //MERCADOPAGO
+/**
+ //TODO: RUTA GET para generar un pago
+ */
 ordersRoutes.post("/payment/", POST_GeneratePayment);
+/**
+ //TODO: RUTA GET para devolver el pago
+ */
+ordersRoutes.post("/feedback/", POST_FeedbackPayment);
 
-ordersRoutes.get("/feedback/", GET_FeedbackPayment);
 
-//GET todas las ordenes
+/**
+ //TODO: => RUTA GET Obtener todas las ordenes 
+ */
 ordersRoutes.get("/", GET_AllOrders);
 
-//GET orden por ID
+/**
+ //TODO: => RUTA GET Obtener Ordenes por ID
+ */
 ordersRoutes.get("/:orderId", GET_DetailsByOrderId);
 
-//GET orden por ID de usuario
+
+/**
+ //TODO: RUTA GET Obtener orden por ID de usuario
+ */
 ordersRoutes.get("/users/:id_user", GET_OrderByUser);
 
-//POST orden
+/**
+ //TODO:: => RUTA POST orden
+ */
 ordersRoutes.post("/", POST_Order);
 
-//UPDATE estado de la orden
+/**
+ //TODO: RUTA UPDATE estado de la orden
+ */
 ordersRoutes.put("/", UPDATE_OrderStatus);
 
+/**
+ //TODO: RUTA UPDATE el track de la orden
+ */
+ ordersRoutes.put("/track/", UPDATE_OrderTrack);
+
+/**
+ //TODO: RUTA DELETE Borrar una orden por id
+ */
 ordersRoutes.delete("/:id", DELETE_Order);
 
+/**
+ //TODO: RUTA DELETE Borrar todas las ordenes
+ */
 ordersRoutes.delete("/", DELETE_AllOrders);
 
 export default ordersRoutes;

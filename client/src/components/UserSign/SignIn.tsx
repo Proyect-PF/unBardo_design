@@ -1,29 +1,45 @@
 import { Formik } from "formik";
-import React from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../state";
-import { userLogin } from "../../state/action-creators";
-import { UserLog } from "../../state/types";
 import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
-import Swal from "sweetalert2";
 import { validateLogin } from "./validates";
-
+import { User } from "../../types/types";
+import GoogleLogin from "react-google-login";
+import { gapi } from "gapi-script";
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userLogin } = bindActionCreators(actionCreators, dispatch);
 
-  const initialValues: UserLog = {
+  const initialValues: User = {
     email: "",
     password: "",
   };
+  const clientId =
+    "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com";
+  useEffect(() => {
+    const start = () => {
+      gapi.auth2.init({
+        clientId: clientId,
+      });
+    };
+    gapi.load("client:auth2", start);
+  }, []);
+
+  const onSuccess = (res: any) => {
+    const logUser: User = {
+      email: res.profileObj.email,
+      google_id: res.googleId,
+    };
+    userLogin(logUser, navigate);
+  };
   return (
-    <div>
+    <div className="flex justify-center">
       <Formik
         initialValues={initialValues}
         validate={validateLogin}
@@ -34,10 +50,10 @@ export const LogIn = (): JSX.Element => {
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-6 mx-8 my-4"
+            className="flex flex-col gap-6 mx-8 my-4 sm:w-1/2"
           >
             <div>
-              <label htmlFor="email">email</label>
+              <label htmlFor="email">Email</label>
               <Input
                 type="text"
                 id="email"
@@ -75,10 +91,16 @@ export const LogIn = (): JSX.Element => {
               disabled={false}
               type="button"
             />
+            <div className="flex justify-center">
+              <GoogleLogin
+                className="justify-center py-2 text-xl font-semibold border border-black w-72"
+                clientId={clientId}
+                onSuccess={onSuccess}
+              />
+            </div>
           </form>
         )}
       </Formik>
-      <ToastContainer />
     </div>
   );
 };

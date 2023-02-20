@@ -6,25 +6,13 @@ import Swal from "sweetalert2";
 import { PORT, baseURL } from "../../utils/url&port";
 
 //Product actions
-export const ADMfetch_products = () => {
+export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/`).then((res) => {
+    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
         payload: payload,
-      });
-    });
-  };
-};
-
-export const ADMfetch_products_name = (name: string) => {
-  return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/search/${name}`).then((res) => {
-      const payload = res.data;
-      dispatch({
-        type: AdminActionType.GET_PRODUCT_BY_NAME,
-        payload,
       });
     });
   };
@@ -42,104 +30,188 @@ export const ADMfetch_products_id = (id: number) => {
   };
 };
 
-export const ADMcreate_product = (payload: any, toast: any) => {
-  toast.promise(axios.post(`${baseURL}:${PORT}/products/`, payload), {
-    pending: "Creando...",
-    success: "Se creo el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMcreate_product = (payload: any, Toast: any) => {
+  axios
+    .post(`${baseURL}:${PORT}/products/`, payload)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto creado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
-export const ADMupdate_product = (payload: any, toast: any) => {
-  toast.promise(axios.put(`${baseURL}:${PORT}/products`, payload), {
-    pending: "Editando...",
-    success: "Se edito el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMupdate_product = (payload: any, Toast: any) => {
+  axios
+    .put(`${baseURL}:${PORT}/products`, payload)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto actualizado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
-export const ADMdelete_product = (payload: number, toast: any) => {
-  toast.promise(axios.delete(`${baseURL}:${PORT}/products/${payload}`), {
-    pending: "Eliminando...",
-    success: "Se elimino el producto con exito.",
-    error: "Algo salio mal...",
-  });
+export const ADMdelete_product = (payload: number, Toast: any) => {
+  axios
+    .delete(`${baseURL}:${PORT}/products/${payload}`)
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Producto eliminado con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
 //Orders Actions
-export const ADMfetch_orders = () => {
+export const ADMfetch_orders = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios
-      .get(`${baseURL}:${PORT}/orders`)
-      .then((res) => {
-        const payload = res.data;
-
-        dispatch({
-          type: AdminActionType.GET_ALL_ORDERS,
-          payload,
-        });
-      })
-      .catch((error) => console.log(error));
+    axios.get(`${baseURL}:${PORT}/orders/?${query}`).then((res) => {
+      const payload = res.data.orders;
+      dispatch({
+        type: AdminActionType.GET_ALL_ORDERS,
+        payload,
+      });
+      dispatch({
+        type: AdminActionType.GET_ORDERS_COUNT,
+        payload: res.data.count,
+      });
+    });
   };
 };
 
 export const ADMfetch_order_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios
-      .get(`${baseURL}:${PORT}/orders/${id}`)
-      .then((res) => {
-        const payload = res.data;
-        dispatch({
-          type: AdminActionType.GET_ORDER_BY_ID,
-          payload,
-        });
-      })
-      .catch((error) => console.log(error));
+    axios.get(`${baseURL}:${PORT}/orders/${id}`).then((res) => {
+      const payload = res.data;
+      dispatch({
+        type: AdminActionType.GET_ORDER_BY_ID,
+        payload,
+      });
+    });
   };
 };
 
-export const ADMupdate_order = (
+export const ADMupdate_order = async (
   id: number | undefined,
   status: string,
-  toast: any
+  trackid: string,
+  Toast: any
 ) => {
-  toast.promise(
-    axios.put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`),
-    {
-      pending: "Actualizando...",
-      success: "Se actualizo el producto con exito",
-      error: "Algo salio mal...",
-    }
-  );
+  axios
+    .put(`${baseURL}:${PORT}/orders/?id=${id}&status=${status}`)
+    .then(() =>
+      axios.put(`${baseURL}:${PORT}/orders/track/?id=${id}&track_id=${trackid}`)
+    )
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Orden actualizada con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };
 
 //Users Actions
 export const ADMfetch_users = () => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios
-      .get(`${baseURL}:${PORT}/users`)
-      .then((res) => {
-        const payload = res.data;
-        dispatch({
-          type: AdminActionType.GET_ALL_USERS,
-          payload,
-        });
-      })
-      .catch((error) => console.log(error));
+    axios.get(`${baseURL}:${PORT}/users`).then((res) => {
+      const payload = res.data;
+      dispatch({
+        type: AdminActionType.GET_ALL_USERS,
+        payload,
+      });
+    });
   };
 };
 
 export const ADMfetch_users_id = (id: number | undefined) => {
   return (dispatch: Dispatch<AdminAction>) => {
+    axios.get(`${baseURL}:${PORT}/users/${id}`).then((res) => {
+      const payload = res.data;
+      dispatch({
+        type: AdminActionType.GET_USER_BY_ID,
+        payload,
+      });
+    });
+  };
+};
+
+// type chartValues = {
+//   numberCarts?:number //Numero de carritos generados, se maneja desde el boton que se compra el carrito.
+//   numberRegister?:number //Numero de registros, se maneja desde el Back la info que me trae.
+//   numberDirections?:number //Numero de personas que ingresan sus datos, se maneja con el evento onclick del boton del componente.
+//   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
+// }
+
+export const ADMfetch_chart_products_values = (timeUnit: string, status:string, num?:number) => {
+  console.log(status)
+  return (dispatch: Dispatch<AdminAction>) => {
+
     axios
-      .get(`${baseURL}:${PORT}/users/${id}`)
+      .get(
+        //status => cart, approved, rejected
+        //timeUnit => 
+
+        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
+      )
       .then((res) => {
         const payload = res.data;
+        console.log(payload)
         dispatch({
-          type: AdminActionType.GET_USER_BY_ID,
+          type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,
         });
-      })
-      .catch((error) => console.log(error));
+      });
   };
+};
+
+// export const ADMfetch_chart_funnel_values = (timeUnit: string) => {
+//   return (dispatch: Dispatch<AdminAction>) => {
+//     axios
+//       .get(
+//         `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
+//       )
+//       .then((res) => {
+//         const payload = res.data;
+
+//         dispatch({
+//           type: AdminActionType.GET_ANALITICS,
+//           payload,
+//         });
+//       });
+//   };
+// };
+
+export const ADMupdate_pricing = (
+  minus100: number,
+  minus500: number,
+  minus1000: number,
+  plus100: number,
+  Toast: any
+) => {
+  axios
+    .put(
+      `${baseURL}:${PORT}/shipments/?minus100=${minus100}&minus500=${minus500}&minus1000=${minus1000}&plus1000=${plus100}`
+    )
+    .then(() =>
+      Toast.fire({
+        icon: "success",
+        title: "Precios actualizados con exito",
+      })
+    )
+    .catch((e) =>
+      Toast.fire({ icon: "error", title: "Hubo un fallo en el proceso..." })
+    );
 };

@@ -173,7 +173,7 @@ const Details = (): JSX.Element => {
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,
-        confirmButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
         cancelButtonColor: "#e5e7eb",
         cancelButtonText:
           "<p class='font-rift text-lg text-black'>Por ahora no</p>",

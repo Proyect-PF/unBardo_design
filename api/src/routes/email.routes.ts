@@ -5,6 +5,7 @@ import {
     sendEmailToAllController,
     sendConfirmationEmailController,
 }  from '../controllers/email/index';
+import { verifyTokenIsAdmin } from '../helpers/verifyTokenIsAdmin';
 
 /**
  //TODO: RUTA Enrutador para el envío de correos electrónicos.

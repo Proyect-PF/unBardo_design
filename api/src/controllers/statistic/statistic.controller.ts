@@ -154,6 +154,7 @@ export const getGeneralStats = async (req: Request, res: Response) => {
         console.error(error);
         return res.status(500).json({ message: 'Internal server error' });
     }
+
 };
 
 

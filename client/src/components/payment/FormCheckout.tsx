@@ -51,6 +51,11 @@ export const FormCheckout = (): JSX.Element => {
       onSubmit={(values) => {
         axios({
           method: 'post',
+          url: `${baseURL}:${PORT}/orders/funnel`,
+          data: values,
+        })
+        axios({
+          method: 'post',
           url: `${baseURL}:${PORT}/orders/payment`,
           data: {
             ...values,

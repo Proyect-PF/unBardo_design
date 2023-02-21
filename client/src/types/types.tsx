@@ -118,12 +118,19 @@ export type AnaliticProducts = {
   totalProductsSold: number;
 };
 
+
 export type AnaliticFunnel = {
-  timeUnit: string;
-  numberRegister: number;
-  numberCarts: number;
-  numberDirections: number;
-  numberSales: number;
+  timeunit: string;
+  num: number;
+  numbercarts: number;
+  numbersales: number;
+  numberlogins: number;
+  numberregisters: number;
+  numbervisits: number;
+  numberpendingsales: number;
+  visits_to_approved: number;
+  cart_to_approved: number;
+  mercadopago_to_approved: number;
 };
 
 // type chartValues = {

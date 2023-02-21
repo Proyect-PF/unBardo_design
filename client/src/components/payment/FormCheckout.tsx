@@ -8,12 +8,13 @@ import { State } from '../../state/reducers';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from 'redux';
 import { PORT, baseURL } from '../../utils/url&port';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const FormCheckout = (): JSX.Element => {
   const { userId } = useSelector((state: State) => state.user);
   const dispatch = useDispatch();
   const { clearCheckoutList } = bindActionCreators(actionCreators, dispatch);
+  const [isUpdateExecuted, setIsUpdateExecuted] = useState(false);
   const [distance, setDistance] = useState('');
   const [city, setCity] = useState('');
   const [shipmentCost, setShipmentCost] = useState('');
@@ -37,6 +38,7 @@ export const FormCheckout = (): JSX.Element => {
       setDistance(response.data.distance);
       setCity(response.data.city);
       setShipmentCost(response.data.shipmentCost);
+      setIsUpdateExecuted(true);
     } catch (error) {
       console.log(error);
     }
@@ -132,12 +134,11 @@ export const FormCheckout = (): JSX.Element => {
               )}
               {shipmentCost && (
                 <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
-                  <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
-                    Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
-                  </p>
+                  Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
                 </p>
               )}
               <button
+                type='button'
                 className='mt-2 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700'
                 onClick={() => handleUpdate(values)}
               >
@@ -186,14 +187,29 @@ export const FormCheckout = (): JSX.Element => {
               )}
             </div>
           </div>
+          {/* <Button
+            type='submit'
+            className={`w-full h-14 ${
+              isSubmitting || errors.number || !isUpdateExecuted
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-primary text-white'
+            }`}
+            disabled={!isUpdateExecuted}
+          >
+            {isSubmitting ? 'Procesando...' : 'Pagar'}
+          </Button> */}
 
           <Button
             text='Pagar'
             name='pagar'
             onClick={() => {}}
-            disabled={false}
+            disabled={!isUpdateExecuted}
             type='submit'
-            className={'justify-center'}
+            className={`justify-center ${
+              isSubmitting || errors.number || !isUpdateExecuted
+                ? 'cursor-not-allowed'
+                : 'text-black'
+            }`}
           />
         </form>
       )}

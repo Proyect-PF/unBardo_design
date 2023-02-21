@@ -203,7 +203,9 @@ const Details = (): JSX.Element => {
           loading ? "hidden" : "visible"
         }`}
       >
-        <ImageSlider slides={images} />
+        <div className="flex justify-center">
+          <ImageSlider slides={images} />
+        </div>
         <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8 md:mx-20 md:h-fit">
           <div>
             <p className="my-4 text-3xl font-medium text-center md:text-left ">

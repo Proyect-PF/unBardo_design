@@ -576,6 +576,7 @@ module.exports = {
       min: "min-content",
       max: "max-content",
       fit: "fit-content",
+      char: 800,
     }),
     inset: ({ theme }) => ({
       auto: "auto",

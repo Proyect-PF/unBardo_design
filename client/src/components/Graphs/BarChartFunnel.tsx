@@ -123,38 +123,33 @@ export function BarChartFunnel() {
   };
 
   return (
-    <div className="p-4 shadow-2xl shadow-slate-800 mt-36">
+    <div>
       {analiticsFunnel.length > 0 && (
-        <div className="w-full">
-          
-          <select
-            value={date.timeUnit}
-            name="timeUnit"
-            onChange={handleChange}
-            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
-          >
-            <option value="days" selected>Diarios</option>
-            <option value="months">Mensuales</option>
-            <option value="trimesters">Trimestrales</option>
-            <option value="years">Anuales</option>
-          </select>
-          <input
-            type="number"
-            name="num"
-            onChange={handleChange}
-            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
-          />
-          <div className="flex flex-row">
-          <Bar options={options} data={data} />
-
-            <article className="">
-              <div className="w-96">
-                <p className="text-lg font-medium ">
-                  Total de productos{" "}
-
-                </p>
-              </div>
-            </article>
+        <div className="flex flex-col gap-4 p-8 border">
+          <p className="text-2xl font-medium ">Trafico de usuarios:</p>
+          <div className="flex self-center gap-8">
+            <select
+              value={date.timeUnit}
+              name="timeUnit"
+              onChange={handleChange}
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+            >
+              <option value="days" selected>
+                Diarios
+              </option>
+              <option value="months">Mensuales</option>
+              <option value="trimesters">Trimestrales</option>
+              <option value="years">Anuales</option>
+            </select>
+            <input
+              type="number"
+              name="num"
+              onChange={handleChange}
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+            />
+          </div>
+          <div className="self-center ">
+            <Bar options={options} data={data} />
           </div>
         </div>
       )}

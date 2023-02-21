@@ -9,6 +9,7 @@ import { State } from "../state/reducers";
 import { useNavigate } from "react-router-dom";
 import EmailList from "./Email";
 import Pricing from "./Pricing";
+import arrow from "../assets/svg/googleIcons/arrow.svg";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
@@ -16,20 +17,38 @@ const AdminP = (): JSX.Element => {
   const navigate = useNavigate();
   const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
   const { userType } = useSelector((state: State) => state.user);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (userType !== "admin") navigate("/");
     ADMfetch_products();
   }, []);
+
   return (
     <div className="flex flex-row justify-between">
-      <div className="flex flex-col gap-8 px-4 py-12 text-2xl font-bold border-r">
-        <button onClick={() => setPanel("info")}>Resumen</button>
-        <button onClick={() => setPanel("products")}>Productos</button>
-        <button onClick={() => setPanel("orders")}>Ordenes</button>
-        <button onClick={() => setPanel("newsletter")}>Newsletter</button>
-        <button onClick={() => setPanel("pricing")}>Tarifas</button>
-      </div>
+      {open ? (
+        <div
+          className={`flex fixed ease-in-out duration-500 w-full bg-black/80 z-10 text-xl font-semibold h-screen`}
+        >
+          <div
+            className={`flex flex-col gap-8 px-4 py-12 text-2xl font-bold bg-white border-r `}
+          >
+            <button onClick={() => setPanel("info")}>Dashboard</button>
+            <button onClick={() => setPanel("products")}>Productos</button>
+            <button onClick={() => setPanel("orders")}>Ordenes</button>
+            <button onClick={() => setPanel("newsletter")}>Newsletter</button>
+            <button onClick={() => setPanel("pricing")}>Tarifas</button>
+          </div>
+          <div onClick={() => setOpen(false)} className="w-full" />
+        </div>
+      ) : (
+        <div
+          className="py-8 text-2xl font-bold bg-white border-r min-w-fit"
+          onClick={() => setOpen(true)}
+        >
+          <img src={arrow} className="rotate-180" />
+        </div>
+      )}
 
       <div className="w-full ">
         {panel === "products" && <Products />}

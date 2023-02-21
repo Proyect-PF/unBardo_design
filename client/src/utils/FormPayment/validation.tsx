@@ -22,7 +22,7 @@ export const validationSchema = Yup.object().shape({
     ),
   area_code: Yup.string()
     .required('Código de área es requerido')
-    .min(4, 'Debe tener al menos 4 caracteres')
+    .min(2, 'Debe tener al menos 2 caracteres')
     .matches(/^[0-9]+$/, 'El telefono solo puede contener números')
     .test(
       'no-letters-or-hyphens',

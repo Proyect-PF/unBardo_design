@@ -55,7 +55,9 @@ First has to change the route wich points to the backEnd deploy on Railway. Chec
 If doesn't work you have to ask the admin for the railway url.
 
 Files changed:
+
 has to erase the $PORT variable so the url is cleared:
+
 ...src/AdminPanel/actions.tsx 
 
 ...src/AdminPanel/Pricing/index.tsx

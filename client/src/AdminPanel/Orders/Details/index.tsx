@@ -65,6 +65,7 @@ const OrderDetails = ({ setSelected }: Props) => {
               <p className="text-xl">{`Despachado: ${
                 orderDetails.dispatched ? "Si" : "No"
               }`}</p>
+              <p className="text-xl">{`Track Id: ${orderDetails.track_id}`}</p>
               <p className="text-xl">{`Fecha de aprobacion: ${
                 orderDetails.date_approved &&
                 new Date(orderDetails.date_approved)

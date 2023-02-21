@@ -8,12 +8,13 @@ import { State } from '../../state/reducers';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from 'redux';
 import { PORT, baseURL } from '../../utils/url&port';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const FormCheckout = (): JSX.Element => {
   const { userId } = useSelector((state: State) => state.user);
   const dispatch = useDispatch();
   const { clearCheckoutList } = bindActionCreators(actionCreators, dispatch);
+  const [isUpdateExecuted, setIsUpdateExecuted] = useState(false);
   const [distance, setDistance] = useState('');
   const [city, setCity] = useState('');
   const [shipmentCost, setShipmentCost] = useState('');
@@ -37,6 +38,7 @@ export const FormCheckout = (): JSX.Element => {
       setDistance(response.data.distance);
       setCity(response.data.city);
       setShipmentCost(response.data.shipmentCost);
+      setIsUpdateExecuted(true);
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +49,11 @@ export const FormCheckout = (): JSX.Element => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
+        axios({
+          method: 'post',
+          url: `${baseURL}:${PORT}/orders/funnel`,
+          data: values,
+        })
         axios({
           method: 'post',
           url: `${baseURL}:${PORT}/orders/payment`,
@@ -116,7 +123,13 @@ export const FormCheckout = (): JSX.Element => {
                 id='zip_code'
                 name='zip_code'
                 placeholder='3200'
-                onChange={handleChange}
+                maxLength={6}
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.length <= 6) {
+                    handleChange(e);
+                  }
+                }}
                 value={values.zip_code}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
@@ -126,19 +139,18 @@ export const FormCheckout = (): JSX.Element => {
                 <p className='text-red-600'>{errors.zip_code}</p>
               )}
               {city && (
-                <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
+                <p className='mt-2 text-sm bg-gray-300 rounded-md py-1 px-2'>
                   Ciudad: {city}
                 </p>
               )}
               {shipmentCost && (
-                <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
-                  <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
-                    Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
-                  </p>
+                <p className='mt-2 text-sm bg-gray-300 rounded-md py-1 px-2'>
+                  Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
                 </p>
               )}
               <button
-                className='mt-2 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700'
+                type='button'
+                className='mt-2 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700  hover:bg-black hover:text-white'
                 onClick={() => handleUpdate(values)}
               >
                 Calcular Envio
@@ -157,7 +169,13 @@ export const FormCheckout = (): JSX.Element => {
                 id='area_code'
                 name='area_code'
                 placeholder='2954'
-                onChange={handleChange}
+                maxLength={4}
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.length <= 4) {
+                    handleChange(e);
+                  }
+                }}
                 value={values.area_code}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
@@ -176,7 +194,13 @@ export const FormCheckout = (): JSX.Element => {
                 id='number'
                 name='number'
                 placeholder='153666987'
-                onChange={handleChange}
+                maxLength={6}
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.length <= 6) {
+                    handleChange(e);
+                  }
+                }}
                 value={values.number}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
@@ -191,9 +215,13 @@ export const FormCheckout = (): JSX.Element => {
             text='Pagar'
             name='pagar'
             onClick={() => {}}
-            disabled={false}
+            disabled={!isUpdateExecuted}
             type='submit'
-            className={'justify-center'}
+            className={`justify-center ${
+              isSubmitting || errors.number || !isUpdateExecuted
+                ? 'cursor-not-allowed'
+                : 'text-black'
+            }`}
           />
         </form>
       )}

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import arrow from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
-import { fetch_products } from "../../state/action-creators";
 import { State } from "../../state/reducers";
 import ButtonSmall from "../Buttons/ButtonSmall/ButtonSmall";
 
@@ -11,49 +10,24 @@ const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
-  const { productCount, searchName } = useSelector((state: State) => state.products);
-  const { fetch_products } = bindActionCreators(actionCreators, dispatch);
-  const INITIAL_STATE = {
-    byColor: "",
-    byOrder: "",
-    byPromo: "",
-    page: 1,
-    perPage: 20,
-  };
-  const [Query, setQuery] = useState(INITIAL_STATE);
+  const { searchName, byColor, byOrder, byPromo, page, perPage } = useSelector((state: State) => state.products);
+  const { fetch_products, fetch_filtered_products, clearFilter, pagination } = bindActionCreators(actionCreators, dispatch);
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    const { name, value } = event.target;
-    setQuery({
-      ...Query,
-      [name]: value,
-      page: 1,
-    });
-  };
+
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const {name, value} = event.target
+    fetch_filtered_products({name, value})
+  }
 
   const handleShow = () => {
     show ? setShow(false) : setShow(true);
   };
 
-  const handlePag = (event: React.MouseEvent<HTMLButtonElement>): void => {
-    const button: HTMLButtonElement = event.currentTarget;
-    if (button.id === "-" && Query.page !== 1)
-      setQuery({ ...Query, page: Query.page - 1 });
-    if (
-      button.id === "+" &&
-      Math.ceil(productCount / Query.perPage) > Query.page
-    )
-      setQuery({ ...Query, page: Query.page + 1 });
-  };
-
   useEffect(() => {
-    // fetch_products(
-    //   `filter=${Query.byColor}&filter2=${Query.byPromo}&order=${Query.byOrder}&sort=price&page=${Query.page}&perPage=${Query.perPage}`
-    // );
     fetch_products(
-      `${searchName !== ""? "name=" + searchName: ""}${Query.byColor !== ""? "&filter=" + Query.byColor: ""}${Query.byPromo !== ""? "&filter2=" + Query.byPromo: ""}${Query.byOrder !== ""? "&order=" + Query.byOrder + "&sort=price": ""}&page=${Query.page}&perPage=${Query.perPage}`
+      `${searchName !== ""? "name=" + searchName: ""}${byColor !== ""? "&filter=" + byColor: ""}${byPromo !== ""? "&filter2=" + byPromo: ""}${byOrder !== ""? "&order=" + byOrder + "&sort=price": ""}&page=${page}&perPage=${perPage}`
     );
-  }, [Query, searchName]);
+  }, [searchName, byColor, byOrder, byPromo, page, perPage]);
 
   return (
     <div className="flex flex-col items-center">
@@ -64,8 +38,8 @@ const Dropdown = (): JSX.Element => {
           }`}
           id="byColor"
           name="byColor"
-          value={Query.byColor}
-          onChange={handleChange}
+          value={byColor}
+          onChange={handleFilter}
         >
           <option value="" hidden>Selecciona color:</option>
           <option value="white">Blanco</option>
@@ -77,8 +51,8 @@ const Dropdown = (): JSX.Element => {
           }`}
           id="byPromo"
           name="byPromo"
-          value={Query.byPromo}
-          onChange={handleChange}
+          value={byPromo}
+          onChange={handleFilter}
         >
           <option value="" hidden>Promoción:</option>
           <option value="promo">Activas</option>
@@ -89,61 +63,21 @@ const Dropdown = (): JSX.Element => {
           }`}
           id="byOrder"
           name="byOrder"
-          onChange={handleChange}
-          value={Query.byOrder}
+          onChange={handleFilter}
+          value={byOrder}
         >
           <option value="" hidden>Selecciona precio:</option>
           <option value="ASC">{"Menor precio"}</option>
           <option value="DESC">{"Mayor precio"}</option>
         </select>
       </div>
-      <div
-        className={`flex flex-col justify-center gap-4 mx-4 mt-4 ${
-          show ? "visible" : "hidden"
-        }`}
-      >
-        <div className="flex">
-          <div className="flex flex-row gap-2">
-            <button
-              className="h-fit"
-              onClick={handlePag}
-              id="-"
-              name="-"
-            >{`<`}</button>
-            <p>{Query.page}</p>
-            <button
-              className="h-fit"
-              onClick={handlePag}
-              id="+"
-              name="+"
-            >{`>`}</button>
-          </div>
-          <select
-            className="h-fit"
-            id="perPage"
-            name="perPage"
-            value={Query.perPage}
-            onChange={handleChange}
-          >
-            <option value="10" selected>
-              10
-            </option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-        
+      <div className={`flex flex-col justify-center gap-4 mx-4 mt-4 ${show? "": "hidden"}`} >
         <ButtonSmall 
         type="button"
         text="Reset filters"
         name="resetfilters"
         onClick={() => {
-          setQuery({
-            ...Query,
-            byColor: "",
-            byOrder: "",
-            byPromo: "",
-          })
+          clearFilter()
         }}
         disabled={false}
         />

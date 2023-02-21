@@ -30,6 +30,11 @@ export type AddProductPayload = {
   image: string;
 };
 
+export type FilterProductPayload = {
+  name: string;
+  value: string;
+}
+
 export type ProductState = {
   productTotal: Product[];
   productList: Product[];
@@ -38,6 +43,11 @@ export type ProductState = {
   productDetails: Product;
   render: boolean;
   searchName: string;
+  byColor: string;
+  byOrder: string;
+  byPromo: string;
+  page: number;
+  perPage: number
 };
 
 //------------------------------------------------

@@ -1,5 +1,5 @@
 import { ActionType } from "../action-types";
-import { AddProductPayload, Checkout, Orders, Product, User } from "../types";
+import { AddProductPayload, Checkout, FilterProductPayload, Orders, Product, User } from "../types";
 import { Favorites, OrderDetails, SetFavoritePayload } from "../../types/types";
 
 //AL: IMPORTANT!!!!
@@ -36,7 +36,16 @@ interface SortProducts {
 
 interface FilterProducts {
   type: ActionType.FILTER_PRODUCTS;
-  payload: Product[];
+  payload: FilterProductPayload;
+}
+
+interface ClearFilter {
+  type: ActionType.CLEAR_FILTER;
+}
+
+interface Pagination {
+  type: ActionType.PAGINATION_SET;
+  payload: string;
 }
 
 interface ClearProductDetails {
@@ -63,7 +72,9 @@ export type ActionProducts =
   | FilterProducts
   | ClearProductDetails
   | GetProductPromo
-  | GetProductCount;
+  | GetProductCount
+  | Pagination
+  | ClearFilter;
 
 interface UserLogin {
   type: ActionType.USER_LOGIN;

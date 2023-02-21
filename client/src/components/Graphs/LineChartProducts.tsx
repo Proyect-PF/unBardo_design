@@ -87,13 +87,13 @@ export const LineChartProducts = () => {
           //Estado de carrito en approved
           infoBack.status === "approved"
             ? infoBack.timeUnit === "days"
-              ? "Productos venidos en los ultimos 7 Dias"
+              ? "Productos vendidos en los ultimos 7 Dias"
               : infoBack.timeUnit === "weeks"
-              ? "Productos venidos en las ultimas 4 Semanas"
+              ? "Productos vendidos en las ultimas 4 Semanas"
               : infoBack.timeUnit === "trimesters"
-              ? "Productos venidos en los ultimos 3 Meses"
+              ? "Productos vendidos en los ultimos 3 Meses"
               : infoBack.timeUnit === "months"
-              ? "Productos venidos en los ultimos 12 Meses"
+              ? "Productos vendidos en los ultimos 12 Meses"
               : "Otras Fechas"
             : //Estado de carrito en rejected
             infoBack.status === "rejected"
@@ -141,54 +141,54 @@ export const LineChartProducts = () => {
     });
   };
   return (
-    <div className="p-4 shadow-2xl shadow-slate-800 ">
+    <div>
       {analiticsProducts.length > 0 && (
-        <div className="w-6/12">
-          <p className="mt-2 text-2xl font-medium">Productos:</p>
-          <p className="mt-2 text-sm font-medium text-slate-500">{labels[0]} - {labels[labels.length - 1]}</p>
-
-          <select
-            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
-            value={infoBack.timeUnit}
-            name="timeUnit"
-            onChange={handleChange}
-          >
-            <option value="days" selected>
-              Ultimos 7 Dias
-            </option>
-            <option value="weeks">Ultimas 4 Semanas</option>
-            <option value="trimesters">Ultimos 3 Meses</option>
-            <option value="months">Ultimos 12 Meses</option>
-            {/* <option value="years">Ultimo Año</option>  */}
-          </select>
-          <select
-            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
-            value={infoBack.status}
-            name="status"
-            onChange={handleChange}
-          >
-            <option value="approved" selected>
-              Aprobados
-            </option>
-            <option value="rejected">Cancelados</option>
-            <option value="cart">Carrito</option>
-          </select>
-
-          <div className="flex flex-row">
-            <Line options={options} data={data}/>
-            <article className="">
-              <div className="w-96">
-                <p className="text-lg font-medium ">
-                  Total de productos{" "}
-                  {infoBack.status === "cart"
-                    ? "En el Carrito"
-                    : infoBack.status === "approved"
-                    ? "Aprovados"
-                    : "Cancelados"}
-                </p>
-                <p className="text-2xl font-semibold">{sum}</p>
-              </div>
-            </article>
+        <div className="flex flex-col gap-4 p-8 border">
+          <p className="text-2xl font-medium ">Estadisticas de Productos:</p>
+          <div className="flex self-center gap-8">
+            <select
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+              value={infoBack.timeUnit}
+              name="timeUnit"
+              onChange={handleChange}
+            >
+              <option value="days" selected>
+                Ultimos 7 Dias
+              </option>
+              <option value="weeks">Ultimas 4 Semanas</option>
+              <option value="trimesters">Ultimos 3 Meses</option>
+              <option value="months">Ultimos 12 Meses</option>
+              {/* <option value="years">Ultimo Año</option>  */}
+            </select>
+            <select
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+              value={infoBack.status}
+              name="status"
+              onChange={handleChange}
+            >
+              <option value="approved" selected>
+                Aprobados
+              </option>
+              <option value="rejected">Cancelados</option>
+              <option value="cart">Carrito</option>
+            </select>
+          </div>
+          <p className="text-sm font-medium text-slate-500">
+            {labels[0]} - {labels[labels.length - 1]}
+          </p>
+          <Line options={options} data={data} />
+          <div className="self-center mt-8 w-80">
+            <p className="text-lg font-medium ">
+              {` Total de productos
+              ${
+                infoBack.status === "cart"
+                  ? "en Carrito"
+                  : infoBack.status === "approved"
+                  ? "Aprobados"
+                  : "Cancelados"
+              } `}
+            </p>
+            <p className="text-2xl font-semibold">{sum}</p>
           </div>
         </div>
       )}

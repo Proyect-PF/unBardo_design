@@ -49,9 +49,6 @@ const InformationPanel = () => {
               <p className="text-2xl font-semibold">{allUsers.length}</p>
             </div>
           </div>
-          <p className="mt-16 text-2xl font-medium">Trafico de usuarios:</p>
-          <div></div>
-          
           {/* <div className="flex flex-col gap-12 m-10">
             <div className="flex flex-row justify-around gap-20 my-8">
               <div className="w-40">
@@ -73,15 +70,14 @@ const InformationPanel = () => {
             </div>
 
           </div> */}
-            <section className="flex-nowrap justify-between">
-              
-              <div className="m-2">
-                <LineChartProducts />
-              </div>
-              <div className="m-2 w-6/12 h-3/5">
-                <BarChartFunnel />
-              </div>
-            </section>
+          <section className="flex flex-col justify-center gap-20">
+            <div className="shadow-xl shadow-slate-400">
+              <BarChartFunnel />
+            </div>
+            <div className="shadow-xl shadow-slate-400">
+              <LineChartProducts />
+            </div>
+          </section>
         </div>
       )}
     </div>

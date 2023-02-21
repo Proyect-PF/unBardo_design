@@ -11,7 +11,7 @@ const Dropdown = (): JSX.Element => {
 
   const [show, setShow] = useState(false);
   const { searchName, byColor, byOrder, byPromo, page, perPage } = useSelector((state: State) => state.products);
-  const { fetch_products, fetch_filtered_products, clearFilter, pagination } = bindActionCreators(actionCreators, dispatch);
+  const { fetch_products, fetch_filtered_products, clearFilter} = bindActionCreators(actionCreators, dispatch);
 
 
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {

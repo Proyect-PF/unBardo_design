@@ -266,10 +266,15 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         // Añadimos la info para el paginado al header del response
         response.set("X-Total-Count", total);
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
-        const hasPromo = productsWithImages.some((product) => product.promotion);
+        // const hasPromo = productsWithImages.some((product) => product.promotion);
+        const hasPromo = await db.Product.findAll({
+            where: {
+                promotion: true,
+            },
+        });
 
         return response.status(200).json({
-            promo: hasPromo,
+            promo: hasPromo? true:false,
             count: count,
             data: productsWithImages
         });

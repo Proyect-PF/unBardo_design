@@ -7,6 +7,7 @@ const initialState: ProductState = {
   productTotal: [], //AL:use this state for backup, if needs to retrieve total info for filtering/ordering/etc
   productList: [], //AL:this state is the one being rendered in the page
   productCount: 0,
+  activePromo: false,
   //AL: this state is for information rendered in the details page of specific items
   productDetails: {
     id: 0,
@@ -44,6 +45,11 @@ const productReducer = (
       return {
         ...state,
         productCount: action.payload,
+      };
+    case ActionType.GET_PRODUCT_PROMO:
+      return {
+        ...state,
+        activePromo: action.payload,
       };
     case ActionType.SEARCH_PRODUCTS:
       let productSearch: ProductState["productList"] = action.payload;

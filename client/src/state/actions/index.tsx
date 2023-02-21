@@ -47,6 +47,10 @@ interface GetProductCount {
   type: ActionType.GET_PRODUCT_COUNT;
   payload: number;
 }
+interface GetProductPromo {
+  type: ActionType.GET_PRODUCT_PROMO;
+  payload: boolean;
+}
 
 //AL: once you created the needed interface add it here with |
 export type ActionProducts =
@@ -58,6 +62,7 @@ export type ActionProducts =
   | SortProducts
   | FilterProducts
   | ClearProductDetails
+  | GetProductPromo
   | GetProductCount;
 
 interface UserLogin {

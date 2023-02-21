@@ -55,14 +55,26 @@ If doesn't work you have to ask the admin for the railway url.
 Files changed:
 has to erase the $PORT variable so the url is cleared:
 ...src/AdminPanel/actions.tsx 
+
 ...src/AdminPanel/Pricing/index.tsx
+
 ...src/AdminPanel/Email/index.tsx
+
 ...src/Pages/Checkout/Checkout.tsx
+
 ...src/Pages/NewsLetter/index.tsx
+
 ...src/Pages/Profile/Profile.tsx
+
                     /EditFullname/index.txs
+
                     /EditPassword/index.txs
+
                     /OrderDetail/index.txs
+
                     /UserOrders/index.txs
+
 ...src/components/payment/FormCheckout.tsx
+
 ...src/state/actions-creators/index.tsx
+

@@ -263,3 +263,23 @@ Nombre de funcion = GET_Distance
     shipmentCost: costo del envío
     }
 ```
+
+#### DEPLOY BACKEND EN RAILWAY
+
+```env
+**Note: EL BACKEND SE DEPLOYO EN RAILWAY CON LOS SIGUIENTES ARCHIVOS MODIFICADOS:**
+API:
+Archivos modificados en Api: 
+..src/config/config.js
+    Agregar linea dependiendo los datos de railway:
+     db_deploy: process.env.DB_DEPLOY || "postgresql://postgres:nNWeMPRZ5RvzZ1yRUjLm@containers-us-west-36.railway.app:6296/railway",
+
+...src/database/database.ts
+    Modificar linea:
+    sequelize = new Sequelize(config.db_deploy)
+
+...src/app.ts
+    Modificar header poniendo un "*":
+    res.header('Access-Control-Allow-Origin', '*');
+     
+```

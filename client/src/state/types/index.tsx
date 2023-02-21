@@ -37,6 +37,7 @@ export type ProductState = {
   activePromo: boolean;
   productDetails: Product;
   render: boolean;
+  searchName: string;
 };
 
 //------------------------------------------------

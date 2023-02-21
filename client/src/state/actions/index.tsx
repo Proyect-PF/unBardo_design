@@ -26,7 +26,7 @@ interface GetProductDetails {
 
 interface SearchProducts {
   type: ActionType.SEARCH_PRODUCTS;
-  payload: Product[];
+  payload: string;
 }
 
 interface SortProducts {

@@ -47,21 +47,10 @@ export const fetch_products = (query: string | null = null) => {
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
-    axios
-      .get(`${baseURL}:${PORT}/products/search/${name}`)
-      .then((res) => {
-        payload = res.data;
-
-        // ENVIAMOS PAYLOAD A REDUX
-        dispatch({
-          type: ActionType.SEARCH_PRODUCTS,
-          payload,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    dispatch({
+      type: ActionType.SEARCH_PRODUCTS,
+      payload: name
+    })
   };
 };
 

@@ -10,10 +10,10 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { fetch_products, clear_product_detail, getFavorites } =
+  const { fetch_products, clear_product_detail, getFavorites, fetch_product_byname } =
     bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
-  const { productList, productTotal, activePromo } = useSelector(
+  const { productList, productTotal, activePromo, searchName } = useSelector(
     (state: State) => state.products
   );
   const { userId } = useSelector((state: State) => state.user);
@@ -62,6 +62,11 @@ const Home = () => {
           WELCOME TO THE JUNGLE
         </p>
         <Dropdown />
+        {
+          searchName !== ""?
+          <p className="text-center text-xl my-4 font-bold">{`Resultados de: "${searchName}"`}</p>:
+          null
+        }
         <div>
           {productList.length > 0 ? (
             <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
@@ -98,6 +103,20 @@ const Home = () => {
               />
             </div>
           )}
+          {
+            searchName !== ""?
+            <Button
+                  className={"justify-center my-8"}
+                  type="button"
+                  text="Ver todos los productos"
+                  onClick={() => {
+                    fetch_product_byname("")
+                  }}
+                  name="volver"
+                  disabled={false}
+                />:
+                null
+          }
         </div>
 
         {/* <div className="flex flex-col items-center justify-center w-full h-auto gap-4 mt-5 border-t-2 mb-7">

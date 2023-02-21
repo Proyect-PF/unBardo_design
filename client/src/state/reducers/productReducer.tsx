@@ -27,6 +27,7 @@ const initialState: ProductState = {
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
   render: true,
+  searchName: ""
 };
 
 const productReducer = (
@@ -52,10 +53,9 @@ const productReducer = (
         activePromo: action.payload,
       };
     case ActionType.SEARCH_PRODUCTS:
-      let productSearch: ProductState["productList"] = action.payload;
       return {
         ...state,
-        productList: productSearch,
+        searchName: action.payload
       };
     case ActionType.FILTER_PRODUCTS:
       let filteredProducts: ProductState["productList"] = action.payload;

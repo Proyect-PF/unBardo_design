@@ -5,16 +5,17 @@ import arrow from "../../assets/svg/come-back.svg";
 import { actionCreators } from "../../state";
 import { fetch_products } from "../../state/action-creators";
 import { State } from "../../state/reducers";
+import ButtonSmall from "../Buttons/ButtonSmall/ButtonSmall";
 
 const Dropdown = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
-  const { productCount } = useSelector((state: State) => state.products);
+  const { productCount, searchName } = useSelector((state: State) => state.products);
   const { fetch_products } = bindActionCreators(actionCreators, dispatch);
   const INITIAL_STATE = {
     byColor: "",
-    byOrder: "ASC",
+    byOrder: "",
     byPromo: "",
     page: 1,
     perPage: 20,
@@ -46,14 +47,17 @@ const Dropdown = (): JSX.Element => {
   };
 
   useEffect(() => {
+    // fetch_products(
+    //   `filter=${Query.byColor}&filter2=${Query.byPromo}&order=${Query.byOrder}&sort=price&page=${Query.page}&perPage=${Query.perPage}`
+    // );
     fetch_products(
-      `filter=${Query.byColor}&filter2=${Query.byPromo}&order=${Query.byOrder}&sort=price&page=${Query.page}&perPage=${Query.perPage}`
+      `${searchName !== ""? "name=" + searchName: ""}${Query.byColor !== ""? "&filter=" + Query.byColor: ""}${Query.byPromo !== ""? "&filter2=" + Query.byPromo: ""}${Query.byOrder !== ""? "&order=" + Query.byOrder + "&sort=price": ""}&page=${Query.page}&perPage=${Query.perPage}`
     );
-  }, [Query]);
+  }, [Query, searchName]);
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-around">
+      <div className="flex flex-wrap gap-2 justify-around">
         <select
           className={`inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black ${
             show ? "visible" : "hidden"
@@ -63,7 +67,7 @@ const Dropdown = (): JSX.Element => {
           value={Query.byColor}
           onChange={handleChange}
         >
-          <option value="">Todos</option>
+          <option value="" hidden>Selecciona color:</option>
           <option value="white">Blanco</option>
           <option value="black">Negro</option>
         </select>
@@ -76,7 +80,7 @@ const Dropdown = (): JSX.Element => {
           value={Query.byPromo}
           onChange={handleChange}
         >
-          <option value="">Promos:</option>
+          <option value="" hidden>Promoción:</option>
           <option value="promo">Activas</option>
         </select>
         <select
@@ -88,48 +92,66 @@ const Dropdown = (): JSX.Element => {
           onChange={handleChange}
           value={Query.byOrder}
         >
+          <option value="" hidden>Selecciona precio:</option>
           <option value="ASC">{"Menor precio"}</option>
           <option value="DESC">{"Mayor precio"}</option>
         </select>
       </div>
       <div
-        className={`flex justify-center gap-4 mx-4 mt-4 ${
+        className={`flex flex-col justify-center gap-4 mx-4 mt-4 ${
           show ? "visible" : "hidden"
         }`}
       >
-        <div className="flex flex-row gap-2">
-          <button
+        <div className="flex">
+          <div className="flex flex-row gap-2">
+            <button
+              className="h-fit"
+              onClick={handlePag}
+              id="-"
+              name="-"
+            >{`<`}</button>
+            <p>{Query.page}</p>
+            <button
+              className="h-fit"
+              onClick={handlePag}
+              id="+"
+              name="+"
+            >{`>`}</button>
+          </div>
+          <select
             className="h-fit"
-            onClick={handlePag}
-            id="-"
-            name="-"
-          >{`<`}</button>
-          <p>{Query.page}</p>
-          <button
-            className="h-fit"
-            onClick={handlePag}
-            id="+"
-            name="+"
-          >{`>`}</button>
+            id="perPage"
+            name="perPage"
+            value={Query.perPage}
+            onChange={handleChange}
+          >
+            <option value="10" selected>
+              10
+            </option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
         </div>
-        <select
-          className="h-fit"
-          id="perPage"
-          name="perPage"
-          value={Query.perPage}
-          onChange={handleChange}
-        >
-          <option value="10" selected>
-            10
-          </option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-        </select>
+        
+        <ButtonSmall 
+        type="button"
+        text="Reset filters"
+        name="resetfilters"
+        onClick={() => {
+          setQuery({
+            ...Query,
+            byColor: "",
+            byOrder: "",
+            byPromo: "",
+          })
+        }}
+        disabled={false}
+        />
       </div>
       <img
         src={arrow}
         onClick={handleShow}
-        className={`w-3 z-10 ${show ? "rotate-90" : "-rotate-90"}`}
+        className={`w-3 z-10 transition-all duration-300 ease-in-out ${show ? "rotate-90" : "-rotate-90"}`}
       />
     </div>
   );

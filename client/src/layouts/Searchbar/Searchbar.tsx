@@ -16,7 +16,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const { fetch_product_byname } = bindActionCreators(actionCreators, dispatch);
+  const { fetch_product_byname, clearFilter } = bindActionCreators(actionCreators, dispatch);
 
   const [input, setInput] = useState("");
   const [showFilter, setShowFilters] = useState(false);
@@ -38,6 +38,7 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (location.pathname !== "/") navigate("/");
+    clearFilter()
     fetch_product_byname(input);
     handleSearch();
     setInput("");

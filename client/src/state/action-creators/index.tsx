@@ -10,7 +10,7 @@ import {
   ActionProducts,
   ActionUser,
 } from "../actions";
-import { Checkout, Product, ProductState } from "../types";
+import { Checkout, FilterProductPayload, Product, ProductState } from "../types";
 import { OrderDetails, SetFavoritePayload } from "../../types/types";
 import { User } from "../../types/types";
 import { PORT, baseURL } from "../../utils/url&port";
@@ -47,21 +47,10 @@ export const fetch_products = (query: string | null = null) => {
 // Requiere un String como parametro
 export const fetch_product_byname = (name: string) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
-    axios
-      .get(`${baseURL}:${PORT}/products/search/${name}`)
-      .then((res) => {
-        payload = res.data;
-
-        // ENVIAMOS PAYLOAD A REDUX
-        dispatch({
-          type: ActionType.SEARCH_PRODUCTS,
-          payload,
-        });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    dispatch({
+      type: ActionType.SEARCH_PRODUCTS,
+      payload: name
+    })
   };
 };
 
@@ -126,22 +115,29 @@ export const clear_product_detail = () => {
 
 // Funcion que retorna Productos desde la API de manera filtrada
 // Requiere una query String como parametro. A EXTENDER !
-export const fetch_filtered_products = (query: string) => {
+export const fetch_filtered_products = (payload: FilterProductPayload) => {
   return (dispatch: Dispatch<ActionProducts>) => {
-    let payload: ProductState["productList"] = [];
-    axios
-      .get(`${baseURL}:${PORT}/products/filtered/?${query}`)
-      .then((response) => {
-        if (response.data) {
-          payload = response.data;
+    dispatch({
+      type: ActionType.FILTER_PRODUCTS,
+      payload
+    })
+  };
+};
 
-          // ENVIAMOS PAYLOAD A REDUX
-          dispatch({
-            type: ActionType.FILTER_PRODUCTS,
-            payload,
-          });
-        }
-      });
+export const clearFilter = () => {
+  return (dispatch: Dispatch<ActionProducts>) => {
+    dispatch({
+      type: ActionType.CLEAR_FILTER,
+    })
+  };
+};
+
+export const pagination = (payload: string) => {
+  return (dispatch: Dispatch<ActionProducts>) => {
+    dispatch({
+      type: ActionType.PAGINATION_SET,
+      payload
+    })
   };
 };
 

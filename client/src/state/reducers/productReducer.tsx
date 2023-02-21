@@ -27,6 +27,12 @@ const initialState: ProductState = {
   },
   //AL:this state is for future implementations (you can trigger a change here to force re-render)
   render: true,
+  searchName: "",
+  byColor: "",
+  byOrder: "",
+  byPromo: "",
+  page: 1,
+  perPage: 20,
 };
 
 const productReducer = (
@@ -52,18 +58,39 @@ const productReducer = (
         activePromo: action.payload,
       };
     case ActionType.SEARCH_PRODUCTS:
-      let productSearch: ProductState["productList"] = action.payload;
       return {
         ...state,
-        productList: productSearch,
+        searchName: action.payload
       };
     case ActionType.FILTER_PRODUCTS:
-      let filteredProducts: ProductState["productList"] = action.payload;
-      if (filteredProducts.length === 0) filteredProducts = state.productTotal;
+      let value: string | number = action.payload.value
+      if(action.payload.name === "perPage") value = parseInt(value)
       return {
         ...state,
-        productList: filteredProducts,
+        [action.payload.name]: value,
+        page: 1
       };
+    case ActionType.PAGINATION_SET:
+      let pageHere: number = state.page;
+      if (action.payload === "-" && state.page !== 1)
+        pageHere = state.page - 1
+      if (
+        action.payload === "+" &&
+        Math.ceil(state.productCount / state.perPage) > state.page
+      )
+        pageHere = state.page + 1
+      return {
+        ...state,
+        page: pageHere
+      }
+    case ActionType.CLEAR_FILTER:
+        return {
+          ...state,
+          byColor: "",
+          byOrder: "",
+          byPromo: "",
+          page: 1,
+        };
     case ActionType.ADD_PRODUCT:
       const newProduct: Product = {
         ...action.payload,

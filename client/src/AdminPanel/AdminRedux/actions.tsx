@@ -9,10 +9,14 @@ import { PORT, baseURL } from "../../utils/url&port";
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
     axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
-      const payload: Product[] = res.data;
+      const payload: Product[] = res.data.data;
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
         payload: payload,
+      });
+      dispatch({
+        type: AdminActionType.GET_PRODUCT_COUNT,
+        payload: res.data.count,
       });
     });
   };
@@ -155,20 +159,23 @@ export const ADMfetch_users_id = (id: number | undefined) => {
 //   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
 // }
 
-export const ADMfetch_chart_products_values = (timeUnit: string, status:string, num?:number) => {
-  console.log(status)
+export const ADMfetch_chart_products_values = (
+  timeUnit: string,
+  status: string,
+  num?: number
+) => {
+  console.log(status);
   return (dispatch: Dispatch<AdminAction>) => {
-
     axios
       .get(
         //status => cart, approved, rejected
-        //timeUnit => 
+        //timeUnit =>
 
         `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
       )
       .then((res) => {
         const payload = res.data;
-        console.log(payload)
+        console.log(payload);
         dispatch({
           type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,

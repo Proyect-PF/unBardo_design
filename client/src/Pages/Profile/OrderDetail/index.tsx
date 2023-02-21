@@ -14,6 +14,7 @@ let initialState = {
   updatedAt: "",
   status: "",
   dispatched: false,
+  track_id: "",
   fullname: "",
   email: "",
   products: [
@@ -68,6 +69,9 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
           <p className="text-2xl font-medium">Datos de la orden:</p>
           <div className="flex flex-col gap-3 mx-8">
             <p className="text-xl">{`Status: ${details.status}`}</p>
+            {details.track_id !== "" && (
+              <p className="text-xl">{`Track Id: ${details.track_id}`}</p>
+            )}
             <p className="text-xl">{`Despachado: ${
               details.dispatched ? "Si" : "No"
             }`}</p>

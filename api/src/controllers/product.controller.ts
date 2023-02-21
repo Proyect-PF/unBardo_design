@@ -231,6 +231,10 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
             options.offset = (Number(page) - 1) * Number(perPage);
             options.limit = perPage;
         }
+
+        // Consulta la cantidad de productos según los filtros aplicados
+        const count = await db.Product.count({where: options.where});
+
         // Tomamos la cantidad de la consulta para enviar el paginado al front
         const total = await db.Product.count({where: options.where});
         let products = await db.Product.findAll(options);
@@ -241,7 +245,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                     productId: product.id,
                 },
             });
-             // Verificar si el objeto images tiene los datos esperados
+            // Verificar si el objeto images tiene los datos esperados
             const imageUrls = images.reduce((obj: any, image: any, i: any) => {
                 if (i === 0) {
                     obj[`image`] = image.imgUrl;
@@ -263,11 +267,16 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         response.set("X-Total-Count", total);
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
 
-        return response.status(200).json(productsWithImages);
+        return response.status(200).json({
+            count: count,
+            data: productsWithImages
+        });
     } catch (error: any) {
         return response.status(500).json({error: error.message});
     }
 };
+
+
 
 
 export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {

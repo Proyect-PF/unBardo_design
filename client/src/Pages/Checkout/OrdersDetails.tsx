@@ -36,12 +36,12 @@ const OrderDetails = (): JSX.Element => {
         <div className='p-6 bg-white shadow-lg'>
           <div className='flex flex-row gap-2 mb-4'>
             <p className='font-bold'>Estado de la orden:</p>
-            <p className='font-bold text-green-500'>{orderData?.status}</p>
+            <p>{orderData?.status}</p>
           </div>
 
           <div className='flex flex-row gap-2 mb-4'>
             <p className='font-bold'>ID de la orden:</p>
-            <p className='font-bold text-green-500'>{external_reference}</p>
+            <p>{external_reference}</p>
           </div>
           <div className='flex flex-row gap-2 mb-4'>
             <p className='font-bold'>Fecha de la orden:</p>
@@ -117,14 +117,11 @@ const OrderDetails = (): JSX.Element => {
           <div className='flex flex-row justify-end'>
             <div className='my-4'>
               <p className='font-bold'>Precio Final:</p>
-              <p className='mr-10 font-bold text-green-500'>
-                ${orderData?.total_paid_amount}
-              </p>
+              <p className='mr-10 '>${orderData?.total_paid_amount}</p>
             </div>
           </div>
         </div>
       </div>
-      {/* ))} */}
       <div>
         <div className='text-center'>
           <Link to='/'>
@@ -140,7 +137,6 @@ const OrderDetails = (): JSX.Element => {
         </div>
       </div>{' '}
     </div>
-    // </div>
   );
 };
 

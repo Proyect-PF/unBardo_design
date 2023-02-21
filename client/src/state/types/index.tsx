@@ -33,6 +33,8 @@ export type AddProductPayload = {
 export type ProductState = {
   productTotal: Product[];
   productList: Product[];
+  productCount: number;
+  activePromo: boolean;
   productDetails: Product;
   render: boolean;
 };
@@ -97,5 +99,3 @@ export type OrderState = {
   allOrders: Orders[];
   order: Orders;
 };
-
-

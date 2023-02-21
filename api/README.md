@@ -139,14 +139,14 @@ Nombre de funcion = POST_GeneratePayment.
     id_order: number;    //id de la orden => Se envia solamente si el usuario accede a una orden que no se finalizo y se desea proceder con esa orden
 ```
 
-#### GET -> localhost:3700/orders/feedback
+#### POST -> localhost:3700/orders/feedback
 
 ```env
-Nombre de funcion = GET_FeedbackPayment.
+Nombre de funcion = POST_FeedbackPayment.
     Esta es la ruta a la que deriva mercadopago al finalizar el pago, ya sea que se realizo exitosamente, como si fallo el pago.
     Se realiza un update del estado de la orden, de acuerdo al estado que responde mercadopago.
     El request se realiza por body.
-    En este punto si el pago fue exitoso, actualiza el stock de los talles correspondientes del producto.
+    En este punto si el pago fue exitoso, actualiza el stock de los talles correspondientes del producto y guarda el payment_id para poder traer la informacion de la compra de la api de mercadopago.
 ```
 
 #### GET -> localhost:3700/orders

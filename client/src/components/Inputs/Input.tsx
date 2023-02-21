@@ -13,6 +13,7 @@ interface Props {
   autocomplete?: string;
   min?: number;
   max?: number;
+  maxLength?: number;
 }
 
 const Input = ({
@@ -27,10 +28,12 @@ const Input = ({
   autocomplete,
   min,
   max,
+  maxLength,
 }: Props) => {
   return (
     <div>
       <input
+        maxLength={maxLength}
         id={id}
         type={type}
         value={value}

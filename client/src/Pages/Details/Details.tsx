@@ -173,7 +173,7 @@ const Details = (): JSX.Element => {
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,
-        confirmButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
         cancelButtonColor: "#e5e7eb",
         cancelButtonText:
           "<p class='font-rift text-lg text-black'>Por ahora no</p>",
@@ -203,7 +203,9 @@ const Details = (): JSX.Element => {
           loading ? "hidden" : "visible"
         }`}
       >
-        <ImageSlider slides={images} />
+        <div className="flex justify-center">
+          <ImageSlider slides={images} />
+        </div>
         <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8 md:mx-20 md:h-fit">
           <div>
             <p className="my-4 text-3xl font-medium text-center md:text-left ">

@@ -8,19 +8,38 @@ import { State } from '../../state/reducers';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from 'redux';
 import { PORT, baseURL } from '../../utils/url&port';
+import { useState } from 'react';
 
 export const FormCheckout = (): JSX.Element => {
   const { userId } = useSelector((state: State) => state.user);
   const dispatch = useDispatch();
   const { clearCheckoutList } = bindActionCreators(actionCreators, dispatch);
-  
+  const [distance, setDistance] = useState('');
+  const [city, setCity] = useState('');
+  const [shipmentCost, setShipmentCost] = useState('');
+
   const initialValues = {
     area_code: '',
     number: '',
     zip_code: '',
     street_name: '',
     street_number: '',
+    shipmentCost: '',
     id_user: userId,
+  };
+
+  const handleUpdate = async (values: any) => {
+    try {
+      const response = await axios.get(
+        `${baseURL}:${PORT}/shipments/distance?zip_code=${values.zip_code}`
+      );
+      // console.log(response.data);
+      setDistance(response.data.distance);
+      setCity(response.data.city);
+      setShipmentCost(response.data.shipmentCost);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -36,7 +55,10 @@ export const FormCheckout = (): JSX.Element => {
         axios({
           method: 'post',
           url: `${baseURL}:${PORT}/orders/payment`,
-          data: values,
+          data: {
+            ...values,
+            shipmentCost: shipmentCost,
+          },
         }).then((res) => {
           window.location.href = res.data.res.body.init_point;
           clearCheckoutList(); // Llamada a checkoutlist() después de la redirección
@@ -104,9 +126,28 @@ export const FormCheckout = (): JSX.Element => {
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
               />
+
               {errors.zip_code && touched.zip_code && (
                 <p className='text-red-600'>{errors.zip_code}</p>
               )}
+              {city && (
+                <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
+                  Ciudad: {city}
+                </p>
+              )}
+              {shipmentCost && (
+                <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
+                  <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
+                    Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
+                  </p>
+                </p>
+              )}
+              <button
+                className='mt-2 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700'
+                onClick={() => handleUpdate(values)}
+              >
+                Calcular Envio
+              </button>
             </div>
           </div>
 
@@ -155,7 +196,7 @@ export const FormCheckout = (): JSX.Element => {
             text='Pagar'
             name='pagar'
             onClick={() => {}}
-            disabled={isSubmitting}
+            disabled={false}
             type='submit'
             className={'justify-center'}
           />

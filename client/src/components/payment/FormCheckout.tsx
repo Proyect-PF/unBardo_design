@@ -118,7 +118,13 @@ export const FormCheckout = (): JSX.Element => {
                 id='zip_code'
                 name='zip_code'
                 placeholder='3200'
-                onChange={handleChange}
+                maxLength={6}
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.length <= 6) {
+                    handleChange(e);
+                  }
+                }}
                 value={values.zip_code}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
@@ -128,18 +134,18 @@ export const FormCheckout = (): JSX.Element => {
                 <p className='text-red-600'>{errors.zip_code}</p>
               )}
               {city && (
-                <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
+                <p className='mt-2 text-sm bg-gray-300 rounded-md py-1 px-2'>
                   Ciudad: {city}
                 </p>
               )}
               {shipmentCost && (
-                <p className='mt-2 text-sm bg-green-100 rounded-md py-1 px-2'>
+                <p className='mt-2 text-sm bg-gray-300 rounded-md py-1 px-2'>
                   Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
                 </p>
               )}
               <button
                 type='button'
-                className='mt-2 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700'
+                className='mt-2 bg-gray-100 border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700  hover:bg-black hover:text-white'
                 onClick={() => handleUpdate(values)}
               >
                 Calcular Envio
@@ -158,7 +164,13 @@ export const FormCheckout = (): JSX.Element => {
                 id='area_code'
                 name='area_code'
                 placeholder='2954'
-                onChange={handleChange}
+                maxLength={4}
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.length <= 4) {
+                    handleChange(e);
+                  }
+                }}
                 value={values.area_code}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
@@ -177,7 +189,13 @@ export const FormCheckout = (): JSX.Element => {
                 id='number'
                 name='number'
                 placeholder='153666987'
-                onChange={handleChange}
+                maxLength={6}
+                onChange={(e: any) => {
+                  const value = e.target.value;
+                  if (value.length <= 6) {
+                    handleChange(e);
+                  }
+                }}
                 value={values.number}
                 className={`text-align-first w-full h-12 pl-3 border border-gray-300 rounded-md bg-gray-50`}
                 onBlur={() => {}}
@@ -187,17 +205,6 @@ export const FormCheckout = (): JSX.Element => {
               )}
             </div>
           </div>
-          {/* <Button
-            type='submit'
-            className={`w-full h-14 ${
-              isSubmitting || errors.number || !isUpdateExecuted
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-primary text-white'
-            }`}
-            disabled={!isUpdateExecuted}
-          >
-            {isSubmitting ? 'Procesando...' : 'Pagar'}
-          </Button> */}
 
           <Button
             text='Pagar'

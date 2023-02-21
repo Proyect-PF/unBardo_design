@@ -41,9 +41,9 @@ WITH date_range AS (
   ) AS "timeUnit"
 ), sales_data AS (
   SELECT DATE_TRUNC('${timeUnit}', orders."updatedAt") AS "timeUnit",
-    SUM(COALESCE((op.sizes->>'XL')::int, 0) 
-      + COALESCE((op.sizes->>'S')::int, 0) 
-      + COALESCE((op.sizes->>'M')::int, 0) 
+    SUM(COALESCE((op.sizes->>'XL')::int, 0)
+      + COALESCE((op.sizes->>'S')::int, 0)
+      + COALESCE((op.sizes->>'M')::int, 0)
       + COALESCE((op.sizes->>'L')::int, 0)) AS "totalProductsSold"
   FROM public."OrderProducts" AS op
   JOIN public."Orders" AS orders ON op.id_order = orders.id
@@ -84,73 +84,76 @@ ORDER BY date_range."timeUnit" ASC;
 };
 
 
+
+
+interface Stats {
+    timeUnit: string;
+    num: number;
+    numberCarts: number;
+    numberSales: number;
+    numberLogins: number;
+    numberRegisters: number;
+    numberVisits: number;
+    numberPendingSales: number;
+    visits_to_approved: number;
+    cart_to_approved: number;
+    mercadopago_to_approved: number;
+}
+
 export const getGeneralStats = async (req: Request, res: Response) => {
     try {
-        let { action_type, timeUnit, num }: any = req.query;
-
-        let query = `SELECT COUNT(*) FROM "Statistics"`;
-        if (action_type) {
-            query += ` WHERE action_type = '${action_type}'`;
+        let { timeUnit = "months", num }: any = req.query;
+        let n = Number(num);
+        if (timeUnit === "trimesters") {
+            timeUnit = "months";
+            n = 3;
+        }
+        if (!n && timeUnit === 'days') {
+            n = 7;
+        } else if (!n && timeUnit === 'weeks') {
+            n = 4;
+        } else if (!n && timeUnit === 'months') {
+            n = 12;
+        } else if (!n && timeUnit === 'years') {
+            n = 5;
         }
 
-        if (timeUnit && num) {
-            let n = Number(num);
-            if (timeUnit === "trimesters") {
-                timeUnit = "months";
-                n = 3;
-            }
-            const range = moment().subtract(n, timeUnit).format('YYYY-MM-DD');
-            query += ` AND "createdAt" >= '${range}'`;
-        }
+        const rangeStart = moment().subtract(n, timeUnit).startOf(timeUnit).format('YYYY-MM-DD');
+        const rangeEnd = moment().endOf(timeUnit).format('YYYY-MM-DD');
 
-        let conversionRate: any = 0;
-        if (action_type === "cart_to_approved") {
-            const queryFirst = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'payment_success';`;
-            const querySecond = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'create_cart';`;
 
-            const resultFirst = await db.sequelize.query(queryFirst, {
-                type: db.sequelize.QueryTypes.SELECT,
-            });
-            const resultSecond = await db.sequelize.query(querySecond, {
-                type: db.sequelize.QueryTypes.SELECT,
-            });
+        const allDatesQuery = `
+    SELECT generate_series('${rangeStart}'::date, '${rangeEnd}'::date, '1 ${timeUnit}') AS timeUnit
+`;
 
-            const countFirst = resultFirst[0].count;
-            const countSecond = resultSecond[0].count;
-            conversionRate = countFirst > 0 ? (countFirst / countSecond) * 100 : 0;
-        } else if (action_type === "mercadopago_to_approved") {
-            const queryFirst = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'payment_success';`;
-            const querySecond = `SELECT COUNT(*) FROM "Statistics" WHERE action_type = 'mercadopago';`;
+        const dataQuery = `
+    SELECT
+        dates.timeUnit AS timeUnit,
+        COUNT(*) AS num,
+        COUNT(CASE WHEN action_type = 'create_cart' THEN 1 ELSE NULL END) AS numberCarts,
+        COUNT(CASE WHEN action_type = 'payment_success' THEN 1 ELSE NULL END) AS numberSales,
+        COUNT(CASE WHEN action_type = 'user_login' THEN 1 ELSE NULL END) AS numberLogins,
+        COUNT(CASE WHEN action_type = 'user_registration' THEN 1 ELSE NULL END) AS numberRegisters,
+        COUNT(CASE WHEN action_type = 'visit' THEN 1 ELSE NULL END) AS numberVisits,
+        COUNT(CASE WHEN action_type = 'mercadopago' THEN 1 ELSE NULL END) AS numberPendingSales,
+        (AVG(CASE WHEN action_type = 'payment_success' THEN 1 ELSE 0 END) / NULLIF(AVG(CASE WHEN action_type = 'visit' THEN 1 ELSE 0 END), 0)) * 100 AS visits_to_approved,
+        (AVG(CASE WHEN action_type = 'payment_success' THEN 1 ELSE 0 END) / NULLIF(AVG(CASE WHEN action_type = 'create_cart' THEN 1 ELSE 0 END), 0)) * 100 AS cart_to_approved,
+        (AVG(CASE WHEN action_type = 'payment_success' THEN 1 ELSE 0 END) / NULLIF(AVG(CASE WHEN action_type = 'mercadopago' THEN 1 ELSE 0 END), 0)) * 100 AS mercadopago_to_approved
+    FROM (${allDatesQuery}) dates
+    LEFT JOIN "Statistics" s ON dates.timeUnit = DATE_TRUNC('${timeUnit}', s."createdAt")
+    WHERE dates.timeUnit >= '${rangeStart}' AND dates.timeUnit <= '${rangeEnd}'
+    GROUP BY dates.timeUnit
+    ORDER BY dates.timeUnit
+`;
 
-            const resultFirst = await db.sequelize.query(queryFirst, {
-                type: db.sequelize.QueryTypes.SELECT,
-            });
-            const resultSecond = await db.sequelize.query(querySecond, {
-                type: db.sequelize.QueryTypes.SELECT,
-            });
-
-            const countFirst = resultFirst[0].count;
-            const countSecond = resultSecond[0].count;
-            conversionRate = countSecond > 0 ? (countFirst / countSecond) * 100 : 0;
-        }
-
-        const [results]: any = await db.sequelize.query(query, {
-            type: db.sequelize.QueryTypes.SELECT,
-        }) as DailyStatistic[];
-
-        const response: any = {};
-
-        if (action_type === "cart_to_approved" || action_type === "mercadopago_to_approved") {
-            response[action_type] = conversionRate;
-
-        } else {
-            response[action_type || "all"] = results.count;
-        }
-
-        res.status(200).json(response);
+        const results = await db.sequelize.query(dataQuery, {
+            type: db.sequelize.QueryTypes.SELECT
+        });
+        return res.status(200).json(results);
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: 'Internal server error' });
     }
 };
+
 

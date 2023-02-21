@@ -82,10 +82,11 @@ export type OrderDetails = {
   products?: Item[];
   payment_method: string;
   payment_type: string;
-  total_amount: number;
+  total_amount?: number;
   cuotes: number;
-  total_paid_amount: number;
+  total_paid_amount?: number;
   dispatched: boolean;
+  shipping_amount?: number;
   address?: {
     street_name: string;
     street_number: string;
@@ -109,23 +110,21 @@ export type SetFavoritePayload = {
   id_product: number;
 };
 
-
 //semanal
-
 
 // TYPES ANALITICS
 export type AnaliticProducts = {
-  timeUnit:string
-  totalProductsSold:number
-}
+  timeUnit: string;
+  totalProductsSold: number;
+};
 
 export type AnaliticFunnel = {
-  timeUnit: string,
-  numberRegister:number
-  numberCarts:number
-  numberDirections: number
-  numberSales: number
-}
+  timeUnit: string;
+  numberRegister: number;
+  numberCarts: number;
+  numberDirections: number;
+  numberSales: number;
+};
 
 // type chartValues = {
 //   numberCarts?:number //Numero de carritos generados, se maneja desde el boton que se compra el carrito.

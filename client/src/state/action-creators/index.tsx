@@ -34,6 +34,11 @@ export const fetch_products = (query: string | null = null) => {
         type: ActionType.GET_PRODUCT_COUNT,
         payload: res.data.count,
       });
+      console.log(res.data);
+      dispatch({
+        type: ActionType.GET_PRODUCT_PROMO,
+        payload: res.data.promo,
+      });
     });
   };
 };

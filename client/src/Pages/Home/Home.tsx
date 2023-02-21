@@ -13,7 +13,7 @@ const Home = () => {
   const { fetch_products, clear_product_detail, getFavorites } =
     bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
-  const { productList, productTotal } = useSelector(
+  const { productList, productTotal, activePromo } = useSelector(
     (state: State) => state.products
   );
   const { userId } = useSelector((state: State) => state.user);
@@ -48,7 +48,7 @@ const Home = () => {
         <div className="border-8 border-black border-solid rounded-full w-44 h-44 border-t-transparent animate-spin"></div>
       </div>
       <div className={loading ? "hidden" : "visible"}>
-        {productTotal.filter((e) => e.promotion === true).length > 0 && (
+        {activePromo === true && (
           <div className="w-full py-2 font-bold text-center bg-details">
             Promociones activas
           </div>

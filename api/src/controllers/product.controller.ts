@@ -83,7 +83,7 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
 
         const createdImages = [];
         for (const key in images) {
-            if (key.startsWith("image")) {
+            if (key.startsWith("image") && (images[key] !== "")) {
                 const imgUrl = images[key];
                 const uploadRes = await cloudinary.uploader.upload(imgUrl, {
                     upload_preset: 'unbardo'
@@ -285,10 +285,8 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
 };
 
 
-
-
 export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
-    const { id, promotional_price, promotion, ...images } = req.body;
+    const {id, promotional_price, promotion, ...images} = req.body;
 
     try {
         if (!id) {
@@ -320,7 +318,7 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
             throw new Error(`No product updated with id ${id}`);
         }
 
-        const imagesToUpdate = await db.Image.findAll({ where: { productId: id }, order: [["id", "ASC"]] });
+        const imagesToUpdate = await db.Image.findAll({where: {productId: id}, order: [["id", "ASC"]]});
 
         for (const key in images) {
             if (key === "image") {

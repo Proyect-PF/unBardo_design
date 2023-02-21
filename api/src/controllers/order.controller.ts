@@ -250,6 +250,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             payment_type: payment_detail.data.payment_type_id,
             total_amount: payment_detail.data.transaction_amount,
             cuotes: payment_detail.data.installments,
+            shipping_amount: payment_detail.data.shipping_amount,
             total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
             address: payment_detail.data.additional_info.payer.address,
             phone: payment_detail.data.additional_info.payer.phone,

@@ -369,7 +369,7 @@ export const POST_FeedbackPayment = async (
     // console.log(feedback.external_reference);
     // console.log(payment_detail.data.status);
     // console.log(feedback.payment_id);
-
+    
     return response.status(200).json({
       payment_id: feedback.payment_id,
       status: payment_detail.data.status,
@@ -379,8 +379,8 @@ export const POST_FeedbackPayment = async (
       payment_type: payment_detail.data.payment_type_id,
       total_amount: payment_detail.data.transaction_amount,
       cuotes: payment_detail.data.installments,
-      total_paid_amount:
-        payment_detail.data.transaction_details.total_paid_amount,
+      shipping_amount: payment_detail.data.shipping_amount,
+      total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
       date_last_updated: payment_detail.data.date_last_updated,
       date_approved: payment_detail.data.date_approved,
     });

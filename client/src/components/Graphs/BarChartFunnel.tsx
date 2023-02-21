@@ -11,9 +11,9 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
-import { AnaliticFunnel, AnaliticProducts } from "../../types/types";
 import { adminActions } from "../../AdminPanel/AdminRedux";
 import { State } from "../../state/reducers";
+import { AnaliticFunnel } from "../../types/types";
 
 export function BarChartFunnel() {
   ChartJS.register(
@@ -27,67 +27,41 @@ export function BarChartFunnel() {
 
   //cart, approved, rejected
   const [date, setDate] = useState({
-    timeUnit: "month",
+    timeUnit: "trimesters",
+    num: "",
   });
   const dispatch = useDispatch();
-  const { ADMfetch_chart_products_values } = bindActionCreators(
-    adminActions,
-    dispatch
-  );
-  const { analiticsProducts } = useSelector((state: State) => state.admin);
+  const { ADMfetch_chart_funnel } = bindActionCreators(adminActions, dispatch);
+  const { analiticsFunnel } = useSelector((state: State) => state.admin);
 
-  // useEffect(() => {
-  //   ADMfetch_chart_products_values(date.timeUnit);
-  // }, [date.timeUnit]);
-    
-  const arrData:AnaliticFunnel[] = [
-    {
-      timeUnit: "Primera Semana",
-      numberRegister: 100, //Porcentaje => number registers users
-      numberCarts: Math.round((220 * 100) / 350), // 
-      numberDirections: Math.round((110 * 100) / 350), //status cart
-      numberSales: Math.round((60 * 100) / 350), //Status approved
-    }, 
-    {
-      timeUnit: "Segunda Semana",
-      numberRegister: 100, //Porcentaje
-      numberCarts: Math.round((12 * 100) / 500),
-      numberDirections: Math.round((4 * 100) / 500),
-      numberSales: Math.round((1 * 100) / 500),
-    },
-    {
-      timeUnit: "Segunda Semana",
-      numberRegister: 100, //Porcentaje
-      numberCarts: Math.round((350 * 100) / 500),
-      numberDirections: Math.round((50 * 100) / 500),
-      numberSales: Math.round((25 * 100) / 500),
-    },    {
-      timeUnit: "Segunda Semana",
-      numberRegister: 100, //Porcentaje
-      numberCarts: Math.round((350 * 100) / 500),
-      numberDirections: Math.round((50 * 100) / 500),
-      numberSales: Math.round((25 * 100) / 500),
-    },    {
-      timeUnit: "Segunda Semana",
-      numberRegister: 100, //Porcentaje
-      numberCarts: Math.round((350 * 100) / 500),
-      numberDirections: Math.round((50 * 100) / 500),
-      numberSales: Math.round((25 * 100) / 500),
-    },
-  ];
+  useEffect(() => {
+    // ADMfetch_chart_funnel(date.timeUnit);
+    ADMfetch_chart_funnel(date.timeUnit, date.num);
+  }, [date.timeUnit, date.num]);
 
-  //Instanciacion para 
-  const _data = arrData.map((productInfo: AnaliticFunnel) => productInfo.numberRegister);
-  const _data2 = arrData.map((productInfo: AnaliticFunnel) => productInfo.numberCarts);
-  const _data3 = arrData.map((productInfo: AnaliticFunnel) => productInfo.numberDirections);
-  const _data4 = arrData.map((productInfo: AnaliticFunnel) => productInfo.numberSales);
-  const labels = arrData.map((productInfo: AnaliticFunnel) => productInfo.timeUnit);
+  // //Instanciacion para
+  const _data = analiticsFunnel?.map(() => 100);
+  const _data2 = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
+    return (productInfo.numbercarts * 100) / productInfo.numberregisters;
+  });
+  //numberregisters
+  const _data3 = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
+    return (productInfo.numberpendingsales * 100) / productInfo.numberregisters;
+  });
+  const _data4 = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
+    return (productInfo.numbersales * 100) / productInfo.numberregisters;
+  });
+
+  const labels = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
+    const time = new Date(productInfo.timeunit);
+    const timeShort = time.toString().split(":", 1);
+    return timeShort.concat("hs");
+  });
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //Configuracion Chart JS
   const options: any = {
-    
-    indexAxis: 'y' as const,
+    indexAxis: "y" as const,
     elements: {
       bar: {
         borderWidth: 2.3,
@@ -102,14 +76,13 @@ export function BarChartFunnel() {
         display: true,
         text: "Compras Efectivas",
       },
-
     },
   };
   const data = {
     labels,
     datasets: [
       {
-        label: "Usuarios Registrados",
+        label: "Usuarios Registrados %",
         data: _data,
         borderColor: "rgb(10, 0, 80)",
         backgroundColor: "rgba(10, 0, 80, 0.5) ",
@@ -134,25 +107,32 @@ export function BarChartFunnel() {
       },
     ],
   };
-  // const handleChange = ({ target }: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const values = target.value;
-  //   setDate({
-  //     ...date,
-  //     timeUnit: values,
-  //   });
-  // };
+  const handleChange = ({
+    target,
+  }:
+    | React.ChangeEvent<HTMLSelectElement>
+    | React.ChangeEvent<HTMLInputElement>) => {
+    const values = target.value;
+    const names = target.name;
+    setDate({
+      ...date,
+      [names]: values,
+    });
+  };
 
   return (
     <div className="shadow-slate-400 shadow-xl">
-      {analiticsProducts.length > 0 && (
+      {analiticsFunnel.length > 0 && (
         <div>
-          {/* <select value={date.timeUnit} onChange={handleChange}>
-            <option value="day">Dia</option>
-            <option value="month" selected>
-              Mes
+          <select value={date.timeUnit} name="timeUnit" onChange={handleChange}>
+            <option value="days">Diarios</option>
+            <option value="months">Mensuales</option>
+            <option value="trimesters" selected>
+              Trimestrales
             </option>
-            <option value="year">Año</option>
-          </select> */}
+            <option value="years">Anuales</option>
+          </select>
+          <input type="number" name="num" onChange={handleChange} />
           <Bar options={options} data={data} />
         </div>
       )}

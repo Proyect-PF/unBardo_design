@@ -4,6 +4,7 @@ import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 import Swal from "sweetalert2";
 import { PORT, baseURL } from "../../utils/url&port";
+import { AnaliticFunnel, AnaliticProducts } from "../../types/types";
 
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
@@ -174,7 +175,7 @@ export const ADMfetch_chart_products_values = (
         `${baseURL}:${PORT}/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
       )
       .then((res) => {
-        const payload = res.data;
+        const payload:AnaliticProducts[] = res.data;
         console.log(payload);
         dispatch({
           type: AdminActionType.GET_ANALITICS_PRODUCTS,
@@ -184,45 +185,25 @@ export const ADMfetch_chart_products_values = (
   };
 };
 
-export const ADMfetch_chart_funnel = (action_type: string) => {
-  // return (dispatch: Dispatch<AdminAction>) => {
+export const ADMfetch_chart_funnel = (timeUnit: string, num?:string) => {
+  console.log(timeUnit)
+  return (dispatch: Dispatch<AdminAction>) => {
 // cart_to_approved, create_cart, mercadopago, user_login, user_registration, create_cart
     axios
       .get(
-        //status => cart, approved, rejected
-        //timeUnit => 
-
-        `http://localhost:3700/statistics/general-stats/?action_type=${action_type}`
+        `${baseURL}:${PORT}/statistics/general-stats/?timeUnit=${timeUnit}&num=${num}`
       )
       .then((res) => {
-        const payload = res.data;
+        const payload:AnaliticFunnel[] = res.data;
         console.log(payload)
-        // dispatch({
-        //   type: AdminActionType.GET_ANALITICS_PRODUCTS,
-        //   payload,
-        // });
+        dispatch({
+          type: AdminActionType.GET_ANALITICS_FUNNEL,
+          payload,
+        });
       });
-  // };
+   };
 };
-ADMfetch_chart_funnel("create_cart")
 
-
-// export const ADMfetch_chart_funnel_values = (timeUnit: string) => {
-//   return (dispatch: Dispatch<AdminAction>) => {
-//     axios
-//       .get(
-//         `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
-//       )
-//       .then((res) => {
-//         const payload = res.data;
-
-//         dispatch({
-//           type: AdminActionType.GET_ANALITICS,
-//           payload,
-//         });
-//       });
-//   };
-// };
 
 export const ADMupdate_pricing = (
   minus100: number,

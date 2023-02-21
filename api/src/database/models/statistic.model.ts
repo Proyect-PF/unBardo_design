@@ -13,6 +13,7 @@ export default (sequelize: Sequelize.Sequelize) => {
     class Statistics extends Model<StatisticsAttributes> {
         public id!: number;
         public action_type!: string;
+        public action_date!: Date;
     }
 
     Statistics.init(
@@ -39,6 +40,7 @@ export default (sequelize: Sequelize.Sequelize) => {
                 type: DataTypes.INTEGER,
                 allowNull: true,
             },
+
         },
         {
             sequelize,

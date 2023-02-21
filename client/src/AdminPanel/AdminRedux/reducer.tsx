@@ -1,5 +1,5 @@
 import { Product, User } from "../../state/types";
-import { AnaliticProducts, OrderDetails } from "../../types/types";
+import { AnaliticFunnel, AnaliticProducts, OrderDetails } from "../../types/types";
 import { AdminAction, AdminActionType, OrdersAdmin } from "./types-interfaces";
 
 export type AdminState = {
@@ -12,6 +12,7 @@ export type AdminState = {
   userDetails: User;
   ordersCount: number;
   analiticsProducts: AnaliticProducts[];
+  analiticsFunnel: AnaliticFunnel[]
 };
 
 const initialState: AdminState = {
@@ -62,6 +63,7 @@ const initialState: AdminState = {
     news_letter: true,
   },
   analiticsProducts: [],
+  analiticsFunnel: []
 };
 
 const adminReducer = (
@@ -121,6 +123,11 @@ const adminReducer = (
         ...state,
         analiticsProducts: action.payload,
       };
+      case AdminActionType.GET_ANALITICS_FUNNEL: 
+      return {
+        ...state, 
+        analiticsFunnel: action.payload
+      }
     default:
       return { ...state };
   }

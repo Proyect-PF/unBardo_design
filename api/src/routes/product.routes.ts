@@ -27,12 +27,12 @@ productRoutes.get("/:id", GET_ProductById);
 /**
  //TODO: RUTA UPDATE actualizar productos
  */
-productRoutes.put("/", UPDATE_UpdateProduct);
+productRoutes.put("/", verifyTokenIsAdmin,UPDATE_UpdateProduct);
 
 /**
  //TODO: RUTA DELETE Borrar todos los productos
  */
-productRoutes.delete("/deleteAll", DELETE_DeleteAllProducts);
+productRoutes.delete("/deleteAll", verifyTokenIsAdmin,DELETE_DeleteAllProducts);
 
 /**
  //TODO: RUTA GET Buscar productos por nombre
@@ -42,11 +42,11 @@ productRoutes.get("/search/:name", GET_SearchByName);
 /**
  //TODO: RUTA DELETE Borra un producto por id
  */
-productRoutes.delete("/:id", DELETE_DeleteProduct);
+productRoutes.delete("/:id", verifyTokenIsAdmin,DELETE_DeleteProduct);
 
 /**
  //TODO: RUTA POST Publica un producto nuevo
  */
-productRoutes.post("/", POST_NewProduct);
+productRoutes.post("/", verifyTokenIsAdmin,POST_NewProduct);
 
 export default productRoutes;

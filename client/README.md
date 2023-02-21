@@ -49,11 +49,15 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### DEPLOY FRONTEND VERCEL
 
 ...utils/url&port.ts:
+
 First has to change the route wich points to the backEnd deploy on Railway. Check this url: "https://unbardodesignback.up.railway.app"
+
 If doesn't work you have to ask the admin for the railway url.
 
 Files changed:
+
 has to erase the $PORT variable so the url is cleared:
+
 ...src/AdminPanel/actions.tsx 
 
 ...src/AdminPanel/Pricing/index.tsx

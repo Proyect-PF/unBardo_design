@@ -287,7 +287,7 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
                     id
                 }
             });
-            console.log(orderUpdate);
+            
             if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
             return res.status(200).json(orderUpdate);
         }
@@ -310,7 +310,7 @@ export const UPDATE_OrderTrack = async (req: Request, res: Response) => {
                 id
             }
         });
-        console.log(orderUpdate);
+        
         if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
         return res.status(200).json(orderUpdate);
     } catch (error: any) {

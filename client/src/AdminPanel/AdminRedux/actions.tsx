@@ -165,7 +165,6 @@ export const ADMfetch_chart_products_values = (
   status: string,
   num?: number
 ) => {
-  console.log(status);
   return (dispatch: Dispatch<AdminAction>) => {
     axios
       .get(
@@ -176,7 +175,6 @@ export const ADMfetch_chart_products_values = (
       )
       .then((res) => {
         const payload:AnaliticProducts[] = res.data;
-        console.log(payload);
         dispatch({
           type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,
@@ -186,7 +184,6 @@ export const ADMfetch_chart_products_values = (
 };
 
 export const ADMfetch_chart_funnel = (timeUnit: string, num?:string) => {
-  console.log(timeUnit)
   return (dispatch: Dispatch<AdminAction>) => {
 // cart_to_approved, create_cart, mercadopago, user_login, user_registration, create_cart
     axios
@@ -195,7 +192,6 @@ export const ADMfetch_chart_funnel = (timeUnit: string, num?:string) => {
       )
       .then((res) => {
         const payload:AnaliticFunnel[] = res.data;
-        console.log(payload)
         dispatch({
           type: AdminActionType.GET_ANALITICS_FUNNEL,
           payload,

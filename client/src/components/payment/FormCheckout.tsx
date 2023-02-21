@@ -34,7 +34,6 @@ export const FormCheckout = (): JSX.Element => {
       const response = await axios.get(
         `${baseURL}:${PORT}/shipments/distance?zip_code=${values.zip_code}`
       );
-      // console.log(response.data);
       setDistance(response.data.distance);
       setCity(response.data.city);
       setShipmentCost(response.data.shipmentCost);

@@ -55,7 +55,6 @@ const GET_OrderLast = async (id_user: number) => {
       },
       order: [['id', 'DESC']],
     });
-    //console.log(lastOrder);
     return lastOrder;
   } catch (error: any) {
     throw new Error(error.message);
@@ -366,9 +365,7 @@ export const POST_FeedbackPayment = async (
     // FALTA VERIFICAR
     // await createPaymentSuccessStatistics(request.body.id, payment_detail.data.status);
 
-    // console.log(feedback.external_reference);
-    // console.log(payment_detail.data.status);
-    // console.log(feedback.payment_id);
+
     
     return response.status(200).json({
       payment_id: feedback.payment_id,

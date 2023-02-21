@@ -77,7 +77,6 @@ export const LineChartProducts = () => {
   //Configuracion del Chart Line
   const options: ChartOptions = {
     responsive: true,
-
     plugins: {
       legend: {
         position: "top",
@@ -120,7 +119,6 @@ export const LineChartProducts = () => {
       },
     },
   };
-
   const data = {
     point: "triangle",
     labels,
@@ -142,15 +140,13 @@ export const LineChartProducts = () => {
       [names]: values,
     });
   };
-  // const hanldle = (e: any) => {
-  //   console.log(e);
-  // };
-  // console.log(arrData);
   return (
-    <div className="p-4 shadow-md shadow-slate-400 ">
+    <div className="p-4 shadow-2xl shadow-slate-800 ">
       {analiticsProducts.length > 0 && (
         <div className="w-6/12">
           <p className="mt-2 text-2xl font-medium">Productos:</p>
+          <p className="mt-2 text-sm font-medium text-slate-500">{labels[0]} - {labels[labels.length - 1]}</p>
+
           <select
             className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
             value={infoBack.timeUnit}

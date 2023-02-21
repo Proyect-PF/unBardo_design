@@ -27,8 +27,8 @@ export function BarChartFunnel() {
 
   //cart, approved, rejected
   const [date, setDate] = useState({
-    timeUnit: "trimesters",
-    num: "",
+    timeUnit: "days",
+    num: "1",
   });
   const dispatch = useDispatch();
   const { ADMfetch_chart_funnel } = bindActionCreators(adminActions, dispatch);
@@ -41,6 +41,7 @@ export function BarChartFunnel() {
 
   // //Instanciacion para
   const _data = analiticsFunnel?.map(() => 100);
+
   const _data2 = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
     return (productInfo.numbercarts * 100) / productInfo.numberregisters;
   });
@@ -61,7 +62,7 @@ export function BarChartFunnel() {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //Configuracion Chart JS
   const options: any = {
-    indexAxis: "y" as const,
+    indexAxis: "x" as const,
     elements: {
       bar: {
         borderWidth: 2.3,
@@ -114,6 +115,7 @@ export function BarChartFunnel() {
     | React.ChangeEvent<HTMLInputElement>) => {
     const values = target.value;
     const names = target.name;
+
     setDate({
       ...date,
       [names]: values,
@@ -121,19 +123,39 @@ export function BarChartFunnel() {
   };
 
   return (
-    <div className="shadow-slate-400 shadow-xl">
+    <div className="p-4 shadow-2xl shadow-slate-800 mt-36">
       {analiticsFunnel.length > 0 && (
-        <div>
-          <select value={date.timeUnit} name="timeUnit" onChange={handleChange}>
-            <option value="days">Diarios</option>
+        <div className="w-full">
+          
+          <select
+            value={date.timeUnit}
+            name="timeUnit"
+            onChange={handleChange}
+            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
+          >
+            <option value="days" selected>Diarios</option>
             <option value="months">Mensuales</option>
-            <option value="trimesters" selected>
-              Trimestrales
-            </option>
+            <option value="trimesters">Trimestrales</option>
             <option value="years">Anuales</option>
           </select>
-          <input type="number" name="num" onChange={handleChange} />
+          <input
+            type="number"
+            name="num"
+            onChange={handleChange}
+            className="inline-flex items-start p-2 pr-4 mb-2 ml-6 text-base border-b border-black h-fit text-center mt-4"
+          />
+          <div className="flex flex-row">
           <Bar options={options} data={data} />
+
+            <article className="">
+              <div className="w-96">
+                <p className="text-lg font-medium ">
+                  Total de productos{" "}
+
+                </p>
+              </div>
+            </article>
+          </div>
         </div>
       )}
     </div>

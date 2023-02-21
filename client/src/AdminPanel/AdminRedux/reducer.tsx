@@ -1,65 +1,67 @@
-import { Product, User } from '../../state/types';
-import { AnaliticProducts, OrderDetails } from '../../types/types';
-import { AdminAction, AdminActionType, OrdersAdmin } from './types-interfaces';
+import { Product, User } from "../../state/types";
+import { AnaliticProducts, OrderDetails } from "../../types/types";
+import { AdminAction, AdminActionType, OrdersAdmin } from "./types-interfaces";
 
 export type AdminState = {
   allProducts: Product[];
   productDetails: Product;
+  productCount: number;
   allOrders: OrdersAdmin[];
   orderDetails: OrderDetails;
   allUsers: User[];
   userDetails: User;
   ordersCount: number;
-  analiticsProducts: AnaliticProducts[]
+  analiticsProducts: AnaliticProducts[];
 };
 
 const initialState: AdminState = {
   allProducts: [],
   productDetails: {
     id: 0,
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     S: 0,
     M: 0,
     L: 0,
     XL: 0,
     price: 0,
-    color: '',
+    color: "",
     show_in_shop: false,
-    image: '',
+    image: "",
   },
+  productCount: 0,
   allOrders: [],
   ordersCount: 0,
   orderDetails: {
-    status: '',
+    status: "",
     external_reference: 0,
     products: [],
-    payment_method: '',
-    payment_type: '',
+    payment_method: "",
+    payment_type: "",
     total_amount: 0,
     cuotes: 0,
     total_paid_amount: 0,
     dispatched: false,
     address: {
-      street_name: '',
-      street_number: '',
-      zip_code: '',
+      street_name: "",
+      street_number: "",
+      zip_code: "",
     },
     phone: {
-      area_code: '',
-      number: '',
+      area_code: "",
+      number: "",
     },
   },
   allUsers: [],
   userDetails: {
-    fullname: '',
-    password: '',
-    email: '',
+    fullname: "",
+    password: "",
+    email: "",
     id: 0,
     id_role: 0,
     news_letter: true,
   },
-  analiticsProducts:[]
+  analiticsProducts: [],
 };
 
 const adminReducer = (
@@ -71,6 +73,11 @@ const adminReducer = (
       return {
         ...state,
         allProducts: action.payload,
+      };
+    case AdminActionType.GET_PRODUCT_COUNT:
+      return {
+        ...state,
+        productCount: action.payload,
       };
     case AdminActionType.GET_ALL_ORDERS:
       return {
@@ -107,13 +114,13 @@ const adminReducer = (
         ...state,
         allProducts: action.payload,
       };
-      
-      //Caso en el que obtiene los datos de los analisis
-      case AdminActionType.GET_ANALITICS_PRODUCTS: 
+
+    //Caso en el que obtiene los datos de los analisis
+    case AdminActionType.GET_ANALITICS_PRODUCTS:
       return {
-        ...state, 
-        analiticsProducts: action.payload
-      }
+        ...state,
+        analiticsProducts: action.payload,
+      };
     default:
       return { ...state };
   }

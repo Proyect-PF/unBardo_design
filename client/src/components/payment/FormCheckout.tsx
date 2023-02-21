@@ -8,7 +8,7 @@ import { State } from '../../state/reducers';
 import { actionCreators } from '../../state';
 import { bindActionCreators } from 'redux';
 import { PORT, baseURL } from '../../utils/url&port';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const FormCheckout = (): JSX.Element => {
   const { userId } = useSelector((state: State) => state.user);
@@ -49,11 +49,6 @@ export const FormCheckout = (): JSX.Element => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        axios({
-          method: 'post',
-          url: `${baseURL}:${PORT}/orders/funnel`,
-          data: values,
-        })
         axios({
           method: 'post',
           url: `${baseURL}:${PORT}/orders/payment`,
@@ -161,18 +156,17 @@ export const FormCheckout = (): JSX.Element => {
           <div className='flex flex-row gap-3 sm:flex-row sm:pt-5 sm:gap-5'>
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='area_code'>Codigo de Area</label>
-              <Input
-                min={0}
-                max={9999}
-                autocomplete='true'
-                type='number'
+              <input
+                type='text'
                 id='area_code'
                 name='area_code'
                 placeholder='2954'
-                maxLength={4}
+                maxLength={5}
                 onChange={(e: any) => {
                   const value = e.target.value;
-                  if (value.length <= 4) {
+                  // Validar que solo se ingresen números
+                  const regex = /^[0-9]*$/;
+                  if (regex.test(value) && value.length <= 5) {
                     handleChange(e);
                   }
                 }}
@@ -187,17 +181,17 @@ export const FormCheckout = (): JSX.Element => {
             <div className='flex flex-col w-full sm:w-1/2'>
               <label htmlFor='number'>Telefono</label>
               <Input
-                min={0}
-                max={99999999}
+                min={6}
+                max={999999999}
                 autocomplete='true'
                 type='number'
                 id='number'
                 name='number'
                 placeholder='153666987'
-                maxLength={6}
+                maxLength={9}
                 onChange={(e: any) => {
                   const value = e.target.value;
-                  if (value.length <= 6) {
+                  if (value.length <= 9) {
                     handleChange(e);
                   }
                 }}

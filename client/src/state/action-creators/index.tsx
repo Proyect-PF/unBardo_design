@@ -207,6 +207,7 @@ export const userRegister = (registerLogin: Function, user?: User) => {
 
 // Recibimos en la response token y role
 export const userLogin = (user: User, navigate: any) => {
+
   return (dispatch: Dispatch<ActionUser>) => {
     axios
       .post(`${baseURL}:${PORT}/auth/signin`, user)

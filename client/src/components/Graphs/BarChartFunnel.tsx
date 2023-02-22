@@ -135,7 +135,7 @@ export function BarChartFunnel() {
               onChange={handleChange}
                className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             >
-              <option value="days" selected>
+              <option value="days">
                 Diarios
               </option>
               <option value="months">Mensuales</option>

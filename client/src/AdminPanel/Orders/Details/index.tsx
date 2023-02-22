@@ -13,7 +13,6 @@ type Props = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
 const OrderDetails = ({ setSelected }: Props) => {
-  const idKey = useId()
   const { orderDetails } = useSelector((state: State) => state.admin);
   const dispatch = useDispatch();
   const { ADMfetch_order_id, ADMfetch_orders } = bindActionCreators(
@@ -82,7 +81,7 @@ const OrderDetails = ({ setSelected }: Props) => {
             <p className="text-2xl font-medium">Resumen:</p>
             {orderDetails.products &&
               orderDetails.products.map((e) => (
-                <div key={idKey} className="flex flex-col gap-3 mx-8">
+                <div key={e.id_product} className="flex flex-col gap-3 mx-8">
                   <label>{`Id: ${e.id_product}`}</label>
                   <label>{`Producto: ${e.title}`}</label>
                   <label>{`Cantidades:`}</label>

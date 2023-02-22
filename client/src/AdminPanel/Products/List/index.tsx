@@ -20,7 +20,6 @@ const ListProducts = ({
   const { allProducts, productCount } = useSelector(
     (state: State) => state.admin
   );
-  const idKey = useId()
   const dispatch = useDispatch();
   const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
   const [search, setSearch] = useState("");
@@ -172,7 +171,7 @@ const ListProducts = ({
       {allProducts &&
         allProducts.map((e: any) => (
           <div
-          key={idKey}
+          key={`${e.id}`}
             className="flex items-center justify-between w-full px-4 text-lg font-normal text-center border-t cursor-pointer"
             onClick={() => {
               setId(e.id);

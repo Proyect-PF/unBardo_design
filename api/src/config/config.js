@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === 'development') {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     // db_deploy: process.env.DB_DEPLOY || `postgresql://postgres:nNWeMPRZ5RvzZ1yRUjLm@containers-us-west-36.railway.app:6296/railway`,
     dialect: 'postgres',
     define: {

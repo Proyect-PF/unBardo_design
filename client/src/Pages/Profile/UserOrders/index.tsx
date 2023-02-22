@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Button from "../../../components/Buttons/Button/Button";
 import { baseURL, PORT } from "../../../utils/url&port";
 
@@ -30,7 +30,6 @@ const UserOrders = ({
   email,
 }: Props) => {
   const [userOrders, setUserOrders] = useState<Array<Order>>([]);
-
   useEffect(() => {
     axios.get(`${baseURL}:${PORT}/orders/users/${userId}`).then((response) => {
       setUserOrders(response.data);
@@ -56,6 +55,7 @@ const UserOrders = ({
       </div>
       {userOrders.map((e) => (
         <div
+        key={e.id}
           className="flex items-center justify-around bg-gray-100 duration-300 w-full py-2 text-center border-t cursor-pointer hover:bg-gray-200"
           onClick={() => {
             setDetailId(e.id);

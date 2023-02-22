@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "../../../components/Buttons/Button/Button";
@@ -20,6 +20,7 @@ const ListProducts = ({
   const { allProducts, productCount } = useSelector(
     (state: State) => state.admin
   );
+  const idKey = useId()
   const dispatch = useDispatch();
   const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
   const [search, setSearch] = useState("");
@@ -171,6 +172,7 @@ const ListProducts = ({
       {allProducts &&
         allProducts.map((e: any) => (
           <div
+          key={idKey}
             className="flex items-center justify-between w-full px-4 text-lg font-normal text-center border-t cursor-pointer"
             onClick={() => {
               setId(e.id);

@@ -27,7 +27,7 @@ const Favorites = () => {
     useEffect(() => {
         if(!success || !productList.length) navigate("/");
         getFavorites(userId);
-    }, [])
+    }, [productList.length, success, getFavorites, navigate,userId])
 
     const productsFavorites = productList.filter((product) => products_id.includes(product.id))
 
@@ -50,7 +50,9 @@ const Favorites = () => {
                                 id={Number(e.id)}
                                 promotion={e.promotion}
                                 promotional_price={e.promotional_price}
-                                />)}})
+                                />)}
+
+                            })
                     }
                 </div>:
                 <p className="font-poppins text-center text-2xl font-medium">No has agregado productos a tus favoritos</p>

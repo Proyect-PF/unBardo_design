@@ -332,7 +332,7 @@ export const POST_FeedbackPayment = async (
 ) => {
   try {
     const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-
+    console.log("EL FEEDBACK TRAE:",feedback)
     const payment_detail = await axios.get(
       `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
       {
@@ -342,7 +342,7 @@ export const POST_FeedbackPayment = async (
         },
       }
     );
-
+    console.log("EL STATUS A ACTUALIZAR ES: ",payment_detail.data.status)
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     await db.Orders.update(
       {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Swal from "sweetalert2";
@@ -13,6 +13,7 @@ type Props = {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
 const OrderDetails = ({ setSelected }: Props) => {
+  const idKey = useId()
   const { orderDetails } = useSelector((state: State) => state.admin);
   const dispatch = useDispatch();
   const { ADMfetch_order_id, ADMfetch_orders } = bindActionCreators(
@@ -81,7 +82,7 @@ const OrderDetails = ({ setSelected }: Props) => {
             <p className="text-2xl font-medium">Resumen:</p>
             {orderDetails.products &&
               orderDetails.products.map((e) => (
-                <div className="flex flex-col gap-3 mx-8">
+                <div key={idKey} className="flex flex-col gap-3 mx-8">
                   <label>{`Id: ${e.id_product}`}</label>
                   <label>{`Producto: ${e.title}`}</label>
                   <label>{`Cantidades:`}</label>

@@ -8,7 +8,6 @@ import {
   Tooltip,
   Legend,
   ChartOptions,
-  ChartEvent,
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";

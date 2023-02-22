@@ -112,7 +112,7 @@ export function BarChartFunnel() {
     | React.ChangeEvent<HTMLInputElement>) => {
     const values = target.value;
     const names = target.name;
-    if (names === "num" && Number(values) > 0)
+    if ((names === "num" && Number(values) > 0)|| names === "timeUnit")
       setDate({
         ...date,
         [names]: values,

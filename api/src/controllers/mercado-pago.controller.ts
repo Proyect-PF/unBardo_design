@@ -282,8 +282,8 @@ export const POST_GeneratePayment = async (
   let preference = {
     items: prodInfo,
     back_urls: {
-      success: 'http://localhost:3000/orders/feedback', //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
-      failure: 'http://localhost:3000/orders/feedback', //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+      success: `${process.env.URL_FRONT}/orders/feedback`, //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+      failure: `${process.env.URL_FRONT}/orders/feedback`, //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
       pending: '',
     },
     auto_return: 'approved',

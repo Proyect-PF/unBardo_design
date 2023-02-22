@@ -5,6 +5,8 @@ import { State } from "../../state/reducers";
 import { adminActions } from "../AdminRedux";
 import { LineChartProducts } from "../../components/Graphs/LineChartProducts";
 import { BarChartFunnel } from "../../components/Graphs/BarChartFunnel";
+import EmailList from "../Email";
+
 const InformationPanel = () => {
   const { allProducts, allOrders, allUsers } = useSelector(
     (state: State) => state.admin
@@ -23,11 +25,13 @@ const InformationPanel = () => {
   return (
     <div className="">
       {allProducts && allOrders && allUsers && (
-        <div className="m-12">
+        <div className="m-6">
           <div>
-            <p className="mt-8 text-2xl font-semibold">UnBardo Dashboard:</p>
-            <div className="flex flex-row justify-around w-full gap-12 my-8">
-              <div className="w-40">
+            <p className="mx-4 mt-12 text-2xl font-semibold">
+              UnBardo Dashboard:
+            </p>
+            <div className="flex flex-row justify-around mx-6 my-8">
+              <div className="p-8 shadow-xl w-60 shadow-slate-400">
                 <p className="text-lg font-medium">Productos sin Stock:</p>
                 <p className="text-2xl font-semibold">
                   {
@@ -38,17 +42,18 @@ const InformationPanel = () => {
                   }
                 </p>
               </div>
-              <div className="w-40">
+              <div className="p-8 shadow-xl w-60 shadow-slate-400">
                 <p className="text-lg font-medium">Ordenes por Despachar:</p>
                 <p className="text-2xl font-semibold">
                   {allOrders.filter((e: any) => e.dispatched !== true).length}
                 </p>
               </div>
 
-              <div className="w-20">
+              <div className="p-8 shadow-xl w-60 shadow-slate-400">
                 <p className="text-lg font-medium">Usuarios Activos:</p>
                 <p className="text-2xl font-semibold">{allUsers.length}</p>
               </div>
+              <EmailList />
             </div>
           </div>
           {/* <div className="flex flex-col gap-12 m-10">
@@ -74,10 +79,10 @@ const InformationPanel = () => {
           </div> */}
 
           <section className="flex flex-col justify-center gap-20 mt-20 2xl:flex-row">
-            <div className="self-center shadow-xl shadow-slate-400 w-800">
+            <div className="self-center shadow-xl md:self-start shadow-slate-400 w-800 h-800">
               <BarChartFunnel />
             </div>
-            <div className="self-center shadow-xl shadow-slate-400 w-800">
+            <div className="self-center shadow-xl shadow-slate-400 w-800 h-800">
               <LineChartProducts />
             </div>
           </section>

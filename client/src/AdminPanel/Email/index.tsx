@@ -6,6 +6,7 @@ import { CSVLink } from "react-csv";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../state/reducers";
+import download from "../../assets/svg/googleIcons/download.svg";
 
 const EmailList = () => {
   const [data, setData] = useState<any>([]);
@@ -23,23 +24,20 @@ const EmailList = () => {
   }, [data]);
 
   return (
-    <div className="flex flex-col gap-8 p-8 m-10 shadow-xl shadow-slate-400">
-      <p className="text-2xl font-semibold">Newsletter:</p>
-      <div className="flex flex-row gap-20 mx-8">
+    <div className="flex flex-col gap-8 p-8 shadow-xl shadow-slate-400">
+      <div className="flex flex-row gap-4">
         <div className="w-40">
-          <p className="text-lg font-medium ">Usuarios suscriptos:</p>
+          <p className="text-lg font-medium ">Suscripciones Newsletter:</p>
           <p className="text-2xl font-semibold">
             {allUsers.filter((e) => e.news_letter === true).length}
           </p>
         </div>
-        <div className="w-60">
-          <Button
-            text="Exportar usuarios"
-            name="exportUsers"
+        <div className="">
+          <img
+            src={download}
+            alt="exportUsers"
+            className="self-center cursor-pointer"
             onClick={handleExport}
-            disabled={false}
-            type="button"
-            className="justify center"
           />
           <CSVLink
             filename="Newsletter_User_List.csv"

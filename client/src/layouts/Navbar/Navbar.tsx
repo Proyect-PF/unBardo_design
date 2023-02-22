@@ -24,10 +24,12 @@ const Navbar = ({ handleChange, handleSearch, handleCheckout }: any) => {
       )}
 
       <div
-        className={location.pathname !== "/panel" ? "" : " absolute left-1/2"}
+        className={
+          location.pathname !== "/panel" ? "pl-16" : " absolute left-1/2"
+        }
       >
         <Link to="/">
-          <img src={logo} alt="Logo-UnBardo" className="h-7" />
+          <img src={logo} alt="Logo-UnBardo" className="h-7 " />
         </Link>
       </div>
       {location.pathname !== "/panel" && (

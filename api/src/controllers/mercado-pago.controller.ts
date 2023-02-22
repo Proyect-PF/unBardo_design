@@ -362,11 +362,10 @@ export const POST_FeedbackPayment = async (
         Number(feedback.external_reference)
       );
     }
-    // FALTA VERIFICAR
-    // await createPaymentSuccessStatistics(request.body.id, payment_detail.data.status);
 
+    // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
+    await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
 
-    
     return response.status(200).json({
       payment_id: feedback.payment_id,
       status: payment_detail.data.status,

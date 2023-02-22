@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../components/Buttons/Button/Button";
 import { baseURL, PORT } from "../../../utils/url&port";
 
@@ -34,7 +34,7 @@ const UserOrders = ({
     axios.get(`${baseURL}:${PORT}/orders/users/${userId}`).then((response) => {
       setUserOrders(response.data);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="text-lg font-semibold">

@@ -13,22 +13,22 @@ const Footer = () => {
       {location.pathname !== "/panel" && (
         <div className="flex flex-col items-start mt-14">
           <div className="flex flex-row justify-center w-full ">
-            <img src={logofooter} className="w-60 " />
+            <img src={logofooter} className="w-60 " alt="Logo segundario"/>
           </div>
           <div className="flex flex-col gap-4 m-5 mt-8 ">
             <p className="text-2xl font-bold">CONTACTO</p>
             <div className="flex flex-row gap-2 font-medium">
-              <img src={email} className="h-6" />
+              <img src={email} className="h-6" alt="mail"/>
               <p> unbardodesign@gmail.com</p>
             </div>
             <div className="flex flex-row gap-2 font-medium">
-              <img src={instagram} className="h-6" />
+              <img src={instagram} className="h-6" alt="instagram"/>
               <a href="https://www.instagram.com/unbardo.design/">
                 @unbardo.design
               </a>
             </div>
             <div className="flex flex-row gap-2 font-medium">
-              <img src={whatsapp} className="h-6" />
+              <img src={whatsapp} className="h-6" alt="Whatsapp"/>
               <a href="https://wa.me/5491136126072"> +54 9 11 3612-6072</a>
             </div>
           </div>

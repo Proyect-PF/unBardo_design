@@ -39,7 +39,7 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
     axios.get(`${baseURL}:${PORT}/orders/${detailId}`).then((response) => {
       setDetails(response.data);
     });
-  }, []);
+  }, [detailId]);
 
   return (
     <div>

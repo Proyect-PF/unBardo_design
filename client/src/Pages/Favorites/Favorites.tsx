@@ -49,6 +49,7 @@ const Favorites = () => {
                 />
               );
             }
+            return false
           })}
         </div>
       ) : (

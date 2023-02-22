@@ -23,7 +23,7 @@ const Product = ({
   return (
     <div className="relative flex-col w-56 gap-4 m-auto my-4">
       {promotion && (
-        <img src={discount} className="absolute z-10 h-8 right-2 top-2" />
+        <img src={discount} className="absolute z-10 h-8 right-2 top-2" alt="Promo"/>
       )}
       <Link to={`/product/${id}`}>
         {image2 && (

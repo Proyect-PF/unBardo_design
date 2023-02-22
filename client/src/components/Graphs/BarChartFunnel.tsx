@@ -114,28 +114,24 @@ export function BarChartFunnel() {
     | React.ChangeEvent<HTMLInputElement>) => {
     const values = target.value;
     const names = target.name;
-
-    setDate({
-      ...date,
-      [names]: values,
-    });
+    if (names === "num" && Number(values) > 0)
+      setDate({
+        ...date,
+        [names]: values,
+      });
   };
 
   return (
     <div>
       {analiticsFunnel.length > 0 && (
-        <div 
-         className="gap-4 p-8"
-        >
+        <div className="flex flex-col gap-6 p-8">
           <p className="text-2xl font-medium ">Trafico de usuarios:</p>
-          <div 
-           className="flex justify-center gap-8 pb-5 pt-5"
-          >
+          <div className="flex justify-center gap-8 pt-5 pb-5">
             <select
               value={date.timeUnit}
               name="timeUnit"
               onChange={handleChange}
-               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             >
               <option value="days" selected>
                 Diarios
@@ -148,18 +144,16 @@ export function BarChartFunnel() {
               type="number"
               name="num"
               onChange={handleChange}
-               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+              min={1}
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             />
           </div>
           <p className="text-sm font-medium text-slate-500">
             {labels[0]} - {labels[labels.length - 1]}
           </p>
-          <div 
-           className="self-center "
-          >
+          <div className="">
             <Bar options={options} data={data} />
           </div>
-
         </div>
       )}
     </div>

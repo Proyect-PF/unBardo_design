@@ -59,7 +59,7 @@ const CheckoutCard = ({
 
   return (
     <div className="flex justify-between gap-2 pr-6 m-4 maw w-4/5 md:mt-12">
-      <img src={imgF} className="w-20 sm:w-28" />
+      <img src={imgF} className="w-20 sm:w-28" alt="product"/>
       <div className="flex flex-col justify-around w-full pl-4">
         <div className="flex flex-col gap-1">
           <Link onClick={() => handleCheckout()} className="text-xxs font-bold sm:text-base" to={`/product/${id.split("-")[0]}`}>

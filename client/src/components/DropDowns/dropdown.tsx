@@ -86,6 +86,7 @@ const Dropdown = (): JSX.Element => {
         src={arrow}
         onClick={handleShow}
         className={`w-3 z-10 transition-all duration-300 ease-in-out ${show ? "rotate-90" : "-rotate-90"}`}
+        alt="open/close filters"
       />
     </div>
   );

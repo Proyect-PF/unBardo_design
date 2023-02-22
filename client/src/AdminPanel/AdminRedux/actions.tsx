@@ -11,7 +11,6 @@ import { AnaliticFunnel, AnaliticProducts } from "../../types/types";
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    console.log(baseURL)
     axios.get(`${baseURL}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data.data;
 

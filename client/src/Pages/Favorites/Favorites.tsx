@@ -21,7 +21,7 @@ const Favorites = () => {
     useEffect(() => {
         if(!success || !productList.length) navigate("/");
         getFavorites(userId);
-    }, [productList.length, success, getFavorites, navigate,userId])
+    }, [productList.length, success,userId])
   const productsFavorites = productList.filter((product) =>
     products_id.includes(product.id)
   );

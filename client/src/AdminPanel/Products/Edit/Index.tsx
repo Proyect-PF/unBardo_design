@@ -113,7 +113,7 @@ const Edit = ({ className }: Props): JSX.Element => {
         }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-8 p-8 m-10 border shadow-xl shadow-slate-400"
+            className="flex flex-col gap-8 p-8 m-10 border shadow-xl shadow-slate-400 rounded-2xl"
           >
             <p className="text-2xl ">{`Producto: ${productDetails.id}`}</p>
             <div className="flex flex-col gap-2">

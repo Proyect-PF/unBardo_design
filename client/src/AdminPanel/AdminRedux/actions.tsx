@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { PORT, baseURL } from "../../utils/url&port";
 import { AnaliticFunnel, AnaliticProducts } from "../../types/types";
 
+
+
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {

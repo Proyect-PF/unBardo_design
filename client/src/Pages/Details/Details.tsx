@@ -262,6 +262,7 @@ const Details = (): JSX.Element => {
                 src={isFavorite() ? heartF : heartUF}
                 onClick={handleFavorite}
                 className="h-6 mt-4 cursor-pointer"
+                alt="favorite"
               />
             </div>
           </div>
@@ -271,7 +272,7 @@ const Details = (): JSX.Element => {
               onClick={() => showDesc(desc ? false : true)}
             >
               <p className="text-lg font-medium ">DESCRIPCION</p>
-              <img src={desc ? minus : plus} className="h-6" />
+              <img src={desc ? minus : plus} className="h-6" alt="open/close"/>
             </div>
             <p
               className={` text-lg italic  ${desc ? "visible" : "hidden"}`}
@@ -281,7 +282,7 @@ const Details = (): JSX.Element => {
               onClick={() => showSChart(sChart ? false : true)}
             >
               <p className="text-lg font-medium ">TALLES</p>
-              <img src={sChart ? minus : plus} className="h-6" />
+              <img src={sChart ? minus : plus} className="h-6" alt="open/close"/>
             </div>
             <div
               className={`flex flex-col gap-2 ${sChart ? "visible" : "hidden"}`}

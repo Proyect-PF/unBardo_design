@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Swal from "sweetalert2";
@@ -81,7 +81,7 @@ const OrderDetails = ({ setSelected }: Props) => {
             <p className="text-2xl font-medium">Resumen:</p>
             {orderDetails.products &&
               orderDetails.products.map((e) => (
-                <div className="flex flex-col gap-3 mx-8">
+                <div key={e.id_product} className="flex flex-col gap-3 mx-8">
                   <label>{`Id: ${e.id_product}`}</label>
                   <label>{`Producto: ${e.title}`}</label>
                   <label>{`Cantidades:`}</label>

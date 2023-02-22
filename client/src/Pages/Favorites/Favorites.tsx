@@ -18,14 +18,14 @@ const Favorites = () => {
 
   const { products_id } = useSelector((state: State) => state.favorites);
 
-  useEffect(() => {
-    if (!success || !productList.length) navigate("/");
-    getFavorites(userId);
-  }, []);
-
+    useEffect(() => {
+        if(!success || !productList.length) navigate("/");
+        getFavorites(userId);
+    }, [productList.length, success, getFavorites, navigate,userId])
   const productsFavorites = productList.filter((product) =>
     products_id.includes(product.id)
   );
+
 
   return (
     <div>
@@ -49,6 +49,7 @@ const Favorites = () => {
                 />
               );
             }
+            return false
           })}
         </div>
       ) : (

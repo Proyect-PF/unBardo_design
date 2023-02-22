@@ -33,7 +33,6 @@ export function BarChartFunnel() {
   const dispatch = useDispatch();
   const { ADMfetch_chart_funnel } = bindActionCreators(adminActions, dispatch);
   const { analiticsFunnel } = useSelector((state: State) => state.admin);
-
   useEffect(() => {
     ADMfetch_chart_funnel(date.timeUnit, date.num);
   }, [date.timeUnit, date.num]);
@@ -53,9 +52,8 @@ export function BarChartFunnel() {
   });
 
   const labels = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
-    const time = new Date(productInfo.timeunit);
-    const timeShort = time.toString().split(":", 1);
-    return timeShort.concat("hs");
+    return  productInfo.timeunit.split("T", 1);
+
   });
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -133,7 +131,7 @@ export function BarChartFunnel() {
               onChange={handleChange}
               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             >
-              <option value="days" selected>
+              <option value="days">
                 Diarios
               </option>
               <option value="months">Mensuales</option>
@@ -149,7 +147,7 @@ export function BarChartFunnel() {
             />
           </div>
           <p className="text-sm font-medium text-slate-500">
-            {labels[0]} - {labels[labels.length - 1]}
+          De {labels[0]} al {labels[labels.length - 1]}
           </p>
           <div className="">
             <Bar options={options} data={data} />

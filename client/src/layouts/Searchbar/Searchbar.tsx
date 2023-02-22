@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router";
 import { bindActionCreators } from "redux";
 import comeBack from "../../assets/svg/come-back.svg";
 import searchIcon from "../../assets/svg/googleIcons/search.svg";
-import Dropdown from "../../components/DropDowns/dropdown";
 import { actionCreators } from "../../state";
 
 interface Props {
@@ -19,7 +18,6 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
   const { fetch_product_byname, clearFilter } = bindActionCreators(actionCreators, dispatch);
 
   const [input, setInput] = useState("");
-  const [showFilter, setShowFilters] = useState(false);
 
   let style: string;
   if (openClose) style = "right-full";
@@ -29,10 +27,6 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-  };
-
-  const handleShowFilters = () => {
-    showFilter ? setShowFilters(false) : setShowFilters(true);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -63,25 +57,8 @@ const Searchbar = ({ openClose, handleSearch }: Props) => {
           <button type="submit" disabled={input === ""}>
             <img src={searchIcon} alt="iconSea" className="h-12 px-5 sm:h-8" />
           </button>
-          {/*
-          <button
-            type="button"
-            onClick={handleShowFilters}
-            className={`px-5 ${!showFilter ? "-rotate-90" : "rotate-90"}`}
-          >
-            <img src={comeBack} alt="icono" className="h-5" />
-        </button>*/}
         </form>
       </div>
-
-      {/*<div
-        className={` flex justify-around ${
-          !showFilter ? " hidden" : "visible"
-        }`}
-      >
-        <Dropdown type="filter" />
-        <Dropdown type="order" />
-      </div>*/}
     </div>
   );
 };

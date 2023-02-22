@@ -68,9 +68,7 @@ export const LineChartProducts = () => {
   }
 
   const labels: string[][] = analiticsProducts.map((date: AnaliticProducts) => {
-    const time = new Date(date.timeUnit);
-    const timeShort = time.toString().split(":", 1);
-    return timeShort.concat(" hs");
+    return  date.timeUnit.split("T", 1);
   });
 
   //Configuracion del Chart Line
@@ -151,7 +149,7 @@ export const LineChartProducts = () => {
               name="timeUnit"
               onChange={handleChange}
             >
-              <option value="days" selected>
+              <option value="days">
                 Ultimos 7 Dias
               </option>
               <option value="weeks">Ultimas 4 Semanas</option>
@@ -165,7 +163,7 @@ export const LineChartProducts = () => {
               name="status"
               onChange={handleChange}
             >
-              <option value="approved" selected>
+              <option value="approved">
                 Aprobados
               </option>
               <option value="rejected">Cancelados</option>
@@ -173,7 +171,7 @@ export const LineChartProducts = () => {
             </select>
           </div>
           <p className="text-sm font-medium text-slate-500">
-            {labels[0]} - {labels[labels.length - 1]}
+          De {labels[0]} al {labels[labels.length - 1]}
           </p>
           <Line options={options} data={data} />
           <div className="self-center mt-8 w-80">

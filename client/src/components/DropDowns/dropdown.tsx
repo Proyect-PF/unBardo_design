@@ -74,7 +74,7 @@ const Dropdown = (): JSX.Element => {
       <div className={`flex flex-col justify-center gap-4 mx-4 mt-4 ${show? "": "hidden"}`} >
         <ButtonSmall 
         type="button"
-        text="Reset filters"
+        text="Limpiar"
         name="resetfilters"
         onClick={() => {
           clearFilter()

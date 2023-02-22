@@ -10,12 +10,17 @@ import { State } from "../../state/reducers";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { fetch_products, clear_product_detail, getFavorites, fetch_product_byname, fetch_filtered_products, pagination } =
-    bindActionCreators(actionCreators, dispatch);
+  const {
+    fetch_products,
+    clear_product_detail,
+    getFavorites,
+    fetch_product_byname,
+    fetch_filtered_products,
+    pagination,
+  } = bindActionCreators(actionCreators, dispatch);
   const [loading, setLoading] = useState(true);
-  const { productList, productTotal, activePromo, searchName, page, perPage } = useSelector(
-    (state: State) => state.products
-  );
+  const { productList, productTotal, activePromo, searchName, page, perPage } =
+    useSelector((state: State) => state.products);
   const { userId } = useSelector((state: State) => state.user);
 
   //AL: Set loading state true & getAllProducts actions when first entering the page, in case
@@ -62,11 +67,9 @@ const Home = () => {
           WELCOME TO THE JUNGLE
         </p>
         <Dropdown />
-        {
-          searchName !== ""?
-          <p className="text-center text-xl my-4 font-bold">{`Resultados de: "${searchName}"`}</p>:
-          null
-        }
+        {searchName !== "" ? (
+          <p className="my-4 text-xl font-bold text-center">{`Resultados de: "${searchName}"`}</p>
+        ) : null}
         <div>
           {productList.length > 0 ? (
             <div className="grid grid-cols-1 mx-auto w-fit md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 xl:grid-cols-4 2xl:grid-cols-6">
@@ -103,20 +106,18 @@ const Home = () => {
               />
             </div>
           )}
-          {
-            searchName !== ""?
+          {searchName !== "" ? (
             <Button
-                  className={"justify-center my-8"}
-                  type="button"
-                  text="Ver todos los productos"
-                  onClick={() => {
-                    fetch_product_byname("")
-                  }}
-                  name="volver"
-                  disabled={false}
-                />:
-                null
-          }
+              className={"justify-center my-8"}
+              type="button"
+              text="Ver todos los productos"
+              onClick={() => {
+                fetch_product_byname("");
+              }}
+              name="volver"
+              disabled={false}
+            />
+          ) : null}
         </div>
         <div className="flex justify-center">
           <div className="flex gap-4">
@@ -124,7 +125,7 @@ const Home = () => {
               <button
                 className="h-fit"
                 onClick={(e) => {
-                  pagination(e.currentTarget.id)
+                  pagination(e.currentTarget.id);
                 }}
                 id="-"
                 name="-"
@@ -133,7 +134,7 @@ const Home = () => {
               <button
                 className="h-fit"
                 onClick={(e) => {
-                  pagination(e.currentTarget.id)
+                  pagination(e.currentTarget.id);
                 }}
                 id="+"
                 name="+"
@@ -145,8 +146,8 @@ const Home = () => {
               name="perPage"
               value={perPage}
               onChange={(e) => {
-                const {name, value} = e.target
-                fetch_filtered_products({name, value})
+                const { name, value } = e.target;
+                fetch_filtered_products({ name, value });
               }}
             >
               <option value="10" selected>

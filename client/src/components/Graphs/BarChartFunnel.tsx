@@ -148,9 +148,8 @@ export function BarChartFunnel() {
               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             />
           </div>
-          <div className="self-center ">
-            <Bar options={options} data={data} />
-          </div>
+
+          <Bar options={options} data={data} />
         </div>
       )}
     </div>

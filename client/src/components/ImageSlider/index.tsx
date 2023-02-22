@@ -9,12 +9,11 @@ type Props = {
 
 const ImageSlider = ({ slides }: Props) => {
   const images = slides.filter((e) => e !== "");
-  const idKey = useId()
   return (
     <Carousel width={380}>
       {images &&
         images.map((e) => (
-          <div key={idKey}>
+          <div key={e}>
             <img src={e} alt={e}/>
           </div>
         ))}

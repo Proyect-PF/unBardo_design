@@ -14,7 +14,6 @@ type Props = {
 
 const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
   const { allOrders, ordersCount } = useSelector((state: State) => state.admin);
-  const idKey = useId()
 
   const dispatch = useDispatch();
   const { ADMfetch_orders } = bindActionCreators(adminActions, dispatch);
@@ -190,7 +189,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         {allOrders &&
           allOrders.map((e) => (
             <div
-            key={idKey}
+            key={e.id}
               className="flex items-center justify-between w-full px-4 py-2 text-base font-normal text-center border-t cursor-pointer"
               onClick={() => {
                 setId(e.id);

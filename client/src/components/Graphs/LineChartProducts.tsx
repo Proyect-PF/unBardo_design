@@ -149,7 +149,7 @@ export const LineChartProducts = () => {
               name="timeUnit"
               onChange={handleChange}
             >
-              <option value="days" selected>
+              <option value="days">
                 Ultimos 7 Dias
               </option>
               <option value="weeks">Ultimas 4 Semanas</option>
@@ -163,7 +163,7 @@ export const LineChartProducts = () => {
               name="status"
               onChange={handleChange}
             >
-              <option value="approved" selected>
+              <option value="approved">
                 Aprobados
               </option>
               <option value="rejected">Cancelados</option>

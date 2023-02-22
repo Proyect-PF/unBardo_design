@@ -40,6 +40,7 @@ app.use(helmet())
    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, x-access-token');
    res.header('Set-Cookie', 'G_AUTHUSER_H=; SameSite=None; Secure');
    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+   res.header('Set-Cookie', 'G_AUTHUSER_H=; SameSite=None; Secure');
    next();
  });
 

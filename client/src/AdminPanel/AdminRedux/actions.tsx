@@ -9,7 +9,7 @@ import { AnaliticFunnel, AnaliticProducts } from "../../types/types";
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
+    axios.get(`${baseURL}/products/?${query}`).then((res) => {
       const payload: Product[] = res.data.data;
 
       dispatch({
@@ -172,7 +172,7 @@ export const ADMfetch_chart_products_values = (
         //status => cart, approved, rejected
         //timeUnit =>
 
-        `${baseURL}:${PORT}/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
+        `${baseURL}/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
       )
       .then((res) => {
         const payload:AnaliticProducts[] = res.data;
@@ -189,7 +189,7 @@ export const ADMfetch_chart_funnel = (timeUnit: string, num?:string) => {
 // cart_to_approved, create_cart, mercadopago, user_login, user_registration, create_cart
     axios
       .get(
-        `${baseURL}:${PORT}/statistics/general-stats/?timeUnit=${timeUnit}&num=${num}`
+        `${baseURL}/statistics/general-stats/?timeUnit=${timeUnit}&num=${num}`
       )
       .then((res) => {
         const payload:AnaliticFunnel[] = res.data;

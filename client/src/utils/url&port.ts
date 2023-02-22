@@ -4,6 +4,6 @@
 
 // ADDED ON 22/02 DEPLOY
 export const PORT = process.env.PORT;
-export const base = "https://unbardodesignback.up.railway.app:7647";
+export const base = "https://unbardodesignback.up.railway.app";
 export const baseURL = process.env.NODE_ENV === "production" ? base : "http://localhost:3700";
 

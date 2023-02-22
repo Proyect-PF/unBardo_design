@@ -10,7 +10,7 @@ const db:any = {};
 
 let sequelize:any;
 
-sequelize = new Sequelize(config.database, config.username, config.password, config);
+sequelize = new Sequelize(config);
 // sequelize = new Sequelize(config.db_deploy)
 
 sequelize.authenticate()

@@ -173,7 +173,7 @@ const Details = (): JSX.Element => {
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,
-        confirmButtonColor: "#000",
+        confirmButtonColor: "#376B7E",
         cancelButtonColor: "#e5e7eb",
         cancelButtonText:
           "<p class='font-rift text-lg text-black'>Por ahora no</p>",
@@ -203,7 +203,9 @@ const Details = (): JSX.Element => {
           loading ? "hidden" : "visible"
         }`}
       >
-        <ImageSlider slides={images} />
+        <div className="flex justify-center">
+          <ImageSlider slides={images} />
+        </div>
         <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8 md:mx-20 md:h-fit">
           <div>
             <p className="my-4 text-3xl font-medium text-center md:text-left ">
@@ -260,6 +262,7 @@ const Details = (): JSX.Element => {
                 src={isFavorite() ? heartF : heartUF}
                 onClick={handleFavorite}
                 className="h-6 mt-4 cursor-pointer"
+                alt="favorite"
               />
             </div>
           </div>
@@ -269,7 +272,7 @@ const Details = (): JSX.Element => {
               onClick={() => showDesc(desc ? false : true)}
             >
               <p className="text-lg font-medium ">DESCRIPCION</p>
-              <img src={desc ? minus : plus} className="h-6" />
+              <img src={desc ? minus : plus} className="h-6" alt="open/close"/>
             </div>
             <p
               className={` text-lg italic  ${desc ? "visible" : "hidden"}`}
@@ -279,13 +282,13 @@ const Details = (): JSX.Element => {
               onClick={() => showSChart(sChart ? false : true)}
             >
               <p className="text-lg font-medium ">TALLES</p>
-              <img src={sChart ? minus : plus} className="h-6" />
+              <img src={sChart ? minus : plus} className="h-6" alt="open/close"/>
             </div>
             <div
               className={`flex flex-col gap-2 ${sChart ? "visible" : "hidden"}`}
             >
               <div>
-                <p>Talle 1:</p>
+                <p>Talle 1 (Ideal para mujeres):</p>
                 <div className="mx-20">
                   <div className="flex gap-4">
                     <p className="w-16">Ancho: </p>
@@ -302,7 +305,7 @@ const Details = (): JSX.Element => {
                 </div>
               </div>
               <div>
-                <p>Talle 2:</p>
+                <p>Talle 2 (Ideal para hombres):</p>
                 <div className="mx-20">
                   <div className="flex gap-4">
                     <p className="w-16">Ancho: </p>

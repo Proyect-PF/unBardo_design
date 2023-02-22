@@ -4,15 +4,21 @@ import { Product } from "../../state/types";
 import { AdminAction, AdminActionType } from "./types-interfaces";
 import Swal from "sweetalert2";
 import { PORT, baseURL } from "../../utils/url&port";
+import { AnaliticFunnel, AnaliticProducts } from "../../types/types";
 
 //Product actions
 export const ADMfetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<AdminAction>) => {
-    axios.get(`${baseURL}/products/?${query}`).then((res) => {
-      const payload: Product[] = res.data;
+    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
+      const payload: Product[] = res.data.data;
+
       dispatch({
         type: AdminActionType.GET_ALL_PRODUCTS,
         payload: payload,
+      });
+      dispatch({
+        type: AdminActionType.GET_PRODUCT_COUNT,
+        payload: res.data.count,
       });
     });
   };
@@ -155,20 +161,21 @@ export const ADMfetch_users_id = (id: number | undefined) => {
 //   numberSales?:number //Numero de ventas, se maneja en el back la info que me trae.
 // }
 
-export const ADMfetch_chart_products_values = (timeUnit: string, status:string, num?:number) => {
-  console.log(status)
+export const ADMfetch_chart_products_values = (
+  timeUnit: string,
+  status: string,
+  num?: number
+) => {
   return (dispatch: Dispatch<AdminAction>) => {
-
     axios
       .get(
         //status => cart, approved, rejected
-        //timeUnit => 
+        //timeUnit =>
 
-        `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
+        `${baseURL}:${PORT}/statistics/product-sales/?timeUnit=${timeUnit}&&status=${status}&&num=${num}`
       )
       .then((res) => {
-        const payload = res.data;
-        console.log(payload)
+        const payload:AnaliticProducts[] = res.data;
         dispatch({
           type: AdminActionType.GET_ANALITICS_PRODUCTS,
           payload,
@@ -177,22 +184,23 @@ export const ADMfetch_chart_products_values = (timeUnit: string, status:string, 
   };
 };
 
-// export const ADMfetch_chart_funnel_values = (timeUnit: string) => {
-//   return (dispatch: Dispatch<AdminAction>) => {
-//     axios
-//       .get(
-//         `http://localhost:3700/statistics/product-sales/?timeUnit=${timeUnit}&&status=approved`
-//       )
-//       .then((res) => {
-//         const payload = res.data;
+export const ADMfetch_chart_funnel = (timeUnit: string, num?:string) => {
+  return (dispatch: Dispatch<AdminAction>) => {
+// cart_to_approved, create_cart, mercadopago, user_login, user_registration, create_cart
+    axios
+      .get(
+        `${baseURL}:${PORT}/statistics/general-stats/?timeUnit=${timeUnit}&num=${num}`
+      )
+      .then((res) => {
+        const payload:AnaliticFunnel[] = res.data;
+        dispatch({
+          type: AdminActionType.GET_ANALITICS_FUNNEL,
+          payload,
+        });
+      });
+   };
+};
 
-//         dispatch({
-//           type: AdminActionType.GET_ANALITICS,
-//           payload,
-//         });
-//       });
-//   };
-// };
 
 export const ADMupdate_pricing = (
   minus100: number,

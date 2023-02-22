@@ -83,7 +83,7 @@ export const POST_NewProduct = async (req: Request, res: Response) => {
 
         const createdImages = [];
         for (const key in images) {
-            if (key.startsWith("image")) {
+            if (key.startsWith("image") && (images[key] !== "")) {
                 const imgUrl = images[key];
                 const uploadRes = await cloudinary.uploader.upload(imgUrl, {
                     upload_preset: 'unbardo'
@@ -231,6 +231,10 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
             options.offset = (Number(page) - 1) * Number(perPage);
             options.limit = perPage;
         }
+
+        // Consulta la cantidad de productos según los filtros aplicados
+        const count = await db.Product.count({where: options.where});
+
         // Tomamos la cantidad de la consulta para enviar el paginado al front
         const total = await db.Product.count({where: options.where});
         let products = await db.Product.findAll(options);
@@ -241,7 +245,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
                     productId: product.id,
                 },
             });
-             // Verificar si el objeto images tiene los datos esperados
+            // Verificar si el objeto images tiene los datos esperados
             const imageUrls = images.reduce((obj: any, image: any, i: any) => {
                 if (i === 0) {
                     obj[`image`] = image.imgUrl;
@@ -262,8 +266,19 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
         // Añadimos la info para el paginado al header del response
         response.set("X-Total-Count", total);
         response.set("Access-Control-Expose-Headers", "X-Total-Count");
+        // const hasPromo = productsWithImages.some((product) => product.promotion);
+        const hasPromo = await db.Product.findAll({
+            where: {
+                promotion: true,
+            },
+        });
 
-        return response.status(200).json(productsWithImages);
+        return response.status(200).json({
+            promo: hasPromo.length > 0,
+            count: count,
+            data: productsWithImages
+        });
+
     } catch (error: any) {
         return response.status(500).json({error: error.message});
     }
@@ -271,7 +286,7 @@ export const GET_AllProducts = async (request: Request, response: Response) => {
 
 
 export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
-    const { id, promotional_price, promotion, ...images } = req.body;
+    const {id, promotional_price, promotion, ...images} = req.body;
 
     try {
         if (!id) {
@@ -303,7 +318,7 @@ export const UPDATE_UpdateProduct = async (req: Request, res: Response) => {
             throw new Error(`No product updated with id ${id}`);
         }
 
-        const imagesToUpdate = await db.Image.findAll({ where: { productId: id }, order: [["id", "ASC"]] });
+        const imagesToUpdate = await db.Image.findAll({where: {productId: id}, order: [["id", "ASC"]]});
 
         for (const key in images) {
             if (key === "image") {

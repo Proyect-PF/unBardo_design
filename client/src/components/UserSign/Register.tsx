@@ -38,7 +38,7 @@ export const Register = (): JSX.Element => {
     const registerLogin = () => {
       userLogin(
         {
-          email: values.email,
+          email: values.email.toLowerCase(),
           password: values.password,
         },
         navigate
@@ -57,7 +57,7 @@ export const Register = (): JSX.Element => {
     const registerLogin = () => {
       userLogin(
         {
-          email: newuserGoogle.email,
+          email: newuserGoogle.email.toLowerCase(),
           password: newuserGoogle.password,
           google_id: res.googleId,
         },

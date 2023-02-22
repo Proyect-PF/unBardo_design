@@ -6,6 +6,7 @@ import {
     GET_ShipmentPrices,
     GET_Distance
 } from "../controllers/shipment.controller";
+import { verifyTokenIsAdmin } from "../helpers/verifyTokenIsAdmin";
 
 //Ruta para actualizar costos de envios
 shipmentsRoutes.put("/", UPDATE_ShipmentPrices);

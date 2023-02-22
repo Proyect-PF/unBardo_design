@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { getItem } from "../../../utils/localStorage";
 
 interface Props {

@@ -36,21 +36,11 @@ fs
     
   });
 
-// Esto es para hacer el associate de los modelos que lo necesiten
-// Opcion 1
 
-// Object.keys(db).forEach(modelName => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
-
-// Opcion 2
 // Esto permitiría imprimir el nombre del modelo al que está asociado y el tipo de asociación (por ejemplo, "belongsTo", "hasMany", etc.).
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
-    //console.log("MODELO",db[modelName].associations);
     for (const association in db[modelName].associations) {
       console.log(` MODELO: ${association} : ASOCIACION ${db[modelName].associations[association].associationType}`);
     }

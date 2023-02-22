@@ -1,6 +1,6 @@
-import { ActionType } from '../action-types';
-import { AddProductPayload, Checkout, Orders, Product, User } from '../types';
-import { Favorites, OrderDetails, SetFavoritePayload } from '../../types/types';
+import { ActionType } from "../action-types";
+import { AddProductPayload, Checkout, FilterProductPayload, Orders, Product, User } from "../types";
+import { Favorites, OrderDetails, SetFavoritePayload } from "../../types/types";
 
 //AL: IMPORTANT!!!!
 // all actions needs an interface, also be added to the Action type.
@@ -26,7 +26,7 @@ interface GetProductDetails {
 
 interface SearchProducts {
   type: ActionType.SEARCH_PRODUCTS;
-  payload: Product[];
+  payload: string;
 }
 
 interface SortProducts {
@@ -36,11 +36,29 @@ interface SortProducts {
 
 interface FilterProducts {
   type: ActionType.FILTER_PRODUCTS;
-  payload: Product[];
+  payload: FilterProductPayload;
+}
+
+interface ClearFilter {
+  type: ActionType.CLEAR_FILTER;
+}
+
+interface Pagination {
+  type: ActionType.PAGINATION_SET;
+  payload: string;
 }
 
 interface ClearProductDetails {
   type: ActionType.CLEAR_PRODUCT_DETAILS;
+}
+
+interface GetProductCount {
+  type: ActionType.GET_PRODUCT_COUNT;
+  payload: number;
+}
+interface GetProductPromo {
+  type: ActionType.GET_PRODUCT_PROMO;
+  payload: boolean;
 }
 
 //AL: once you created the needed interface add it here with |
@@ -52,7 +70,11 @@ export type ActionProducts =
   | SearchProducts
   | SortProducts
   | FilterProducts
-  | ClearProductDetails;
+  | ClearProductDetails
+  | GetProductPromo
+  | GetProductCount
+  | Pagination
+  | ClearFilter;
 
 interface UserLogin {
   type: ActionType.USER_LOGIN;
@@ -147,9 +169,9 @@ interface LogOutFavorite {
   type: ActionType.LOG_OUT_FAVORITES;
 }
 
-export type ActionFavorites = 
+export type ActionFavorites =
   | GetFavorites
   | SetFavorites
   | DeleteFavorite
   | DeleteAllFavorite
-  | LogOutFavorite
+  | LogOutFavorite;

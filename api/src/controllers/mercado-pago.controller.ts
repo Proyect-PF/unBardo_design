@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import { Express, Request, Response } from 'express';
 import { Op } from 'sequelize';
 import db from '../database/database';
-import {createMercadoPagoStatistics} from "./statistic/create-mercado-pago-statistics";
-import {createPaymentSuccessStatistics} from "./statistic/create-mercado-pago-success-statistics";
+import { createMercadoPagoStatistics } from './statistic/create-mercado-pago-statistics';
+import { createPaymentSuccessStatistics } from './statistic/create-mercado-pago-success-statistics';
 import OrderProduct from '../database/models/order-product.model';
 import Product from '../database/models/product.model';
 import cloudinary from '../utils/cloudinary';
@@ -29,6 +29,7 @@ interface RequestBody {
   street_number: number; //direccion
   id_user: number; //id de usuario
   id_order: number; //id de la orden
+  shipmentCost: number;
 }
 
 interface RequestQuery {}
@@ -54,7 +55,6 @@ const GET_OrderLast = async (id_user: number) => {
       },
       order: [['id', 'DESC']],
     });
-    //console.log(lastOrder);
     return lastOrder;
   } catch (error: any) {
     throw new Error(error.message);
@@ -87,28 +87,27 @@ const GET_OrderDescription = async (id_order: number) => {
       where: { id_order },
     });
 
-
-        for (const element of orderUser) {
-            const prod = await db.Product.findOne({
-                where: {id: element.id_product}
-            });
-            let quantity: number = 0;
-            for (const key in element.sizes) {
-                if (element.sizes[key]) {
-                    quantity = quantity + element.sizes[key];
-                }
-            }
-            const product = {
-                id: element.id_product,
-                currency_id: "ARS",
-                description: prod.description,
-                title: prod.name,
-                quantity: quantity,
-                unit_price: prod.promotion === true? prod.promotional_price: prod.price
-            }
-            items.push(product);
-
-        } 
+    for (const element of orderUser) {
+      const prod = await db.Product.findOne({
+        where: { id: element.id_product },
+      });
+      let quantity: number = 0;
+      for (const key in element.sizes) {
+        if (element.sizes[key]) {
+          quantity = quantity + element.sizes[key];
+        }
+      }
+      const product = {
+        id: element.id_product,
+        currency_id: 'ARS',
+        description: prod.description,
+        title: prod.name,
+        quantity: quantity,
+        unit_price:
+          prod.promotion === true ? prod.promotional_price : prod.price,
+      };
+      items.push(product);
+    }
     return items;
   } catch (error: any) {
     throw new Error(error.message);
@@ -185,71 +184,69 @@ const UPDATE_ProductSizeXL = async (id: number, XL: number) => {
 
 //Update el stock de todos los talles segun ID de orden
 const UPDATE_QuantitySizes = async (id_order: number) => {
-
-    try {
-        //Se obtiene el detalle de los productos de la orden
-        const orderProd = await db.OrderProducts.findAll({
-            where: {id_order},
-        });
-        //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle fue vendido, se le descuenta al stock la cantidad
-        for (const element of orderProd) {
-            const prod = await db.Product.findOne({
-                where: {id: element.id_product}
-            });
-            if(element.sizes.S) {
-                const S:number = prod.S - element.sizes.S;
-                await UPDATE_ProductSizeS(element.id_product, S)      
-            }
-            if(element.sizes.M) {
-                const M:number = prod.M - element.sizes.M;
-                await UPDATE_ProductSizeM(element.id_product, M)      
-            }
-            if(element.sizes.L) {
-                const L:number = prod.L - element.sizes.L;
-                await UPDATE_ProductSizeL(element.id_product, L)          
-            }
-            if(element.sizes.XL) {
-                const XL:number = prod.XL - element.sizes.XL;
-                await UPDATE_ProductSizeXL(element.id_product, XL)            
-            }
-        }
-        return orderProd;
-    } catch (error: any) {
-        throw new Error(error.message);
-
+  try {
+    //Se obtiene el detalle de los productos de la orden
+    const orderProd = await db.OrderProducts.findAll({
+      where: { id_order },
+    });
+    //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle fue vendido, se le descuenta al stock la cantidad
+    for (const element of orderProd) {
+      const prod = await db.Product.findOne({
+        where: { id: element.id_product },
+      });
+      if (element.sizes.S) {
+        const S: number = prod.S - element.sizes.S;
+        await UPDATE_ProductSizeS(element.id_product, S);
+      }
+      if (element.sizes.M) {
+        const M: number = prod.M - element.sizes.M;
+        await UPDATE_ProductSizeM(element.id_product, M);
+      }
+      if (element.sizes.L) {
+        const L: number = prod.L - element.sizes.L;
+        await UPDATE_ProductSizeL(element.id_product, L);
+      }
+      if (element.sizes.XL) {
+        const XL: number = prod.XL - element.sizes.XL;
+        await UPDATE_ProductSizeXL(element.id_product, XL);
+      }
     }
+    return orderProd;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
 };
 
 //Verifica si hay stock disponible antes de realizar el pago
 const Verify_QuantitySizes = async (id_order: number) => {
-    try {
-        //Se obtiene el detalle de los productos de la orden
-        const orderProd = await db.OrderProducts.findAll({
-            where: {id_order},
-        });
-        //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle tiene menor stock retorna false
-        for (const element of orderProd) {
-            const prod = await db.Product.findOne({
-                where: {id: element.id_product}
-            });
-            if(element.sizes.S) {
-                if (prod.S < element.sizes.S) return false
-            }
-            if(element.sizes.M) {
-                if (prod.M < element.sizes.M) return false 
-            }
-            if(element.sizes.L) {
-                if (prod.L < element.sizes.L) return false 
-            }
-            if(element.sizes.XL) {
-                if (prod.XL < element.sizes.XL) return false 
-            }
-        }
-        return true;
-    } catch (error: any) {
-        throw new Error(error.message);
+  try {
+    //Se obtiene el detalle de los productos de la orden
+    const orderProd = await db.OrderProducts.findAll({
+      where: { id_order },
+    });
+    //TODO: Se recorre todos los talles de cada producto de esa orden, y en el producto correspondiente, si ese talle tiene menor stock retorna false
+    for (const element of orderProd) {
+      const prod = await db.Product.findOne({
+        where: { id: element.id_product },
+      });
+      if (element.sizes.S) {
+        if (prod.S < element.sizes.S) return false;
+      }
+      if (element.sizes.M) {
+        if (prod.M < element.sizes.M) return false;
+      }
+      if (element.sizes.L) {
+        if (prod.L < element.sizes.L) return false;
+      }
+      if (element.sizes.XL) {
+        if (prod.XL < element.sizes.XL) return false;
+      }
     }
-}
+    return true;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
 
 //ruta POST MERCADOPAGO
 export const POST_GeneratePayment = async (
@@ -268,52 +265,57 @@ export const POST_GeneratePayment = async (
   //Obtiene la informacion del usuario relacionada a la orden de compra
   const userInfo = await GET_OrderUser(last.id); //userInfo.users.fullname; userInfo.users.email
 
+  //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
+  const prodInfo = await GET_OrderDescription(last.id);
 
-    //Obtiene la informacion de cada producto de la orden como un array de objetos, donde cada objeto tiene id (del rpoducto), currency_id: "ARS", description, title, quantity, unit_price
-    const prodInfo = await GET_OrderDescription(last.id);
-    
-    //Verifica si hay stock disponible de los productos, en caso contrario no se puede continuar con la compra
-    const stockAvailable = await Verify_QuantitySizes(last.id);
-    if (stockAvailable === false) return response.status(400).json('EXISTE ALGUN PRODUCTO SIN STOCK NECESARIO')
+  //Verifica si hay stock disponible de los productos, en caso contrario no se puede continuar con la compra
+  const stockAvailable = await Verify_QuantitySizes(last.id);
+  if (stockAvailable === false)
+    return response
+      .status(400)
+      .json('EXISTE ALGUN PRODUCTO SIN STOCK NECESARIO');
 
-    //TODO: items => información relacionada al producto
-    //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
-    //TODO: binary_mode => al estar en true no adopta la ruta "pending"
-    //TODO: payer => información del comprador
-    let preference = {
-        items: prodInfo,
-        back_urls: {
-            "success": "http://localhost:3000/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
-            "failure": "http://localhost:3000/orders/feedback", //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
-            "pending": ""
-        },
-        auto_return: "approved",
-        binary_mode: true,
-        external_reference: external_reference,
-        payer: {
-            phone: {
-                area_code: prod.area_code.toString(),
-                number: prod.number
-            },
-            address: {
-                zip_code: prod.zip_code.toString(),
-                street_name: prod.street_name,
-                street_number: prod.street_number
-            },
-            email: userInfo.users.email,
-            name: userInfo.users.fullname,
-            surname: '',
-        },
-    }
-
+  //TODO: items => información relacionada al producto
+  //TODO: back_urls => rutas a las que direcciona de acuerdo al estado del pago
+  //TODO: binary_mode => al estar en true no adopta la ruta "pending"
+  //TODO: payer => información del comprador
+  let preference = {
+    items: prodInfo,
+    back_urls: {
+      success: 'http://localhost:3000/orders/feedback', //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+      failure: 'http://localhost:3000/orders/feedback', //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+      pending: '',
+    },
+    auto_return: 'approved',
+    binary_mode: true,
+    external_reference: external_reference,
+    payer: {
+      phone: {
+        area_code: prod.area_code.toString(),
+        number: prod.number,
+      },
+      address: {
+        zip_code: prod.zip_code.toString(),
+        street_name: prod.street_name,
+        street_number: prod.street_number,
+      },
+      email: userInfo.users.email,
+      name: userInfo.users.fullname,
+      surname: '',
+    },
+    shipments: {
+      cost: Number(prod.shipmentCost),
+      mode: 'not_specified',
+    },
+  };
 
   //TODO: se crea el proceso de pago
   mercadopago.preferences
     .create(preference)
     .then(function (res: any) {
-        createMercadoPagoStatistics(prod.id_user, last.id);
+      createMercadoPagoStatistics(prod.id_user, last.id);
 
-        return response.status(201).json({
+      return response.status(201).json({
         //id: res.body.id
         res,
       });
@@ -325,55 +327,60 @@ export const POST_GeneratePayment = async (
 
 //ruta de respuesta de mercadopago cuando el pago se realiza exitosamente y cuando falla
 export const POST_FeedbackPayment = async (
-    request: Request,
-    response: Response
+  request: Request,
+  response: Response
 ) => {
-    try {
-        const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-        
-        const payment_detail = await axios.get(`https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
-        {
-            headers: {
-                "Content-types": "application/json",
-                Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`
-            },
-        });
+  try {
+    const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
 
-        //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-        await db.Orders.update({
-            //status: feedback.status,
-            status: payment_detail.data.status,
-            payment_id: Number(feedback.payment_id),
-        },{
-            where: {
-                id: feedback.external_reference
-            }
-        })
-       
-        if (payment_detail.data.status === 'approved') {
-            var orderAproved = await UPDATE_QuantitySizes(Number(feedback.external_reference))
-        }
-        // FALTA VERIFICAR
-        // await createPaymentSuccessStatistics(request.body.id, payment_detail.data.status);
+    const payment_detail = await axios.get(
+      `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+      {
+        headers: {
+          'Content-types': 'application/json',
+          Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
+        },
+      }
+    );
 
-        // console.log(feedback.external_reference);
-        // console.log(payment_detail.data.status);
-        // console.log(feedback.payment_id);
-        
-        return response.status(200).json({
-            payment_id: feedback.payment_id,
-            status: payment_detail.data.status,
-            external_reference: feedback.external_reference,
-            items: payment_detail.data.additional_info.items,
-            payment_method: payment_detail.data.payment_method_id,
-            payment_type: payment_detail.data.payment_type_id,
-            total_amount: payment_detail.data.transaction_amount,
-            cuotes: payment_detail.data.installments,
-            total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
-            date_last_updated: payment_detail.data.date_last_updated,
-            date_approved: payment_detail.data.date_approved,
-        });
-    } catch (error: any) {
-        return response.status(400).json({message: error.message});
+    //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
+    await db.Orders.update(
+      {
+        //status: feedback.status,
+        status: payment_detail.data.status,
+        payment_id: Number(feedback.payment_id),
+      },
+      {
+        where: {
+          id: feedback.external_reference,
+        },
+      }
+    );
+
+    if (payment_detail.data.status === 'approved') {
+      var orderAproved = await UPDATE_QuantitySizes(
+        Number(feedback.external_reference)
+      );
+    }
+
+    // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
+    await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
+
+    return response.status(200).json({
+      payment_id: feedback.payment_id,
+      status: payment_detail.data.status,
+      external_reference: feedback.external_reference,
+      items: payment_detail.data.additional_info.items,
+      payment_method: payment_detail.data.payment_method_id,
+      payment_type: payment_detail.data.payment_type_id,
+      total_amount: payment_detail.data.transaction_amount,
+      cuotes: payment_detail.data.installments,
+      shipping_amount: payment_detail.data.shipping_amount,
+      total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+      date_last_updated: payment_detail.data.date_last_updated,
+      date_approved: payment_detail.data.date_approved,
+    });
+  } catch (error: any) {
+    return response.status(400).json({ message: error.message });
   }
 };

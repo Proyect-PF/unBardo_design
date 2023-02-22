@@ -96,10 +96,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
       "Nuestros talles son unisex con las siguientes medidas:"
     );
     const botMessage2 = createChatBotMessage(
-      "Talle 1: Ancho 56cm, Largo 70cm, Manga 24cm"
+      "Talle 1: Ancho 56cm, Largo 70cm, Manga 24cm (Ideal para mujeres)"
     );
     const botMessage3 = createChatBotMessage(
-      "Talle 2: Ancho 60cm, Largo 74cm, Manga 26cm"
+      "Talle 2: Ancho 60cm, Largo 74cm, Manga 26cm (Ideal para hombres)"
     );
     setState((prev: any) => ({
       ...prev,
@@ -156,6 +156,14 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
     }));
   };
 
+  const handleEaster = () => {
+    const botMessage = createChatBotMessage("Esta en la plaia.");
+    setState((prev: any) => ({
+      ...prev,
+      messages: [...prev.messages, botMessage],
+    }));
+  };
+
   return (
     <div>
       {React.Children.map(children, (child) => {
@@ -174,6 +182,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
             handleShipping,
             handleReturns,
             handleTakeAway,
+            handleEaster,
           },
         });
       })}

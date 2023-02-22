@@ -124,7 +124,7 @@ const Checkout = ({ openClose, handleCheckout }: Props): JSX.Element => {
           </div>
           <Element
             name="test7"
-            className="element scroll-hidden"
+            className="element w-full scroll-hidden"
             id="containerElement"
             style={{
               position: "relative",

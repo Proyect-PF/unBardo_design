@@ -70,6 +70,8 @@ const MessageParser = ({ children, actions }: any) => {
       message.includes("sucursal")
     ) {
       actions.handleTakeAway();
+    } else if (message.includes("elena")) {
+      actions.handleEaster();
     } else {
       actions.handleHelp();
     }

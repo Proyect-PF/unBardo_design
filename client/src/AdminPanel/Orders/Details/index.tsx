@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Swal from "sweetalert2";
@@ -39,7 +39,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         className="justify-end pr-12"
       />
       {orderDetails && (
-        <div className="flex flex-col gap-10 mx-12">
+        <div className="flex flex-col gap-10 p-8 m-10 mx-12 border shadow-xl shadow-slate-400">
           <div className="flex gap-4 text-2xl font-medium">
             <p>{`Orden numero: ${orderDetails.id}`}</p>
             <p></p>
@@ -65,21 +65,23 @@ const OrderDetails = ({ setSelected }: Props) => {
               <p className="text-xl">{`Despachado: ${
                 orderDetails.dispatched ? "Si" : "No"
               }`}</p>
+              <p className="text-xl">{`Track Id: ${orderDetails.track_id}`}</p>
               <p className="text-xl">{`Fecha de aprobacion: ${
                 orderDetails.date_approved &&
                 new Date(orderDetails.date_approved)
               }`}</p>
-              <p className="text-xl">{`Total: ${orderDetails.total_amount}`}</p>
+              <p className="text-xl">{`Total: $ ${orderDetails.total_amount}`}</p>
+              <p className="text-xl">{`Costo envio: $ ${orderDetails.shipping_amount}`}</p>
               <p className="text-xl">{`Metodo:  ${orderDetails.payment_type} - ${orderDetails.payment_method}`}</p>
               <p className="text-xl">{`Cuotas: ${orderDetails.cuotes}`}</p>
-              <p className="text-xl">{`Total Pagado: ${orderDetails.total_paid_amount}`}</p>
+              <p className="text-xl">{`Total Pagado: $ ${orderDetails.total_paid_amount}`}</p>
             </div>
           </div>
           <div className="flex flex-col gap-4 text-xl">
             <p className="text-2xl font-medium">Resumen:</p>
             {orderDetails.products &&
               orderDetails.products.map((e) => (
-                <div className="flex flex-col gap-3 mx-8">
+                <div key={e.id_product} className="flex flex-col gap-3 mx-8">
                   <label>{`Id: ${e.id_product}`}</label>
                   <label>{`Producto: ${e.title}`}</label>
                   <label>{`Cantidades:`}</label>
@@ -106,7 +108,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         />
         <Button
           text="Marcar como Despachado"
-          name="deleteProd"
+          name="dispatchOrder"
           onClick={() => {
             Swal.fire({
               title:

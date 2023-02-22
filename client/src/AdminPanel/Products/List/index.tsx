@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
 import Button from "../../../components/Buttons/Button/Button";
@@ -17,7 +17,9 @@ const ListProducts = ({
   setSelected,
   setId,
 }: Props): JSX.Element => {
-  const { allProducts } = useSelector((state: State) => state.admin);
+  const { allProducts, productCount } = useSelector(
+    (state: State) => state.admin
+  );
   const dispatch = useDispatch();
   const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
   const [search, setSearch] = useState("");
@@ -44,14 +46,14 @@ const ListProducts = ({
       setQuery({ ...query, page: query.page - 1 });
     if (
       button.id === "+" &&
-      Math.ceil(allProducts.length / query.perPage) >= query.page
+      Math.ceil(productCount / query.perPage) > query.page
     )
       setQuery({ ...query, page: query.page + 1 });
   };
 
   useEffect(() => {
     ADMfetch_products(
-      `name=${query.name}&filter=${query.byShowInShop}&filter2=${query.byStock}`
+      `name=${query.name}&filter=${query.byShowInShop}&filter2=${query.byStock}&page=${query.page}&perPage=${query.perPage}`
     );
   }, [query]);
 
@@ -66,7 +68,7 @@ const ListProducts = ({
 
   return (
     <div className={`${className} relative`}>
-      <div className="flex flex-row justify-between mx-8">
+      <div className="flex flex-col justify-center mx-8 mb-2">
         <form onSubmit={handleSubmit} className="w-full">
           <div className="flex flex-row justify-around">
             <Input
@@ -127,7 +129,7 @@ const ListProducts = ({
             />
           </div>
         </form>
-        {/* <div className="flex justify-center gap-4 mx-4 mt-8">
+        <div className="flex justify-center gap-4 mx-4 mt-4">
           <div className="flex flex-row gap-2">
             <button
               className="h-fit"
@@ -153,11 +155,10 @@ const ListProducts = ({
             <option value="10" selected>
               10
             </option>
-            <option value="2">2</option>
             <option value="15">15</option>
             <option value="20">20</option>
           </select>
-        </div> */}
+        </div>
       </div>
       <div className="flex items-center justify-between w-full px-4 text-center border-t">
         <p className="w-12 border-r border-black">Id</p>
@@ -170,6 +171,7 @@ const ListProducts = ({
       {allProducts &&
         allProducts.map((e: any) => (
           <div
+          key={`${e.id}`}
             className="flex items-center justify-between w-full px-4 text-lg font-normal text-center border-t cursor-pointer"
             onClick={() => {
               setId(e.id);

@@ -58,45 +58,42 @@ export const LineChartProducts = () => {
   }, [infoBack.timeUnit, infoBack.status, infoBack.num]);
 
   //Manejo de la data que traemos del back >>>>>>>>>>>>>>>>>>>><
-  const arrData: number[] = analiticsProducts.map(
+  const arrData: number[] = analiticsProducts?.map(
     (date: AnaliticProducts) => date.totalProductsSold
   );
 
+  let sum: number = 0;
+  for (let i = 0; i < analiticsProducts.length; i++) {
+    sum = Number(analiticsProducts[i].totalProductsSold) + sum;
+  }
+
   const labels: string[][] = analiticsProducts.map((date: AnaliticProducts) => {
-    const time = new Date(date.timeUnit);
-    const timeShort = time.toString().split(":", 1);
-    return timeShort.concat(" hs");
+    return  date.timeUnit.split("T", 1);
   });
-
-
-
-  //
 
   //Configuracion del Chart Line
   const options: ChartOptions = {
     responsive: true,
     plugins: {
-
       legend: {
         position: "top",
-
       },
       title: {
         display: true,
         text:
-        //Estado de carrito en approved
+          //Estado de carrito en approved
           infoBack.status === "approved"
             ? infoBack.timeUnit === "days"
-              ? "Productos venidos en los ultimos 7 Dias"
+              ? "Productos vendidos en los ultimos 7 Dias"
               : infoBack.timeUnit === "weeks"
-              ? "Productos venidos en las ultimas 4 Semanas"
+              ? "Productos vendidos en las ultimas 4 Semanas"
               : infoBack.timeUnit === "trimesters"
-              ? "Productos venidos en los ultimos 3 Meses"
+              ? "Productos vendidos en los ultimos 3 Meses"
               : infoBack.timeUnit === "months"
-              ? "Productos venidos en los ultimos 12 Meses"
+              ? "Productos vendidos en los ultimos 12 Meses"
               : "Otras Fechas"
-              //Estado de carrito en rejected
-            : infoBack.status === "rejected"
+            : //Estado de carrito en rejected
+            infoBack.status === "rejected"
             ? infoBack.timeUnit === "days"
               ? "Productos cancelados en los ultimos 7 Dias"
               : infoBack.timeUnit === "weeks"
@@ -106,8 +103,8 @@ export const LineChartProducts = () => {
               : infoBack.timeUnit === "months"
               ? "Productos cancelados en los ultimos 12 Meses"
               : "Otras Fechas"
-              //Estado de carrito en cart
-            : infoBack.timeUnit === "days"
+            : //Estado de carrito en cart
+            infoBack.timeUnit === "days"
             ? "Productos totales en los ultimos 7 Dias"
             : infoBack.timeUnit === "weeks"
             ? "Productos totales en las ultimas 4 Semanas"
@@ -119,8 +116,8 @@ export const LineChartProducts = () => {
       },
     },
   };
-
   const data = {
+    point: "triangle",
     labels,
     datasets: [
       {
@@ -140,32 +137,56 @@ export const LineChartProducts = () => {
       [names]: values,
     });
   };
-
   return (
     <div>
       {analiticsProducts.length > 0 && (
-        <div>
-          <select
-            value={infoBack.timeUnit}
-            name="timeUnit"
-            onChange={handleChange}
-          >
-            <option value="days" selected>
-              Ultimos 7 Dias
-            </option>
-            <option value="weeks">Ultimas 4 Semanas</option>
-            <option value="trimesters">Ultimos 3 Meses</option>
-            <option value="months">Ultimos 12 Meses</option>
-            {/* <option value="years">Ultimo Año</option>  */}
-          </select>
-          <select value={infoBack.status} name="status" onChange={handleChange}>
-            <option value="approved" selected>
-              Aprovados
-            </option>
-            <option value="rejected">Cancelados</option>
-            <option value="cart">Carrito</option>
-          </select>
+        <div className="flex flex-col gap-8 p-8">
+          <p className="text-2xl font-medium ">Estadisticas de Productos:</p>
+          <div className="flex self-center gap-8">
+            <select
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+              value={infoBack.timeUnit}
+              name="timeUnit"
+              onChange={handleChange}
+            >
+              <option value="days">
+                Ultimos 7 Dias
+              </option>
+              <option value="weeks">Ultimas 4 Semanas</option>
+              <option value="trimesters">Ultimos 3 Meses</option>
+              <option value="months">Ultimos 12 Meses</option>
+              {/* <option value="years">Ultimo Año</option>  */}
+            </select>
+            <select
+              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+              value={infoBack.status}
+              name="status"
+              onChange={handleChange}
+            >
+              <option value="approved">
+                Aprobados
+              </option>
+              <option value="rejected">Cancelados</option>
+              <option value="cart">Carrito</option>
+            </select>
+          </div>
+          <p className="text-sm font-medium text-slate-500">
+          De {labels[0]} al {labels[labels.length - 1]}
+          </p>
           <Line options={options} data={data} />
+          <div className="self-center mt-8 w-80">
+            <p className="text-lg font-medium ">
+              {` Total de productos
+              ${
+                infoBack.status === "cart"
+                  ? "en Carrito"
+                  : infoBack.status === "approved"
+                  ? "Aprobados"
+                  : "Cancelados"
+              } `}
+            </p>
+            <p className="text-2xl font-semibold">{sum}</p>
+          </div>
         </div>
       )}
     </div>

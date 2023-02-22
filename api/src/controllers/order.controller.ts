@@ -198,7 +198,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         // Ejecutar la primera consulta
         const order = await db.Orders.findOne({
             where: {id: orderId},
-            attributes: ["id", "updatedAt", "status", "dispatched", "payment_id"],
+            attributes: ["id", "updatedAt", "status", "dispatched", "payment_id", 'track_id'],
             include: [{model: db.Users, as: "users", attributes: ["fullname", "email"]}],
             order: [['updatedAt', 'DESC']]
         });
@@ -233,13 +233,14 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
         }
 
         // Extraer los valores de order y users
-        const {id, updatedAt, status, dispatched, payment_id} = order.dataValues;
+        const {id, updatedAt, status, dispatched, payment_id, track_id} = order.dataValues;
         const {fullname, email} = order.users;
 
         // Combinar solo los valores necesarios
         const response = {
             id,
             payment_id,
+            track_id,
             updatedAt,
             status,
             dispatched,
@@ -250,6 +251,7 @@ export const GET_DetailsByOrderId = async (req: Request, res: Response) => {
             payment_type: payment_detail.data.payment_type_id,
             total_amount: payment_detail.data.transaction_amount,
             cuotes: payment_detail.data.installments,
+            shipping_amount: payment_detail.data.shipping_amount,
             total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
             address: payment_detail.data.additional_info.payer.address,
             phone: payment_detail.data.additional_info.payer.phone,
@@ -285,7 +287,7 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
                     id
                 }
             });
-            console.log(orderUpdate);
+            
             if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
             return res.status(200).json(orderUpdate);
         }
@@ -308,7 +310,7 @@ export const UPDATE_OrderTrack = async (req: Request, res: Response) => {
                 id
             }
         });
-        console.log(orderUpdate);
+        
         if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
         return res.status(200).json(orderUpdate);
     } catch (error: any) {

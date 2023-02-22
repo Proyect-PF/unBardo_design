@@ -16,6 +16,7 @@ import {
     POST_GeneratePayment,
     POST_FeedbackPayment,
 } from "../controllers/mercado-pago.controller";
+import { verifyTokenIsAdmin } from "../helpers/verifyTokenIsAdmin";
 
 
 //MERCADOPAGO
@@ -53,21 +54,21 @@ ordersRoutes.post("/", POST_Order);
 /**
  //TODO: RUTA UPDATE estado de la orden
  */
-ordersRoutes.put("/", UPDATE_OrderStatus);
+ordersRoutes.put("/", verifyTokenIsAdmin,UPDATE_OrderStatus);
 
 /**
  //TODO: RUTA UPDATE el track de la orden
  */
- ordersRoutes.put("/track/", UPDATE_OrderTrack);
+ ordersRoutes.put("/track/", verifyTokenIsAdmin,UPDATE_OrderTrack);
 
 /**
  //TODO: RUTA DELETE Borrar una orden por id
  */
-ordersRoutes.delete("/:id", DELETE_Order);
+ordersRoutes.delete("/:id", verifyTokenIsAdmin,DELETE_Order);
 
 /**
  //TODO: RUTA DELETE Borrar todas las ordenes
  */
-ordersRoutes.delete("/", DELETE_AllOrders);
+ordersRoutes.delete("/", verifyTokenIsAdmin,DELETE_AllOrders);
 
 export default ordersRoutes;

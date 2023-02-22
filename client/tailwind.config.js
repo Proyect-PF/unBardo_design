@@ -74,6 +74,7 @@ module.exports = {
     },
     spacing: {
       px: "1px",
+      800: "700px",
       0: "0px",
       0.5: "0.125rem",
       1: "0.25rem",
@@ -576,6 +577,7 @@ module.exports = {
       min: "min-content",
       max: "max-content",
       fit: "fit-content",
+      char: 800,
     }),
     inset: ({ theme }) => ({
       auto: "auto",

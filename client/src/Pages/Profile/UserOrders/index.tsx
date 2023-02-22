@@ -30,12 +30,11 @@ const UserOrders = ({
   email,
 }: Props) => {
   const [userOrders, setUserOrders] = useState<Array<Order>>([]);
-
   useEffect(() => {
     axios.get(`${baseURL}/orders/users/${userId}`).then((response) => {
       setUserOrders(response.data);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="text-lg font-semibold">
@@ -56,6 +55,7 @@ const UserOrders = ({
       </div>
       {userOrders.map((e) => (
         <div
+        key={e.id}
           className="flex items-center justify-around bg-gray-100 duration-300 w-full py-2 text-center border-t cursor-pointer hover:bg-gray-200"
           onClick={() => {
             setDetailId(e.id);

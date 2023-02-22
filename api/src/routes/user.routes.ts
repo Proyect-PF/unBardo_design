@@ -38,6 +38,6 @@ userRoutes.get("/:id_users", GET_UserById);
 /**
  //TODO: RUTA UPDATE 
  */
-userRoutes.put("/newsletter/subscription", updateNewsletterSubscription);
+userRoutes.put("/newsletter/subscription",updateNewsletterSubscription);
 
 export default userRoutes;

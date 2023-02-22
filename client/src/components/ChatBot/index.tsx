@@ -4,17 +4,21 @@ import ActionProvider from "./utils/ActionProvider";
 import config from "./utils/config";
 import MessageParser from "./utils/MessageParser";
 import "./utils/ChatBotStyles.css";
+import { useLocation } from "react-router-dom";
 
 const ChatBotComponent = () => {
+  const location = useLocation();
   return (
     <div className="">
-      <Chatbot
-        config={config}
-        messageParser={MessageParser}
-        actionProvider={ActionProvider}
-        headerText="Chatea con UnBardo!"
-        placeholderText="Escribe un mensaje..."
-      />
+      {location.pathname !== "/panel" && (
+        <Chatbot
+          config={config}
+          messageParser={MessageParser}
+          actionProvider={ActionProvider}
+          headerText="Chatea con UnBardo!"
+          placeholderText="Escribe un mensaje..."
+        />
+      )}
     </div>
   );
 };

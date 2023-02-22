@@ -139,14 +139,14 @@ Nombre de funcion = POST_GeneratePayment.
     id_order: number;    //id de la orden => Se envia solamente si el usuario accede a una orden que no se finalizo y se desea proceder con esa orden
 ```
 
-#### GET -> localhost:3700/orders/feedback
+#### POST -> localhost:3700/orders/feedback
 
 ```env
-Nombre de funcion = GET_FeedbackPayment.
+Nombre de funcion = POST_FeedbackPayment.
     Esta es la ruta a la que deriva mercadopago al finalizar el pago, ya sea que se realizo exitosamente, como si fallo el pago.
     Se realiza un update del estado de la orden, de acuerdo al estado que responde mercadopago.
     El request se realiza por body.
-    En este punto si el pago fue exitoso, actualiza el stock de los talles correspondientes del producto.
+    En este punto si el pago fue exitoso, actualiza el stock de los talles correspondientes del producto y guarda el payment_id para poder traer la informacion de la compra de la api de mercadopago.
 ```
 
 #### GET -> localhost:3700/orders
@@ -262,4 +262,24 @@ Nombre de funcion = GET_Distance
     distance: distancia del envío,
     shipmentCost: costo del envío
     }
+```
+
+#### DEPLOY BACKEND EN RAILWAY
+
+```env
+**Note: EL BACKEND SE DEPLOYO EN RAILWAY CON LOS SIGUIENTES ARCHIVOS MODIFICADOS:**
+API:
+Archivos modificados en Api: 
+..src/config/config.js
+    Agregar linea dependiendo los datos de railway:
+     db_deploy: process.env.DB_DEPLOY || "postgresql://postgres:nNWeMPRZ5RvzZ1yRUjLm@containers-us-west-36.railway.app:6296/railway",
+
+...src/database/database.ts
+    Modificar linea:
+    sequelize = new Sequelize(config.db_deploy)
+
+...src/app.ts
+    Modificar header poniendo un "*":
+    res.header('Access-Control-Allow-Origin', '*');
+     
 ```

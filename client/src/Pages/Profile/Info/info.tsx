@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import Button from "../../../components/Buttons/Button/Button";
 import ButtonSmall from "../../../components/Buttons/ButtonSmall/ButtonSmall";
 
@@ -8,7 +9,7 @@ export interface Props {
   }
 
 const Info = ({setPanel, fullName, email}: Props): JSX.Element => {
-
+    const navigate = useNavigate()
     return (
       <div className={`flex flex-col justify-center items-center h-80 pt-11 w-full`}>
         <div className="flex flex-col justify-center items-center w-full">
@@ -51,6 +52,7 @@ const Info = ({setPanel, fullName, email}: Props): JSX.Element => {
           disabled={false}
           />
         </div>
+        <p onClick={() => navigate("/newsletter")} className=" text-base font-poppins font-normal underline text-center pt-3 hover:cursor-pointer">Desuscribirme del newsletter</p>
       </div>
     );
   };

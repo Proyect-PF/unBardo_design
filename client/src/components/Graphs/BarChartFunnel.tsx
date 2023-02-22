@@ -35,7 +35,6 @@ export function BarChartFunnel() {
   const { analiticsFunnel } = useSelector((state: State) => state.admin);
 
   useEffect(() => {
-    // ADMfetch_chart_funnel(date.timeUnit);
     ADMfetch_chart_funnel(date.timeUnit, date.num);
   }, [date.timeUnit, date.num]);
 
@@ -62,7 +61,7 @@ export function BarChartFunnel() {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   //Configuracion Chart JS
   const options: any = {
-    indexAxis: "x" as const,
+    indexAxis: "y" as const,
     elements: {
       bar: {
         borderWidth: 2.3,
@@ -125,14 +124,18 @@ export function BarChartFunnel() {
   return (
     <div>
       {analiticsFunnel.length > 0 && (
-        <div className="flex flex-col gap-4 p-8 border ">
+        <div 
+         className="gap-4 p-8"
+        >
           <p className="text-2xl font-medium ">Trafico de usuarios:</p>
-          <div className="flex self-center gap-8">
+          <div 
+           className="flex justify-center gap-8 pb-5 pt-5"
+          >
             <select
               value={date.timeUnit}
               name="timeUnit"
               onChange={handleChange}
-              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             >
               <option value="days" selected>
                 Diarios
@@ -145,10 +148,15 @@ export function BarChartFunnel() {
               type="number"
               name="num"
               onChange={handleChange}
-              className="p-2 pr-4 text-base text-center border-b border-black h-fit"
+               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             />
           </div>
-          <div className="self-center ">
+          <p className="text-sm font-medium text-slate-500">
+            {labels[0]} - {labels[labels.length - 1]}
+          </p>
+          <div 
+           className="self-center "
+          >
             <Bar options={options} data={data} />
           </div>
         </div>

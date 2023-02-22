@@ -143,7 +143,7 @@ export const LineChartProducts = () => {
   return (
     <div>
       {analiticsProducts.length > 0 && (
-        <div className="flex flex-col gap-4 p-8 border">
+        <div className="flex flex-col gap-4 p-8">
           <p className="text-2xl font-medium ">Estadisticas de Productos:</p>
           <div className="flex self-center gap-8">
             <select

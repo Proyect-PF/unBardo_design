@@ -1,7 +1,7 @@
 
 require("dotenv").config()
 
-if (process.env.RAILWAY_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
   module.exports = {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,

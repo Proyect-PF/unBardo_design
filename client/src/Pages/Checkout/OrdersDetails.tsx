@@ -29,7 +29,7 @@ const OrderDetails = (): JSX.Element => {
   }, [payment_id, external_reference]);
 
   return (
-    <div className='flex flex-col items-center p-1 mt-10'>
+    <div className='flex flex-col items-center p-1 mt-10 text-sm'>
       <h1 className='text-2xl font-bold'>Gracias por su Compra!!</h1>
       {/* {orders.map((order) => ( */}
       <div className='w-full mb-10 md:w-2/3 lg:w-2/3 xl:w-2/4'>
@@ -59,7 +59,7 @@ const OrderDetails = (): JSX.Element => {
             </div>
           </div>
 
-          <p className='mb-4 text-lg font-bold'>Detalle del pedido:</p>
+          <p className='mb-6 text-lg font-bold'>Detalle del pedido:</p>
           <div className='w-full'>
             <div className='w-full'>
               <div className='flex flex-row justify-between font-bold'>
@@ -104,7 +104,7 @@ const OrderDetails = (): JSX.Element => {
             </div>
           </div>
 
-          <div className='flex flex-row justify-between'>
+          <div className='flex flex-row justify-between border-b'>
             <div className='my-4'>
               <p className='font-bold'>Cuotas:</p>
               <p>x {orderData?.cuotes}</p>

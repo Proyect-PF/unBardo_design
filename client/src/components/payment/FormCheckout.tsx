@@ -134,12 +134,12 @@ export const FormCheckout = (): JSX.Element => {
                 <p className='text-red-600'>{errors.zip_code}</p>
               )}
               {city && (
-                <p className='mt-2 text-sm bg-gray-300 rounded-md py-1 px-2'>
+                <p className='mt-2 text-sm bg-gray-100 rounded-md py-1 px-2'>
                   Ciudad: {city}
                 </p>
               )}
               {shipmentCost && (
-                <p className='mt-2 text-sm bg-gray-300 rounded-md py-1 px-2'>
+                <p className='mt-2 text-sm bg-gray-100 rounded-md py-1 px-2'>
                   Costo de envío: $ {parseFloat(shipmentCost).toFixed(2)}
                 </p>
               )}

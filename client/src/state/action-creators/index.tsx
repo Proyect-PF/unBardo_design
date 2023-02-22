@@ -292,7 +292,6 @@ export const getOrderDetails = (
       });
       dispatch(getOrderDetailsSuccess(response.data));
     } catch (error) {
-      // console.log(error);
     }
   };
 };

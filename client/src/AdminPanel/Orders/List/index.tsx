@@ -69,7 +69,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
     <div>
       <div className="flex flex-col mx-8">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-row gap-8 ">
+          <div className="flex flex-row justify-around gap-8">
             <Input
               id="searchOrderAdmin"
               type="text"

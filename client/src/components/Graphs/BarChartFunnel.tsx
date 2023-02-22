@@ -125,7 +125,7 @@ export function BarChartFunnel() {
   return (
     <div>
       {analiticsFunnel.length > 0 && (
-        <div className="flex flex-col gap-4 p-8 border">
+        <div className="flex flex-col gap-4 p-8 border ">
           <p className="text-2xl font-medium ">Trafico de usuarios:</p>
           <div className="flex self-center gap-8">
             <select

@@ -12,45 +12,52 @@ const Navbar = ({ handleChange, handleSearch, handleCheckout }: any) => {
   const { checkoutList } = useSelector((state: State) => state.checkout);
   return (
     <div className="fixed z-20 flex items-center justify-between w-full px-3 bg-white border-b-2 border-gray-200 h-28">
-      <div>
-        <img
-          onClick={handleChange}
-          src={menuIcon}
-          alt="menu-icon"
-          className="h-8 cursor-pointer"
-        />
-      </div>
+      {location.pathname !== "/panel" && (
+        <div>
+          <img
+            onClick={handleChange}
+            src={menuIcon}
+            alt="menu-icon"
+            className="h-8 cursor-pointer"
+          />
+        </div>
+      )}
 
-      <div>
+      <div
+        className={location.pathname !== "/panel" ? "" : " absolute left-1/2"}
+      >
         <Link to="/">
-          <img src={logo} alt="Logo-UnBardo" className="h-7 " />
+          <img src={logo} alt="Logo-UnBardo" className="h-7" />
         </Link>
       </div>
+      {location.pathname !== "/panel" && (
+        <div>
+          <div className="flex justify-between w-16 cursor-pointer">
+            <img
+              onClick={handleSearch}
+              src={searchIcon}
+              alt="searcg-icon"
+              className="h-7"
+            />
 
-      <div className="flex justify-between w-16 cursor-pointer">
-        <img
-          onClick={handleSearch}
-          src={searchIcon}
-          alt="searcg-icon"
-          className="h-7"
-        />
-
-        <img
-        src={shoppingIcon}
-        onClick={handleCheckout}
-        alt="shopping-bag-icon"
-        className="h-7 hover:cursor-pointer" />
-
-      </div>
-      <div
-        className={`absolute right-1 top-8 bg-red-600 h-5 w-5 rounded-full ${
-          checkoutList.length ? null : "hidden"
-        } ${location.pathname === "/checkout" ? "hidden" : null}`}
-      >
-          <p className="text-center text-xs font-bold text-white pt-0.5">
-            {checkoutList.length}
-          </p>
-      </div>
+            <img
+              src={shoppingIcon}
+              onClick={handleCheckout}
+              alt="shopping-bag-icon"
+              className="h-7 hover:cursor-pointer"
+            />
+          </div>
+          <div
+            className={`absolute right-1 top-8 bg-red-600 h-5 w-5 rounded-full ${
+              checkoutList.length ? null : "hidden"
+            } ${location.pathname === "/checkout" ? "hidden" : null}`}
+          >
+            <p className="text-center text-xs font-bold text-white pt-0.5">
+              {checkoutList.length}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

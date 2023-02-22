@@ -47,7 +47,7 @@ const Pricing = () => {
   });
 
   return (
-    <div className="p-8 m-10 border shadow-xl shadow-slate-400">
+    <div className="p-8 m-10 border shadow-xl shadow-slate-400 rounded-2xl">
       {pricing.minus100 > 0 && (
         <Formik
           initialValues={{

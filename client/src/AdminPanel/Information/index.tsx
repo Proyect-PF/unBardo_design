@@ -31,7 +31,7 @@ const InformationPanel = () => {
               UnBardo Dashboard:
             </p>
             <div className="flex flex-row justify-around mx-6 my-8">
-              <div className="p-8 shadow-xl w-60 shadow-slate-400">
+              <div className="p-8 shadow-xl w-60 shadow-slate-400 rounded-2xl">
                 <p className="text-lg font-medium">Productos sin Stock:</p>
                 <p className="text-2xl font-semibold">
                   {
@@ -42,14 +42,14 @@ const InformationPanel = () => {
                   }
                 </p>
               </div>
-              <div className="p-8 shadow-xl w-60 shadow-slate-400">
+              <div className="p-8 shadow-xl w-60 shadow-slate-400 rounded-2xl">
                 <p className="text-lg font-medium">Ordenes por Despachar:</p>
                 <p className="text-2xl font-semibold">
                   {allOrders.filter((e: any) => e.dispatched !== true).length}
                 </p>
               </div>
 
-              <div className="p-8 shadow-xl w-60 shadow-slate-400">
+              <div className="p-8 shadow-xl w-60 shadow-slate-400 rounded-2xl">
                 <p className="text-lg font-medium">Usuarios Activos:</p>
                 <p className="text-2xl font-semibold">{allUsers.length}</p>
               </div>
@@ -79,10 +79,10 @@ const InformationPanel = () => {
           </div> */}
 
           <section className="flex flex-col justify-center gap-20 mt-20 2xl:flex-row">
-            <div className="self-center shadow-xl md:self-start shadow-slate-400 w-800 h-800">
+            <div className="self-center shadow-xl md:self-start shadow-slate-400 w-800 h-800 rounded-2xl">
               <BarChartFunnel />
             </div>
-            <div className="self-center shadow-xl shadow-slate-400 w-800 h-800">
+            <div className="self-center shadow-xl shadow-slate-400 w-800 h-800 rounded-2xl">
               <LineChartProducts />
             </div>
           </section>

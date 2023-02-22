@@ -19,7 +19,8 @@
 }
 
 .react-chatbot-kit-chat-message-container {
-    
+    background-color: white;
+
     
 }
 
@@ -58,6 +59,8 @@
 }
 
 .react-chatbot-kit-chat-bot-message {
+        color: white;
+        background-color: aliceblue;
 }
 
 .react-chatbot-kit-chat-bot-message-arrow {

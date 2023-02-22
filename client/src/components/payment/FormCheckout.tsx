@@ -41,6 +41,7 @@ export const FormCheckout = (): JSX.Element => {
       setIsUpdateExecuted(true);
     } catch (error) {
       console.log(error);
+      setIsUpdateExecuted(false);
       Swal.fire({
         title: 'Error',
         text: 'El codigo postal no existe',

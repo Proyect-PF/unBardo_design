@@ -39,7 +39,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         className="justify-end pr-12"
       />
       {orderDetails && (
-        <div className="flex flex-col gap-10 mx-12">
+        <div className="flex flex-col gap-10 p-8 m-10 mx-12 border shadow-xl shadow-slate-400">
           <div className="flex gap-4 text-2xl font-medium">
             <p>{`Orden numero: ${orderDetails.id}`}</p>
             <p></p>
@@ -70,10 +70,11 @@ const OrderDetails = ({ setSelected }: Props) => {
                 orderDetails.date_approved &&
                 new Date(orderDetails.date_approved)
               }`}</p>
-              <p className="text-xl">{`Total: ${orderDetails.total_amount}`}</p>
+              <p className="text-xl">{`Total: $ ${orderDetails.total_amount}`}</p>
+              <p className="text-xl">{`Costo envio: $ ${orderDetails.shipping_amount}`}</p>
               <p className="text-xl">{`Metodo:  ${orderDetails.payment_type} - ${orderDetails.payment_method}`}</p>
               <p className="text-xl">{`Cuotas: ${orderDetails.cuotes}`}</p>
-              <p className="text-xl">{`Total Pagado: ${orderDetails.total_paid_amount}`}</p>
+              <p className="text-xl">{`Total Pagado: $ ${orderDetails.total_paid_amount}`}</p>
             </div>
           </div>
           <div className="flex flex-col gap-4 text-xl">
@@ -107,7 +108,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         />
         <Button
           text="Marcar como Despachado"
-          name="deleteProd"
+          name="dispatchOrder"
           onClick={() => {
             Swal.fire({
               title:

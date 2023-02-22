@@ -23,8 +23,8 @@ const EmailList = () => {
   }, [data]);
 
   return (
-    <div className="flex flex-col gap-8 m-10">
-      <p className="text-2xl font-bold">Newsletter:</p>
+    <div className="flex flex-col gap-8 p-8 m-10 shadow-xl shadow-slate-400">
+      <p className="text-2xl font-semibold">Newsletter:</p>
       <div className="flex flex-row gap-20 mx-8">
         <div className="w-40">
           <p className="text-lg font-medium ">Usuarios suscriptos:</p>

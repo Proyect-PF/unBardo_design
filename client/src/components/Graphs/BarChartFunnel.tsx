@@ -159,6 +159,7 @@ export function BarChartFunnel() {
           >
             <Bar options={options} data={data} />
           </div>
+
         </div>
       )}
     </div>

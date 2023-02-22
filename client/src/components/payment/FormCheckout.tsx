@@ -60,11 +60,13 @@ export const FormCheckout = (): JSX.Element => {
       onSubmit={(values) => {
         axios({
           method: 'post',
+
           url: `${baseURL}:${PORT}/orders/payment`,
           data: {
             ...values,
             shipmentCost: shipmentCost,
           },
+
         }).then((res) => {
           window.location.href = res.data.res.body.init_point;
           clearCheckoutList(); // Llamada a checkoutlist() después de la redirección

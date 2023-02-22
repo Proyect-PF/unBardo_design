@@ -72,11 +72,17 @@ const InformationPanel = () => {
             </div>
 
           </div> */}
-          <section className="flex flex-col gap-20 mt-20 md:flex-row">
-            <div className="self-center shadow-xl md:self-start shadow-slate-400 w-800">
+          <section 
+          className="flex flex-row gap-20 mt-20 justify-between"
+          >
+            <div 
+            className=" shadow-xl shadow-slate-400  w-6/12"
+            >
               <BarChartFunnel />
             </div>
-            <div className="self-center shadow-xl shadow-slate-400 w-800">
+            <div 
+            className=" shadow-xl shadow-slate-400 w-6/12" 
+            >
               <LineChartProducts />
             </div>
           </section>

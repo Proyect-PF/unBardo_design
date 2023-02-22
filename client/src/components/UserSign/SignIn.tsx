@@ -33,7 +33,7 @@ export const LogIn = (): JSX.Element => {
 
   const onSuccess = (res: any) => {
     const logUser: User = {
-      email: res.profileObj.email,
+      email: res.profileObj.email.toLowerCase(),
       google_id: res.googleId,
     };
     userLogin(logUser, navigate);

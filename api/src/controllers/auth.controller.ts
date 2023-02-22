@@ -17,15 +17,18 @@ export const POST_SignUp = async (req: Request, res: Response) => {
       //TODO: CASO Q SE REGISTRA CON UN ROLE ESPECIFICO
     const { fullname, email, password, role, news_letter, google_id } =
       req.body;
+      const emailLower = email.toLowerCase()
+
+      console.log(email)
     //Comprobar si el usuario ya existe
-    if (!fullname || !email) throw new Error("Datos incompletos");
+    if (!fullname || !emailLower) throw new Error("Datos incompletos");
     if (role) {
       const foundRole: TypeRole = await db.Role.findOne({
         where: { name: role },
         raw: true,
       });
       const [user, created] = await db.Users.findOrCreate({
-        where: { email },
+        where: { email:emailLower },
         defaults: {
           fullname,
           password: await db.Users.encryptPassword(password),
@@ -78,7 +81,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
         raw: true,
       });
       const [user, created] = await db.Users.findOrCreate({
-        where: { email },
+        where: { email:emailLower },
         defaults: {
           fullname,
           password: google_id ? null : await db.Users.encryptPassword(password),
@@ -113,7 +116,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
       await createUserRegistrationStatistics(user.id);
 
       // Enviar correo electrónico de confirmación
-      await sendConfirmationEmailController(email, user.id);
+      await sendConfirmationEmailController(emailLower, user.id);
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
     } 
@@ -132,7 +135,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
         raw: true,
       });
       const [user, created] = await db.Users.findOrCreate({
-        where: { email },
+        where: { email:emailLower },
         defaults: {
           fullname,
           password: await db.Users.encryptPassword(password),
@@ -166,7 +169,7 @@ export const POST_SignUp = async (req: Request, res: Response) => {
       await createUserRegistrationStatistics(user.id);
 
       // Enviar correo electrónico de confirmación
-      await sendConfirmationEmailController(email, user.id);
+      await sendConfirmationEmailController(emailLower, user.id);
       //Si no esta creado, devuelve el token
       return res.status(200).json({ token: token });
     }
@@ -177,11 +180,13 @@ export const POST_SignUp = async (req: Request, res: Response) => {
 
 export const POST_SignIn = async (req: Request, res: Response) => {
   let { email, password, google_id } = req.body;
+  const emailLower = email.toLowerCase()
+  console.log(emailLower)
   try {
-    if (!email) throw new Error("Datos incompletos");
+    if (!emailLower) throw new Error("Datos incompletos");
     //Busco el usuario con su nombre de rol
     const userFound = await db.Users.findOne({
-      where: { email },
+      where: { email: emailLower },
       raw: true,
       include: {
         model: db.Role,

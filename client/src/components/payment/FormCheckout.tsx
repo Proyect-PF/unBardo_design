@@ -33,7 +33,7 @@ export const FormCheckout = (): JSX.Element => {
   const handleUpdate = async (values: any) => {
     try {
       const response = await axios.get(
-        `${baseURL}:${PORT}/shipments/distance?zip_code=${values.zip_code}`
+        `${baseURL}/shipments/distance?zip_code=${values.zip_code}`
       );
       setDistance(response.data.distance);
       setCity(response.data.city);
@@ -61,7 +61,7 @@ export const FormCheckout = (): JSX.Element => {
         axios({
           method: 'post',
 
-          url: `${baseURL}:${PORT}/orders/payment`,
+          url: `${baseURL}/orders/payment`,
           data: {
             ...values,
             shipmentCost: shipmentCost,

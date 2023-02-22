@@ -288,7 +288,7 @@ const Details = (): JSX.Element => {
               className={`flex flex-col gap-2 ${sChart ? "visible" : "hidden"}`}
             >
               <div>
-                <p>Talle 1:</p>
+                <p>Talle 1 (Ideal para mujeres):</p>
                 <div className="mx-20">
                   <div className="flex gap-4">
                     <p className="w-16">Ancho: </p>
@@ -305,7 +305,7 @@ const Details = (): JSX.Element => {
                 </div>
               </div>
               <div>
-                <p>Talle 2:</p>
+                <p>Talle 2 (Ideal para hombres):</p>
                 <div className="mx-20">
                   <div className="flex gap-4">
                     <p className="w-16">Ancho: </p>

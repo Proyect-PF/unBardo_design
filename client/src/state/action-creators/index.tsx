@@ -23,7 +23,7 @@ import Toast from "../../components/Toast";
 export const fetch_products = (query: string | null = null) => {
   return (dispatch: Dispatch<ActionProducts>) => {
     let payload: ProductState["productList"] = [];
-    axios.get(`${baseURL}:${PORT}/products/?${query}`).then((res) => {
+    axios.get(`${baseURL}/products/?${query}`).then((res) => {
       payload = res.data.data;
 
       // ENVIAMOS PAYLOAD A REDUX

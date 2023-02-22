@@ -39,7 +39,7 @@ const OrderDetails = ({ setSelected }: Props) => {
         className="justify-end pr-12"
       />
       {orderDetails && (
-        <div className="flex flex-col gap-10 p-8 m-10 mx-12 border shadow-xl shadow-slate-400">
+        <div className="flex flex-col gap-10 p-8 m-10 mx-12 border shadow-xl shadow-slate-400 rounded-2xl">
           <div className="flex gap-4 text-2xl font-medium">
             <p>{`Orden numero: ${orderDetails.id}`}</p>
             <p></p>
@@ -93,47 +93,48 @@ const OrderDetails = ({ setSelected }: Props) => {
                 </div>
               ))}
           </div>
+          <div className="flex flex-col items-center justify-center">
+            <Input
+              id="track_id"
+              name="track_id"
+              type="text"
+              placeholder="Numero de tracking..."
+              onChange={handleChange}
+              onBlur={handleChange}
+              value={trackid}
+              className="mt-8 w-96"
+            />
+            <Button
+              text="Marcar como Despachado"
+              name="dispatchOrder"
+              onClick={() => {
+                Swal.fire({
+                  title:
+                    "<p class='mt-4 text-4xl font-bold text-black'>Marcar como despachado</p>",
+                  showConfirmButton: true,
+                  showCancelButton: true,
+                  confirmButtonColor: "#376B7E",
+                  cancelButtonColor: "#e5e7eb",
+                  cancelButtonText:
+                    "<p class='text-lg text-black'>Mejor no</p>",
+                  confirmButtonText: "<p class='text-lg'>Despachar</p>",
+                  // html: '<p class="font-medium text-black italic">Revisa que el numero de trackeo sea el correcto</p>',
+                  text:
+                    "El siguiente numero de tracking sera asociado a la orden: " +
+                    trackid,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    ADMupdate_order(orderDetails.id, "true", trackid, Toast);
+                  }
+                });
+              }}
+              disabled={false}
+              type="button"
+              className={"justify-center"}
+            />
+          </div>
         </div>
       )}
-      <div className="flex flex-col items-center justify-center">
-        <Input
-          id="track_id"
-          name="track_id"
-          type="text"
-          placeholder="Numero de tracking..."
-          onChange={handleChange}
-          onBlur={handleChange}
-          value={trackid}
-          className="mt-8 w-96"
-        />
-        <Button
-          text="Marcar como Despachado"
-          name="dispatchOrder"
-          onClick={() => {
-            Swal.fire({
-              title:
-                "<p class='mt-4 text-4xl font-bold text-black'>Marcar como despachado</p>",
-              showConfirmButton: true,
-              showCancelButton: true,
-              confirmButtonColor: "#376B7E",
-              cancelButtonColor: "#e5e7eb",
-              cancelButtonText: "<p class='text-lg text-black'>Mejor no</p>",
-              confirmButtonText: "<p class='text-lg'>Despachar</p>",
-              // html: '<p class="font-medium text-black italic">Revisa que el numero de trackeo sea el correcto</p>',
-              text:
-                "El siguiente numero de tracking sera asociado a la orden: " +
-                trackid,
-            }).then((result) => {
-              if (result.isConfirmed) {
-                ADMupdate_order(orderDetails.id, "true", trackid, Toast);
-              }
-            });
-          }}
-          disabled={false}
-          type="button"
-          className={"justify-center"}
-        />
-      </div>
     </div>
   );
 };

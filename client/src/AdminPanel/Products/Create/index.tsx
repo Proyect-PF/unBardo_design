@@ -87,7 +87,7 @@ const Create = ({ className }: Props): JSX.Element => {
         }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-8 p-8 m-10 border shadow-xl shadow-slate-400"
+            className="flex flex-col gap-8 p-8 m-10 border shadow-xl shadow-slate-400 rounded-2xl"
           >
             <div className="flex flex-col gap-2">
               <label className="text-xl">Nombre:</label>

@@ -342,8 +342,11 @@ export const POST_FeedbackPayment = async (
         },
       }
     );
+    
     console.log("EL STATUS A ACTUALIZAR ES: ",payment_detail.data.status)
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
+    
+    
     await db.Orders.update(
       {
         //status: feedback.status,
@@ -357,12 +360,13 @@ export const POST_FeedbackPayment = async (
       }
     );
 
+    console.log("Updateamos el approved con: ",payment_detail.data.status);
     if (payment_detail.data.status === 'approved') {
       var orderAproved = await UPDATE_QuantitySizes(
         Number(feedback.external_reference)
       );
     }
-
+  console.log("PASAMOS EL UPDATE STATUS")
     // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
     //await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
     console.log("RETORNA: ",{

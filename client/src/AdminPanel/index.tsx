@@ -31,7 +31,6 @@ const AdminP = (): JSX.Element => {
         <button onClick={() => setPanel("info")}>Dashboard</button>
         <button onClick={() => setPanel("products")}>Productos</button>
         <button onClick={() => setPanel("orders")}>Ordenes</button>
-        <button onClick={() => setPanel("newsletter")}>Newsletter</button>
         <button onClick={() => setPanel("pricing")}>Tarifas</button>
       </div>
 
@@ -39,7 +38,6 @@ const AdminP = (): JSX.Element => {
         {panel === "products" && <Products />}
         {panel === "orders" && <Orders />}
         {panel === "info" && <InformationPanel />}
-        {panel === "newsletter" && <EmailList />}
         {panel === "pricing" && <Pricing />}
       </div>
     </div>

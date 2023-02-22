@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Route, Routes, useLocation } from "react-router";
+import { Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-// import NewProductForm from "./components/NewProduct/NewProductForm";
 import AdminP from "./AdminPanel";
 import Footer from "./layouts/Footer/Footer";
 import Navbar from "./layouts/Navbar/Navbar";
@@ -18,10 +17,8 @@ import Profile from "./Pages/Profile/Profile";
 import LogInPage from "./Pages/SignIn";
 import RegisterPage from "./Pages/SignUp";
 import robot from "./assets/svg/googleIcons/robot.svg";
-import support from "./assets/svg/question-mark-circle.svg";
 import ChatBotComponent from "./components/ChatBot";
 import Favorites from "./Pages/Favorites/Favorites";
-// import UserSignPage from "./Pages/UserSignPage/UserSignPage";
 
 function App() {
   const [openClose, setOpenClose] = useState(true);
@@ -91,6 +88,7 @@ function App() {
             src={robot}
             className="w-12 h-auto"
             onClick={() => (chatbot ? setChatbot(false) : setChatbot(true))}
+            alt="chatbot"
           />
         </div>
         <Footer />

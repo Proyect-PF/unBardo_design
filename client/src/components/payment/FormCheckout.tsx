@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import Button from '../Buttons/Button/Button';
 import axios from 'axios';
 import Input from '../Inputs/Input';
+import Swal from 'sweetalert2';
 import { validationSchema } from '../../utils/FormPayment/validation';
 import { useDispatch, useSelector } from 'react-redux';
 import { State } from '../../state/reducers';
@@ -40,6 +41,15 @@ export const FormCheckout = (): JSX.Element => {
       setIsUpdateExecuted(true);
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        title: 'Error',
+        text: 'El codigo postal no existe',
+        // icon: 'error',
+        confirmButtonColor: '#376B7E',
+        denyButtonColor: '#376B7E',
+        cancelButtonColor: '#e5e7eb',
+        confirmButtonText: 'OK',
+      });
     }
   };
 

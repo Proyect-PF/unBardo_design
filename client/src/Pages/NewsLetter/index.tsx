@@ -37,7 +37,7 @@ const Newsletter = () => {
               focusConfirm: false,
             })
             .then((result) => {
-              axios.put(`${baseURL}:${PORT}/users/newsletter/subscription`, {
+              axios.put(`${baseURL}/users/newsletter/subscription`, {
                 email: values.email,
                 newsletter: "false",
               });

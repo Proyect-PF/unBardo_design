@@ -17,7 +17,7 @@ const Pricing = () => {
   });
 
   useEffect(() => {
-    axios.get(`${baseURL}:${PORT}/shipments`).then((res) => {
+    axios.get(`${baseURL}/shipments`).then((res) => {
       setPricing({
         minus100: res.data[0].minus100,
         minus500: res.data[0].minus500,

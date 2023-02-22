@@ -31,7 +31,7 @@ const UserOrders = ({
 }: Props) => {
   const [userOrders, setUserOrders] = useState<Array<Order>>([]);
   useEffect(() => {
-    axios.get(`${baseURL}:${PORT}/orders/users/${userId}`).then((response) => {
+    axios.get(`${baseURL}/orders/users/${userId}`).then((response) => {
       setUserOrders(response.data);
     });
   }, [userId]);

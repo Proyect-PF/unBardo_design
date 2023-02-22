@@ -36,7 +36,7 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
   const [details, setDetails] = useState<any>(initialState);
 
   useEffect(() => {
-    axios.get(`${baseURL}:${PORT}/orders/${detailId}`).then((response) => {
+    axios.get(`${baseURL}/orders/${detailId}`).then((response) => {
       setDetails(response.data);
     });
   }, [detailId]);

@@ -412,9 +412,9 @@ export const POST_Notification = async (
   response: Response
 ) => {
   try {
-    const feedback = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    const {id} = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
     const payment_detail = await axios.get(
-      `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+      `https://api.mercadopago.com/v1/payments/${id}`,
       {
         headers: {
           'Content-types': 'application/json',
@@ -424,7 +424,7 @@ export const POST_Notification = async (
     );
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     const update_status = payment_detail.data.status;
-    const update_payment = Number(feedback.payment_id);
+    const update_payment = Number(payment_detail.data.payment_id);
     
     db.Orders.update(
       {
@@ -446,7 +446,7 @@ export const POST_Notification = async (
     //}
 
     return response.status(200).json({
-      payment_id: feedback.payment_id,
+      payment_id: payment_detail.data.payment_id,
       status: payment_detail.data.status,
       external_reference: payment_detail.data.external_reference,
     });

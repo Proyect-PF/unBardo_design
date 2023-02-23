@@ -289,6 +289,7 @@ export const POST_GeneratePayment = async (
     auto_return: 'approved',
     binary_mode: true,
     external_reference: external_reference,
+    notification_url: "https://unbardodesignback.up.railway.app/orders/feedback",
     payer: {
       phone: {
         area_code: prod.area_code.toString(),

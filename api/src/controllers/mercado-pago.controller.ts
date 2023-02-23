@@ -286,8 +286,9 @@ export const POST_GeneratePayment = async (
       failure: `${process.env.URL_FRONT}/orders/feedback`, //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
       pending: '',
     },
-    auto_return: 'approved',
+    //auto_return: 'approved',
     binary_mode: true,
+    notification_url: "https://unbardodesignback.up.railway.app/orders/feedback",
     external_reference: external_reference,
     payer: {
       phone: {

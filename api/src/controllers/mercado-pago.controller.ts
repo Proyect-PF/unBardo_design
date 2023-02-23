@@ -361,7 +361,7 @@ export const POST_FeedbackPayment = async (
       },
       {
         where: {
-          id: Number(feedback.external_reference),
+          id: feedback.external_reference,
         },
       }
     );

@@ -354,7 +354,7 @@ export const POST_FeedbackPayment = async (
     console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
 
     
-    await db.Orders.update(
+    db.Orders.update(
       {
         //status: feedback.status,
         status: update_status,

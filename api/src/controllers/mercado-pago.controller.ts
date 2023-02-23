@@ -344,6 +344,8 @@ export const POST_FeedbackPayment = async (
     );
     
     console.log("EL STATUS A ACTUALIZAR ES: ",payment_detail.data.status)
+    console.log("EL PAYMENT ID A ACTUALIZAR ES: ",feedback.payment_id)
+
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     
     

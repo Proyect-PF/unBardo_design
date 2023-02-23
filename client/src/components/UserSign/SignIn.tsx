@@ -1,6 +1,4 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
-
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
@@ -9,8 +7,34 @@ import Button from "../Buttons/Button/Button";
 import Input from "../Inputs/Input";
 import { validateLogin } from "./validates";
 import { User } from "../../types/types";
-import GoogleLogin from "react-google-login";
-import { gapi } from "gapi-script";
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+
+
+
+
+
+
+type Decoded = {
+  aud:string
+  azp:string
+  email:string
+  email_verified:boolean
+  exp:number
+  family_name:string
+  given_name:string
+  iat:number
+  iss:string
+  jti:string
+  name:string
+  nbf:number
+  picture:string
+  sub:string
+  }
+
+
+
+
 export const LogIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,21 +44,16 @@ export const LogIn = (): JSX.Element => {
     email: "",
     password: "",
   };
-  const clientId =
-    "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com";
-  useEffect(() => {
-    const start = () => {
-      gapi.auth2.init({
-        clientId: clientId,
-      });
-    };
-    gapi.load("client:auth2", start);
-  }, []);
+
 
   const onSuccess = (res: any) => {
+    let token = res.credential;
+    let decoded:Decoded = jwt_decode(token);
+    console.log(decoded)
+
     const logUser: User = {
-      email: res.profileObj.email.toLowerCase(),
-      google_id: res.googleId,
+      email: decoded.email.toLowerCase(),
+      google_id: decoded.aud,
     };
     userLogin(logUser, navigate);
   };
@@ -93,8 +112,6 @@ export const LogIn = (): JSX.Element => {
             />
             <div className="flex justify-center">
               <GoogleLogin
-                className="justify-center py-2 text-xl font-semibold border border-black w-72"
-                clientId={clientId}
                 onSuccess={onSuccess}
               />
             </div>

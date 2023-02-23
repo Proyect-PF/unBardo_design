@@ -20,7 +20,7 @@ export type TypeUser = {
   email?: string;
   news_letter?: boolean;
   //
-  google_id?: number;
+  google_id?: string;
   id?: number;
   id_role?: number | undefined;
   role?: string;

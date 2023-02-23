@@ -346,6 +346,8 @@ export const POST_FeedbackPayment = async (
     //const update_status = payment_detail.data.status;
     //const update_payment = Number(feedback.payment_id);
 
+    console.log('----------------------------------------------------------')
+    console.log('payment_id: ' + feedback.payment_id)
     
     //db.Orders.update(
       //{
@@ -409,7 +411,9 @@ export const POST_Notification = async (
          break;
    }
     console.log('------------merchantOrder-----------')
-    console.log(merchantOrder)
+    console.log(merchantOrder.body.payments)
+    console.log('------------payments-----------')
+    console.log(merchantOrder.body.payments)
    
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     //const update_status = payment_detail.data.status;
@@ -418,7 +422,7 @@ export const POST_Notification = async (
     db.Orders.update(
       {
         //status: feedback.status,
-        status: merchantOrder.body.order_status,
+        status: merchantOrder.body.status,
         payment_id: Number(merchantOrder.body.id),
       },
       {

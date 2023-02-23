@@ -333,7 +333,7 @@ export const POST_FeedbackPayment = async (
 ) => {
   try {
     const {id} = request.query;
-    const payment_detail = await axiox.get(
+    const payment_detail = await axios.get(
      `https://api.mercadopago.com/v1/payments/${id}`,
       {
        headers: {

@@ -412,7 +412,25 @@ export const POST_Notification = async (
   response: Response
 ) => {
   try {
-    const {id} = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    //const {id} = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    
+    const {query} =  request;
+    const topic = query.topic || query.type;
+    var merchantOrder;
+     switch(topic) {
+       case "payment":
+          const paymentId = query.id || query.['data.id'];
+          const payment = await mercadopago.payment.findById(paymentId);
+          merchantOrder = await mercadopago.merchant_orders.findById(payment.body.order.id);
+          break;
+       case "merchant_order":
+         const orderId = query.id;
+         merchantOrder = await mercadopago.merchant_orders.findById(orderId); 
+         break;
+   }
+    
+    
+    
     const payment_detail = await axios.get(
       `https://api.mercadopago.com/v1/payments/${id}`,
       {
@@ -429,21 +447,21 @@ export const POST_Notification = async (
     db.Orders.update(
       {
         //status: feedback.status,
-        status: update_status,
-        payment_id: update_payment,
+        status: merchantOrder.body.status,
+        payment_id: merchantOrder.body.id,
       },
       {
         where: {
-          id: Number(payment_detail.data.external_reference),
+          id: Number(merchantOrder.body.external_reference),
         },
       }
     );
 
-    //if (payment_detail.data.status === 'approved') {
-      //var orderAproved = await UPDATE_QuantitySizes(
-        //Number(payment_detail.data.external_reference)
-      //);
-    //}
+    if (merchantOrder.body.status === 'approved') {
+      var orderAproved = await UPDATE_QuantitySizes(
+        Number(merchantOrder.body.external_reference)
+      );
+    }
 
     return response.status(200).json({
       payment_id: payment_detail.data.payment_id,

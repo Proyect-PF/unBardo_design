@@ -4,7 +4,7 @@ interface OrdersAttributes {
   id: number;
   id_user: number;
   status: string;
-  payment_id: number;
+  payment_id: bigint;
   dispatched: boolean;
   track_id: string;
 }
@@ -14,7 +14,7 @@ export default (sequelize: Sequelize.Sequelize) => {
     public id!: number;
     public id_user!: number;
     public status!: string;
-    public payment_id!: number;
+    public payment_id!: bigint;
     public dispatched!: boolean;
     public track_id!: string;
 

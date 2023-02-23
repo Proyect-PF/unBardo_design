@@ -410,10 +410,12 @@ export const POST_Notification = async (
          merchantOrder = await mercadopago.merchant_orders.findById(orderId); 
          break;
    }
-    console.log('------------merchantOrder-----------')
-    console.log(merchantOrder.body.payments)
+ 
     console.log('------------payments-----------')
-    console.log(merchantOrder.body.payments)
+    console.log(merchantOrder.body.payments[0])
+    console.log('id: ' + merchantOrder.body.payments[0].id)
+    console.log('status: ' + merchantOrder.body.payments[0].status)
+    console.log('external_reference:' + merchantOrder.body.external_reference)
    
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     //const update_status = payment_detail.data.status;
@@ -422,8 +424,8 @@ export const POST_Notification = async (
     db.Orders.update(
       {
         //status: feedback.status,
-        status: merchantOrder.body.status,
-        payment_id: Number(merchantOrder.body.id),
+        status: merchantOrder.body.payments[0].status,
+        payment_id: Number(merchantOrder.body.payments[0].id),
       },
       {
         where: {
@@ -432,7 +434,7 @@ export const POST_Notification = async (
       }
     );
 
-    if (merchantOrder.body.status === 'approved') {
+    if (merchantOrder.body.payments[0].status === 'approved') {
       var orderAproved = await UPDATE_QuantitySizes(
         Number(merchantOrder.body.external_reference)
       );

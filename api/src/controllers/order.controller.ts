@@ -111,7 +111,7 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
         if (typeof status === 'string'  && status !=="") {
             options.where.status = status;
         } else {
-            options.where.status = {[Op.ne]: 'cart'};
+            options.where.status = {[Op.ne]: 'carta'};
         }
 
         // Verificar si userId es una cadena de texto

@@ -408,8 +408,6 @@ export const POST_Notification = async (
          merchantOrder = await mercadopago.merchant_orders.findById(orderId); 
          break;
    }
-    console.log('------------payment-----------')
-    console.log(payment)
     console.log('------------merchantOrder-----------')
     console.log(merchantOrder)
    

@@ -346,9 +346,6 @@ export const POST_FeedbackPayment = async (
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     //const update_status = payment_detail.data.status;
     //const update_payment = Number(feedback.payment_id);
-    //console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
-    //console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
-    //console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
 
     
     //db.Orders.update(
@@ -364,7 +361,6 @@ export const POST_FeedbackPayment = async (
       //}
     //);
 
-   // console.log("Updateamos el approved con: ",payment_detail.data.status);
     //if (payment_detail.data.status === 'approved') {
       //var orderAproved = await UPDATE_QuantitySizes(
         //Number(feedback.external_reference)
@@ -449,9 +445,9 @@ export const POST_Notification = async (
     }
 
     return response.status(200).json({
-      payment_id: payment_detail.data.payment_id,
-      status: payment_detail.data.status,
-      external_reference: payment_detail.data.external_reference,
+      payment_id: merchantOrder.body.id,
+      status: merchantOrder.body.status,
+      external_reference: merchantOrder.body.external_reference,
     });
   } catch (error: any) {
     return response.status(400).json({ message: error.message });

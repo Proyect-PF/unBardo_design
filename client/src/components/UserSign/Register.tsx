@@ -9,30 +9,36 @@ import { useNavigate } from "react-router-dom";
 import { userRegister } from "../../state/action-creators";
 import { validateRegister } from "./validates";
 import { User } from "../../types/types";
-import GoogleLogin from "react-google-login";
-
-import { useEffect } from "react";
-import { gapi } from "gapi-script";
-
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+ 
+type Decoded = {
+aud:string
+azp:string
+email:string
+email_verified:boolean
+exp:number
+family_name:string
+given_name:string
+iat:number
+iss:string
+jti:string
+name:string
+nbf:number
+picture:string
+sub:string
+}
 export const Register = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const clientId =
-    "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com";
+
   const initialvalues: User = {
     fullname: "",
     email: "",
     password: "",
   };
 
-  useEffect(() => {
-    const start = () => {
-      gapi.auth2.init({
-        clientId: clientId,
-      });
-    };
-    gapi.load("client:auth2", start);
-  }, []);
+
 
   const onSubmit = (values: User) => {
     const registerLogin = () => {
@@ -48,27 +54,51 @@ export const Register = (): JSX.Element => {
   };
 
   const onSuccess = (res: any) => {
-    const { profileObj } = res;
+    let token = res.credential;
+    let decoded:Decoded = jwt_decode(token);
+    console.log(decoded)
+
+
+/**
+ * 110165801043846069695
+ * 110165801043846069695
+ * 110165801043846069695
+ * aud: "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com"
+azp: "293388938502-lj848n06hnrn6diupdhfc2orotv1virp.apps.googleusercontent.com"
+email: "joaquincarrera145@gmail.com"
+email_verified: true
+exp: 1677134407
+family_name: "Carrera"
+given_name: "Joaquin"
+iat: 1677130807
+iss: "https://accounts.google.com"
+jti: "7cc784d2b2e22a73b1e4d8e17e743b3aebf2b260"
+name: "Joaquin Carrera"
+nbf: 1677130507
+picture: "https://lh3.googleusercontent.com/a/AEdFTp53edNKSTzz0lDrvDzm6Z7JHmr3yD4s0aL-9tiw=s96-c"
+sub: "100617954593025264373"
+ */
+
     const newuserGoogle: User = {
-      email: profileObj.email,
-      fullname: profileObj.name,
-      google_id: res.googleId,
+      email: decoded.email,
+      fullname: decoded.name,
+      google_id: decoded.aud,
     };
     const registerLogin = () => {
       userLogin(
         {
           email: newuserGoogle.email.toLowerCase(),
           password: newuserGoogle.password,
-          google_id: res.googleId,
+          google_id: decoded.aud,
         },
         navigate
       );
     };
     userRegister(registerLogin, newuserGoogle);
   };
-  const onFailure = (fail: any) => {
+  const onFailure = () => {
     //TODO Se setea un alert!! AGUS SETEALA
-    console.error(fail);
+    console.error("fail");
   };
 
   const { userLogin } = bindActionCreators(actionCreators, dispatch);
@@ -153,12 +183,9 @@ export const Register = (): JSX.Element => {
             />
             <div className="flex justify-center">
               <GoogleLogin
-                className="justify-center py-2 text-xl font-semibold border border-black w-72"
-                clientId={clientId}
-                buttonText="Register with Google"
+
                 onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={"single_host_origin"}
+                onError={onFailure}
               />
             </div>
           </form>

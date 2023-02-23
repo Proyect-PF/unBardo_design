@@ -48,21 +48,23 @@ const UserOrders = ({
         disabled={false}
         className="justify-end pr-12"
       />
-      <div className="flex items-center text-xxs justify-around w-full mt-4 text-center border-t">
-        <p className="w-40 ">Fecha</p>
+      <div className="flex items-center justify-around w-full mt-4 text-center border-t text-xxs">
+        <p className="w-60 ">Fecha</p>
         <p className="w-24 ">Status</p>
         <p className="w-24 ">Despachada</p>
       </div>
       {userOrders.map((e) => (
         <div
-        key={e.id}
-          className="flex items-center justify-around bg-gray-100 duration-300 w-full py-2 text-center border-t cursor-pointer hover:bg-gray-200"
+          key={e.id}
+          className="flex items-center justify-around w-full py-2 text-center duration-300 bg-gray-100 border-t cursor-pointer hover:bg-gray-200"
           onClick={() => {
             setDetailId(e.id);
             setPanel("orderdetail");
           }}
         >
-          <p className="w-40 ">{e.updatedAt.split("T")[0]}</p>
+          <p className="w-60 ">{`${
+            e.updatedAt && new Date(e.updatedAt).toLocaleString()
+          }`}</p>
           <p className="w-24 ">{e.status}</p>
           <p className="w-24 ">{e.dispatched ? "Si" : "No"}</p>
         </div>

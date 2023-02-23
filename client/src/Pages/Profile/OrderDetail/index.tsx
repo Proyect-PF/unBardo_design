@@ -76,7 +76,7 @@ const OrderDetail = ({ setPanel, detailId }: Props) => {
               details.dispatched ? "Si" : "No"
             }`}</p>
             <p className="text-xl">{`Fecha: ${
-              details.updatedAt.split("T")[0]
+              details.updatedAt && new Date(details.updatedAt).toLocaleString()
             }`}</p>
           </div>
         </div>

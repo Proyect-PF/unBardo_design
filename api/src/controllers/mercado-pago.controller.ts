@@ -333,7 +333,6 @@ export const POST_FeedbackPayment = async (
 ) => {
   try {
     const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-    console.log("EL FEEDBACK TRAE:",feedback)
     const payment_detail = await axios.get(
       `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
       {
@@ -346,7 +345,6 @@ export const POST_FeedbackPayment = async (
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     //const update_status = payment_detail.data.status;
     //const update_payment = Number(feedback.payment_id);
-
     
     //db.Orders.update(
       //{
@@ -410,16 +408,11 @@ export const POST_Notification = async (
          break;
    }
     
-   
-    //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-    //const update_status = payment_detail.data.status;
-    //const update_payment = Number(payment_detail.data.payment_id);
-    
     db.Orders.update(
       {
         //status: feedback.status,
-        status: merchantOrder.body.order_status,
-        payment_id: Number(merchantOrder.body.id),
+        status: merchantOrder.body.payments[0].status,
+        payment_id: Number(merchantOrder.body.payments[0].id),
       },
       {
         where: {
@@ -428,7 +421,7 @@ export const POST_Notification = async (
       }
     );
 
-    if (merchantOrder.body.status === 'approved') {
+    if (merchantOrder.body.payments[0].status === 'approved') {
       var orderAproved = await UPDATE_QuantitySizes(
         Number(merchantOrder.body.external_reference)
       );

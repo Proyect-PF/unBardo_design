@@ -418,8 +418,8 @@ export const POST_Notification = async (
     db.Orders.update(
       {
         //status: feedback.status,
-        status: merchantOrder.body.status,
-        payment_id: merchantOrder.body.id,
+        status: merchantOrder.status,
+        payment_id: Number(merchantOrder.body.id),
       },
       {
         where: {

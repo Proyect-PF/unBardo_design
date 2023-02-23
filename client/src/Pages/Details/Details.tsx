@@ -230,17 +230,20 @@ const Details = (): JSX.Element => {
           </div>
           <div>
             <div className="flex justify-around my-8 text-lg text-center md:justify-center md:w-fit ">
-              <SizeSelector
-                detailId={productDetails.id}
-                selected={size}
-                sizes={[
-                  productDetails.S,
-                  productDetails.M,
-                  productDetails.L,
-                  productDetails.XL,
-                ]}
-                setter={setSize}
-              />
+              <div className="flex gap-4">
+                <p className="self-center">Talle:</p>
+                <SizeSelector
+                  detailId={productDetails.id}
+                  selected={size}
+                  sizes={[
+                    productDetails.S,
+                    productDetails.M,
+                    productDetails.L,
+                    productDetails.XL,
+                  ]}
+                  setter={setSize}
+                />
+              </div>
               <AmountInput
                 stock={stockSize}
                 size={size}
@@ -272,7 +275,7 @@ const Details = (): JSX.Element => {
               onClick={() => showDesc(desc ? false : true)}
             >
               <p className="text-lg font-medium ">DESCRIPCION</p>
-              <img src={desc ? minus : plus} className="h-6" alt="open/close"/>
+              <img src={desc ? minus : plus} className="h-6" alt="open/close" />
             </div>
             <p
               className={` text-lg italic  ${desc ? "visible" : "hidden"}`}
@@ -282,7 +285,11 @@ const Details = (): JSX.Element => {
               onClick={() => showSChart(sChart ? false : true)}
             >
               <p className="text-lg font-medium ">TALLES</p>
-              <img src={sChart ? minus : plus} className="h-6" alt="open/close"/>
+              <img
+                src={sChart ? minus : plus}
+                className="h-6"
+                alt="open/close"
+              />
             </div>
             <div
               className={`flex flex-col gap-2 ${sChart ? "visible" : "hidden"}`}

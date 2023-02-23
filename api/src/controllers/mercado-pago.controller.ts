@@ -349,7 +349,7 @@ export const POST_FeedbackPayment = async (
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     
     
-    await db.Orders.update(
+    db.Orders.update(
       {
         //status: feedback.status,
         status: payment_detail.data.status,

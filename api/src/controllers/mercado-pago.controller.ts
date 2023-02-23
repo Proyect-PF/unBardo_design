@@ -410,17 +410,7 @@ export const POST_Notification = async (
          break;
    }
     
-    
-    
-    const payment_detail = await axios.get(
-      `https://api.mercadopago.com/v1/payments/${id}`,
-      {
-        headers: {
-          'Content-types': 'application/json',
-          Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
-        },
-      }
-    );
+   
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     //const update_status = payment_detail.data.status;
     //const update_payment = Number(payment_detail.data.payment_id);
@@ -444,11 +434,7 @@ export const POST_Notification = async (
       );
     }
 
-    return response.status(200).json({
-      payment_id: merchantOrder.body.id,
-      status: merchantOrder.body.status,
-      external_reference: merchantOrder.body.external_reference,
-    });
+    return response.status(200).send();
   } catch (error: any) {
     return response.status(400).json({ message: error.message });
   }

@@ -343,17 +343,22 @@ export const POST_FeedbackPayment = async (
       }
     );
     
-    console.log("EL STATUS A ACTUALIZAR ES: ",payment_detail.data.status)
-    console.log("EL PAYMENT ID A ACTUALIZAR ES: ",feedback.payment_id)
+  
 
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
     
+    const update_status = payment_detail.data.status;
+    const update_payment = Number(feedback.payment_id);
+    console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
+    console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
+    console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
+
     
     db.Orders.update(
       {
         //status: feedback.status,
-        status: payment_detail.data.status,
-        payment_id: Number(feedback.payment_id),
+        status: update_status,
+        payment_id: update_payment,
       },
       {
         where: {
@@ -370,7 +375,7 @@ export const POST_FeedbackPayment = async (
     }
   console.log("PASAMOS EL UPDATE STATUS")
     // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
-    //await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
+    await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
     console.log("RETORNA: ",{
       payment_id: feedback.payment_id,
       status: payment_detail.data.status,

@@ -418,19 +418,19 @@ export const POST_Notification = async (
     db.Orders.update(
       {
         //status: feedback.status,
-        status: payment.status,
-        payment_id: Number(payment.body.id),
+        status: merchantOrder.body.order_status,
+        payment_id: Number(merchantOrder.body.id),
       },
       {
         where: {
-          id: Number(payment.body.external_reference),
+          id: Number(merchantOrder.body.external_reference),
         },
       }
     );
 
-    if (payment.body.status === 'approved') {
+    if (merchantOrder.body.status === 'approved') {
       var orderAproved = await UPDATE_QuantitySizes(
-        Number(payment.body.external_reference)
+        Number(merchantOrder.body.external_reference)
       );
     }
 

@@ -52,8 +52,7 @@ export function BarChartFunnel() {
   });
 
   const labels = analiticsFunnel?.map((productInfo: AnaliticFunnel) => {
-    return  productInfo.timeunit.split("T", 1);
-
+    return productInfo.timeunit.split("T", 1);
   });
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -112,7 +111,7 @@ export function BarChartFunnel() {
     | React.ChangeEvent<HTMLInputElement>) => {
     const values = target.value;
     const names = target.name;
-    if ((names === "num" && Number(values) > 0)|| names === "timeUnit")
+    if ((names === "num" && Number(values) > 0) || names === "timeUnit")
       setDate({
         ...date,
         [names]: values,
@@ -131,9 +130,7 @@ export function BarChartFunnel() {
               onChange={handleChange}
               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             >
-              <option value="days">
-                Diarios
-              </option>
+              <option value="days">Diarios</option>
               <option value="months">Mensuales</option>
               <option value="trimesters">Trimestrales</option>
               <option value="years">Anuales</option>
@@ -141,13 +138,14 @@ export function BarChartFunnel() {
             <input
               type="number"
               name="num"
+              placeholder="Ciclos en cuenta..."
               onChange={handleChange}
               min={1}
               className="p-2 pr-4 text-base text-center border-b border-black h-fit"
             />
           </div>
           <p className="text-sm font-medium text-slate-500">
-          De {labels[0]} al {labels[labels.length - 1]}
+            De {labels[0]} al {labels[labels.length - 1]}
           </p>
           <div className="">
             <Bar options={options} data={data} />

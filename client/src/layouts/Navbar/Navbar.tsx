@@ -25,7 +25,7 @@ const Navbar = ({ handleChange, handleSearch, handleCheckout }: any) => {
 
       <div
         className={
-          location.pathname !== "/panel" ? "pl-16" : " absolute left-1/2"
+          location.pathname !== "/panel" ? "pl-10" : " absolute left-1/2"
         }
       >
         <Link to="/">

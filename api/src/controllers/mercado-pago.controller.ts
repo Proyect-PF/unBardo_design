@@ -282,8 +282,8 @@ export const POST_GeneratePayment = async (
   let preference = {
     items: prodInfo,
     back_urls: {
-      success: 'http://localhost:3000/orders/feedback', //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
-      failure: 'http://localhost:3000/orders/feedback', //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+      success: `${process.env.URL_FRONT}/orders/feedback`, //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
+      failure: `${process.env.URL_FRONT}/orders/feedback`, //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
       pending: '',
     },
     auto_return: 'approved',
@@ -332,7 +332,7 @@ export const POST_FeedbackPayment = async (
 ) => {
   try {
     const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-
+    console.log("EL FEEDBACK TRAE:",feedback)
     const payment_detail = await axios.get(
       `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
       {
@@ -342,9 +342,14 @@ export const POST_FeedbackPayment = async (
         },
       }
     );
+    
+    console.log("EL STATUS A ACTUALIZAR ES: ",payment_detail.data.status)
+    console.log("EL PAYMENT ID A ACTUALIZAR ES: ",feedback.payment_id)
 
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-    await db.Orders.update(
+    
+    
+    db.Orders.update(
       {
         //status: feedback.status,
         status: payment_detail.data.status,
@@ -352,20 +357,34 @@ export const POST_FeedbackPayment = async (
       },
       {
         where: {
-          id: feedback.external_reference,
+          id: Number(feedback.external_reference),
         },
       }
     );
 
+    console.log("Updateamos el approved con: ",payment_detail.data.status);
     if (payment_detail.data.status === 'approved') {
       var orderAproved = await UPDATE_QuantitySizes(
         Number(feedback.external_reference)
       );
     }
-
+  console.log("PASAMOS EL UPDATE STATUS")
     // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
-    await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
-
+    //await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
+    console.log("RETORNA: ",{
+      payment_id: feedback.payment_id,
+      status: payment_detail.data.status,
+      external_reference: feedback.external_reference,
+      items: payment_detail.data.additional_info.items,
+      payment_method: payment_detail.data.payment_method_id,
+      payment_type: payment_detail.data.payment_type_id,
+      total_amount: payment_detail.data.transaction_amount,
+      cuotes: payment_detail.data.installments,
+      shipping_amount: payment_detail.data.shipping_amount,
+      total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
+      date_last_updated: payment_detail.data.date_last_updated,
+      date_approved: payment_detail.data.date_approved,
+    })
     return response.status(200).json({
       payment_id: feedback.payment_id,
       status: payment_detail.data.status,

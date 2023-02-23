@@ -6,6 +6,7 @@ import { validateUnsubscribe } from "../../components/UserSign/validates";
 import rmv from "../../assets/svg/user-remove.svg";
 import axios from "axios";
 import { baseURL, PORT } from "../../utils/url&port";
+import Toast from "../../components/Toast";
 
 const Newsletter = () => {
   const swalWithBootstrapButtons = Swal.mixin({
@@ -25,7 +26,6 @@ const Newsletter = () => {
             .fire({
               title:
                 '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
-              imageUrl: rmv,
               html: '<p class="font-poppins font-medium text-black italic" >Desuscribiendote no estaras al tanto de nuestras promociones</p>',
               showCancelButton: true,
               showConfirmButton: true,
@@ -37,18 +37,35 @@ const Newsletter = () => {
               focusConfirm: false,
             })
             .then((result) => {
-              axios.put(`${baseURL}/users/newsletter/subscription`, {
-                email: values.email,
-                newsletter: "false",
-              });
+              axios
+                .put(`${baseURL}/users/newsletter/subscription`, {
+                  email: values.email,
+                  newsletter: "false",
+                })
+                .then(() =>
+                  Toast.fire({
+                    icon: "success",
+                    title: "Te has desuscripto con exito",
+                  })
+                )
+                .catch((e) =>
+                  Toast.fire({
+                    icon: "error",
+                    title: "Hubo un fallo en el proceso...",
+                  })
+                );
             });
         }}
       >
         {({ values, handleSubmit, handleChange, handleBlur, errors }) => (
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col gap-6 mx-8 my-4"
+            className="flex flex-col gap-6 mx-8 my-8 text-center"
           >
+            <p className="text-3xl">
+              Estas a punto de desuscribirte de nuestro Newsletter
+            </p>
+            <p className="text-2xl"> Te echaremos de menos!</p>
             <p className="text-lg">
               Ingrese su email para desuscribirse de nuestro newsletter:
             </p>
@@ -60,7 +77,7 @@ const Newsletter = () => {
                 placeholder=""
                 value={values.email}
                 onChange={handleChange}
-                className=" font-poppins"
+                className="max-w-2xl font-poppins"
                 onBlur={handleBlur}
               />
               {errors.email && <p className="text-red-600 ">{errors.email}</p>}

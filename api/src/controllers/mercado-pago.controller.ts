@@ -344,49 +344,34 @@ export const POST_FeedbackPayment = async (
       }
     );
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-    const update_status = payment_detail.data.status;
-    const update_payment = Number(feedback.payment_id);
-    console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
-    console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
-    console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
+    //const update_status = payment_detail.data.status;
+    //const update_payment = Number(feedback.payment_id);
+    //console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
+    //console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
+    //console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
 
     
-    db.Orders.update(
-      {
+    //db.Orders.update(
+      //{
         //status: feedback.status,
-        status: update_status,
-        payment_id: update_payment,
-      },
-      {
-        where: {
-          id: Number(feedback.external_reference),
-        },
-      }
-    );
+        //status: update_status,
+        //payment_id: update_payment,
+      //},
+     // {
+       // where: {
+         // id: Number(feedback.external_reference),
+        //},
+      //}
+    //);
 
-    console.log("Updateamos el approved con: ",payment_detail.data.status);
-    if (payment_detail.data.status === 'approved') {
-      var orderAproved = await UPDATE_QuantitySizes(
-        Number(feedback.external_reference)
-      );
-    }
-  console.log("PASAMOS EL UPDATE STATUS")
+   // console.log("Updateamos el approved con: ",payment_detail.data.status);
+    //if (payment_detail.data.status === 'approved') {
+      //var orderAproved = await UPDATE_QuantitySizes(
+        //Number(feedback.external_reference)
+      //);
+    //}
     // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
     await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
-    console.log("RETORNA: ",{
-      payment_id: feedback.payment_id,
-      status: payment_detail.data.status,
-      external_reference: feedback.external_reference,
-      items: payment_detail.data.additional_info.items,
-      payment_method: payment_detail.data.payment_method_id,
-      payment_type: payment_detail.data.payment_type_id,
-      total_amount: payment_detail.data.transaction_amount,
-      cuotes: payment_detail.data.installments,
-      shipping_amount: payment_detail.data.shipping_amount,
-      total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
-      date_last_updated: payment_detail.data.date_last_updated,
-      date_approved: payment_detail.data.date_approved,
-    })
     return response.status(200).json({
       payment_id: feedback.payment_id,
       status: payment_detail.data.status,
@@ -419,7 +404,7 @@ export const POST_Notification = async (
     var merchantOrder;
      switch(topic) {
        case "payment":
-          const paymentId = query.id || query.['data.id'];
+          const paymentId = query.id || query['data.id'];
           const payment = await mercadopago.payment.findById(paymentId);
           merchantOrder = await mercadopago.merchant_orders.findById(payment.body.order.id);
           break;
@@ -441,8 +426,8 @@ export const POST_Notification = async (
       }
     );
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-    const update_status = payment_detail.data.status;
-    const update_payment = Number(payment_detail.data.payment_id);
+    //const update_status = payment_detail.data.status;
+    //const update_payment = Number(payment_detail.data.payment_id);
     
     db.Orders.update(
       {

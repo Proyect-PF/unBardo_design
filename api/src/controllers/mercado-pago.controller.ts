@@ -351,6 +351,7 @@ export const POST_FeedbackPayment = async (
     const update_payment = Number(feedback.payment_id);
     console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
     console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
+    console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
 
     
     await db.Orders.update(
@@ -361,7 +362,7 @@ export const POST_FeedbackPayment = async (
       },
       {
         where: {
-          id: feedback.external_reference,
+          id: Number(feedback.external_reference),
         },
       }
     );

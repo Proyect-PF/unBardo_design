@@ -6,6 +6,7 @@ import OrderProduct from "../database/models/order-product.model";
 import Product from "../database/models/product.model";
 import cloudinary from "../utils/cloudinary";
 import {createOrderStatistics} from "./statistic/create-order-statistics";
+import {sendDispatchConfirmationEmailController} from "../controllers/email/dispatch-order.controller";
 import axios from "axios";
 
 interface RequestParams {}
@@ -303,20 +304,37 @@ export const UPDATE_OrderTrack = async (req: Request, res: Response) => {
     try {
         const {id, track_id} = req.query;
 
-        const orderUpdate = await db.Orders.update({
-            track_id,
-        }, {
-            where: {
-                id
-            }
+        const orderUpdate = await db.Orders.update(
+             track_id,
+            { where: { id } }
+        );
+
+        const order = await db.Orders.findOne({
+            where: { id },
+            include: [
+                {
+                    model: db.Users,
+                    as: "users",
+                    attributes: ["email"],
+                },
+            ],
         });
-        
-        if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+
+
+        if (!order) {
+            return res.status(404).json({ message: 'Orden no encontrada' });
+        }
+
+        const email = order.users.email;
+
+        await sendDispatchConfirmationEmailController(email, order.id);
+
         return res.status(200).json(orderUpdate);
     } catch (error: any) {
-        return res.status(400).json({message: error.message});
+        console.error(error);
+        return res.status(400).json({ message: error.message });
     }
-}
+};
 
 export const DELETE_Order = async (request: Request, response: Response) => {
     try {

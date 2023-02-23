@@ -412,10 +412,10 @@ export const POST_Notification = async (
     const orderApproved = await db.Orders.findOne({
       where: {id: Number(merchantOrder.body.external_reference)}
     })
-    console.log('--------------------')
+    console.log('-------------------------------')
     console.log(orderApproved)
     if (orderApproved.status !== 'approved') {
-      console.log('------------Entro al if------------')
+      console.log('--------------Entro al if----------------')
       if (merchantOrder.body.payments[0].status === 'approved') {
         var orderAproved = await UPDATE_QuantitySizes(
           Number(merchantOrder.body.external_reference)

@@ -289,7 +289,7 @@ export const POST_GeneratePayment = async (
     //auto_return: 'approved',
     binary_mode: true,
     external_reference: external_reference,
-    notification_url: "https://unbardodesignback.up.railway.app/orders/feedback",
+    notification_url: `https://unbardodesignback.up.railway.app/orders/feedback`,
     payer: {
       phone: {
         area_code: prod.area_code.toString(),
@@ -332,22 +332,28 @@ export const POST_FeedbackPayment = async (
   response: Response
 ) => {
   try {
-    const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-    console.log("EL FEEDBACK TRAE:",feedback)
-    const payment_detail = await axios.get(
-      `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+    const {id} = request.query;
+    const payment_detail = await axiox.get(
+     `https://api.mercadopago.com/v1/payments/${id}`,
       {
-        headers: {
+       headers: {
           'Content-types': 'application/json',
           Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
         },
       }
     );
-    
-  
-
+    //const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    //console.log("EL FEEDBACK TRAE:",feedback)
+    //const payment_detail = await axios.get(
+      //`https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+      //{
+        //headers: {
+          //'Content-types': 'application/json',
+          //Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
+        //},
+      //}
+    //);
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
-    
     const update_status = payment_detail.data.status;
     const update_payment = Number(feedback.payment_id);
     console.log("EL STATUS A ACTUALIZAR ES: ",update_status)

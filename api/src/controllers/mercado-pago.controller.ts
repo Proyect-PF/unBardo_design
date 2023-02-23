@@ -434,7 +434,7 @@ export const POST_Notification = async (
       );
     }
 
-    return response.status(200).send();
+    return response.status(200).json({topic});
   } catch (error: any) {
     return response.status(400).json({ message: error.message });
   }

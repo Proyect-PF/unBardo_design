@@ -408,6 +408,21 @@ export const POST_Notification = async (
          break;
    }
     
+    //TODO: consulta si el estado ya fue aprobado previamente no actualiza el stock
+    const orderApproved = await db.Orders.findOne({
+      where: {id: Number(merchantOrder.body.external_reference)}
+    })
+    console.log('-------------------------------')
+    console.log(orderApproved)
+    if (orderApproved.status !== 'approved') {
+      console.log('--------------Entro al if----------------')
+      if (merchantOrder.body.payments[0].status === 'approved') {
+        var orderAproved = await UPDATE_QuantitySizes(
+          Number(merchantOrder.body.external_reference)
+        );
+      }
+    }
+    
     db.Orders.update(
       {
         //status: feedback.status,
@@ -420,12 +435,6 @@ export const POST_Notification = async (
         },
       }
     );
-
-    if (merchantOrder.body.payments[0].status === 'approved') {
-      var orderAproved = await UPDATE_QuantitySizes(
-        Number(merchantOrder.body.external_reference)
-      );
-    }
 
     return response.status(200).send();
   } catch (error: any) {

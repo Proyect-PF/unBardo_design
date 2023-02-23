@@ -351,6 +351,7 @@ export const POST_FeedbackPayment = async (
     const update_payment = Number(feedback.payment.id);
     console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
     console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
+
     
     await db.Orders.update(
       {

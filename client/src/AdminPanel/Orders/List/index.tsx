@@ -189,7 +189,7 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
         {allOrders &&
           allOrders.map((e) => (
             <div
-            key={e.id}
+              key={e.id}
               className="flex items-center justify-between w-full px-4 py-2 text-base font-normal text-center border-t cursor-pointer"
               onClick={() => {
                 setId(e.id);
@@ -198,7 +198,9 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
             >
               <p className="w-12 border-r border-black">{e.id}</p>
               <p className="w-40 ">{e.users.email}</p>
-              <p className="w-40 ">{e.updatedAt.split("T")[0]}</p>
+              <p className="w-40 ">{`${
+                e.updatedAt && new Date(e.updatedAt).toLocaleString()
+              }`}</p>
               <p className="w-24 ">{e.status}</p>
               <p className="w-28 ">{e.dispatched ? "Si" : "No"}</p>
             </div>
@@ -207,5 +209,8 @@ const ListOrders = ({ className, setSelected, setId }: Props): JSX.Element => {
     </div>
   );
 };
-
+// ${
+//   orderData?.date_approved &&
+//   new Date(orderData.date_approved).toLocaleString()
+// }
 export default ListOrders;

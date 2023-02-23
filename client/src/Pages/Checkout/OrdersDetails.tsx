@@ -81,10 +81,10 @@ const OrderDetails = (): JSX.Element => {
                       </div>
                     </div>
                     <div className='w-1/4 text-center'>
-                      $ {product?.unit_price}
+                      ${product?.unit_price}
                     </div>
                     <div className='w-1/4 text-center'>
-                      $ {product?.unit_price * product?.quantity}
+                      ${product?.unit_price * product?.quantity}
                     </div>
                   </div>
                 ))}
@@ -92,30 +92,30 @@ const OrderDetails = (): JSX.Element => {
           </div>
 
           <div className='flex flex-row justify-end'>
-            <div className='my-4 mr-1'>
+            <div className='my-4 mr-0 md:mr-8 sm:mr-6'>
               <p className='font-bold'>Total:</p>
-              <p className='mr-10'>${orderData?.total_amount}</p>
+              <p className='mr-5'>${orderData?.total_amount}</p>
             </div>
           </div>
           <div className='flex flex-row justify-end'>
             <div className='my-4'>
               <p className='font-bold'>Costo de envio:</p>
-              <p className='text-left'>$ {orderData?.shipping_amount}</p>
+              <p className='text-left'>${orderData?.shipping_amount}</p>
             </div>
           </div>
 
           <div className='flex flex-row justify-between border-b'>
-            <div className='my-4'>
+            <div className='my-4 ml-2'>
               <p className='font-bold'>Cuotas:</p>
               <p>x {orderData?.cuotes}</p>
             </div>
             <div className='my-4'>
               <p className='font-bold'>Interes cuotas:</p>
-              <p>$ {total.toFixed(2)}</p>
+              <p>${total.toFixed(2)}</p>
             </div>
           </div>
           <div className='flex flex-row justify-end'>
-            <div className='my-4'>
+            <div className='my-4 mr-2 '>
               <p className='font-bold'>Precio Final:</p>
               <p className='mr-10 '>${orderData?.total_paid_amount}</p>
             </div>

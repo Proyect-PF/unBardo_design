@@ -5,8 +5,11 @@ import { adminActions } from "../AdminRedux";
 import OrderDetails from "./Details";
 import ListOrders from "./List";
 
-const Orders = (): JSX.Element => {
-  const [selected, setSelected] = useState("list");
+type Props = {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+};
+const Orders = ({ selected, setSelected }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [id, setId] = useState(0);
   const { ADMfetch_order_id } = bindActionCreators(adminActions, dispatch);

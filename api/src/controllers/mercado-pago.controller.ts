@@ -286,9 +286,10 @@ export const POST_GeneratePayment = async (
       failure: `${process.env.URL_FRONT}/orders/feedback`, //"http://localhost:3700/orders/feedback" //"http://localhost:3000"
       pending: '',
     },
-    auto_return: 'approved',
+    //auto_return: 'approved',
     binary_mode: true,
     external_reference: external_reference,
+    notification_url: `https://unbardodesignback.up.railway.app/orders/notification`,
     payer: {
       phone: {
         area_code: prod.area_code.toString(),
@@ -332,7 +333,6 @@ export const POST_FeedbackPayment = async (
 ) => {
   try {
     const feedback = request.body; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
-    console.log("EL FEEDBACK TRAE:",feedback)
     const payment_detail = await axios.get(
       `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
       {
@@ -342,54 +342,30 @@ export const POST_FeedbackPayment = async (
         },
       }
     );
-    
-  
-
     //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
+    //const update_status = payment_detail.data.status;
+    //const update_payment = Number(feedback.payment_id);
     
-    const update_status = payment_detail.data.status;
-    const update_payment = Number(feedback.payment_id);
-    console.log("EL STATUS A ACTUALIZAR ES: ",update_status)
-    console.log("EL PAYMENT ID A ACTUALIZAR ES: ",update_payment)
-    console.log("EL EXTERNAL REFERENCE A BUSCAR ES: ",feedback.external_reference)
-
-    
-    db.Orders.update(
-      {
+    //db.Orders.update(
+      //{
         //status: feedback.status,
-        status: update_status,
-        payment_id: update_payment,
-      },
-      {
-        where: {
-          id: Number(feedback.external_reference),
-        },
-      }
-    );
+        //status: update_status,
+        //payment_id: update_payment,
+      //},
+     // {
+       // where: {
+         // id: Number(feedback.external_reference),
+        //},
+      //}
+    //);
 
-    console.log("Updateamos el approved con: ",payment_detail.data.status);
-    if (payment_detail.data.status === 'approved') {
-      var orderAproved = await UPDATE_QuantitySizes(
-        Number(feedback.external_reference)
-      );
-    }
-  console.log("PASAMOS EL UPDATE STATUS")
+    //if (payment_detail.data.status === 'approved') {
+      //var orderAproved = await UPDATE_QuantitySizes(
+        //Number(feedback.external_reference)
+      //);
+    //}
     // Envia para el calculo de estadisticas el id de la orden (external_reference), el estado, monto total de productos, costo de envío y costo total incluyendo intereses de tarjeta
     await createPaymentSuccessStatistics(feedback.external_reference, payment_detail.data.status, payment_detail.data.transaction_amount, payment_detail.data.shipping_amount,payment_detail.data.transaction_details.total_paid_amount);
-    console.log("RETORNA: ",{
-      payment_id: feedback.payment_id,
-      status: payment_detail.data.status,
-      external_reference: feedback.external_reference,
-      items: payment_detail.data.additional_info.items,
-      payment_method: payment_detail.data.payment_method_id,
-      payment_type: payment_detail.data.payment_type_id,
-      total_amount: payment_detail.data.transaction_amount,
-      cuotes: payment_detail.data.installments,
-      shipping_amount: payment_detail.data.shipping_amount,
-      total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
-      date_last_updated: payment_detail.data.date_last_updated,
-      date_approved: payment_detail.data.date_approved,
-    })
     return response.status(200).json({
       payment_id: feedback.payment_id,
       status: payment_detail.data.status,
@@ -406,5 +382,62 @@ export const POST_FeedbackPayment = async (
     });
   } catch (error: any) {
     return response.status(400).json({ message: error.message });
+  }
+};
+
+//Ruta POST de prueba notification_url
+export const POST_Notification = async (
+  request: Request,
+  response: Response
+) => {
+  try {
+    //const {id} = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    
+    const {query} =  request;
+    const topic = query.topic || query.type;
+    var merchantOrder;
+     switch(topic) {
+       case "payment":
+          const paymentId = query.id || query['data.id'];
+          const payment = await mercadopago.payment.findById(paymentId);
+          merchantOrder = await mercadopago.merchant_orders.findById(payment.body.order.id);
+          break;
+       case "merchant_order":
+         const orderId = query.id;
+         merchantOrder = await mercadopago.merchant_orders.findById(orderId); 
+         break;
+   }
+    
+    //TODO: consulta si el estado ya fue aprobado previamente no actualiza el stock
+    const orderApproved = await db.Orders.findOne({
+      where: {id: Number(merchantOrder.body.external_reference)}
+    })
+    console.log('-------------------------------')
+    console.log(orderApproved)
+    if (orderApproved.status !== 'approved') {
+      console.log('--------------Entro al if----------------')
+      if (merchantOrder.body.payments[0].status === 'approved') {
+        var orderAproved = await UPDATE_QuantitySizes(
+          Number(merchantOrder.body.external_reference)
+        );
+      }
+    }
+    
+    db.Orders.update(
+      {
+        //status: feedback.status,
+        status: merchantOrder.body.payments[0].status,
+        payment_id: Number(merchantOrder.body.payments[0].id),
+      },
+      {
+        where: {
+          id: Number(merchantOrder.body.external_reference),
+        },
+      }
+    );
+
+    return response.status(200).send();
+  } catch (error: any) {
+    return response.status(400).send();
   }
 };

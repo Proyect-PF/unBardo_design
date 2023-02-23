@@ -7,8 +7,11 @@ import { useDispatch } from "react-redux";
 import Edit from "./Edit/Index";
 import { adminActions } from "../AdminRedux";
 
-const Products = (): JSX.Element => {
-  const [selected, setSelected] = useState("list");
+type Props = {
+  selected: string;
+  setSelected: React.Dispatch<React.SetStateAction<string>>;
+};
+const Products = ({ selected, setSelected }: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [id, setId] = useState<number>(1);
   const { ADMfetch_products, ADMfetch_products_id } = bindActionCreators(

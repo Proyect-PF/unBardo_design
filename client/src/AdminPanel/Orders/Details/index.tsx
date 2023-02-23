@@ -68,8 +68,9 @@ const OrderDetails = ({ setSelected }: Props) => {
               <p className="text-xl">{`Track Id: ${orderDetails.track_id}`}</p>
               <p className="text-xl">{`Fecha de aprobacion: ${
                 orderDetails.date_approved &&
-                new Date(orderDetails.date_approved)
+                new Date(orderDetails.date_approved).toLocaleString()
               }`}</p>
+
               <p className="text-xl">{`Total: $ ${orderDetails.total_amount}`}</p>
               <p className="text-xl">{`Costo envio: $ ${orderDetails.shipping_amount}`}</p>
               <p className="text-xl">{`Metodo:  ${orderDetails.payment_type} - ${orderDetails.payment_method}`}</p>

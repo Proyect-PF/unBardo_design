@@ -13,6 +13,8 @@ import arrow from "../assets/svg/googleIcons/arrow.svg";
 
 const AdminP = (): JSX.Element => {
   const [panel, setPanel] = useState("info");
+  const [selectedP, setSelectedP] = useState("list");
+  const [selectedO, setSelectedO] = useState("list");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { ADMfetch_products } = bindActionCreators(adminActions, dispatch);
@@ -29,14 +31,32 @@ const AdminP = (): JSX.Element => {
         className={`flex flex-col gap-8 px-4 py-12 text-2xl font-bold bg-white border-r shadow-xl min-h-screen`}
       >
         <button onClick={() => setPanel("info")}>Dashboard</button>
-        <button onClick={() => setPanel("products")}>Productos</button>
-        <button onClick={() => setPanel("orders")}>Ordenes</button>
+        <button
+          onClick={() => {
+            setPanel("products");
+            setSelectedP("list");
+          }}
+        >
+          Productos
+        </button>
+        <button
+          onClick={() => {
+            setPanel("orders");
+            setSelectedO("list");
+          }}
+        >
+          Ordenes
+        </button>
         <button onClick={() => setPanel("pricing")}>Tarifas</button>
       </div>
 
       <div className="w-full ">
-        {panel === "products" && <Products />}
-        {panel === "orders" && <Orders />}
+        {panel === "products" && (
+          <Products selected={selectedP} setSelected={setSelectedP} />
+        )}
+        {panel === "orders" && (
+          <Orders selected={selectedO} setSelected={setSelectedO} />
+        )}
         {panel === "info" && <InformationPanel />}
         {panel === "pricing" && <Pricing />}
       </div>

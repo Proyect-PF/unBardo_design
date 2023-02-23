@@ -15,6 +15,7 @@ import {
 import {
     POST_GeneratePayment,
     POST_FeedbackPayment,
+    POST_Notification,
 } from "../controllers/mercado-pago.controller";
 import { verifyTokenIsAdmin } from "../helpers/verifyTokenIsAdmin";
 
@@ -28,6 +29,8 @@ ordersRoutes.post("/payment/", POST_GeneratePayment);
  //TODO: RUTA GET para devolver el pago
  */
 ordersRoutes.post("/feedback/", POST_FeedbackPayment);
+
+ordersRoutes.post("/notification/", POST_Notification);
 
 
 /**

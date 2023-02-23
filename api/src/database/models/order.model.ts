@@ -49,7 +49,7 @@ export default (sequelize: Sequelize.Sequelize) => {
         allowNull: false,
       },
       payment_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         defaultValue: 0,
       },
       dispatched: {

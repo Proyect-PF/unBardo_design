@@ -5,6 +5,8 @@ import {
     getGeneralStats
 }
 from "../controllers/statistic/statistic.controller";
+import { verifyTokenIsAdmin } from "../helpers/verifyTokenIsAdmin";
+
 
 //Obtener Productos vendidos por fechas en diario, semanal, mensual, trimestral, y anual
 /**
@@ -85,8 +87,8 @@ from "../controllers/statistic/statistic.controller";
         }
  ]
  */
-statisticRoutes.get("/product-sales", getProductSalesStats);
-statisticRoutes.get("/general-stats", getGeneralStats);
+statisticRoutes.get("/product-sales",verifyTokenIsAdmin, getProductSalesStats);
+statisticRoutes.get("/general-stats",verifyTokenIsAdmin, getGeneralStats);
 //Obtener envudo de clientes
 /**
  * !Numeros a tener en cuenta:

@@ -289,7 +289,7 @@ export const POST_GeneratePayment = async (
     //auto_return: 'approved',
     binary_mode: true,
     external_reference: external_reference,
-    notification_url: `https://unbardodesignback.up.railway.app/orders/feedback`,
+    notification_url: `https://unbardodesignback.up.railway.app/orders/notification`,
     payer: {
       phone: {
         area_code: prod.area_code.toString(),
@@ -400,6 +400,55 @@ export const POST_FeedbackPayment = async (
       total_paid_amount: payment_detail.data.transaction_details.total_paid_amount,
       date_last_updated: payment_detail.data.date_last_updated,
       date_approved: payment_detail.data.date_approved,
+    });
+  } catch (error: any) {
+    return response.status(400).json({ message: error.message });
+  }
+};
+
+//Ruta POST de prueba notification_url
+export const POST_Notification = async (
+  request: Request,
+  response: Response
+) => {
+  try {
+    const feedback = request.query; //recibe por query external_reference (id de la orden), status (estado del pago), Payment, MerchantOrder
+    const payment_detail = await axios.get(
+      `https://api.mercadopago.com/v1/payments/${feedback.payment_id}`,
+      {
+        headers: {
+          'Content-types': 'application/json',
+          Authorization: `Bearer ${process.env.MERCADOPAGO_KEY}`,
+        },
+      }
+    );
+    //TODO: Se realiza un update del status. Inicialmente es cart, y se actualiza al estado del pago. Actualiza tambien el payment_id por el que suministra mercadopago
+    const update_status = payment_detail.data.status;
+    const update_payment = Number(feedback.payment_id);
+    
+    db.Orders.update(
+      {
+        //status: feedback.status,
+        status: update_status,
+        payment_id: update_payment,
+      },
+      {
+        where: {
+          id: Number(payment_detail.data.external_reference),
+        },
+      }
+    );
+
+    //if (payment_detail.data.status === 'approved') {
+      //var orderAproved = await UPDATE_QuantitySizes(
+        //Number(payment_detail.data.external_reference)
+      //);
+    //}
+
+    return response.status(200).json({
+      payment_id: feedback.payment_id,
+      status: payment_detail.data.status,
+      external_reference: payment_detail.data.external_reference,
     });
   } catch (error: any) {
     return response.status(400).json({ message: error.message });

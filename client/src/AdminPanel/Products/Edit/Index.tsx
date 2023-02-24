@@ -147,7 +147,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <p className="text-red-600 ">{errors.description}</p>
               )}
             </div>
-            <div className="flex gap-8">
+            {/* <div className="flex gap-8">
               <p className="text-xl">Color:</p>
               <select
                 id="color"
@@ -160,7 +160,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <option value="white">Blanco</option>
                 <option value="black">Negro</option>
               </select>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-2">
               <p className="text-xl">Stock:</p>
               <div className="flex gap-8">

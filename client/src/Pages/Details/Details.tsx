@@ -85,7 +85,7 @@ const Details = (): JSX.Element => {
     Toast.fire({
       icon: "success",
       title:
-        "<p class='font-bold font-rift text-black'>Se añadió correctamente!</p>",
+        "<p class='font-bold font-poppins text-black'>Se añadió correctamente!</p>",
     });
   };
 
@@ -170,14 +170,14 @@ const Details = (): JSX.Element => {
     } else {
       Swal.fire({
         title:
-          "<p class='mt-4 text-4xl font-bold font-rift text-black'>Inicia sesión</p>",
+          "<p class='mt-4 text-3xl font-bold font-poppins text-black'>Inicia sesión</p>",
         showCancelButton: true,
         showConfirmButton: true,
-        confirmButtonColor: "#376B7E",
+        confirmButtonColor: "#000000",
         cancelButtonColor: "#e5e7eb",
         cancelButtonText:
-          "<p class='font-rift text-lg text-black'>Por ahora no</p>",
-        confirmButtonText: "<p class='font-rift text-lg'>Iniciar Sesión</p>",
+          "<p class='font-poppins text-lg text-black'>Por ahora no</p>",
+        confirmButtonText: "<p class='font-poppins text-lg'>Iniciar Sesión</p>",
         reverseButtons: true,
         html: '<p class="font-poppins font-medium text-black italic" >Necesitas iniciar sesión para poder agregar productos a tus favoritos</p>',
         //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',

@@ -46,8 +46,8 @@ export const FormCheckout = (): JSX.Element => {
         title: 'Error',
         text: 'El codigo postal no existe',
         // icon: 'error',
-        confirmButtonColor: '#376B7E',
-        denyButtonColor: '#376B7E',
+        confirmButtonColor: '#000000',
+        denyButtonColor: '#000000',
         cancelButtonColor: '#e5e7eb',
         confirmButtonText: 'OK',
       });

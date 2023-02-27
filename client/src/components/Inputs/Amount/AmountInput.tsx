@@ -21,7 +21,7 @@ const AmountInput = ({ stock, size, amount, setter }: Props): JSX.Element => {
         Toast.fire({
           icon: "info",
           title:
-            "<p class='font-bold font-rift text-black'>Selecciona una talla primero</p>",
+            "<p class='font-bold font-poppins text-black'>Selecciona una talla primero</p>",
         });
       }
       if (amount < stock(size)) {
@@ -32,7 +32,7 @@ const AmountInput = ({ stock, size, amount, setter }: Props): JSX.Element => {
         Toast.fire({
           icon: "info",
           title:
-            "<p class='font-bold font-rift text-black'>Selecciona una talla primero</p>",
+            "<p class='font-bold font-poppins text-black'>Selecciona una talla primero</p>",
         });
       }
       if (amount > 1) setter(amount - 1);

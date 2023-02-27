@@ -34,13 +34,13 @@ const EditFullName = ({setPanel}: Props) => {
         validate={validateFullName}
         onSubmit={(values) => {
             Swal.fire({
-                title: "<p class='mt-4 text-4xl font-bold font-rift text-black'>¿Estas Seguro?</p>",
+                title: "<p class='mt-4 text-3xl font-bold font-poppins text-black'>¿Estas Seguro?</p>",
                 showCancelButton: true,
                 showConfirmButton: true,
-                confirmButtonColor: "#376B7E",
+                confirmButtonColor: "#000000",
                 cancelButtonColor: "#e5e7eb",
-                cancelButtonText: "<p class='font-rift text-lg text-black'>Cancelar</p>",
-                confirmButtonText: "<p class='font-rift text-lg'>Estoy seguro</p>",
+                cancelButtonText: "<p class='font-poppins text-lg text-black'>Cancelar</p>",
+                confirmButtonText: "<p class='font-poppins text-lg'>Estoy seguro</p>",
                 html: 
                 `<p class="font-poppins font-medium text-black italic" >¿Seguro que quieres cambiar tu nombre a "${values.fullname}" ?</p>`,
                 //text: 'Necesitas iniciar sesión para poder agregar productos a la bolsa de compra',
@@ -51,7 +51,7 @@ const EditFullName = ({setPanel}: Props) => {
                     Toast.fire({
                       icon: 'success',
                       title:
-                        "<p class='font-bold font-rift text-black'>Tu nombre se actualizó correctamente</p>",
+                        "<p class='font-bold font-poppins text-black'>Tu nombre se actualizó correctamente</p>",
                     });
                     window.location.reload()
                   })
@@ -59,7 +59,7 @@ const EditFullName = ({setPanel}: Props) => {
                     Toast.fire({
                       icon: "error",
                       title:
-                        "<p class='font-bold font-rift text-black'>No se pudo actualizar tu nombre</p>",
+                        "<p class='font-bold font-poppins text-black'>No se pudo actualizar tu nombre</p>",
                     });
                     setPanel("info")
                   })

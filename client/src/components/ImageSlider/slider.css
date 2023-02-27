@@ -7,3 +7,11 @@
     border: 0px;
 
 }
+
+.carousel .carousel-status {
+   visibility: hidden;
+}
+
+.carousel .control-dots {
+    visibility: hidden;
+}

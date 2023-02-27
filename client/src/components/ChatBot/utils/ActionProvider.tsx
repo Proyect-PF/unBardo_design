@@ -96,10 +96,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }: any) => {
       "Nuestros talles son unisex con las siguientes medidas:"
     );
     const botMessage2 = createChatBotMessage(
-      "Talle 1: Ancho 56cm, Largo 70cm, Manga 24cm (Ideal para mujeres)"
+      "Talle 1: Ancho 56cm, Largo 70cm, Manga 24cm "
     );
     const botMessage3 = createChatBotMessage(
-      "Talle 2: Ancho 60cm, Largo 74cm, Manga 26cm (Ideal para hombres)"
+      "Talle 2: Ancho 60cm, Largo 74cm, Manga 26cm "
     );
     setState((prev: any) => ({
       ...prev,

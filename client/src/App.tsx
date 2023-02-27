@@ -86,7 +86,7 @@ function App() {
         <div className="fixed z-40 right-4 bottom-6">
           <img
             src={robot}
-            className="w-12 h-auto"
+            className="h-auto bg-white w-9"
             onClick={() => (chatbot ? setChatbot(false) : setChatbot(true))}
             alt="chatbot"
           />

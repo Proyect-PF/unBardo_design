@@ -208,22 +208,22 @@ const Details = (): JSX.Element => {
         </div>
         <div className="w-4/5 mx-auto md:flex md:flex-col md:justify-between md:mt-8 md:mx-20 md:h-fit">
           <div>
-            <p className="my-4 text-3xl font-medium text-center md:text-left ">
+            <p className="my-4 text-2xl font-normal text-center md:text-left ">
               {productDetails.name}
             </p>
 
             {stock > 0 ? (
               productDetails.promotion ? (
                 <div className="flex flex-row justify-center gap-4 md:justify-start">
-                  <p className="my-2 text-3xl">{`$ ${productDetails.promotional_price}`}</p>
+                  <p className="my-2 text-2xl">{`$ ${productDetails.promotional_price}`}</p>
                   <p className="my-2 text-xl italic text-gray-400 line-through">{`$ ${productDetails.price}`}</p>
                 </div>
               ) : (
-                <p className="my-2 text-3xl ">{`$ ${productDetails.price}`}</p>
+                <p className="my-2 text-2xl ">{`$ ${productDetails.price}`}</p>
               )
             ) : (
               <div className="flex flex-row gap-4">
-                <p className="my-2 text-3xl italic text-gray-500 line-through">{`$ ${productDetails.price}`}</p>
+                <p className="my-2 text-2xl italic text-gray-500 line-through">{`$ ${productDetails.price}`}</p>
                 <p className="my-2 text-xl italic font-medium ">Out of Stock</p>
               </div>
             )}
@@ -295,7 +295,7 @@ const Details = (): JSX.Element => {
               className={`flex flex-col gap-2 ${sChart ? "visible" : "hidden"}`}
             >
               <div>
-                <p>Talle 1 (Ideal para mujeres):</p>
+                <p>Talle 1:</p>
                 <div className="mx-20">
                   <div className="flex gap-4">
                     <p className="w-16">Ancho: </p>
@@ -312,7 +312,7 @@ const Details = (): JSX.Element => {
                 </div>
               </div>
               <div>
-                <p>Talle 2 (Ideal para hombres):</p>
+                <p>Talle 2:</p>
                 <div className="mx-20">
                   <div className="flex gap-4">
                     <p className="w-16">Ancho: </p>

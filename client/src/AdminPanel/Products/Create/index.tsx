@@ -49,14 +49,14 @@ const Create = ({ className }: Props): JSX.Element => {
           swalWithBootstrapButtons
             .fire({
               title:
-                '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+                '<p class="mt-4 text-3xl font-bold font-poppins text-black">¿Estás seguro?</p>',
               html: '<p class="font-poppins font-medium text-black italic" >Quieres crear el producto?</p>',
               showCancelButton: true,
               showConfirmButton: true,
-              confirmButtonColor: "#376B7E",
+              confirmButtonColor: "#000000",
               cancelButtonColor: "#e5e7eb",
-              cancelButtonText: "<p class='text-lg text-black'>Cancelar</p>",
-              confirmButtonText: "<p class='text-lg'>Si, crear!</p>",
+              cancelButtonText: "<p class='text-lg font-poppins text-black'>Cancelar</p>",
+              confirmButtonText: "<p class='text-lg font-poppins'>Si, crear!</p>",
               focusConfirm: false,
             })
             .then((result) => {

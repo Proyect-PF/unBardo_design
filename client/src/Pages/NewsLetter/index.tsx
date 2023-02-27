@@ -25,15 +25,15 @@ const Newsletter = () => {
           swalWithBootstrapButtons
             .fire({
               title:
-                '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+                '<p class="mt-4 text-3xl font-bold font-poppins text-black">¿Estás seguro?</p>',
               html: '<p class="font-poppins font-medium text-black italic" >Desuscribiendote no estaras al tanto de nuestras promociones</p>',
               showCancelButton: true,
               showConfirmButton: true,
               confirmButtonColor: "#e5e7eb",
               cancelButtonColor: "#000",
               confirmButtonText:
-                '<p class="font-rift text-lg text-black">Si</p>',
-              cancelButtonText: '<p class="font-rift text-lg">No</p>',
+                '<p class="font-poppins text-lg text-black">Si</p>',
+              cancelButtonText: '<p class="font-poppins text-lg">No</p>',
               focusConfirm: false,
             })
             .then((result) => {

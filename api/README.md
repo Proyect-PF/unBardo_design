@@ -1,27 +1,3 @@
-# Variables de entorno
-```env
-DB_USER=postgres
-DB_PASSWORD=123456789
-DB_NAME=unbardo_design
-DB_HOST=localhost
-PORT=3700
-SECRET=confirmation_token
-USER_NAME=admin
-USER_EMAIL=admin@admin.com
-USER_PASSWORD=admin
-USER_ROLE=admin
-MERCADOPAGO_KEY=APP_USR-4964430421416242-020813-c46f247ea7b1f91937c722b8ea7b4134-1305644016
-email="unbardodesign2023@gmail.com"
-password="jlvmoatfefqrsgnt\n"
-CLOUDINARY_NAME=drt1pzx1x
-CLOUDINARY_API_KEY=185432381513669
-CLOUDINARY_API_SECRET=ddhUhnhLRNuwsoV1Qn4IW-EjWJg
-LOCATIONIQ_KEY="pk.cb041215288dedcb0b037a20905b3f2e"
-
-```
-
-
-
 # Endpoints para productos
 ## localhost:3700/product
 

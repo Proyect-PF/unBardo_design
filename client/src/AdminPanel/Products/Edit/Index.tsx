@@ -36,10 +36,10 @@ const Edit = ({ className }: Props): JSX.Element => {
         html: '<p class="font-poppins font-medium text-black italic" >Eliminaras este producto definitivamente</p>',
         showCancelButton: true,
         showConfirmButton: true,
-        confirmButtonColor: "#ED5E68",
+        confirmButtonColor: "#000000",
         cancelButtonColor: "#e5e7eb",
-        confirmButtonText: '<p class=" text-lg text-black">Si, Remover!</p>',
-        cancelButtonText: '<p class=" text-lg text-black">No, cancelar!</p>',
+        confirmButtonText: '<p class=" text-lg font-poppins text-white">Si, Remover!</p>',
+        cancelButtonText: '<p class=" text-lg font-poppins text-black">No, cancelar!</p>',
         focusConfirm: false,
       })
       .then((result) => {
@@ -75,11 +75,11 @@ const Edit = ({ className }: Props): JSX.Element => {
           swalWithBootstrapButtons
             .fire({
               title:
-                '<p class="mt-4 text-4xl font-bold text-black">¿Estás seguro?</p>',
+                '<p class="mt-4 text-3xl font-poppins font-bold text-black">¿Estás seguro?</p>',
               html: '<p class="font-poppins font-medium text-black italic" >Editaras este producto definitivamente</p>',
               showCancelButton: true,
               showConfirmButton: true,
-              confirmButtonColor: "#376B7E",
+              confirmButtonColor: "#000000",
               cancelButtonColor: "#e5e7eb",
               confirmButtonText: '<p class="text-lg ">Si, editar!</p>',
               cancelButtonText:
@@ -147,7 +147,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <p className="text-red-600 ">{errors.description}</p>
               )}
             </div>
-            <div className="flex gap-8">
+            {/* <div className="flex gap-8">
               <p className="text-xl">Color:</p>
               <select
                 id="color"
@@ -160,7 +160,7 @@ const Edit = ({ className }: Props): JSX.Element => {
                 <option value="white">Blanco</option>
                 <option value="black">Negro</option>
               </select>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-2">
               <p className="text-xl">Stock:</p>
               <div className="flex gap-8">

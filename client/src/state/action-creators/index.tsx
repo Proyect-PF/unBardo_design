@@ -184,10 +184,10 @@ export const userRegister = (registerLogin: Function, user?: User) => {
     .then((response) => {
       Swal.fire({
         title:
-          "<p class='mt-4 text-4xl font-bold font-rift text-black'>¡Registrado!</p>",
+          "<p class='mt-4 text-3xl font-bold font-poppins text-black'>¡Registrado!</p>",
         showConfirmButton: true,
-        confirmButtonColor: "#376B7E",
-        confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
+        confirmButtonColor: "#000000",
+        confirmButtonText: "<p class='font-poppins text-lg'>Cerrar</p>",
         html: '<p class="font-poppins font-medium text-black italic" >¡Bienvenido!</p>',
       }).then((result) => {
         if (result.isConfirmed) {
@@ -200,7 +200,7 @@ export const userRegister = (registerLogin: Function, user?: User) => {
         title:
           "<p class='mt-4 text-4xl font-bold font-rift text-black'>No se pudo registrar</p>",
         showConfirmButton: true,
-        confirmButtonColor: "#376B7E",
+        confirmButtonColor: "#000000",
         confirmButtonText:
           "<p class='font-rift text-lg'>Cambiar dirección de email</p>",
         html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
@@ -229,16 +229,16 @@ export const userLogin = (user: User, navigate: any) => {
         Toast.fire({
           icon: "success",
           title:
-            "<p class='font-bold font-rift text-black'>Se inició sesión correctamente</p>",
+            "<p class='font-bold font-poppins text-black'>Se inició sesión correctamente</p>",
         });
       })
       .catch((err) => {
         Swal.fire({
           title:
-            "<p class='text-4xl font-bold font-rift text-black'>No se pudo iniciar Sesión</p>",
+            "<p class='text-4xl font-bold font-poppins text-black'>No se pudo iniciar Sesión</p>",
           showConfirmButton: true,
-          confirmButtonColor: "#376B7E",
-          confirmButtonText: "<p class='font-rift text-lg'>Cerrar</p>",
+          confirmButtonColor: "#000000",
+          confirmButtonText: "<p class='font-poppins text-lg'>Cerrar</p>",
           html: `<p class="font-poppins font-medium text-black italic">${err.response.data.message}</p>`,
         });
       });
@@ -320,7 +320,7 @@ export const setFavorite = (payload: SetFavoritePayload, getFavorites: any) => {
         Toast.fire({
           icon: "success",
           title:
-            "<p class='font-bold font-rift text-black'>Se agregó a tus favoritos</p>",
+            "<p class='font-bold font-poppins text-black'>Se agregó a tus favoritos</p>",
         });
         getFavorites(payload.id_user);
       })
@@ -328,7 +328,7 @@ export const setFavorite = (payload: SetFavoritePayload, getFavorites: any) => {
         Toast.fire({
           icon: "error",
           title:
-            "<p class='font-bold font-rift text-black'>No se pudo agregar a tus favoritos</p>",
+            "<p class='font-bold font-poppins text-black'>No se pudo agregar a tus favoritos</p>",
         });
       });
   };
@@ -347,7 +347,7 @@ export const deleteFavorite = (
         Toast.fire({
           icon: "success",
           title:
-            "<p class='font-bold font-rift text-black'>Se eliminó de tus favoritos</p>",
+            "<p class='font-bold font-poppins text-black'>Se eliminó de tus favoritos</p>",
         });
         getFavorites(payload.id_user);
       })
@@ -355,7 +355,7 @@ export const deleteFavorite = (
         Toast.fire({
           icon: "error",
           title:
-            "<p class='font-bold font-rift text-black'>No se pudo eliminar de tus favoritos</p>",
+            "<p class='font-bold font-poppins text-black'>No se pudo eliminar de tus favoritos</p>",
         });
       });
   };

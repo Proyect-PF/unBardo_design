@@ -111,14 +111,14 @@ const OrderDetails = ({ setSelected }: Props) => {
               onClick={() => {
                 Swal.fire({
                   title:
-                    "<p class='mt-4 text-4xl font-bold text-black'>Marcar como despachado</p>",
+                    "<p class='mt-4 text-3xl font-poppins font-bold text-black'>Marcar como despachado</p>",
                   showConfirmButton: true,
                   showCancelButton: true,
-                  confirmButtonColor: "#376B7E",
+                  confirmButtonColor: "#000000",
                   cancelButtonColor: "#e5e7eb",
                   cancelButtonText:
-                    "<p class='text-lg text-black'>Mejor no</p>",
-                  confirmButtonText: "<p class='text-lg'>Despachar</p>",
+                    "<p class='text-lg font-poppins text-black'>Mejor no</p>",
+                  confirmButtonText: "<p class='text-lg font-poppins'>Despachar</p>",
                   // html: '<p class="font-medium text-black italic">Revisa que el numero de trackeo sea el correcto</p>',
                   text:
                     "El siguiente numero de tracking sera asociado a la orden: " +

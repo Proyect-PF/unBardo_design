@@ -6,20 +6,25 @@ import OrderProduct from "../database/models/order-product.model";
 import Product from "../database/models/product.model";
 import cloudinary from "../utils/cloudinary";
 import {createOrderStatistics} from "./statistic/create-order-statistics";
+import {sendDispatchConfirmationEmailController} from "../controllers/email/dispatch-order.controller";
 import axios from "axios";
 
-interface RequestParams {}
+interface RequestParams {
+}
 
-interface ResponseBody {}
+interface ResponseBody {
+}
 
-interface RequestBody {}
+interface RequestBody {
+}
 
-interface RequestQuery {}
+interface RequestQuery {
+}
 
 //Ruta POST para la creacion de la orden de compra
 export const POST_Order = async (request: Request, response: Response) => {
     try {
-        const { id_user, products } = request.body;
+        const {id_user, products} = request.body;
 
         //----------------------------------------------------
         //TODO: Analiza si existe otra orden de compra con estado status "cart", y si existe la elimina, antes de crear la nueva orden con status "cart". De esta forma siempre va a existir solo un carrito por usuario
@@ -48,7 +53,7 @@ export const POST_Order = async (request: Request, response: Response) => {
         const groupedProducts: Record<number, any> = {};
 
         for (const product of products) {
-            const { id_product, sizes } = product;
+            const {id_product, sizes} = product;
 
             if (groupedProducts[id_product]) {
                 for (const size in sizes) {
@@ -72,7 +77,7 @@ export const POST_Order = async (request: Request, response: Response) => {
 
         for (const id_product in groupedProducts) {
             if (groupedProducts.hasOwnProperty(id_product)) {
-                const { sizes } = groupedProducts[id_product];
+                const {sizes} = groupedProducts[id_product];
                 const createdOrderProduct = await db.OrderProducts.create({
                     id_order: createdOrder.id,
                     id_product,
@@ -82,10 +87,10 @@ export const POST_Order = async (request: Request, response: Response) => {
             }
         }
 
-        return response.status(201).json({ createdOrder, createdOrderProducts });
+        return response.status(201).json({createdOrder, createdOrderProducts});
     } catch (error: any) {
         console.error(error);
-        return response.status(400).json({ error: error.message });
+        return response.status(400).json({error: error.message});
     }
 };
 
@@ -93,7 +98,20 @@ export const POST_Order = async (request: Request, response: Response) => {
 //Obtener todas las ordenes
 export const GET_AllOrders = async (req: Request, res: Response) => {
     try {
-        const { page, limit, sort, order, status, userId, id, paymentId, dispatched, startDate, endDate, search } = req.query;
+        const {
+            page,
+            limit,
+            sort,
+            order,
+            status,
+            userId,
+            id,
+            paymentId,
+            dispatched,
+            startDate,
+            endDate,
+            search
+        } = req.query;
         const offset = (Number(page) - 1) * Number(limit);
 
         const options: any = {
@@ -108,34 +126,34 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
         };
 
         // Verificar si status es una cadena de texto
-        if (typeof status === 'string'  && status !=="") {
+        if (typeof status === 'string' && status !== "") {
             options.where.status = status;
         } else {
             options.where.status = {[Op.ne]: 'cart'};
         }
 
         // Verificar si userId es una cadena de texto
-        if (typeof userId === 'string' && userId !=="") {
+        if (typeof userId === 'string' && userId !== "") {
             options.where.id_user = userId;
         }
 
         // Verificar si id es una cadena de texto
-        if (typeof id === 'string' && id !=="") {
+        if (typeof id === 'string' && id !== "") {
             options.where.id = id;
         }
 
         // Verificar si paymentId es una cadena de texto
-        if (typeof paymentId === 'string' && paymentId !=="") {
+        if (typeof paymentId === 'string' && paymentId !== "") {
             options.where.payment_id = paymentId;
         }
 
         // Verificar si dispatched es una cadena de texto
-        if (typeof dispatched === 'string' && dispatched !=="") {
+        if (typeof dispatched === 'string' && dispatched !== "") {
             options.where.dispatched = dispatched === 'true';
         }
 
         // Verificar si startDate y endDate son cadenas de texto
-        if (typeof startDate === 'string' && typeof endDate === 'string' ) {
+        if (typeof startDate === 'string' && typeof endDate === 'string') {
             options.where.createdAt = {
                 [Op.between]: [new Date(startDate), new Date(endDate)],
             };
@@ -183,7 +201,7 @@ export const GET_AllOrders = async (req: Request, res: Response) => {
 
         const orders = await db.Orders.findAll(options);
 
-        return res.status(200).json({ count, orders });
+        return res.status(200).json({count, orders});
     } catch (error: any) {
         console.error(error);
         return res.status(400).json({error: error.message});
@@ -287,7 +305,7 @@ export const UPDATE_OrderStatus = async (req: Request, res: Response) => {
                     id
                 }
             });
-            
+
             if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
             return res.status(200).json(orderUpdate);
         }
@@ -310,13 +328,33 @@ export const UPDATE_OrderTrack = async (req: Request, res: Response) => {
                 id
             }
         });
-        
-        if (!orderUpdate) return res.status(404).json({message: "Orden no encontrada"});
+
+        const order = await db.Orders.findOne({
+            where: {id},
+            include: [
+                {
+                    model: db.Users,
+                    as: "users",
+                    attributes: ["email"],
+                },
+            ],
+        });
+
+
+        if (!orderUpdate) {
+            return res.status(404).json({message: 'Orden no encontrada'});
+        }
+
+        const email = order.users.email;
+
+        await sendDispatchConfirmationEmailController(email, order.id);
+
         return res.status(200).json(orderUpdate);
     } catch (error: any) {
+        console.error(error);
         return res.status(400).json({message: error.message});
     }
-}
+};
 
 export const DELETE_Order = async (request: Request, response: Response) => {
     try {
@@ -345,12 +383,12 @@ export const DELETE_Order = async (request: Request, response: Response) => {
 
 export const DELETE_AllOrders = async (request: Request, response: Response) => {
     try {
-        const deletedOrders = await db.Orders.destroy({ where: {} });
-        await db.OrderProducts.destroy({ where: {} });
-        return response.status(200).json({ message: 'Todas las órdenes y sus productos asociados han sido eliminados correctamente.' });
+        const deletedOrders = await db.Orders.destroy({where: {}});
+        await db.OrderProducts.destroy({where: {}});
+        return response.status(200).json({message: 'Todas las órdenes y sus productos asociados han sido eliminados correctamente.'});
     } catch (error: any) {
         console.error(error);
-        return response.status(500).json({ error: error.message });
+        return response.status(500).json({error: error.message});
     }
 };
 
@@ -383,6 +421,6 @@ export const GET_OrderByUser = async (request: Request, response: Response) => {
 
         return response.status(200).json(array);
     } catch (error: any) {
-        return response.status(500).json({ error: error.message });
+        return response.status(500).json({error: error.message});
     }
 }

@@ -30,7 +30,7 @@ const Create = ({ className }: Props): JSX.Element => {
         initialValues={{
           name: "",
           description: "",
-          color: "",
+          color: "white",
           S: 0,
           M: 0,
           L: 0,
@@ -49,14 +49,14 @@ const Create = ({ className }: Props): JSX.Element => {
           swalWithBootstrapButtons
             .fire({
               title:
-                '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+                '<p class="mt-4 text-3xl font-bold font-poppins text-black">¿Estás seguro?</p>',
               html: '<p class="font-poppins font-medium text-black italic" >Quieres crear el producto?</p>',
               showCancelButton: true,
               showConfirmButton: true,
-              confirmButtonColor: "#376B7E",
+              confirmButtonColor: "#000000",
               cancelButtonColor: "#e5e7eb",
-              cancelButtonText: "<p class='text-lg text-black'>Cancelar</p>",
-              confirmButtonText: "<p class='text-lg'>Si, crear!</p>",
+              cancelButtonText: "<p class='text-lg font-poppins text-black'>Cancelar</p>",
+              confirmButtonText: "<p class='text-lg font-poppins'>Si, crear!</p>",
               focusConfirm: false,
             })
             .then((result) => {
@@ -120,7 +120,7 @@ const Create = ({ className }: Props): JSX.Element => {
                 <p className="text-red-600 ">{errors.description}</p>
               )}
             </div>
-            <div className="flex gap-8">
+            {/* <div className="flex gap-8">
               <p className="text-xl">Color:</p>
               <select
                 id="color"
@@ -133,7 +133,7 @@ const Create = ({ className }: Props): JSX.Element => {
                 <option value="white">Blanco</option>
                 <option value="black">Negro</option>
               </select>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-2">
               <p className="text-xl">Stock:</p>
               <div className="flex gap-8">

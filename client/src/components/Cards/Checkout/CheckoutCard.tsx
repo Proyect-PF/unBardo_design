@@ -38,15 +38,15 @@ const CheckoutCard = ({
     swalWithBootstrapButtons
       .fire({
         title:
-          '<p class="mt-4 text-4xl font-bold font-rift text-black">¿Estás seguro?</p>',
+          '<p class="mt-4 text-4xl font-bold font-poppins text-black">¿Estás seguro?</p>',
         html: '<p class="font-poppins font-medium text-black italic" >Sacaras este producto de tu bolsa de compras</p>',
         showCancelButton: true,
         showConfirmButton: true,
         confirmButtonColor: "#e5e7eb",
-        cancelButtonColor: "#376B7E",
+        cancelButtonColor: "#000000",
         confirmButtonText:
-          '<p class="font-rift text-lg text-black">Si, Remover!</p>',
-        cancelButtonText: '<p class="font-rift text-lg">No, cancelar!</p>',
+          '<p class="font-poppins text-lg text-black">Si, Remover!</p>',
+        cancelButtonText: '<p class="font-poppins text-lg">No, cancelar!</p>',
         focusConfirm: false,
         reverseButtons:true
       })
